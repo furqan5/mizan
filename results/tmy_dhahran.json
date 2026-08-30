@@ -1,0 +1,118 @@
+{
+ "station": "Dhahran-Abdulaziz.AB",
+ "wmo": "404160",
+ "latitude": 26.265,
+ "longitude": 50.152,
+ "elevation_m": 3.0,
+ "n_hours": 8760,
+ "ashrae_design": {
+  "cooling_month": 7,
+  "DB_0p4_C": 46.2,
+  "MCWB_0p4_C": 22.6,
+  "DB_1p0_C": 44.9,
+  "MCWB_1p0_C": 22.7,
+  "DB_2p0_C": 43.8,
+  "MCWB_2p0_C": 22.7,
+  "WB_0p4_C": 31.4,
+  "MCDB_0p4_C": 35.9,
+  "WB_1p0_C": 30.5,
+  "MCDB_1p0_C": 35.5,
+  "WB_2p0_C": 29.6,
+  "MCDB_2p0_C": 35.2
+ },
+ "our_wb_0p4_C": 31.33735333367485,
+ "our_wb_1p0_C": 30.45445933530223,
+ "our_wb_2p0_C": 29.694338786695923,
+ "worst_design_disagreement_K": 0.20000000000000284,
+ "almeria_wb_max_C": 21.9,
+ "hours_above_almeria": 3551,
+ "pct_year_above_almeria": 40.5365296803653,
+ "annual_mean_wb_C": 19.929523550403633,
+ "annual_max_wb_C": 34.63052873531292,
+ "monthly": [
+  {
+   "month": 1,
+   "mean_wb_C": 12.146347383963217,
+   "max_wb_C": 21.733881130419,
+   "hours": 744,
+   "pct_above_almeria": 0.0
+  },
+  {
+   "month": 2,
+   "mean_wb_C": 13.153732482671206,
+   "max_wb_C": 23.27703857363982,
+   "hours": 672,
+   "pct_above_almeria": 1.0416666666666665
+  },
+  {
+   "month": 3,
+   "mean_wb_C": 16.215802107718062,
+   "max_wb_C": 25.18093351661122,
+   "hours": 744,
+   "pct_above_almeria": 3.6290322580645165
+  },
+  {
+   "month": 4,
+   "mean_wb_C": 19.230569526538773,
+   "max_wb_C": 24.617321181834953,
+   "hours": 720,
+   "pct_above_almeria": 16.11111111111111
+  },
+  {
+   "month": 5,
+   "mean_wb_C": 22.80342763549475,
+   "max_wb_C": 30.79914215975037,
+   "hours": 744,
+   "pct_above_almeria": 64.91935483870968
+  },
+  {
+   "month": 6,
+   "mean_wb_C": 23.696372238400574,
+   "max_wb_C": 32.87580017502587,
+   "hours": 720,
+   "pct_above_almeria": 71.66666666666667
+  },
+  {
+   "month": 7,
+   "mean_wb_C": 25.489572857123196,
+   "max_wb_C": 34.63052873531292,
+   "hours": 744,
+   "pct_above_almeria": 82.93010752688173
+  },
+  {
+   "month": 8,
+   "mean_wb_C": 25.610041657427697,
+   "max_wb_C": 33.1199977405677,
+   "hours": 744,
+   "pct_above_almeria": 83.60215053763442
+  },
+  {
+   "month": 9,
+   "mean_wb_C": 25.204414026171193,
+   "max_wb_C": 30.969351250583664,
+   "hours": 720,
+   "pct_above_almeria": 84.44444444444444
+  },
+  {
+   "month": 10,
+   "mean_wb_C": 22.60793711605954,
+   "max_wb_C": 31.88351477540736,
+   "hours": 744,
+   "pct_above_almeria": 59.40860215053764
+  },
+  {
+   "month": 11,
+   "mean_wb_C": 18.713658927767575,
+   "max_wb_C": 26.208156752415007,
+   "hours": 720,
+   "pct_above_almeria": 14.305555555555555
+  },
+  {
+   "month": 12,
+   "mean_wb_C": 13.856585591122883,
+   "max_wb_C": 25.49671935455087,
+   "hours": 744,
+   "pct_above_almeria": 1.3440860215053763
+  }
+ ]
+}

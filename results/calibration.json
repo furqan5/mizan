@@ -1,0 +1,49 @@
+{
+  "fill_c": 1.2400648125849212,
+  "fill_n": -0.5013981003349164,
+  "fit_r2": 0.37190978577162814,
+  "thresholds": {
+    "V1_Tout_MAE_K": 1.0,
+    "V1_Tout_MAE_target_K": 0.5,
+    "V1_Q_MAPE_pct": 6.0,
+    "V2_evap_MAPE_pct": 8.0
+  },
+  "train_campaigns": [
+    "Exp2"
+  ],
+  "test_campaigns": [
+    "Exp1",
+    "Exp3"
+  ],
+  "TRAIN": {
+    "n_points": 115,
+    "n_converged": 115,
+    "convergence_pct": 100.0,
+    "Tout_MAE_K": 0.45389023652775545,
+    "Tout_RMSE_K": 0.6199399308099037,
+    "Tout_bias_K": -0.05455223535174983,
+    "Tout_p95_abs_err_K": 1.417435843087053,
+    "Tout_max_abs_err_K": 1.9532520721863058,
+    "Q_MAPE_pct": 7.482579905831067,
+    "evap_MAPE_pct": 7.7951222046420545,
+    "evap_bias_pct": -0.8335746182248847
+  },
+  "HOLDOUT": {
+    "n_points": 50,
+    "n_converged": 50,
+    "convergence_pct": 100.0,
+    "Tout_MAE_K": 0.5422790260232706,
+    "Tout_RMSE_K": 0.6618952310420099,
+    "Tout_bias_K": 0.45287337998016886,
+    "Tout_p95_abs_err_K": 1.366059162190914,
+    "Tout_max_abs_err_K": 1.5126170249027915,
+    "Q_MAPE_pct": 5.943978639094961,
+    "evap_MAPE_pct": 9.897637395912092,
+    "evap_bias_pct": -9.443476451525974
+  },
+  "verdict": {
+    "V1_Tout": true,
+    "V1_Q": true,
+    "V2_evap": false
+  }
+}

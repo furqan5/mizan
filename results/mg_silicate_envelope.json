@@ -1,0 +1,46 @@
+{
+  "rows": [
+    {
+      "skin_T_C": 30.0,
+      "pH_s": 9.414165732705914,
+      "verdict": "safe across the whole band"
+    },
+    {
+      "skin_T_C": 34.0,
+      "pH_s": 9.163374389716116,
+      "verdict": "safe across the whole band"
+    },
+    {
+      "skin_T_C": 38.0,
+      "pH_s": 8.91915369998905,
+      "verdict": "deposits above pH 8.92 -- band straddles the limit"
+    },
+    {
+      "skin_T_C": 42.0,
+      "pH_s": 8.681256533490792,
+      "verdict": "deposits above pH 8.68 -- band straddles the limit"
+    },
+    {
+      "skin_T_C": 46.0,
+      "pH_s": 8.449448319347844,
+      "verdict": "DEPOSITING across the whole band"
+    },
+    {
+      "skin_T_C": 50.0,
+      "pH_s": 8.22350628370926,
+      "verdict": "DEPOSITING across the whole band"
+    }
+  ],
+  "gulf_ph_band": [
+    8.5,
+    9.0
+  ],
+  "product_limits_cycles": {
+    "permissive": 6.033518799847892,
+    "standard": 5.643840046422578,
+    "utility": 4.76991542824123,
+    "assurance": 4.266342057788965
+  },
+  "makeup_SiO2_mg_L": 26.8,
+  "makeup_Mg_mg_L": 41.0
+}

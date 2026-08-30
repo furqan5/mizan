@@ -1,0 +1,15 @@
+{
+  "adopted": "A: ratio only  Me=c(mw/ma)^n",
+  "adopted_MAE_K": 0.5422790261028823,
+  "adopted_R2": 0.37190978577162803,
+  "n_params": 2,
+  "best_by_MAE": "E: separate flows + wet bulb",
+  "best_MAE_K": 0.516898534009605,
+  "best_R2": 0.5059613687230184,
+  "rejected_reason": "wet-bulb regressor is an operating condition, not a fill property, and extrapolates 8.4 K beyond its fitted range at Gulf design wet-bulb",
+  "train_wb_range_C": [
+    4.262230857352973,
+    21.93360315658252
+  ],
+  "gulf_design_wb_C": 30.31
+}

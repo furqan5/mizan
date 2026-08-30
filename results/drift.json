@@ -1,0 +1,18 @@
+{
+  "u_combined_K": 0.21698314528533869,
+  "within_MAE_K": 0.3318873513008779,
+  "across_MAE_K": 0.4699754491288289,
+  "drift_penalty_K": 0.138088097827951,
+  "within_over_uc": 1.5295536013381918,
+  "across_over_uc": 2.1659537127217807,
+  "fill_c_range": [
+    1.2400648125849212,
+    1.5320242826502042
+  ],
+  "fill_c_spread_pct": 21.081545933103463,
+  "fill_n_range": [
+    -0.601546851675077,
+    -0.4293443976048935
+  ],
+  "verdict": "MIXED. Within-campaign error is above the measurement uncertainty but the across-campaign penalty is also material; both effects are present."
+}

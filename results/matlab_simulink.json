@@ -1,0 +1,12 @@
+{
+  "T_cold_min": 26.850000000000023,
+  "T_cold_max": 32.436249703164322,
+  "T_skin_min": 38.414976908163375,
+  "T_skin_max": 46.235305938067967,
+  "pH_limit_min": 8.4347025990347646,
+  "pH_limit_max": 8.8929099998795067,
+  "hours_depositing": 11.116666666666667,
+  "P_chiller_min": 933.19081535931593,
+  "P_chiller_max": 1605.1745776502694,
+  "in_envelope_all_day": true
+}

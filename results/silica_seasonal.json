@@ -1,0 +1,43 @@
+{
+  "rows": [
+    {
+      "basin_T_C": 15.0,
+      "solubility_mg_L": 94.93694911177211,
+      "max_COC": 3.542423474319855,
+      "pct_vs_static": -36.70870059215193,
+      "season": "Gulf winter night"
+    },
+    {
+      "basin_T_C": 20.0,
+      "solubility_mg_L": 105.6515485380077,
+      "max_COC": 3.9422219603734217,
+      "pct_vs_static": -29.565634307994866,
+      "season": "winter day"
+    },
+    {
+      "basin_T_C": 25.0,
+      "solubility_mg_L": 117.15446293186243,
+      "max_COC": 4.371435184024717,
+      "pct_vs_static": -21.897024712091717,
+      "season": "shoulder"
+    },
+    {
+      "basin_T_C": 30.0,
+      "solubility_mg_L": 129.46764692845315,
+      "max_COC": 4.83088234807661,
+      "pct_vs_static": -13.688235381031234,
+      "season": "summer"
+    },
+    {
+      "basin_T_C": 35.0,
+      "solubility_mg_L": 142.6117104291875,
+      "max_COC": 5.321332478701025,
+      "pct_vs_static": -4.925526380541669,
+      "season": "summer peak"
+    }
+  ],
+  "static_limit_mg_L": 150.0,
+  "dispersant_limit_mg_L": 250.0,
+  "makeup_sio2_mg_L": 26.8,
+  "swing_factor_15_to_35C": 1.5021728817226523
+}

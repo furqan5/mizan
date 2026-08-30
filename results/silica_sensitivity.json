@@ -1,0 +1,51 @@
+{
+  "rows": [
+    {
+      "SiO2_mg_L": 0.0,
+      "wall_cycles": 7.0,
+      "binding": "SI_gypsum"
+    },
+    {
+      "SiO2_mg_L": 7.6,
+      "wall_cycles": 7.0,
+      "binding": "SI_gypsum"
+    },
+    {
+      "SiO2_mg_L": 10.0,
+      "wall_cycles": 7.0,
+      "binding": "SI_gypsum"
+    },
+    {
+      "SiO2_mg_L": 20.0,
+      "wall_cycles": 6.5,
+      "binding": "SI_silica_am"
+    },
+    {
+      "SiO2_mg_L": 26.8,
+      "wall_cycles": 4.9,
+      "binding": "SI_silica_am"
+    },
+    {
+      "SiO2_mg_L": 30.0,
+      "wall_cycles": 4.4,
+      "binding": "SI_silica_am"
+    },
+    {
+      "SiO2_mg_L": 40.0,
+      "wall_cycles": 3.3,
+      "binding": "SI_silica_am"
+    },
+    {
+      "SiO2_mg_L": 60.0,
+      "wall_cycles": 2.2,
+      "binding": "SI_silica_am"
+    }
+  ],
+  "wall_no_silica": 7.0,
+  "wall_saudi_range_20_60": [
+    6.5,
+    2.2
+  ],
+  "source": "Al-Mutaz & Al-Anezi (2004), King Saud University / Riyadh Water Treatment Project",
+  "caveat": "brackish well water feeding a drinking-water plant, not TSE"
+}

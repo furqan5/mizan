@@ -1,0 +1,12 @@
+{
+  "u_pred_K": 0.18804042515195374,
+  "u_meas_K": 0.10437173223034048,
+  "u_combined_K": 0.21698314528533869,
+  "U_k2_K": 0.43396629057067737,
+  "model_MAE_K": 0.5370471674827756,
+  "model_RMSE_K": 0.664164981930812,
+  "MAE_over_uc": 2.4750639814744324,
+  "pct_within_U_k2": 40.0,
+  "verdict": "Model error EXCEEDS the measurement uncertainty by more than 2x. There is real model deficiency to explain.",
+  "n_points": 50
+}

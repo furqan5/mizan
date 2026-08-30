@@ -1,0 +1,26 @@
+{
+ "gates": {
+  "P1_core_Tout_MAE_K_max": 0.1,
+  "P1_core_evap_MAPE_pct_max": 1.0,
+  "P2_holdout_Tout_MAE_K_max": 0.6,
+  "P3_extrap_violations_max": 0,
+  "P4_speedup_min": 500.0
+ },
+ "results": {
+  "P1_core_Tout_MAE_K": 0.021950336748647034,
+  "P1_core_evap_MAPE_pct": 0.964181449584479,
+  "P3_extrap_violations": 0,
+  "P3_breakdown": {
+   "below_wetbulb": 0,
+   "dT_dma_positive": 0,
+   "dT_dTwi_negative": 0,
+   "outlet_above_inlet": 0
+  },
+  "P4_speedup": 101801.68288691758,
+  "core_ms_per_point": 140.90768575668335,
+  "surrogate_us_per_point": 1.384139060974121
+ },
+ "n_train": 2600,
+ "n_collocation": 1800,
+ "note": "The surrogate is scored against the physics core, not against experiment. It inherits every limitation of the core and adds its own. It is never the authority on a safety constraint."
+}

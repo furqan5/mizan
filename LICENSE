@@ -1,0 +1,62 @@
+Copyright (c) 2026 Furqan. All rights reserved.
+
+WHY THIS SOURCE IS PUBLISHED
+
+This software is published so that the results reported in the accompanying
+documents can be independently verified. Verifiability is the point; the
+commercial rights are reserved.
+
+GRANT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to view,
+download, run, modify and create derivative works of the Software, and to
+publish the results of doing so, for the following purposes only:
+
+  (a) verifying, evaluating or reviewing the claims made about the Software;
+  (b) non-commercial scientific or engineering research;
+  (c) teaching and academic study;
+  (d) personal study.
+
+Attribution is required in any publication of results obtained with the
+Software.
+
+RESERVED
+
+Any other use requires a separate written licence from the copyright holder.
+Without limitation, the following are NOT granted by this licence:
+
+  (a) use of the Software, in whole or in part, in any product or service
+      offered for sale, licence, lease or other commercial consideration;
+  (b) use of the Software in the commercial operation of any plant, facility
+      or industrial process;
+  (c) redistribution of the Software as part of a commercial offering;
+  (d) removal of this notice from any copy of the Software.
+
+THIRD-PARTY MATERIAL
+
+This licence covers the original work in this repository only. It does not
+cover, and no rights are granted in, third-party material referenced or
+retrieved by this Software, which remains subject to its own terms:
+
+  - The validation dataset (Zenodo record 10806201, Palenzuela, Roca and
+    Serrano Rodriguez) is CC BY 4.0 and is downloaded at runtime rather than
+    redistributed here.
+  - Thermodynamic equilibrium constants are from the USGS PHREEQC database,
+    United States Government public-domain reference data.
+  - Chiller performance curves are from the EnergyPlus CoolTools library
+    published by the United States Department of Energy.
+
+NO WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+THIS SOFTWARE MODELS INDUSTRIAL PLANT. IT IS AT PROTOTYPE STAGE, HAS NEVER BEEN
+VALIDATED AGAINST AN OPERATING PLANT, AND MUST NOT BE USED TO CONTROL, SET
+OPERATING LIMITS FOR, OR MAKE SAFETY DECISIONS ABOUT REAL EQUIPMENT.
