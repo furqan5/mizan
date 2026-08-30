@@ -1,0 +1,47 @@
+NOTICE - Mizan
+==============
+
+This file records two things the licence does not address: third-party material,
+and a safety limitation. It is not part of the licence and does not modify it.
+
+
+THIRD-PARTY MATERIAL
+
+The PolyForm Noncommercial licence in LICENSE covers the original work in this
+repository only. It grants no rights in the following, each of which remains
+subject to its own terms:
+
+  Validation dataset
+    Palenzuela, P., Roca, L. and Serrano Rodriguez, J. M., "Steady-state
+    operation dataset of an experimental Wet Cooling Tower pilot plant located
+    at Plataforma Solar de Almeria." Zenodo, 2024.
+    doi:10.5281/zenodo.10806201 - CC BY 4.0.
+    Downloaded and MD5-verified at runtime by src/fetch_zenodo.py rather than
+    redistributed here.
+
+  Thermodynamic equilibrium constants
+    USGS PHREEQC database (phreeqc.dat). United States Government
+    public-domain reference data.
+
+  Chiller performance curves
+    EnergyPlus CoolTools curve library, United States Department of Energy /
+    National Renewable Energy Laboratory.
+
+  Psychrometric formulation
+    Implemented here from the published equations of the ASHRAE Handbook of
+    Fundamentals. The implementation is original; the formulation is ASHRAE's.
+
+  Heat and mass transfer formulation
+    Implemented here from Kloppers, J. C. and Kroger, D. G. (2005). The
+    implementation is original; the formulation is the authors'.
+
+
+SAFETY LIMITATION
+
+This software models industrial plant. It is at prototype stage. It has never
+been validated against an operating plant, it carries no corrosion model, and
+approximately 40 % of a Gulf year lies outside the conditions its validation
+data covers.
+
+It must not be used to control real equipment, to set operating limits for real
+equipment, or to make safety decisions about real equipment.
