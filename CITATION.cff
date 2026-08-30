@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+title: >-
+  Mizan: an energy-water supervisory controller for
+  cooling-tower and condenser-water loops
+message: >-
+  If you use or refer to this work, please cite it using the
+  metadata below.
+type: software
+authors:
+  - given-names: Furqan
+    family-names: Shakeel
+    affiliation: Furqan
+    email: engr.furqan.shakeel@gmail.com
+  - given-names: Damia
+    family-names: Baig
+    affiliation: Furqan
+  - given-names: Muhammad
+    family-names: Ahsan
+    affiliation: Furqan
+repository-code: 'https://github.com/furqan5/mizan'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.22179269
+    description: Zenodo archive of the v1.0.0 release
+abstract: >-
+  A first-principles model of a counterflow wet cooling tower,
+  coupled to an ion-association water-chemistry engine, that
+  evaluates each scale-forming mineral at the temperature where
+  it is least soluble: calcite, gypsum and magnesium silicate at
+  the hot condenser tube skin, amorphous silica at the cold tower
+  basin. Six acceptance criteria were fixed and printed before
+  fitting and scored once on a campaign-wise holdout of published
+  experimental data. Four pass and two fail; both failures are
+  reported as failures and neither threshold was moved. Includes
+  an independent MATLAB and Simulink re-implementation agreeing
+  with the Python core to 1.4e-5 K, and a register of ten defects
+  found in the authors' own work.
+keywords:
+  - cooling tower
+  - district cooling
+  - condenser water
+  - water treatment
+  - scale prediction
+  - thermodynamics
+  - process control
+  - reproducible research
+license-url: 'https://github.com/furqan5/mizan/blob/main/LICENSE'
+version: 1.0.0
+date-released: '2026-08-30'
