@@ -1,6 +1,6 @@
 # Mizan
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22179269.svg)](https://doi.org/10.5281/zenodo.22179269)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22179268.svg)](https://doi.org/10.5281/zenodo.22179268)
 
 **An energy–water supervisory controller for cooling-tower and condenser-water loops.**
 A [Furqan](#about) venture. *The balance between energy and water.*
@@ -150,7 +150,7 @@ quietly fitting around the defect.
 
 Shakeel, F., Baig, D. and Ahsan, M. (2026). *Mizan: an energy-water supervisory
 controller for cooling-tower and condenser-water loops* (v1.0.0). Zenodo.
-https://doi.org/10.5281/zenodo.22179269
+https://doi.org/10.5281/zenodo.22179268
 
 ## Licence
 
