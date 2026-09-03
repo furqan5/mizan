@@ -1,0 +1,21 @@
+TITLE: Steady-state operation dataset of an experimental Wet Cooling Tower pilot plant located at Plataforma Solar de Almería
+LICENSE: {"id": "cc-by-4.0"}
+
+FILE wct_pilot_plant_dataset.zip  8.03 MB  checksum=md5:ac94e0076a9217b58e032a2545bf9fc4
+  md5 local : ac94e0076a9217b58e032a2545bf9fc4
+  md5 match : True
+  extracted members:
+    wct_pilot_plant_dataset/
+    wct_pilot_plant_dataset/data/
+    wct_pilot_plant_dataset/data/Exp1.nc
+    wct_pilot_plant_dataset/data/Exp2.nc
+    wct_pilot_plant_dataset/data/Exp3.nc
+    wct_pilot_plant_dataset/data/Complete.nc
+    wct_pilot_plant_dataset/media/
+    wct_pilot_plant_dataset/media/facility_picture.jpg
+    wct_pilot_plant_dataset/media/nomenclature.png
+    wct_pilot_plant_dataset/media/layout.png
+    wct_pilot_plant_dataset/LICENSE.md
+    wct_pilot_plant_dataset/requirements.txt
+    wct_pilot_plant_dataset/export_to_csv.py
+    wct_pilot_plant_dataset/README.md

@@ -152,7 +152,7 @@ one is large the other is small. Statistically, a correlation of −0.66.
 |---|---|---|---|
 | Cool half (4,380 hours) | **10.4 %** | 7.3 % | 9.2 % |
 | Hot half (4,380 hours) | 3.0 % | **15.7 %** | 7.5 % |
-| **Whole year, hours-weighted** | **6.7 %** | **11.5 %** | **8.3 %** |
+| **Whole year, hours-weighted** | **5.3 %** | **8.9 %** | **6.5 %** |
 
 In the cool half the controller runs the fan **up**, spending fan power to buy
 compressor power. In the hot half it slows the fan down to save evaporation.
@@ -225,12 +225,12 @@ commands.
 | Can it predict how cold the water gets? | within 1.00 °C | **0.54 °C** | Pass |
 | Can it predict how much heat is rejected? | within 6.00 % | **5.94 %** | Pass |
 | Can it predict how much water is consumed? | within 8.00 % | 9.90 % | **Fail** |
-| Does the controller cut total operating cost? | at least 3 % | **8.55 %** | Pass |
-| Does the controller cut makeup water? | at least 15 % | 14.83 % | **Fail** |
+| Does the controller cut total operating cost? | at least 3 % | **6.37 %** | Pass |
+| Does the controller cut makeup water? | at least 15 % | 10.02 % | **Fail** |
 | Does it ever cross a scaling limit? | never | never | Pass |
 
 Alongside those we report, but do **not** count as a test, the electrical power
-reduction: **4.91 %** averaged over the test conditions, **6.7 %** over a real
+reduction: **4.17 %** averaged over the test conditions, **5.3 %** over a real
 Dhahran year. We do not count it because we computed it after seeing the
 results, and setting a pass mark after you know the answer is not a test.
 
@@ -418,7 +418,7 @@ operator, the whole business case computes from their own numbers.
 
 | Say this | Not this | Why |
 |---|---|---|
-| 11.5 % water, 8.3 % cost, 6.7 % power — annual | 14.83 %, 8.55 %, 4.91 % | The second set is the average of five chosen test conditions and flatters us. The first is a real weighted year |
+| 8.9 % water, 6.5 % cost, 5.3 % power — annual | 10.02 %, 6.37 %, 4.17 % | The second set is the average of the surviving test conditions and flatters us. The first is a real weighted year |
 | Gypsum wall "around 7 to 8 cycles, depending on fouling" | "8 cycles" | It depends on the tube-wall assumption we have not yet measured |
 | "Prototype, validated against public experimental data" | "Proven", "deployed", "in use at" | We have no installed base |
 | "Two of our six criteria failed and we report them" | Silence | It is the most credible thing we have |

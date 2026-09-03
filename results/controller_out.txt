@@ -1,0 +1,68 @@
+using validated fill law Me = 1.2401 (m_w/m_a)^(-0.5014)
+holdout accuracy: Tout MAE 0.542 K, evap MAPE 7.11 %
+
+==============================================================================
+GATE V3 -- saturation limit, bulk vs condenser skin temperature
+==============================================================================
+makeup: published Saudi TSE, charge-balanced (Cl = 565 mg/L, imbalance +0.00 %)
+
+ T_bulk_C  skin_delta_K  T_eval_C  max_cycles binding_mineral
+    30.00          0.00     30.00        3.48      SI_calcite
+    30.00          3.80     33.80        3.26      SI_calcite
+    30.00          8.00     38.00        3.02      SI_calcite
+    33.00          0.00     33.00        3.30      SI_calcite
+    33.00          3.80     36.80        3.09      SI_calcite
+    33.00          8.00     41.00        2.86      SI_calcite
+    36.00          0.00     36.00        3.13      SI_calcite
+    36.00          3.80     39.80        2.92      SI_calcite
+    36.00          8.00     44.00        2.71      SI_calcite
+
+  bulk 30 C: limit 3.48 cycles; at +3.8 K (typical) 3.26 ( 6.9 % overstated); at +8 K (fouled) 3.02 (15.2 % overstated)
+  bulk 33 C: limit 3.30 cycles; at +3.8 K (typical) 3.09 ( 7.0 % overstated); at +8 K (fouled) 2.86 (15.4 % overstated)
+  bulk 36 C: limit 3.13 cycles; at +3.8 K (typical) 2.92 ( 7.1 % overstated); at +8 K (fouled) 2.71 (15.6 % overstated)
+
+==============================================================================
+GATE V5 -- optimised vs incumbent fixed-setpoint operation
+==============================================================================
+pre-registered criteria: {"makeup_water_reduction_pct_min": 15.0, "total_cost_reduction_pct_min": 3.0, "skin_SI_violations_allowed": 0}
+plant: 10 MW condenser module; tariffs elec $0.074/kWh, water $3.11/m3 avoided  [published schedules]
+
+           condition     T_wb  base_cycles  opt_cycles  base_fan_pct  opt_fan_pct  base_makeup_m3_h  opt_makeup_m3_h  water_saving_pct  cost_saving_pct  base_feasible_at_skin
+ Dhahran summer peak    25.21         4.00        7.00         70.00        50.00             27.86            22.55             19.06             5.55                   True
+Dhahran summer humid    29.74         4.00        7.00        100.00        70.00             24.34            20.47             15.89             5.90                   True
+    Dhahran shoulder    22.38         4.00        6.00         60.00        80.00             22.47            20.92              6.92             4.20                   True
+   Doha summer humid    30.31         4.00        7.00        100.00        70.00             25.32            21.14             16.53             6.28                   True
+         Gulf winter    14.67         4.00        6.00         40.00        90.00             18.75            17.97              4.17            10.45                   True
+
+mean makeup-water reduction :  12.51 %   (criterion >= 15.0 %)  FAIL
+mean total-cost reduction   :   6.48 %   (criterion >= 3.0 %)  PASS
+skin-SI violations by optimiser: 0   (criterion 0)  PASS
+
+NOTE: the incumbent 4-cycle baseline is safe at skin temperature in all 5 conditions. It is conservative, not unsafe: it leaves margin on the table rather than crossing the limit.
+      Optimiser raises cycles 4 -> 6.6 in every condition (the constraint boundary), but also raises fan speed, which increases
+      evaporation and gives part of the water saving back. That trade is the coupling this product exists to price.
+
+==============================================================================
+GATE V5b -- the two ceilings: economic optimum vs physical limit
+==============================================================================
+condition: Dhahran summer humid, fan 90 %, pH free to take its least-cost feasible value
+ cycles  feasible   best_pH  makeup_m3_h  acid_kg_h  water_cost_h  acid_cost_h  total_cost_h blocking_mineral
+      3      True      8.50        27.03       2.90         84.07         0.55        223.24                 
+      4      True      8.50        24.03       3.93         74.73         0.75        213.98                 
+      5      True      8.25        22.50       5.55         69.97         1.05        209.46                 
+      6      True      8.00        21.60       6.87         67.17         1.31        206.89                 
+      7      True      8.00        20.99       7.86         65.28         1.49        205.17                 
+      8     False       NaN          NaN        NaN           NaN          NaN           NaN        SI_gypsum
+      9     False       NaN          NaN        NaN           NaN          NaN           NaN        SI_gypsum
+     10     False       NaN          NaN        NaN           NaN          NaN           NaN        SI_gypsum
+     11     False       NaN          NaN        NaN           NaN          NaN           NaN        SI_gypsum
+     12     False       NaN          NaN        NaN           NaN          NaN           NaN        SI_gypsum
+
+  The cost curve does NOT turn over. Operating cost falls monotonically to 7 cycles, the last feasible point.
+  PHYSICAL ceiling : 8 cycles -- binding mineral SI_gypsum. Acid cannot move it: sulfate saturation is not pH-sensitive,
+  so the lever that buys cycles against calcite stops working entirely at this wall.
+
+  This is the more dangerous case. The economics point straight at a hard limit, and the Langelier index the industry controls on
+  describes calcite only -- it cannot represent gypsum at all. An operator following the money with LSI-based control walks into the wall blind.
+
+written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\v3_skin_vs_bulk.csv, C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\v5_controller.csv, C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\controller_summary.json

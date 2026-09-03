@@ -32,6 +32,21 @@ import numpy as np
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
+
+
+def _v5_water_pct():
+    """The V5 gate figure, READ FROM THE ARTEFACT rather than typed here.
+
+    This was hardcoded as 14.83 in four places. When defect 11 was fixed the
+    controller re-ran and the figure moved to 10.02, and every one of those
+    four would have gone on asserting 14.83 -- in the JSON this script writes,
+    which the audit then checks other documents against. A constant duplicated
+    into a file that other files are validated against is a slow-acting fault.
+    """
+    import json as _json
+    return float(_json.loads((RESULTS / "controller_summary.json").read_text())
+                 ["summary"]["water_pct"])
+
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 
 import controller as ctl                                        # noqa: E402
@@ -70,7 +85,8 @@ def main() -> int:
     print("=" * 76)
     print("This is NOT the pre-registered V5 gate and does not change its")
     print("verdict. V5 is an unweighted mean over five conditions; it scored")
-    print("14.83 % against 15 % and failed. This is the annual figure.")
+    print(f"{_v5_water_pct():.2f} % against 15 % and failed. This is the "
+          f"annual figure.")
     print()
     print(f"{'bin':>4s} {'hours':>6s} {'T_wb C':>8s} {'T_db C':>8s} {'RH':>6s} "
           f"{'load':>6s} {'energy %':>9s} {'water %':>9s} "
@@ -114,6 +130,13 @@ def main() -> int:
                      "energy_pct": e,
                      "base_kW": base["P_total_kW"],
                      "opt_kW": best["P_total_kW"],
+                     # Absolutes, so the annual figure can be computed as a
+                     # ratio of totals rather than a mean of ratios. Storing
+                     # only the percentages made the second impossible.
+                     "base_makeup_m3_h": base["makeup_m3_h"],
+                     "opt_makeup_m3_h": best["makeup_m3_h"],
+                     "base_cost_h": base["cost_per_h"],
+                     "opt_cost_h": best["cost_per_h"],
                      "inside_validated_envelope": bool(inside),
                      "pct_hours_above_almeria":
                          float(100 * (T_wb[idx] > ALMERIA_WB_MAX_C).mean())})
@@ -130,6 +153,28 @@ def main() -> int:
     w_ann = float(np.sum(wt * [r["water_pct"] for r in rows]))
     c_ann = float(np.sum(wt * [r["cost_pct"] for r in rows]))
     e_ann = float(np.sum(wt * [r["energy_pct"] for r in rows]))
+
+    # The three figures above are hour-weighted MEANS OF RATIOS. That is not
+    # the saving a plant sees over a year. A mean of ratios gives an hour in
+    # January, when the plant draws 682 kW, the same vote as an hour in August
+    # at 1,492 kW -- so it is biased by whatever correlation exists between the
+    # percentage saving and the load. Here that correlation is real and it runs
+    # in OPPOSITE directions: the energy saving is largest when the plant is
+    # coldest and drawing least, and the water saving is largest when it is
+    # hottest and evaporating most. So the mean of ratios FLATTERS the energy
+    # number and UNDERSTATES the water one.
+    #
+    # The physically meaningful quantity is the ratio of annual totals:
+    # kWh saved over kWh consumed. Both are reported; the ratio-of-totals
+    # figures are the ones to quote outside this repository.
+    def _ratio(base_key: str, opt_key: str) -> float:
+        b = float(np.sum(hrs * [r[base_key] for r in rows]))
+        o = float(np.sum(hrs * [r[opt_key] for r in rows]))
+        return 100.0 * (b - o) / b
+
+    w_tot = _ratio("base_makeup_m3_h", "opt_makeup_m3_h")
+    c_tot = _ratio("base_cost_h", "opt_cost_h")
+    e_tot = _ratio("base_kW", "opt_kW")
     inside_frac = float(np.sum(hrs[[r["inside_validated_envelope"] for r in rows]])
                         / hrs.sum())
 
@@ -141,8 +186,21 @@ def main() -> int:
     print(f"   hours-weighted annual total-power reduction  : {e_ann:.2f} %")
     print(f"   hours-weighted annual makeup water reduction : {w_ann:.2f} %")
     print(f"   hours-weighted annual cost reduction         : {c_ann:.2f} %")
+    print()
+    print("   Those three are means of ratios. As RATIOS OF ANNUAL TOTALS,")
+    print("   which is what a plant actually banks over a year:")
+    print(f"   annual electrical energy reduction           : {e_tot:.2f} %"
+          f"   ({e_tot - e_ann:+.2f} pts)")
+    print(f"   annual makeup water reduction                : {w_tot:.2f} %"
+          f"   ({w_tot - w_ann:+.2f} pts)")
+    print(f"   annual operating cost reduction              : {c_tot:.2f} %"
+          f"   ({c_tot - c_ann:+.2f} pts)")
+    print("   The energy and water corrections have OPPOSITE signs, because")
+    print("   the energy saving is biggest when the plant draws least power")
+    print("   and the water saving is biggest when it evaporates most.")
     print(f"   for comparison, the five-condition unweighted mean the V5 gate")
-    print(f"   scores                                        : 14.83 % water")
+    print(f"   scores                                        : "
+          f"{_v5_water_pct():.2f} % water")
     print()
     print(f"   fraction of the weighted year INSIDE the validated wet-bulb")
     print(f"   envelope (<= {ALMERIA_WB_MAX_C} C)                        : "
@@ -159,11 +217,23 @@ def main() -> int:
            "n_bins": len(rows), "bins": rows,
            "annual_water_pct": w_ann, "annual_cost_pct": c_ann,
            "annual_energy_pct": e_ann,
+           "annual_water_pct_ratio_of_totals": w_tot,
+           "annual_cost_pct_ratio_of_totals": c_tot,
+           "annual_energy_pct_ratio_of_totals": e_tot,
+           "weighting_note": (
+               "annual_*_pct are hour-weighted MEANS OF RATIOS and are kept "
+               "because published figures cite them. annual_*_ratio_of_totals "
+               "are ratios of hour-weighted totals -- kWh saved over kWh "
+               "consumed -- and are the figures to quote outside this "
+               "repository. They differ because the percentage saving "
+               "correlates with load: negatively for energy and cost, "
+               "positively for water."),
            "fraction_inside_validated_envelope": inside_frac,
-           "v5_gate_unweighted_mean_water_pct": 14.83,
+           "v5_gate_unweighted_mean_water_pct": _v5_water_pct(),
            "note": ("A different metric from the pre-registered V5 gate, "
                     "reported alongside it and not in place of it. V5 remains "
-                    "failed at 14.83 % against a 15 % threshold.")}
+                    f"failed at {_v5_water_pct():.2f} % against a 15 % "
+                    "threshold.")}
     (RESULTS / "annual_dhahran.json").write_text(json.dumps(out, indent=1))
     print()
     print("written -> results/annual_dhahran.json")

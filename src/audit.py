@@ -157,8 +157,35 @@ def main():
               "the campaign-to-campaign fill drift is not in the range the "
               "documents describe", f"{spread:.1f} %")
         reg = (DOCS / "defect_register.md").read_text(encoding="utf-8")
-        check("Open defects: none" in reg,
-              "the defect register no longer states that no defects are open")
+        # The register must be INTERNALLY CONSISTENT about open defects, which
+        # is a different and stricter test than requiring it to say "none".
+        #
+        # This previously asserted the literal string "Open defects: none". That
+        # check passes for a register that is honest and empty, and fails for a
+        # register that is honest and non-empty -- so it punished disclosure and
+        # created pressure to either hide a defect or rush a fix to unblock
+        # packaging. It also could not catch the case that actually matters: a
+        # table listing an OPEN row while the summary line still claims none.
+        #
+        # Now: count the rows marked OPEN, read the declared count, require
+        # they agree. Zero open defects still passes. One open and declared
+        # passes. One open and undeclared fails, which is the real defect.
+        _WORDS = {"none": 0, "one": 1, "two": 2, "three": 3, "four": 4,
+                  "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
+        n_open_rows = len(re.findall(r"\|\s*\*\*OPEN\*\*\s*\|", reg))
+        m = re.search(r"\*\*Open defects:\s*([A-Za-z]+|\d+)", reg)
+        if m is None:
+            declared = None
+        else:
+            tok = m.group(1).lower()
+            declared = int(tok) if tok.isdigit() else _WORDS.get(tok)
+        check(declared is not None,
+              "the defect register does not declare an open-defect count in "
+              "the form '**Open defects: <n>'")
+        check(declared == n_open_rows,
+              "the defect register's declared open-defect count disagrees with "
+              "the rows marked OPEN in its own table",
+              f"declares {declared}, table shows {n_open_rows}")
         check(f"{spread:.1f}" in reg,
               "the defect register quotes a fill drift the artefact does not "
               "support", f"artefact says {spread:.1f} %")
@@ -293,8 +320,21 @@ def main():
     poc = (DOCS / "poc_report.md").read_text(encoding="utf-8")
     check(("9.90 % | **FAIL**" in poc) or ("9.90 %" in poc and "FAIL" in poc),
           "the PoC report does not record the V2 failure")
-    check("14.83" in poc, "the PoC report does not carry the current water figure")
-    check("8.55" in poc, "the PoC report does not carry the current cost figure")
+    # READ THE FIGURES FROM THE ARTEFACT. These were the literals "14.83" and
+    # "8.55" -- the values as of the day the check was written. When defect 11
+    # was fixed and the controller re-ran, the artefact moved to 10.02 and 6.37
+    # and these checks began demanding that the report quote SUPERSEDED
+    # numbers: an audit enforcing staleness. Same failure as the
+    # "Open defects: none" literal fixed above, and as the 14.83 hardcoded four
+    # times in annual.py and once in make_report.py.
+    _sm = json.loads((RESULTS / "controller_summary.json").read_text())["summary"]
+    _w, _c = _sm["water_pct"], _sm["cost_pct"]
+    check(f"{_w:.2f}" in poc,
+          "the PoC report does not carry the current water figure",
+          f"artefact says {_w:.2f} %")
+    check(f"{_c:.2f}" in poc,
+          "the PoC report does not carry the current cost figure",
+          f"artefact says {_c:.2f} %")
 
     # --- report ----------------------------------------------------------
     print(f"\n{CHECKS} checks run.")

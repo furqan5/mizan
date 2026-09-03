@@ -1,0 +1,121 @@
+{
+ "registered": "2026-09-03",
+ "gates": {
+  "G_F1_materiality_pct_min": 2.0,
+  "G_F2_dominance_ratio_min": 1.0,
+  "G_F3_zero_tol": 1e-09,
+  "G_F4_both_models_monotonic_in_range": true
+ },
+ "assumptions": {
+  "U_clean_W_m2K": 3000.0,
+  "R_f_TEMA_treated_m2K_W": 0.000176,
+  "r_reference": 0.528,
+  "ttd_clean_K": 4.0,
+  "T_cws_C": 29.44,
+  "note": "r is swept, not fitted. U_clean is the only imported parameter and results are reported against dimensionless r so they do not hinge on it."
+ },
+ "design_point": {
+  "Q_evap_kW": 10000.0,
+  "condenser_range_K": 5.926827302538225,
+  "p_chiller_clean_kW": 1859.0361642671546,
+  "cop_clean": 5.379131504922644,
+  "chiller_share_of_power": 0.9441351042727342
+ },
+ "sweep": [
+  {
+   "r": 0.0,
+   "ttd_k": 4.0,
+   "d_ttd_k": 0.0,
+   "p_chiller_kw": 1859.0361642671546,
+   "d_power_pct": 0.0,
+   "cop": 5.379131504922644,
+   "d_power_pct_biquad": 0.0,
+   "biquad_in_fitted_range": true
+  },
+  {
+   "r": 0.1,
+   "ttd_k": 4.612735034639211,
+   "d_ttd_k": 0.6127350346392113,
+   "p_chiller_kw": 1899.0887869291737,
+   "d_power_pct": 2.154483244160455,
+   "cop": 5.265683241787762,
+   "d_power_pct_biquad": 1.2497256713396763,
+   "biquad_in_fitted_range": true
+  },
+  {
+   "r": 0.25,
+   "ttd_k": 5.543287028437573,
+   "d_ttd_k": 1.5432870284375726,
+   "p_chiller_kw": 1959.9161360572346,
+   "d_power_pct": 5.426466344717267,
+   "cop": 5.102259130391676,
+   "d_power_pct_biquad": 1.6551455491431863,
+   "biquad_in_fitted_range": true
+  },
+  {
+   "r": 0.528,
+   "ttd_k": 7.2920642984936315,
+   "d_ttd_k": 3.2920642984936315,
+   "p_chiller_kw": 2074.2283789644985,
+   "d_power_pct": 11.5754722169256,
+   "cop": 4.821069898287779,
+   "d_power_pct_biquad": 1.7070934116901149,
+   "biquad_in_fitted_range": true
+  },
+  {
+   "r": 0.75,
+   "ttd_k": 8.702926589526534,
+   "d_ttd_k": 4.702926589526534,
+   "p_chiller_kw": 2166.452149071074,
+   "d_power_pct": 16.53631008975584,
+   "cop": 4.615841621190561,
+   "d_power_pct_biquad": 1.0061014397946124,
+   "biquad_in_fitted_range": true
+  },
+  {
+   "r": 1.0,
+   "ttd_k": 10.301373597093963,
+   "d_ttd_k": 6.3013735970939635,
+   "p_chiller_kw": 2270.9377606650414,
+   "d_power_pct": 22.156728541118046,
+   "cop": 4.403467225394813,
+   "d_power_pct_biquad": null,
+   "biquad_in_fitted_range": false
+  },
+  {
+   "r": 1.5,
+   "ttd_k": 13.517127758323896,
+   "d_ttd_k": 9.517127758323896,
+   "p_chiller_kw": 2481.14181415024,
+   "d_power_pct": 33.46388100676481,
+   "cop": 4.030402431239052,
+   "d_power_pct_biquad": null,
+   "biquad_in_fitted_range": false
+  }
+ ],
+ "annual": {
+  "total_electrical_kWh": 9985620.080070132,
+  "fouling_energy_kWh": 1091309.4127736962,
+  "fouling_energy_cost": 80756.89654525352,
+  "water_saved_m3": 16811.777251210802,
+  "water_saving_cost": 52284.62725126559,
+  "ratio_energy_to_water": 1.5445629201324895
+ },
+ "run1_failed": {
+  "d_power_pct_at_TEMA": 1.71,
+  "d_power_pct_at_r1.5": -7.13,
+  "cause": "chiller_power_biquad extrapolated beyond its fitted T_cws range of 15.56-35.00 degC"
+ },
+ "scores": {
+  "G_F1_materiality_pct": 11.5754722169256,
+  "G_F1_pass": true,
+  "G_F2_ratio": 1.5445629201324895,
+  "G_F2_pass": true,
+  "G_F3_zero": 0.0,
+  "G_F3_monotonic": true,
+  "G_F3_pass": true,
+  "G_F4_biquad_monotonic": false,
+  "G_F4_pass": false
+ },
+ "limitation": "NOT a scaling-rate model. Answers what a given fouling resistance costs, not how fast fouling accumulates at a given supersaturation. Rate needs the coupon work."
+}

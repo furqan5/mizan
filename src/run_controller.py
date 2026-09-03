@@ -290,15 +290,22 @@ def gate_v5(fill_c, fill_n):
     print(f"      Optimiser raises cycles 4 -> {df['opt_cycles'].mean():.1f} "
           f"in every condition (the chemistry constraint boundary), and moves "
           f"the fan DOWN in {down} of {len(df)} conditions and UP in {up}.")
+    # This narrative is COMPUTED, not written. It previously said the optimum
+    # sat "hard against the chiller's 35 degC maximum" in "the four Gulf summer
+    # cases" -- both hardcoded, and both wrong after defect 11 was fixed. The
+    # binding limit is now CAPACITY, which bites near 32.5 degC, well below the
+    # 35 degC temperature ceiling, and the number of conditions is whatever
+    # survived. Sentences with numbers baked into them go stale silently.
     print(f"      Fan speed is not a free lever: lowering it saves fan power "
-          f"and evaporation but raises entering condenser water, and in the "
-          f"four Gulf summer cases the optimum sits at")
-    print(f"      {df['opt_T_cws_C'].max():.1f} degC -- hard against the "
-          f"chiller's {ctl.CHILLER_TCWS_RANGE[1]:.0f} degC maximum entering "
-          f"condenser water. In Gulf summer the binding limit on the fan is "
-          f"the CHILLER envelope,")
-    print(f"      not tower physics and not chemistry. That is the coupling "
-          f"this product exists to price.")
+          f"and evaporation but raises entering condenser water. Across the "
+          f"{len(df)} surviving conditions")
+    print(f"      the optimum tops out at {df['opt_T_cws_C'].max():.1f} degC. "
+          f"The binding limit is the chiller's CAPACITY, not its "
+          f"{ctl.CHILLER_TCWS_RANGE[1]:.0f} degC temperature ceiling: above "
+          f"about 32.5 degC")
+    print(f"      the machine cannot make the duty at all. Not tower physics "
+          f"and not chemistry -- that is the coupling this product exists to "
+          f"price.")
     return df, {"revisions": V5_REVISIONS,
                 "pre_registered": V5_PRE_REGISTERED,
                 "water_pct": w, "cost_pct": c, "violations": viol,
@@ -349,11 +356,25 @@ def gate_v5b(fill_c, fill_n, name="Dhahran summer humid", T_db=38.0,
         th = ctl._thermal_solve(fan, float(cy), cond, TSE, fill_c, fill_n)
         if th is None:
             continue
-        best, blocking = None, None
+        # CHEMISTRY-FEASIBLE, not chemistry-AND-chiller-feasible. These are two
+        # different constraints and this gate is about the first one. Mixing
+        # them was harmless while the chiller envelope never bound below the
+        # gypsum wall; after defect 11 was fixed it binds first, and the
+        # combined flag emptied the feasible set entirely at this condition --
+        # which crashed the gate and, worse, would have hidden the gypsum
+        # ceiling behind a capacity limit that has nothing to do with water
+        # chemistry.
+        #
+        # `violations` is chemistry-only by construction (see the note in
+        # controller._cost_at_ph). The chiller envelope is carried alongside
+        # and reported, never folded in.
+        best, blocking, env_ok = None, None, False
         for ph in np.arange(7.0, 9.01, 0.25):
             r = ctl._cost_at_ph(th, fan, float(cy), float(ph), cond, TSE,
                                 TARIFFS, 8.0)
-            if r["feasible"]:
+            chem_ok = len(r["violations"]) == 0
+            env_ok = env_ok or bool(r.get("chiller_envelope_ok", True))
+            if chem_ok:
                 if best is None or r["cost_per_h"] < best["cost_per_h"]:
                     best = r
             elif blocking is None:
@@ -361,6 +382,7 @@ def gate_v5b(fill_c, fill_n, name="Dhahran summer humid", T_db=38.0,
         rows.append({
             "cycles": cy,
             "feasible": best is not None,
+            "chiller_envelope_ok": env_ok,
             "best_pH": best["target_ph"] if best else np.nan,
             "makeup_m3_h": best["makeup_m3_h"] if best else np.nan,
             "acid_kg_h": best["acid_kg_h"] if best else np.nan,
@@ -375,10 +397,35 @@ def gate_v5b(fill_c, fill_n, name="Dhahran summer humid", T_db=38.0,
     print(df.to_string(index=False, float_format=lambda x: f"{x:9.2f}"))
 
     feas = df[df.feasible]
+    if len(feas) == 0:
+        # A real outcome, not an error: no cycle count in 3-12 is chemically
+        # feasible at this condition. Report it and stop rather than crash.
+        print()
+        print("  NO CHEMICALLY FEASIBLE CYCLE COUNT at this condition. There "
+              "are no ceilings to report.")
+        blk = df.blocking_mineral[df.blocking_mineral != ""]
+        if len(blk):
+            print(f"  Binding species across the range: "
+                  f"{sorted(set(blk))}")
+        df.to_csv(RESULTS / "v5b_two_ceilings.csv", index=False)
+        return df, {"economic_ceiling_cycles": None,
+                    "physical_ceiling_cycles": None,
+                    "binding_mineral": None,
+                    "no_feasible_point": True}
+
     econ = int(feas.loc[feas.total_cost_h.idxmin(), "cycles"])
     infeas = df[~df.feasible]
     phys = int(infeas.cycles.min()) if len(infeas) else None
     mineral = infeas.blocking_mineral.iloc[0] if len(infeas) else "none in range"
+
+    # The chiller envelope is reported, never folded into the ceilings.
+    n_env_bad = int((~df.chiller_envelope_ok).sum())
+    if n_env_bad:
+        print()
+        print(f"  CHILLER ENVELOPE: {n_env_bad} of {len(df)} cycle counts sit "
+              f"outside the machine's validity envelope at this condition,")
+        print(f"  at fan {fan:.0f} %. That is a CAPACITY limit, independent of "
+              f"water chemistry, and it does not move the ceilings below.")
 
     # Does the cost curve actually turn over inside the feasible region, or
     # does it fall monotonically until the chemistry stops it? These are

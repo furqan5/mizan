@@ -1,0 +1,122 @@
+{
+ "duty_kW": 10000.0,
+ "biquad_fitted": {
+  "T_cws_C": [
+   15.56,
+   35.0
+  ],
+  "PLR": [
+   0.2,
+   1.06
+  ]
+ },
+ "rows": [
+  {
+   "condition": "Dhahran summer peak",
+   "which": "base",
+   "T_cws_C": 31.556944962560145,
+   "capft": 0.9631991856592916,
+   "q_avail_kW": 9631.991856592917,
+   "plr_raw": 1.038206857821956,
+   "feasible": true,
+   "capacity_shortfall_kW": 368.0081434070835
+  },
+  {
+   "condition": "Dhahran summer peak",
+   "which": "opt",
+   "T_cws_C": 33.79665756558157,
+   "capft": 0.9050607592345563,
+   "q_avail_kW": 9050.607592345563,
+   "plr_raw": 1.104898195835755,
+   "feasible": false,
+   "capacity_shortfall_kW": 949.3924076544372
+  },
+  {
+   "condition": "Dhahran summer humid",
+   "which": "base",
+   "T_cws_C": 33.16015729994429,
+   "capft": 0.9227177001025462,
+   "q_avail_kW": 9227.177001025462,
+   "plr_raw": 1.0837550855357656,
+   "feasible": false,
+   "capacity_shortfall_kW": 772.8229989745378
+  },
+  {
+   "condition": "Dhahran summer humid",
+   "which": "opt",
+   "T_cws_C": 34.70020122082525,
+   "capft": 0.8784485922425422,
+   "q_avail_kW": 8784.485922425423,
+   "plr_raw": 1.1383705419199954,
+   "feasible": false,
+   "capacity_shortfall_kW": 1215.5140775745767
+  },
+  {
+   "condition": "Dhahran shoulder",
+   "which": "base",
+   "T_cws_C": 30.815349953929413,
+   "capft": 0.9799910783705252,
+   "q_avail_kW": 9799.910783705252,
+   "plr_raw": 1.0204174528432897,
+   "feasible": true,
+   "capacity_shortfall_kW": 200.08921629474753
+  },
+  {
+   "condition": "Dhahran shoulder",
+   "which": "opt",
+   "T_cws_C": 34.09738980092676,
+   "capft": 0.8964048391861618,
+   "q_avail_kW": 8964.048391861617,
+   "plr_raw": 1.1155673823759045,
+   "feasible": false,
+   "capacity_shortfall_kW": 1035.9516081383827
+  },
+  {
+   "condition": "Doha summer humid",
+   "which": "base",
+   "T_cws_C": 33.58141010480145,
+   "capft": 0.9111326908554325,
+   "q_avail_kW": 9111.326908554325,
+   "plr_raw": 1.0975349804002015,
+   "feasible": false,
+   "capacity_shortfall_kW": 888.6730914456748
+  },
+  {
+   "condition": "Doha summer humid",
+   "which": "opt",
+   "T_cws_C": 34.482374723644185,
+   "capft": 0.885030347089814,
+   "q_avail_kW": 8850.30347089814,
+   "plr_raw": 1.1299047578291899,
+   "feasible": false,
+   "capacity_shortfall_kW": 1149.6965291018605
+  },
+  {
+   "condition": "Gulf winter",
+   "which": "base",
+   "T_cws_C": 30.437607209979976,
+   "capft": 0.9880741318708133,
+   "q_avail_kW": 9880.741318708133,
+   "plr_raw": 1.0120698111047663,
+   "feasible": true,
+   "capacity_shortfall_kW": 119.2586812918671
+  },
+  {
+   "condition": "Gulf winter",
+   "which": "opt",
+   "T_cws_C": 23.17464108128003,
+   "capft": 1.0817828973909336,
+   "q_avail_kW": 10817.828973909336,
+   "plr_raw": 0.9243998979941546,
+   "feasible": true,
+   "capacity_shortfall_kW": 0.0
+  }
+ ],
+ "n_infeasible_base": 2,
+ "n_infeasible_opt": 4,
+ "n_conditions": 5,
+ "optimiser_moves_into_infeasible": true,
+ "finding": "chiller_power_biquad clamps plr_raw to 1.0 when the machine cannot make the duty, so computed power FALLS with rising condenser temperature above ~32.5 C. The optimiser's main lever (fan speed down -> T_cws up) drives it into that region, where the chiller cost that should offset the fan saving is under-computed.",
+ "recommended_fix": "Reject operating points with plr_raw > 1.06 the same way out-of-range temperatures are already rejected. CHILLER_RANGE_LOG['PLR_out'] already counts them; nothing reads it.",
+ "not_done_here": "No published result is modified. Enforcing the constraint changes the headline annual figures, the deck, the figures and a published post, so the re-run is the founder's call."
+}

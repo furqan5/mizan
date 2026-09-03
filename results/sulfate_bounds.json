@@ -1,0 +1,39 @@
+{
+ "registered": "2026-09-03",
+ "gates": {
+  "must_contain_truth": true,
+  "ceiling_band_cycles_max": 2.0,
+  "min_interval_mg_l": 1.0
+ },
+ "measured_inputs": {
+  "TDS": 1500.0,
+  "Ca": 94.0,
+  "Mg": 41.0,
+  "HCO3": 70.0,
+  "Cl": 565.0,
+  "NO3": 12.0,
+  "pH": 7.4
+ },
+ "withheld": {
+  "SO4": 566.0,
+  "Na": 468.02093936532884
+ },
+ "bound_mg_l": [
+  43.899999999999864,
+  927.8217523961124
+ ],
+ "bound_width_mg_l": 883.9217523961125,
+ "contains_truth": true,
+ "ceiling_at_high_so4": 5.5,
+ "ceiling_at_low_so4": 8.0,
+ "ceiling_band_cycles": 2.5,
+ "ceiling_at_truth": 7.25,
+ "scores": {
+  "G_S1_pass": true,
+  "G_S2_pass": false,
+  "G_S3_pass": true
+ },
+ "method": "electroneutrality + TDS closure, sodium swept 15-45 % of TDS",
+ "no_learning": "no training data, no fitted parameters",
+ "future_work": "a learned prior over regional Na/Cl would tighten the interval; needs a public groundwater dataset"
+}

@@ -1,0 +1,16 @@
+Monte Carlo measurement-uncertainty propagation
+holdout campaigns ['Exp1', 'Exp3'], n=50, 160 samples per point
+
+  mean u(predicted T_out) from input uncertainty : 0.188 K
+  mean u(measured  T_out) from the Pt100         : 0.104 K
+  mean combined standard uncertainty u_c         : 0.217 K
+  expanded uncertainty U = 2*u_c (k=2, ~95 %)    : 0.434 K
+
+  model MAE on the same points                   : 0.537 K
+  model RMSE                                     : 0.664 K
+  MAE / u_c                                      : 2.48
+  points agreeing within U (k=2)                 : 40.0 %
+
+  VERDICT: Model error EXCEEDS the measurement uncertainty by more than 2x. There is real model deficiency to explain.
+
+written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\uncertainty.json

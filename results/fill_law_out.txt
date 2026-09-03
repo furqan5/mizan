@@ -1,0 +1,31 @@
+Fill-law model selection
+fit on ['Exp2'] (n=115), scored on ['Exp1', 'Exp3'] (n=50)
+selection criterion is HOLDOUT outlet-temperature MAE, not log-space R2
+
+  A: ratio only  Me=c(mw/ma)^n       p=2  R2=0.372  MAE=0.542 K  RMSE=0.662  bias=+0.453
+  B: separate flows  Me=c*mw^a*ma^b  p=3  R2=0.382  MAE=0.629 K  RMSE=0.788  bias=+0.564
+  C: ratio + inlet temp              p=3  R2=0.372  MAE=0.550 K  RMSE=0.666  bias=+0.444
+  D: separate flows + inlet temp     p=4  R2=0.382  MAE=0.633 K  RMSE=0.793  bias=+0.554
+  E: separate flows + wet bulb       p=4  R2=0.506  MAE=0.517 K  RMSE=0.710  bias=+0.425
+
+BEST BY HOLDOUT MAE: E: separate flows + wet bulb
+   log(mw)=-0.5134, log(ma)=+0.6436, log(Twb)=-0.4783, intercept=+1.4514
+   holdout MAE 0.517 K, train R2 0.506, 4 parameters
+
+   vs the incumbent two-parameter law: +0.025 K in holdout MAE, +0.048 K in RMSE
+
+   EXTRAPOLATION CHECK
+     training wet-bulb range      : 4.3 to 21.9 C
+     Gulf design wet-bulb         : 30.3 C
+     extrapolation beyond the fit : +8.4 K
+     the fitted T_wb exponent -0.4783 would scale Me by x0.857 at Gulf wet-bulb,
+     i.e. predict +14.3 % different transfer capability, on no supporting data.
+
+   DECISION: REJECT the wet-bulb form and RETAIN the two-parameter law A.
+     The MAE gain (0.025 K) is inside the noise, the RMSE is worse, and the added
+     regressor is an operating condition masquerading as an equipment property. It
+     would extrapolate hardest exactly where we intend to sell.
+
+   ADOPTED: A: ratio only  Me=c(mw/ma)^n  (2 parameters, holdout MAE 0.542 K)
+
+written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\fill_law_decision.json

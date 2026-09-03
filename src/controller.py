@@ -413,8 +413,37 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     # outside the fitted range -- and then collected a large apparent water
     # saving from the extrapolation. A saving bought outside the validity
     # envelope of your own model is not a saving.
+    # DEFECT 11, fixed 3 September 2026. The bi-quadratic has TWO validity
+    # limits and only the temperature one was enforced. The capacity limit
+    # binds FIRST, and lower, so the temperature guard above never sees it.
+    #
+    # `capft` is the machine's capacity as a function of temperature and it
+    # falls as condenser water warms. Above about 32.5 degC this York YT cannot
+    # make the 10 MW duty at all: q_avail drops below it and plr_raw climbs past
+    # 1.0, reaching 1.15 by 35 degC. `chiller_power_biquad` then clamps plr to
+    # 1.0 and evaluates the machine as merely full-loaded, so computed chiller
+    # power FALLS as the condenser gets hotter. That is backwards, and it is
+    # backwards in precisely the direction the optimiser pushes: its main energy
+    # lever is fan speed, and lowering the fan raises T_wo. It was being paid to
+    # go somewhere the machine cannot follow -- 4 of 5 Gulf conditions
+    # infeasible, worst shortfall 1,216 kW of 10,000 kW.
+    #
+    # This is the same failure as the temperature guard above, one dimension
+    # over, and it gets the same treatment: a hard feasibility constraint rather
+    # than a clamp. CHILLER_RANGE_LOG already counted these as PLR_out and
+    # nothing read it.
+    #
+    # Audited before the fix in src/chiller_feasibility_audit.py.
     t_lo, t_hi = CHILLER_TCWS_RANGE
-    envelope_ok = bool(t_lo <= T_wo <= t_hi)
+    temp_ok = bool(t_lo <= T_wo <= t_hi)
+
+    capft_ref = _biquad(CHILLER_CAPFT, 6.67, 29.44)
+    capft_here = _biquad(CHILLER_CAPFT, cond.get("T_chws_c", 7.0), T_wo) / capft_ref
+    q_avail = cond["Q_evap_kw"] * capft_here
+    plr_raw = cond["Q_evap_kw"] / max(q_avail, 1e-6)
+    capacity_ok = bool(plr_raw <= CHILLER_PLR_RANGE[1])
+
+    envelope_ok = temp_ok and capacity_ok
 
     m_acid = acid_kg_per_kg * wb["makeup"] * 3600.0
     cost = (tariffs["elec_per_kwh"] * p_total
@@ -440,6 +469,8 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
         "violations": violations,
         "feasible_at_skin": len(violations) == 0,
         "chiller_envelope_ok": envelope_ok,
+        "chiller_temp_ok": temp_ok, "chiller_capacity_ok": capacity_ok,
+        "chiller_plr_raw": float(plr_raw), "chiller_q_avail_kW": float(q_avail),
         "feasible": len(violations) == 0 and envelope_ok,
         "cost_per_h": cost,
     }

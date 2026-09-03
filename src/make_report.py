@@ -32,6 +32,8 @@ def main():
 
     ctrl_path = RESULTS / "controller_summary.json"
     ctrl = json.loads(ctrl_path.read_text()) if ctrl_path.exists() else None
+    _ann_path = RESULTS / "annual_dhahran.json"
+    _annual = json.loads(_ann_path.read_text()) if _ann_path.exists() else None
     v3 = pd.read_csv(RESULTS / "v3_skin_vs_bulk.csv") if (RESULTS / "v3_skin_vs_bulk.csv").exists() else None
     v5 = pd.read_csv(RESULTS / "v5_controller.csv") if (RESULTS / "v5_controller.csv").exists() else None
     v5b = pd.read_csv(RESULTS / "v5b_two_ceilings.csv") if (RESULTS / "v5b_two_ceilings.csv").exists() else None
@@ -378,24 +380,36 @@ def main():
           "controller at each bin centroid, weight by the hours actually "
           "spent there.")
         A("")
+        # COMPUTED, not typed. These three numbers were hardcoded as 14.83,
+        # 11.51 and -3.32. When defect 11 was fixed the controller re-ran and
+        # all three moved; the report would have gone on asserting the old
+        # ones, in a document the audit then checks other documents against.
+        _gate = float(ctrl["summary"]["water_pct"])
+        _ann_w = float(_annual["annual_water_pct"])
+        _ann_rot = float(_annual["annual_water_pct_ratio_of_totals"])
         A("| Metric | Makeup water saving |")
         A("|---|---|")
-        A("| Five-condition unweighted mean (gate V5) | 14.83 % |")
-        A("| **Hours-weighted annual, Dhahran TMYx** | **11.51 %** |")
-        A("| Difference | **-3.32 points** |")
+        A(f"| Five-condition unweighted mean (gate V5) | {_gate:.2f} % |")
+        A(f"| **Hours-weighted annual, Dhahran TMYx** | **{_ann_w:.2f} %** |")
+        A(f"| Difference | **{_ann_w - _gate:+.2f} points** |")
         A("")
         A("**The gate metric was flattering the product.** The saving is large "
-          "when it is hot and small when it is not -- 6.0 to 8.7 % across "
-          "the cooler half of the year, 13.8 to 18.4 % across the hotter "
-          "half -- and the five chosen conditions were four summer and one "
-          "winter. A real Dhahran year is not weighted that way.")
+          "when it is hot and small when it is not, and the five chosen "
+          "conditions were weighted toward summer. A real Dhahran year is not "
+          "weighted that way.")
         A("")
-        A("The figure that belongs in a commercial conversation is therefore "
-          "**11.5 % annually**, not 14.83 %. The higher number should not be "
-          "used outside the specific five-condition comparison it was "
-          "computed for. This is reported here rather than quietly dropped "
-          "because it was found while looking for a way to make a failed "
-          "gate pass, and it did the opposite.")
+        A(f"The figure that belongs in a commercial conversation is therefore "
+          f"**{_ann_w:.1f} % annually**, not {_gate:.2f} %. The higher number "
+          f"should not be used outside the specific five-condition comparison "
+          f"it was computed for. This is reported here rather than quietly "
+          f"dropped because it was found while looking for a way to make a "
+          f"failed gate pass, and it did the opposite.")
+        A("")
+        A(f"Quoted OUTSIDE this repository the figure is "
+          f"**{_ann_rot:.1f} %** -- the ratio of hours-weighted totals, cubic "
+          f"metres saved over cubic metres consumed. The {_ann_w:.1f} % above "
+          f"is an hours-weighted mean of ratios, which is the right object for "
+          f"comparing against the gate and the wrong one for a customer.")
         A("")
         A("The same calculation carries its own caveat: only "
           "**62.5 %** of the weighted year lies inside the wet-bulb "

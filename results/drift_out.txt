@@ -1,0 +1,26 @@
+Is the residual model deficiency, or fill drift?
+combined measurement uncertainty u_c = 0.217 K (expanded U = 0.434 K)
+
+WITHIN campaign (fitted and scored on the same campaign):
+  Exp1  n= 33  MAE=0.280 K  bias=-0.043  MAE/u_c=1.29  c=1.532 n=-0.602
+  Exp2  n=115  MAE=0.454 K  bias=-0.055  MAE/u_c=2.09  c=1.240 n=-0.501
+  Exp3  n= 17  MAE=0.262 K  bias=-0.013  MAE/u_c=1.21  c=1.383 n=-0.429
+
+ACROSS campaigns (fitted on one, scored on another):
+  Exp1 -> Exp2  n=115  MAE=0.510 K  bias=-0.288  MAE/u_c=2.35
+  Exp1 -> Exp3  n= 17  MAE=0.254 K  bias=+0.090  MAE/u_c=1.17
+  Exp2 -> Exp1  n= 33  MAE=0.586 K  bias=+0.469  MAE/u_c=2.70
+  Exp2 -> Exp3  n= 17  MAE=0.458 K  bias=+0.422  MAE/u_c=2.11
+  Exp3 -> Exp1  n= 33  MAE=0.420 K  bias=+0.032  MAE/u_c=1.94
+  Exp3 -> Exp2  n=115  MAE=0.592 K  bias=-0.431  MAE/u_c=2.73
+
+  mean WITHIN-campaign MAE : 0.332 K  (1.53 x u_c)
+  mean ACROSS-campaign MAE : 0.470 K  (2.17 x u_c)
+  drift penalty            : +0.138 K
+
+  identified fill coefficient c across campaigns: 1.240 to 1.532  (spread 21.1 % of mean)
+  identified exponent n across campaigns:         -0.602 to -0.429
+
+  VERDICT: MIXED. Within-campaign error is above the measurement uncertainty but the across-campaign penalty is also material; both effects are present.
+
+written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\drift.json

@@ -1,0 +1,220 @@
+{
+  "created": "2024-06-28T13:42:09.384783+00:00",
+  "modified": "2024-06-28T13:42:09.676834+00:00",
+  "id": 10806201,
+  "conceptrecid": "10806200",
+  "doi": "10.5281/zenodo.10806201",
+  "conceptdoi": "10.5281/zenodo.10806200",
+  "doi_url": "https://doi.org/10.5281/zenodo.10806201",
+  "metadata": {
+    "title": "Steady-state operation dataset of an experimental Wet Cooling Tower pilot plant located at Plataforma Solar de Almer\u00eda",
+    "doi": "10.5281/zenodo.10806201",
+    "publication_date": "2024-06-21",
+    "description": "<p>Repository that contains experimental data obtained from a Wet Cooling Tower (WCT) plant located at&nbsp;<a href=\"https://www.psa.es/es/index.php\">Plataforma Solar de Almer&iacute;a</a>.</p>\n<p>For the article \"Wet cooling tower performance prediction in CSP plants: A comparison between artificial neural networks and Poppe&rsquo;s model\", three experimental campaigns were used, quoting from the article:</p>\n<blockquote>\n<p>A total of 132 steady-state experimental points have been obtained thanks to the thorough experimentation conducted. These data cover a large variety of ambient conditions (different seasons, days and nights) and thermal loads (from 27 kW to 207 kW). &nbsp;</p>\n</blockquote>\n<p>&nbsp;</p>\n<p>See <code>README.md</code> for a more detailed description and instructions on how to use the data.</p>\n<h2><br>License</h2>\n<p><a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0. Attribution 4.0 International</a></p>\n<p>If the data is used as part of a scientific publication, please cite the source publication:</p>\n<div>\n<div>Serrano, Juan Miguel, Pedro Navarro, Javier Ruiz, Patricia Palenzuela, Manuel Lucas, and Lidia Roca. &ldquo;Wet Cooling Tower Performance Prediction in CSP Plants: A Comparison between Artificial Neural Networks and Poppe&rsquo;s Model.&rdquo; <em>Energy</em> 303 (September 15, 2024): 131844. <a href=\"https://doi.org/10.1016/j.energy.2024.131844\">https://doi.org/10.1016/j.energy.2024.131844</a>.</div>\n</div>",
+    "access_right": "open",
+    "creators": [
+      {
+        "name": "Palenzuela, Patricia",
+        "affiliation": "Centro de Investigaciones Energ\u00e9ticas, Medioambientales y Tecnol\u00f3gicas",
+        "orcid": "0000-0001-8044-969X"
+      },
+      {
+        "name": "Roca, Lidia",
+        "affiliation": "Centro de Investigaciones Energ\u00e9ticas Medioambientales y Tecnol\u00f3gicas",
+        "orcid": "0000-0002-8724-5136"
+      },
+      {
+        "name": "Serrano Rodr\u00edguez, Juan Miguel",
+        "affiliation": "Centro de Investigaciones Energ\u00e9ticas, Medioambientales y Tecnol\u00f3gicas",
+        "orcid": "0000-0001-8908-0323"
+      },
+      {
+        "name": "Centro de Investigaciones Energ\u00e9ticas, Medioambientales y Tecnol\u00f3gicas",
+        "affiliation": null
+      }
+    ],
+    "contributors": [
+      {
+        "name": "Cano Sola, Mario",
+        "affiliation": null,
+        "type": "DataCollector"
+      },
+      {
+        "name": "Ruiz Ram\u00edrez, Javier",
+        "affiliation": "Universitat de Miguel Hern\u00e1ndez d'Elx",
+        "type": "Researcher",
+        "orcid": "0000-0001-8331-2322"
+      },
+      {
+        "name": "Navarro Cobacho, Pedro",
+        "affiliation": "Universidad Polit\u00e9cnica de Cartagena",
+        "type": "Researcher"
+      }
+    ],
+    "keywords": [
+      "Modeling",
+      "Wet cooling tower",
+      "Experimental data",
+      "Combined cooling",
+      "Evaporative cooling",
+      "Cooling system"
+    ],
+    "related_identifiers": [
+      {
+        "identifier": "10.1016/j.energy.2024.131844",
+        "relation": "isCompiledBy",
+        "resource_type": "publication-article",
+        "scheme": "doi"
+      }
+    ],
+    "dates": [
+      {
+        "type": "collected",
+        "description": " ",
+        "start": "2019-10-15",
+        "end": "2023-10-18"
+      }
+    ],
+    "version": "1.0.0",
+    "references": [
+      "Juan Miguel Serrano et al., \"Wet Cooling Tower Performance Prediction in CSP Plants: A Comparison between Artificial Neural Networks and Poppe's Model,\" Energy 303 (September 15, 2024): 131844, https://doi.org/10.1016/j.energy.2024.131844.",
+      "P. Navarro et al., \"A Comparative Study on Predicting Wet Cooling Tower Performance in Combined Cooling Systems for Heat Rejection in CSP Plants,\" Applied Thermal Engineering, June 21, 2024, 123718, https://doi.org/10.1016/j.applthermaleng.2024.123718.",
+      "Serrano JM, Gil JD, Bonilla J, Palenzuela P, and Roca L. \"Operaci\u00f3n \u00f3ptima de un sistema de refrigeraci\u00f3n combinada.\" In XLIV Jornadas de Autom\u00e1tica (6, 7 y 8 de septiembre de 2023), Zaragoza, Spain. https://doi.org/10.17979/spudc.9788497498609.477",
+      "Serrano JM, Gil JD, Bonilla J, Palenzuela P, and Roca L. \"Optimal Operation of a Combined Cooling System\". In 4th IFAC Conference on Advances in Proportional-Integral-Derivative Control (June 12-14, 2024),  Almer\u00eda, Spain",
+      "Patricia Palenzuela et al., \"Experimental Assessment of a Pilot Scale Hybrid Cooling System for Water Consumption Reduction in CSP Plants,\" Energy 242 (March 1, 2022): 122948, https://doi.org/10.1016/j.energy.2021.122948."
+    ],
+    "language": "eng",
+    "custom": {
+      "code:codeRepository": "https://github.com/juan11iguel/wct_modelling",
+      "code:programmingLanguage": [
+        {
+          "id": "python",
+          "title": {
+            "en": "Python"
+          }
+        }
+      ],
+      "code:developmentStatus": {
+        "id": "active",
+        "title": {
+          "en": "Active"
+        }
+      }
+    },
+    "resource_type": {
+      "title": "Dataset",
+      "type": "dataset"
+    },
+    "journal": {
+      "title": "Energy",
+      "volume": "303"
+    },
+    "license": {
+      "id": "cc-by-4.0"
+    },
+    "grants": [
+      {
+        "code": "654479",
+        "internal_id": "10.13039/501100000780::654479",
+        "funder": {
+          "name": "European Commission",
+          "doi": "10.13039/501100000780",
+          "acronym": "EC"
+        },
+        "title": "Water Saving for Solar Concentrated Power",
+        "acronym": "WASCOP",
+        "program": "H2020-EU.3.3.",
+        "url": "https://cordis.europa.eu/projects/654479"
+      },
+      {
+        "code": "PID2021-126452OA-I00",
+        "internal_id": "05r0vyz12::PID2021-126452OA-I00",
+        "funder": {
+          "name": "Ministerio de Ciencia, Innovaci\u00f3n y Universidades"
+        },
+        "title": "SOLHYCOOL \u2014 Hybrid cooling solutions for water saving in solar thermal applications",
+        "url": "http://solhycool.psa.es/"
+      }
+    ],
+    "relations": {
+      "version": [
+        {
+          "index": 0,
+          "is_last": true,
+          "parent": {
+            "pid_type": "recid",
+            "pid_value": "10806200"
+          }
+        }
+      ]
+    }
+  },
+  "title": "Steady-state operation dataset of an experimental Wet Cooling Tower pilot plant located at Plataforma Solar de Almer\u00eda",
+  "links": {
+    "self": "https://zenodo.org/api/records/10806201",
+    "self_html": "https://zenodo.org/records/10806201",
+    "preview_html": "https://zenodo.org/records/10806201?preview=1",
+    "doi": "https://doi.org/10.5281/zenodo.10806201",
+    "self_doi": "https://doi.org/10.5281/zenodo.10806201",
+    "self_doi_html": "https://zenodo.org/doi/10.5281/zenodo.10806201",
+    "reserve_doi": "https://zenodo.org/api/records/10806201/draft/pids/doi",
+    "parent": "https://zenodo.org/api/records/10806200",
+    "parent_html": "https://zenodo.org/records/10806200",
+    "parent_doi": "https://doi.org/10.5281/zenodo.10806200",
+    "parent_doi_html": "https://zenodo.org/doi/10.5281/zenodo.10806200",
+    "self_iiif_manifest": "https://zenodo.org/api/iiif/record:10806201/manifest",
+    "self_iiif_sequence": "https://zenodo.org/api/iiif/record:10806201/sequence/default",
+    "files": "https://zenodo.org/api/records/10806201/files",
+    "media_files": "https://zenodo.org/api/records/10806201/media-files",
+    "archive": "https://zenodo.org/api/records/10806201/files-archive",
+    "archive_media": "https://zenodo.org/api/records/10806201/media-files-archive",
+    "latest": "https://zenodo.org/api/records/10806201/versions/latest",
+    "latest_html": "https://zenodo.org/records/10806201/latest",
+    "versions": "https://zenodo.org/api/records/10806201/versions",
+    "draft": "https://zenodo.org/api/records/10806201/draft",
+    "access_links": "https://zenodo.org/api/records/10806201/access/links",
+    "access_grants": "https://zenodo.org/api/records/10806201/access/grants",
+    "access_users": "https://zenodo.org/api/records/10806201/access/users",
+    "access_request": "https://zenodo.org/api/records/10806201/access/request",
+    "access": "https://zenodo.org/api/records/10806201/access",
+    "communities": "https://zenodo.org/api/records/10806201/communities",
+    "communities-suggestions": "https://zenodo.org/api/records/10806201/communities-suggestions",
+    "request_deletion": "https://zenodo.org/api/records/10806201/request-deletion",
+    "file_modification": "https://zenodo.org/api/records/10806201/file-modification",
+    "quota_increase": "https://zenodo.org/api/records/10806201/quota-increase",
+    "requests": "https://zenodo.org/api/records/10806201/requests"
+  },
+  "updated": "2024-06-28T13:42:09.676834+00:00",
+  "recid": "10806201",
+  "revision": 4,
+  "files": [
+    {
+      "id": "85b92ba0-e1b2-4e14-8373-7c4490509e73",
+      "key": "wct_pilot_plant_dataset.zip",
+      "size": 8030550,
+      "checksum": "md5:ac94e0076a9217b58e032a2545bf9fc4",
+      "links": {
+        "self": "https://zenodo.org/api/records/10806201/files/wct_pilot_plant_dataset.zip/content"
+      }
+    }
+  ],
+  "swh": {},
+  "owners": [
+    {
+      "id": "583377"
+    }
+  ],
+  "status": "published",
+  "stats": {
+    "downloads": 74,
+    "unique_downloads": 71,
+    "views": 262,
+    "unique_views": 247,
+    "version_downloads": 74,
+    "version_unique_downloads": 71,
+    "version_unique_views": 247,
+    "version_views": 262
+  },
+  "state": "done",
+  "submitted": true
+}

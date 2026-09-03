@@ -1,0 +1,25 @@
+Three days ago I posted that a cooling tower running on treated sewage effluent has two limits: an economic one around 9 cycles, a physical one around 10.
+
+The numbers were wrong. So was the framing, and that part matters more.
+
+The supported figures are 7 and 8. But I also wrote "the economic limit is ~9 cycles - past that, the acid needed to hold calcium carbonate in check costs more than the water it saves." That describes a cost curve that turns back up. On this water it never turns.
+
+Operating cost falls monotonically the whole way: 209 to 199 to 195 to 193 to 191 currency units per hour, from 3 cycles to 7. Seven is not an optimum. It is simply the last feasible point. Nothing in the money tells you to stop.
+
+What stops you is at 8 cycles, and it is gypsum saturating at the condenser tube wall.
+
+That is a worse situation than the one I originally described, and I had it right in the code the whole time. The script that produces these numbers carries a comment saying the two cases "must not be described with the same words," and prints different text for each. I then described them with the same words anyway.
+
+Why the distinction matters in practice: gypsum saturation is not pH-sensitive. The acid dose that buys you cycles against calcium carbonate does nothing against it. And the Langelier index most programmes control on describes calcite only - it cannot represent gypsum at all.
+
+So the economics push you straight at a hard wall, and the standard index cannot see the wall. An operator following the money with LSI-based control walks into it blind. There is no interior optimum to protect you and no warning from the instrument.
+
+The model itself is unchanged: Poppe heat and mass transfer coupled to ion-specific water chemistry, validated against a public experimental dataset to 0.54 K on measurements it had never seen.
+
+Full status, since I am correcting the record anyway. Prototype, no installed base. Our pre-registered water-saving gate failed - 14.8% against a 15% threshold - and stays reported as a failure. Over a Dhahran year the model gives 12.6% on makeup water, 8.2% on operating cost and 6.0% on electrical power.
+
+Same question as three days ago, and I still cannot answer it from a desk:
+
+What is your current cycles-of-concentration setpoint, and what set it?
+
+#DistrictCooling #CoolingTower #WaterTreatment #WaterReuse #EnergyEfficiency #Saudi #Qatar #HVAC #OpenScience

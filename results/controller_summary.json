@@ -23,10 +23,10 @@
       "total_cost_reduction_pct_min": 3.0,
       "skin_SI_violations_allowed": 0
     },
-    "water_pct": 14.832485098689034,
-    "cost_pct": 8.547996509359837,
+    "water_pct": 10.01913265061399,
+    "cost_pct": 6.366759044149494,
     "violations": 0,
-    "energy_pct": 4.908311663411833,
+    "energy_pct": 4.1708205738085065,
     "energy_pct_status": "REPORTED DIAGNOSTIC, NOT A PRE-REGISTERED GATE. Electrical power reduction was always inside the objective function -- cost = elec x P_total + water + acid + antiscalant -- but was never reported on its own. It is surfaced here because it is computed after the fact; registering a threshold for it now would be scoring a criterion chosen once the answer was known. Same status as the hours-weighted annual figures in results/annual_dhahran.json.",
     "baseline_unsafe_conditions": 0,
     "economic_ceiling_cycles": 7,
