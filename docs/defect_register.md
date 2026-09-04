@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Eighteen found, seventeen fixed, one open.
+## Part 1 — Defects. Nineteen found, eighteen fixed, one open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -35,11 +35,40 @@ This document lists both, separately, so neither can be mistaken for the other.
 | 16 | **The chiller was sized at ARI and asked to run a Gulf summer** | `q_avail = Q_evap_kw * capft_here` asserted the installed machine is exactly the size of the load *at ARI* — 6.67 °C chilled water, **29.44 °C entering condenser water**. No machine is selected that way. Once defect 11 made the capacity limit binding, **two of five design conditions had no feasible operating point at all**, which is a statement about the sizing, not about the Gulf. | **Fixed** — the machine is selected at the top of its own fitted range (35 °C), a **15.0 % margin**, and the same nominal now feeds both the capacity check and the power curve. **All five conditions are feasible again** and the V5b sweep is inside the envelope at every cycle count. `src/chiller_selection_audit.py` |
 | 17 | **The modelled makeup water fails charge balance and TDS closure** | `ARAMCO_RECLAIMED` carries **SO₄ = 566 mg/L**; a field write-up of the same Aramco pilot reports **300**. Two objective tests needing no outside authority both fail on the modelled set and both pass on the reported one: charge imbalance **−14.3 %** vs −3.2 %, and the ions sum to **1752 mg/L against a stated TDS of 1500** (+16.8 %) — a water cannot contain more ions than its own TDS. Sulfate is the number the gypsum wall rests on. | **OPEN** |
 | 18 | **Four documents told you to attach a figure that does not exist** | `linkedin_outreach.md`, `linkedin_post_draft.md`, `HANDOFF.md` and `robustness_gaps.md` all said *"Attach: `figs/two_ceilings.png`"*. There is no such file and there never was — the figure is written by `fig_water_ceiling` as `figs/water_ceiling.png`. A document instructing an action that cannot be performed is a defect, and this is the kind nobody finds until they are mid-post. | **Fixed** — all four corrected, and the audit now checks that every `` `figs/*.png` `` a document references actually exists. The check found the fourth one immediately |
+| 19 | **A sensitivity study asserted a conclusion its own table had stopped supporting** | `src/skin_sensitivity.py` printed a computed sweep of the gypsum wall against assumed skin ΔT, and then a paragraph of **hardcoded prose** underneath it: that a hotter skin makes gypsum look safer, that the 8 K assumption buys "about one extra cycle", and that the reported zero saturation violations was conditional on a fouled condenser. Defect 15 replaced the gypsum solubility model and the table changed; the paragraph did not. It also still quoted V5 at **14.83 %**, two supersessions out of date. Defects 12 and 13 one more time, in a file nobody thought to re-read. | **Fixed** — every conclusion is now derived from the computed rows, and the artefact records `ceiling_sensitive_to_skin_delta` rather than a remembered direction |
 | 14 | **The two headline ceilings are reported from a condition the machine cannot operate at** | `gate_v5b` sweeps cycles at one condition — *Dhahran summer humid*, fan 90 % — and reports **economic 7, physical 8**. That is one of the two conditions V5 discards as having no feasible solution, and its own output says `10 of 10 cycle counts sit outside the machine's validity envelope` (plr 1.097 against a 1.06 limit). `src/ceiling_condition_audit.py` re-runs the same sweep at the three conditions V5 *does* find feasible: both ceilings come back **one cycle lower, 6 and 7**, at all three, with every row inside the envelope. **Fixed** — but not by the reporting judgement this row originally called for. Defects 15 and 16 removed both causes: with gypsum on a temperature function that can turn over, the ceilings come out **6 and 7 at all five conditions**, and with the chiller selected properly the V5b sweep now sits **inside** the envelope at every cycle count. The condition-dependence was an artefact, not a fact about the water. |
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
 **Open defects: one.** — defect 17, declared above.
+
+### Defect 19, and the open item it closed
+
+Re-running `src/skin_sensitivity.py` against the corrected chemistry did not just
+fix the file. It changed the status of the largest remaining assumption in the
+package, and in the package's favour.
+
+Under the old van 't Hoff gypsum, the wall moved from 8 cycles to 7 across the
+clean-to-fouled skin band, so the hardcoded **+8 K was load-bearing** — every
+V3 and V5 result was proportional to a number nobody had measured. Under the
+`phreeqc.dat` solubility adopted in defect 15, `SI_gypsum` has an interior
+minimum at **44.5 °C** and the condenser skin sits near 40 °C, on the flat
+bottom of that curve. Measured across ΔT = **2.4 K to 8.0 K**:
+
+| skin ΔT | gypsum wall | last feasible |
+|---|---|---|
+| 2.4 K (clean, 20 kW/m²) | 7 | 6 |
+| 3.0 K | 7 | 6 |
+| 3.7 K (clean, 30 kW/m²) | 7 | 6 |
+| 5.0 K (lightly fouled) | 7 | 6 |
+| 8.0 K (the value every gate used) | 7 | 6 |
+
+**The ceilings do not move at all.** Two consequences, and both were previously
+recorded the other way round: the reported zero saturation violations is **not**
+conditional on a fouled condenser, and the 8 K literal is no longer load-bearing
+for either ceiling. It should still be replaced by a call to `wall_bulk_delta_t`,
+because an assumption that happens not to bind is still an assumption — but it is
+no longer the thing to fix first.
 
 ### Defect 11, and what it cost
 
@@ -59,12 +88,48 @@ Found 3 September 2026 by a pre-registered physics gate in `src/fouling_energy.p
 | Annual electrical power, ratio of totals [†] | 6.0 % | **4.20 %** |
 | Conditions with a feasible optimum | 5 | **3** |
 | Cycles the optimiser reaches | 7 | **6** |
+| *every figure above* | | *superseded again on 4 Sep by defects 15 and 16 — see the next table* |
 
 [†] Every other "before" in this table is read from a committed artefact. This one is not: `annual_dhahran.json` gained its `*_ratio_of_totals` keys after the previous commit and was next committed with the fix already applied, so **the pre-fix value survives only in the documents that quoted it** — at one decimal place. That is a gap in the evidence, and it is recorded rather than rounded over. **Commit the artefact before the fix, not just after it.**
 
 The old figures were bought in a region where the machine could not make its duty. **A saving computed where the plant cannot operate is not a saving** — the same sentence defect 5 was fixed with, one dimension over.
 
-**What did not move:** the gypsum ceiling. Economic ceiling 7 cycles, physical ceiling 8, binding mineral gypsum, cost falling monotonically. None of it goes through the chiller curve, so the two-ceilings result and the figure built on it stand unchanged.
+**What did not move:** the gypsum ceiling. Economic ceiling 7 cycles, physical ceiling 8, binding mineral gypsum, cost falling monotonically. None of it goes through the chiller curve, so the two-ceilings result and the figure built on it stand unchanged. *(Written 3 September and true of defect 11. Defects 15 and 16 moved the ceilings the next day, for reasons that do not go through the chiller curve either — see immediately below. The pair is now **6 and 7**.)*
+
+### Defects 15 and 16, and what they moved
+
+Recorded here in the same form as defect 11, because that is what makes the
+supersession scan work. `superseded_from_register()` reads this table, so any
+document still quoting the 4 September figures is found by
+`python src/audit.py` rather than by someone remembering.
+
+**They moved every headline number again, and this time not all in one direction:**
+
+| | before | after |
+|---|---|---|
+| V5 makeup water | 10.02 % | **10.83 %** |
+| V5 total cost | 6.37 % | **5.75 %** |
+| Electrical power | 4.17 % | **2.86 %** |
+| Annual water, ratio of totals | 9.23 % | **8.81 %** |
+| Annual cost, ratio of totals | 5.87 % | **6.44 %** |
+| Annual electrical power, ratio of totals | 4.20 % | **5.36 %** |
+| Annual water, hours-weighted mean of ratios | 8.92 % | **8.42 %** |
+| Annual cost, hours-weighted mean of ratios | 6.53 % | **7.04 %** |
+| Annual electrical power, hours-weighted mean of ratios | 5.27 % | **6.41 %** |
+| Economic ceiling | 7 | **6** |
+| Physical (gypsum) ceiling | 8 | **7** |
+
+The mixed signs are the interesting part and they are not a wash. Defect 16 gave
+the machine back the two conditions defect 11 had removed, so the **annual**
+figures are once more averaged over a plant that can run a Gulf summer — cost and
+energy both rise. Defect 15 made gypsum retrograde at the skin as it should always
+have been, which tightens the wall by a cycle and takes the annual water figure
+down with it. **The water saving got smaller and the energy saving got larger,
+which cuts against the way this product has been pitched** — see
+`docs/prior_art_esc.md`, where the energy half is already prior art seven times over.
+
+The V5 water gate still fails, and by more in substance than before: 15 % needs
+8.5 cycles and gypsum now saturates at **7**, not 8.
 
 ### Defect 17, and why it is open rather than fixed
 
@@ -125,8 +190,8 @@ Both are now consistency checks against the artefacts rather than string compari
 | V1 outlet water temperature MAE | ≤ 1.00 K | 0.542 K | **PASS** |
 | V1 heat rejection MAPE | ≤ 6.00 % | 5.94 % | **PASS** |
 | V2 water consumption MAPE | ≤ 8.00 % | 9.90 % | **FAIL** |
-| V5 total cost reduction | ≥ 3 % | 6.37 % | **PASS** |
-| V5 makeup water reduction | ≥ 15 % | 10.02 % | **FAIL** |
+| V5 total cost reduction | ≥ 3 % | 5.75 % | **PASS** |
+| V5 makeup water reduction | ≥ 15 % | 10.83 % | **FAIL** |
 | V5 skin saturation violations | 0 | 0 | **PASS** |
 
 ### V2 — failed, and the cause is now established
@@ -158,15 +223,15 @@ Makeup water is evaporation × C/(C−1), so the saving available from raising c
 
 | Cycles | Makeup saved vs 4 cycles |
 |---|---|
-| 7 | 12.50 % |
+| **7** | **12.50 %** ← the gypsum wall |
 | 8 | 14.29 % |
 | **8.5** | **15.00 %** ← the criterion |
 | 10 | 16.67 % |
 | ∞ | 25.00 % (zero blowdown, the absolute ceiling) |
 
-Gypsum saturates at **8 cycles** on this makeup water, and gypsum saturation is not pH-sensitive, so the acid dose that buys cycles against calcite cannot move it. The criterion required 8.5 cycles. It was written on the far side of a wall that had not been located yet.
+Gypsum saturates at **7 cycles** on this makeup water, and gypsum saturation is not pH-sensitive, so the acid dose that buys cycles against calcite cannot move it. The criterion required 8.5 cycles. It was written on the far side of a wall that had not been located yet — and defect 15 moved that wall in by one more cycle, so the criterion is now further out of reach than when it was set, not closer.
 
-The controller reaches 10.02 %, which is more than cycles alone can deliver, because it also lowers evaporation. **No control strategy of any kind reaches 15 % on this water.**
+The controller reaches 10.83 %, which is more than cycles alone can deliver, because it also lowers evaporation. **No control strategy of any kind reaches 15 % on this water.**
 
 The pre-registration was **mis-specified, not missed**. The lesson is stated in the handoff for the next time: check a threshold against the system's physical ceiling before fixing it.
 
@@ -180,7 +245,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 |---|---|---|
 | Almería wet-bulb tops at 21.9 °C; **40.5 % of a Dhahran year is above it** (3,551 of 8,760 h, 84 % of September) | **Unknown** — the only two-sided one, and now sized rather than described | KFUPM's humidifying wind tunnel. Not closable by argument, and the physics-informed surrogate is a mitigation, not a substitute |
 | Model error 2.48× measurement uncertainty | Against us | More campaigns, or a better fill model. Reported as a negative result |
-| **Skin temperature rise is a hardcoded +8 K.** The film calculation in the codebase gives 2.4-3.7 K clean; 8 K is a fouled surface | **Against us.** A hotter assumed skin makes gypsum look safer, so the 8 K value buys about one cycle of apparent headroom. At a clean 3 K the wall moves from 8 cycles to 7 | `src/skin_sensitivity.py` puts it on the record; the heated-coupon rig measures it |
+| **Skin temperature rise is a hardcoded +8 K.** The film calculation in the codebase gives 2.4-3.7 K clean; 8 K is a fouled surface | **Neutral, and no longer load-bearing.** Re-measured 4 Sep against the corrected gypsum solubility: `SI_gypsum` has an interior minimum at 44.5 °C and the skin sits near 40 °C, so across the whole band 2.4-8.0 K the wall stays at **7 cycles** and the last feasible count at **6**. The previous entry said this bought about one cycle of apparent headroom; that was true of the van 't Hoff model and is not true of this one | `src/skin_sensitivity.py`, now deriving its own conclusions (defect 19). The heated-coupon rig still measures the real ΔT |
 | Magnesium-silicate SI threshold | Unknown | Handled by the empirical Mg × SiO₂ product instead of asserted |
 | OpenModelica leg | Neutral | Written, not installed, not run. Makes no claim |
 | **Acid dosing at high cycles may make the water corrosive, and the controller has no corrosion term.** EPRI warns that sulphuric acid replaces protective alkalinity with corrosive sulphate as cycles rise. **Two operators and a 1992 training syllabus now say this is the first constraint a practitioner sets, not a refinement** | **Against us**, and more sharply than when this line was written. The optimiser searches pH 7.0–9.0 against saturation only, with no corrosion floor. Field evidence in `docs/discovery_findings.md`: a plant chemist holds LSI at **0.8–1.0** deliberately, because a thin carbonate film **is** the corrosion defence; a textile engineer sets the pH window from **metallurgy** before anything else; and the 1992 course notes list *"calcium carbonate protective scale"* as a corrosion-control method. An optimiser driving toward LSI ≈ 0 strips that film | Potentiostat and coupon work in the KFUPM corrosion laboratory. **And before that, a corrosion floor in the optimiser** — this is now a specification, not an open question |

@@ -7,7 +7,7 @@
    "wall_cycles": 7,
    "binding_mineral": "SI_gypsum",
    "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 192.839487052099
+   "cost_per_h_at_last_feasible": 204.84739438204983
   },
   {
    "skin_delta_k": 3.0,
@@ -16,7 +16,7 @@
    "wall_cycles": 7,
    "binding_mineral": "SI_gypsum",
    "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 192.84140859037726
+   "cost_per_h_at_last_feasible": 204.84933560194622
   },
   {
    "skin_delta_k": 3.7,
@@ -25,7 +25,7 @@
    "wall_cycles": 7,
    "binding_mineral": "SI_gypsum",
    "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 192.84363978910298
+   "cost_per_h_at_last_feasible": 204.8515895314744
   },
   {
    "skin_delta_k": 5.0,
@@ -34,16 +34,16 @@
    "wall_cycles": 7,
    "binding_mineral": "SI_gypsum",
    "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 192.84775080264578
+   "cost_per_h_at_last_feasible": 204.85574209126682
   },
   {
    "skin_delta_k": 8.0,
    "case": "FOULED -- the value every gate in this package used",
-   "last_feasible": 7,
-   "wall_cycles": 8,
+   "last_feasible": 6,
+   "wall_cycles": 7,
    "binding_mineral": "SI_gypsum",
-   "water_pct_from_cycles_at_last_feasible": 12.49999999999999,
-   "cost_per_h_at_last_feasible": 191.21545258324394
+   "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
+   "cost_per_h_at_last_feasible": 204.92731482974924
   }
  ],
  "hardcoded_value_used_by_all_gates": 8.0,
@@ -51,7 +51,15 @@
   2.4,
   3.7
  ],
- "direction": "A hotter assumed skin makes gypsum look SAFER, because its log_K is nearly temperature-independent and the Debye-Huckel A parameter rises with temperature, suppressing the 2:2 Ca/SO4 activity coefficients. The 8 K value is therefore NOT conservative for the binding mineral; it buys about one extra cycle of apparent headroom.",
- "consequence": "The V5 optimum operates at 7 cycles, which is feasible only at 8 K. At the clean-surface 2.4-3.7 K this package's own film calculation gives, 7 cycles is a gypsum violation. The reported zero saturation violations is conditional on a fouled condenser.",
- "note": "Sensitivity only. No gate is rescored. V5 was scored at 8.0 K and remains failed at 14.83 % against 15 %. The mis-specified-threshold diagnosis survives and strengthens: at a clean skin the wall is at 7 cycles, so the 15 % criterion is further out of reach, not closer."
+ "si_gypsum_minimum_C": 44.5,
+ "wall_cycles_across_band": [
+  7
+ ],
+ "last_feasible_across_band": [
+  6
+ ],
+ "ceiling_sensitive_to_skin_delta": false,
+ "direction": "SI_gypsum has an interior minimum at 44.5 C under the phreeqc.dat analytic solubility adopted in defect 15, and the condenser skin sits near 40 C, on the flat bottom of that curve. Across dT = 2.4-8.0 K the gypsum wall does not move at all.",
+ "consequence": "The ceilings are insensitive to the hardcoded 8.0 K over the whole clean-to-fouled band: wall 7 cycles, last feasible 6 cycles at every value tested. The reported zero saturation violations is NOT conditional on a fouled condenser. This supersedes the pre-defect-15 finding, which had the wall moving by one cycle across the same band.",
+ "note": "Sensitivity only. No gate is rescored. Every conclusion in this artefact is computed from skin_cases above rather than asserted -- defect 19, which is what this file used to do wrong."
 }

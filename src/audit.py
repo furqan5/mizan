@@ -107,7 +107,42 @@ def superseded_from_register() -> dict[str, str]:
         "6.48 %": "the pre-chiller-fix cost saving",
         "14.64 %": "the unconverged-solver water saving",
     })
+    # A ROUNDED stale form that collides with a number the artefacts hold RIGHT
+    # NOW is not evidence of staleness, it is a coincidence of one decimal
+    # place -- and flagging it is how a check earns the reputation that gets it
+    # ignored. The docstring above already warned about this class: 6.48 rounds
+    # onto a live 6.5. Defects 15 and 16 made it bite for real, because the
+    # pre-fix V5 cost of 6.37 % and the CURRENT annual cost of 6.44 % both
+    # round to "6.4 %". So the live set is computed from the artefacts and
+    # subtracted, rather than the collisions being listed by hand -- which is
+    # the whole lesson of defects 12 and 13.
+    for tok in _live_rounded_forms():
+        if tok in ROUNDED:
+            ROUNDED.discard(tok)
+            out.pop(tok, None)
+            PAIRS.pop(tok, None)
     return out
+
+
+def _live_rounded_forms() -> set[str]:
+    """Every current headline figure, rounded to one decimal, as "N.N %"."""
+    live: set[str] = set()
+    for name in ("controller_summary.json", "annual_dhahran.json",
+                 "calibration.json"):
+        path = RESULTS / name
+        if not path.exists():
+            continue
+        def walk(node):
+            if isinstance(node, dict):
+                for v in node.values():
+                    walk(v)
+            elif isinstance(node, list):
+                for v in node:
+                    walk(v)
+            elif isinstance(node, float):
+                live.add(f"{node:.1f} %")
+        walk(json.loads(path.read_text(encoding="utf-8")))
+    return live
 
 
 def artefact_value(spec: str):

@@ -23,9 +23,9 @@ There are only three honest responses to a threshold that turns out to have been
 
 ## V5 — makeup water reduction
 
-Pre-registered: **≥ 15 %**. Achieved: **10.02 %**. Failed by 4.98 points.
+Pre-registered: **≥ 15 %**. Achieved: **10.83 %**. Failed by 4.17 points.
 
-> **Rewritten 4 September 2026.** This memo was first written on 30 August against the pre-defect-11 artefacts, when V5 scored 14.83 % and the miss was 0.17 points. Enforcing the chiller capacity limit moved it to 10.02 %. Every number below has been recomputed. **The recommendation did not change — it got stronger — but one of the three options died**, and that is recorded rather than quietly dropped.
+> **Rewritten twice on 4 September 2026.** First written 30 August against the pre-defect-11 artefacts, when V5 scored 14.83 % and the miss was 0.17 points. Enforcing the chiller capacity limit moved it to 10.02 %, and killed option B. Defects 15 and 16 then moved it again to **10.83 %** — the chiller was given a realistic selection, so all five conditions are feasible once more, and gypsum was given a solubility that can turn over, which pulled the wall in from 8 cycles to **7**. Every number below is recomputed from the current artefacts. **The recommendation has not changed through any of it. It has only got stronger**, because the gap the threshold has to cross is now bounded by a wall one cycle nearer.
 
 ### What the number is actually made of
 
@@ -33,9 +33,9 @@ Makeup water is evaporation × C/(C−1), so raising cycles of concentration buy
 
 | Cycles | Saving from cycles alone |
 |---|---|
-| 4 → 6 | 10.00 % ← **where the optimiser actually lands**, once the chiller capacity limit is enforced |
-| 4 → 7 | 12.50 % ← the economic ceiling from the fixed-fan sweep |
-| 4 → 8 | 14.29 % ← the gypsum wall itself, infeasible |
+| 4 → 6 | 10.00 % ← **where the optimiser actually lands**, and the last chemistry-feasible count |
+| 4 → 7 | 12.50 % ← **the gypsum wall itself**, infeasible |
+| 4 → 8 | 14.29 % |
 | 4 → 8.5 | 15.00 % ← **what the criterion required** |
 
 Gypsum saturation is not pH-sensitive, so acid — the lever that buys cycles against calcite — cannot move that wall. The remainder of the achieved saving comes from lowering evaporation by backing the fan off, which is bounded by the chiller's 35 °C entering-condenser ceiling.
@@ -44,24 +44,31 @@ Gypsum saturation is not pH-sensitive, so acid — the lever that buys cycles ag
 
 | Condition | Water saving |
 |---|---|
-| Dhahran summer peak | 10.02 % |
-| Dhahran shoulder | 11.59 % |
-| Gulf winter | 8.45 % |
-| **unweighted mean** | **10.02 %** |
+| Dhahran summer peak | 12.71 % |
+| Dhahran summer humid | 12.23 % |
+| Dhahran shoulder | 7.27 % |
+| Doha summer humid | 12.64 % |
+| Gulf winter | 9.29 % |
+| **unweighted mean** | **10.83 %** |
 
-**This is where the memo reverses.** In its first version four of five conditions cleared 15 % on their own and the gate failed only on the mean. Enforcing the chiller capacity limit removed two conditions as infeasible outright and cut the rest: **none of the 3 surviving conditions now clears 15 %, and the best of them reaches 11.59 %.** The old margin was bought in a region where the machine could not make its duty.
+**All five conditions are feasible again.** Defect 16 restored the two the chiller could not
+previously serve — it had been sized at its rating point rather than at a Gulf design condition —
+so the mean is once more taken over the full set rather than over three survivors. **Not one of
+the five clears 15 %**, and the best reaches 12.71 %. In the 30 August version four of five
+cleared it and the gate failed only on the mean; that margin was bought in a region where the
+machine could not make its duty, and it has not come back.
 
-The optimiser lands on 6 cycles in all 3 conditions, and almost all of the water saving is the cycles term.
+The optimiser lands on 6 cycles in all five conditions, and almost all of the water saving is the
+cycles term.
 
-**The first version of this memo claimed 14.83 % was “the physical ceiling for this water, this plant and this machine”. That sentence does not survive, and it should not be reinstated with the new number substituted in.** The gypsum wall permits 8 cycles, worth 14.29 % on cycles alone. The optimiser reaches 6, worth 10.00 %. So 10.02 % is *where the optimiser stops*, not a physical ceiling — there are more than four points of water between it and the chemistry limit, and nothing in this package yet explains who is holding them.
+**An earlier version of this memo claimed 14.83 % was “the physical ceiling for this water, this plant and this machine”, a figure since superseded twice. That sentence does not survive, and it should not be reinstated with the new number substituted in.** The gypsum wall permits 7 cycles, worth 12.50 % on cycles alone. The optimiser reaches 6, worth 10.00 %. So 10.83 % is *where the optimiser stops*, not a physical ceiling — though the gap to the chemistry limit is now **1.67 points rather than more than four**, because defect 15 moved the wall in. That is a materially different statement: there is much less unexplained headroom than the previous version of this memo reported.
 
-Cycles alone, 4 → 6, is worth 10.00 %. The mean comes out at 10.02 %. **That near-equality is a
-coincidence and should not be quoted as an identity**: per condition the air-side lever moves the
-water result by up to ±1.6 points either way — Dhahran shoulder gains 1.59 points because the
-optimiser slows the fan, Gulf winter loses 1.55 because it speeds the fan up to buy 12.09 % of
-electrical saving — and across the three surviving conditions those two nearly cancel. Averaged,
-the water benefit looks like pure chemistry headroom. It is not; it is chemistry headroom plus an
-air-side trade that happens to net to roughly zero on this particular set of three.
+Cycles alone, 4 → 6, is worth 10.00 %; the mean comes out at 10.83 %, so the air-side lever
+contributes 0.83 points net. **Do not quote that as an identity.** Per condition it ranges from
+**−2.73 points** at Dhahran shoulder, where the optimiser speeds the fan up, to **+2.71** at
+Dhahran summer peak, where it slows the fan down and spends 1.79 % more electrical power to do
+it. Averaged, the water benefit looks like pure chemistry headroom. It is not; it is chemistry
+headroom plus an air-side trade whose sign changes with the weather.
 
 ### Two different walls are being reported as one
 
@@ -120,8 +127,8 @@ Recorded as **defect 14, open** — open because the fix is a reporting judgemen
 | | Revision | Result | Argument for | Argument against |
 |---|---|---|---|---|
 | **A** | Leave it failed | FAIL | Nothing to defend. The evidence record is clean and a reviewer sees a team that reports its own misses. | A headline number reads as a failure when the product is at its physical limit. |
-| **B** | Re-register to **≥ 12.4 %**, anchored to the last feasible cycle count | **DEAD.** 10.02 % → still **FAIL** | — | This was the fallback in the 30 August version, where it converted 14.83 % into a pass. It no longer converts anything: 10.02 % misses 12.4 % as well. **The option that existed only because the result was close to the threshold disappeared when the result moved.** Worth noticing on its own — a revision argued for on principle turned out to be worth proposing only while it happened to work. |
-| **C** | Re-register the metric as an **hours-weighted** annual average | **8.92 % → still FAIL, and still worse** | An unweighted mean over five arbitrary conditions is not a physical quantity; a Gulf plant spends far more hours in summer than winter. | **Computed. It makes the number worse by 1.10 points.** Smaller than the 3.32-point gap in the first version, because defect 11 cut the summer conditions that were doing the flattering. Still not a route to a pass. |
+| **B** | Re-register to **≥ 12.4 %**, anchored to the last feasible cycle count | **DEAD.** 10.83 % → still **FAIL** | — | This was the fallback in the 30 August version, where it converted 14.83 % into a pass. It no longer converts anything: 10.83 % misses 12.4 % as well. **The option that existed only because the result was close to the threshold disappeared when the result moved.** Worth noticing on its own — a revision argued for on principle turned out to be worth proposing only while it happened to work. Note that re-anchoring it to the *current* wall would make it stricter still: 7 cycles is 12.50 %. |
+| **C** | Re-register the metric as an **hours-weighted** annual average | **8.42 % → still FAIL, and still worse** | An unweighted mean over five arbitrary conditions is not a physical quantity; a Gulf plant spends far more hours in summer than winter. | **Computed. It makes the number worse by 2.41 points** — wider than the 1.10 points it cost after defect 11, and wider again than the 3.32-point gap in the first version is narrow. Still not a route to a pass, and now further from one. |
 
 ---
 
@@ -174,26 +181,28 @@ Option C — re-registering the metric as an hours-weighted annual average — w
 
 | | Water saving |
 |---|---|
-| Five-condition unweighted mean — what the V5 gate scores | 10.02 % |
-| **Hours-weighted annual, real Dhahran year** | **8.92 %** |
-| Difference | **−1.10 points** |
+| Five-condition unweighted mean — what the V5 gate scores | 10.83 % |
+| **Hours-weighted annual, real Dhahran year** | **8.42 %** |
+| Difference | **−2.41 points** |
 
-The reason is visible in the bins. The saving is large when it is hot and small when it is not:
+The reason is visible in the bins. The saving is largest in the hottest bin and smallest in the
+middle of the year:
 
 | Half of the year | Water saving by bin | Same bins, 30 August |
 |---|---|---|
-| Cooler half (wet-bulb 9.7–19.3 °C) | 8.2, 8.7, 6.4, 6.0 % | 8.2, 8.7, 6.4, 6.0 % — **unchanged** |
-| Hotter half (wet-bulb 21.4–28.5 °C) | 10.0, 11.9, 10.0, 10.0 % | 14.1, 13.8, 16.4, 18.4 % — **superseded** |
+| Cooler half (wet-bulb 9.7–19.3 °C) | 8.2, 8.6, 6.6, 6.0 % | 8.2, 8.7, 6.4, 6.0 % — **essentially unchanged** |
+| Hotter half (wet-bulb 21.4–28.5 °C) | 5.6, 8.3, 10.0, 14.0 % | 14.1, 13.8, 16.4, 18.4 % — **superseded** |
 
-The third column is the most useful thing in this memo. Defect 11 left the cool half of the year
-**bit-for-bit unchanged** and cut the hot half by four to eight points. That is exactly the
-signature the diagnosis predicts: the chiller capacity limit can only bind when the condenser is
-hot. The defect was not spread across the model, it was concentrated in the half of the year the
-product is sold for.
+The third column is the most useful thing in this memo. Two successive fixes left the cool half of
+the year almost exactly where it was and rewrote the hot half — first defect 11 cut it by four to
+eight points, then defects 15 and 16 redistributed what remained. That is exactly the signature
+both diagnoses predict: a chiller capacity limit and a chiller selection can only bind when the
+condenser is hot. The corrections were not spread across the model, they were concentrated in the
+half of the year the product is sold for.
 
 The five hand-picked conditions were four summer and one winter. A real Dhahran year is not weighted that way, so **the gate's metric was flattering the product by more than three points.** Weighting it honestly removes that.
 
-**This kills option C as a route to a passing gate**, and it does something more useful instead: it says the number to quote to a customer is the annual one, **not** the 10.02 % the gate scores. Two annual figures exist and they are not interchangeable — the hours-weighted mean of ratios is 8.92 %, and the ratio of hour-weighted totals is **9.23 %**. `annual_dhahran.json` says in its own `weighting_note` that the ratio of totals is the one to quote outside this repository, so **9.23 % is the commercial figure**. The 10.02 % should not be used outside the specific five-condition comparison it was computed for.
+**This kills option C as a route to a passing gate**, and it does something more useful instead: it says the number to quote to a customer is the annual one, **not** the 10.83 % the gate scores. Two annual figures exist and they are not interchangeable — the hours-weighted mean of ratios is 8.42 %, and the ratio of hour-weighted totals is **8.81 %**. `annual_dhahran.json` says in its own `weighting_note` that the ratio of totals is the one to quote outside this repository, so **8.81 % is the commercial figure**. The 10.83 % should not be used outside the specific five-condition comparison it was computed for.
 
 It also carries its own caveat, from the same file: only **62.5 %** of the weighted year lies inside the wet-bulb envelope the model was validated in. The remaining 37.5 % rests on extrapolation, which no weighting scheme can fix.
 

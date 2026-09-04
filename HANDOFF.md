@@ -49,19 +49,21 @@ V1  outlet water temp MAE      0.542 K   <= 1.00 K    PASS
 V1  heat rejection MAPE        5.94 %    <= 6.00 %    PASS
 V2  evaporation vs measured    9.90 %    <= 8.00 %    FAIL, and now DIAGNOSED
 V3  bulk overstates limit      6.9-7.1 % typical, 15.2-15.6 % fouled
-V5  total cost reduction       6.37 %    >= 3 %       PASS
-V5  makeup water reduction     10.02 %   <  15 %      FAIL, reported as a failure
+V5  total cost reduction       5.75 %    >= 3 %       PASS
+V5  makeup water reduction     10.83 %   <  15 %      FAIL, reported as a failure
 V5  skin SI violations         0                      PASS
-V5b physical wall              8 cycles, gypsum -- and the cost curve NEVER TURNS OVER
-                               before it. Cost falls monotonically to 7, the last
+V5b physical wall              7 cycles, gypsum -- and the cost curve NEVER TURNS OVER
+                               before it. Cost falls monotonically to 6, the last
                                feasible point. There is no interior economic optimum
                                on this water; the economics point straight at the wall.
-ENERGY (reported, NOT a gate)  4.17 % mean total electrical power reduction across
-                               the 3 feasible V5 conditions; 12.09 % in the winter one.
-                               4.20 % across a Dhahran year, as a ratio of totals --
+ENERGY (reported, NOT a gate)  2.86 % mean total electrical power reduction across
+                               all 5 V5 conditions; 12.35 % in the winter one, and
+                               -1.79 % at Dhahran summer peak, where the optimiser
+                               correctly SPENDS power to save water.
+                               5.36 % across a Dhahran year, as a ratio of totals --
                                and essentially ALL of it comes from the cool half of
-                               the year. In the four hottest of eight equal-hour bins
-                               the electrical saving is under 0.6 %.
+                               the year: 10.37 % across the cool half against 2.06 %
+                               across the hot half.
 V6  Mg-silicate envelope       safe <34 C skin; depositing >46 C at Gulf pH 8.5-9.0
 ```
 
@@ -78,15 +80,18 @@ and `annual.py` now emit it. **It is a reported diagnostic, not a pre-registered
 attaching a threshold after seeing the answer is not a test.
 
 **The finding that came out of it.** Across eight equal-hour wet-bulb bins of a Dhahran
-year the energy saving and the water saving are **anti-correlated, r = -0.664**:
+year the energy saving and the water saving are **anti-correlated, r = -0.548**:
 
 ```
-cool half (4,380 h, wb  9.7-19.3 C)   energy 10.40 %   water  7.34 %   cost 9.18 %
-hot  half (4,380 h, wb 21.4-28.5 C)   energy  2.96 %   water 15.69 %   cost 7.49 %
-hours-weighted year                   energy  6.68 %   water 11.51 %   cost 8.33 %
+cool half (4,380 h, wb  9.7-19.3 C)   energy 10.37 %   water  7.18 %   cost 9.10 %
+hot  half (4,380 h, wb 21.4-28.5 C)   energy  2.06 %   water  9.79 %   cost 4.74 %
+hours-weighted year                   energy  5.36 %   water  8.81 %   cost 6.44 %
 ```
 
-Total cost saving stays between **5.6 % and 10.9 % in every bin**, produced by a
+*(Ratios of hour-weighted totals, recomputed 4 Sep after defects 15 and 16. The
+anti-correlation is now r = -0.548 across the eight bins.)*
+
+Total cost saving stays between **3.6 % and 10.4 % in every bin**, produced by a
 different physical mechanism in each half. A water controller collects almost nothing
 across the cool half; an energy optimiser collects almost nothing across the hot half.
 **This is the strongest argument in the package for coupling the two models**, and it was
@@ -141,11 +146,11 @@ gate measures how fast a fixed characteristic goes stale.**
 `docs/defect_register.md`, which separates defects (nine found, nine fixed,
 none open) from gate outcomes (two failed, both diagnosed).
 
-**The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **8**. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.02 %, and after defect 11 it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever moving individual conditions by up to +-1.6 points and very nearly cancelling across the 3 that survive.
+**The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 %, and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
 
-**Two different walls are being reported as one, and this needs a decision.** V5 stops at 6 cycles, which its own log calls "the chemistry constraint boundary", at the three conditions that survive the capacity limit. V5b reports the gypsum wall at 8 -- but V5b runs at *Dhahran summer humid*, one of the two conditions V5 **discards as infeasible**, and its output says `10 of 10 cycle counts sit outside the machine's validity envelope`. **Now measured** by `src/ceiling_condition_audit.py`, which re-runs the sweep at five conditions. The published pair (7, 8) reproduces ONLY at the two variants of the condition where no row is inside the envelope. At all three conditions V5 finds feasible, the ceilings are **6 and 7**, with every row inside the envelope. The gypsum wall moves because gypsum is PROGRADE here -- a hotter skin looks safer -- and the published condition is both the hottest and the one the machine cannot serve, so it gains a cycle on both counts.
+**Two different walls were being reported as one. RESOLVED 4 September.** V5 stops at 6 cycles, which its own log calls "the chemistry constraint boundary". V5b used to report the gypsum wall at 8 -- but it ran at *Dhahran summer humid*, one of the two conditions V5 then discarded as infeasible, and its output said `10 of 10 cycle counts sit outside the machine's validity envelope`. Registered as defect 14 and **closed the same day by defects 15 and 16 rather than by a reporting judgement**: with gypsum on a solubility that can turn over, and the chiller selected at design rather than at ARI, the ceilings come out **6 and 7 at all five conditions**, every row inside the envelope. The condition-dependence was an artefact, not a fact about the water.
 
-Registered as **defect 14, OPEN**. The two-ceilings *result* is unharmed: two distinct limits, binding mineral gypsum, invisible to LSI -- all reproduce at every condition. What is wrong is the pair of integers in the figures and the public post. **The pre-registration was mis-specified, not merely missed** — check a threshold against the system's physical ceiling before fixing it.
+The two-ceilings *result* was never in doubt and is unchanged: two distinct limits, binding mineral gypsum, invisible to LSI. What moved is the pair of integers, and **6 and 7 are now the most stable numbers in the package** -- they no longer move with the weather, and defect 19 showed they no longer move with the assumed skin temperature either. **The pre-registration was mis-specified, not merely missed** -- check a threshold against the system's physical ceiling before fixing it.
 
 ---
 
@@ -210,14 +215,23 @@ Registered as **defect 14, OPEN**. The two-ceilings *result* is unharmed: two di
 Splitting the annual money saved across levers, at published tariffs: `[C]`
 
 ```
-water        56.0 %   of the saving   (12,342 m3/yr)
-energy       45.3 %                   (419 MWh/yr)
+water        48.2 %   of the saving   (11,809 m3/yr, $36,726)
+energy       53.1 %                   (547 MWh/yr,   $40,498)
 acid etc     -1.3 %   the optimiser SPENDS more on acid to buy cycles
+total                                 ($76,236/yr at a 10 MW plant)
 ```
 
-Before defect 11 this split was 66.0 / 35.4 / -1.4. Enforcing the chiller capacity limit
-took most of the summer energy saving away, so **water is now a larger share of the money,
-not a smaller one** -- the water case got relatively stronger as the absolute numbers fell.
+Computed from `results/annual_dhahran.json` bins at the tariffs in
+`controller_summary.json`. Recompute it there rather than carrying it by hand;
+this figure had no artefact behind it until 4 Sep and went stale twice.
+
+**The split has crossed over, and this matters commercially.** It was 66.0 / 35.4
+before defect 11 and 56.0 / 45.3 after it. Defect 16 gave the machine back the two
+Gulf-summer conditions it could not previously serve, and **energy is now the
+majority term at 53.1 %.** That points the money at the half of the product that
+`docs/prior_art_esc.md` shows is already prior art seven times over, and it is the
+strongest single argument for repositioning as a constraint service rather than as
+a rival optimiser. It is a founder decision and it is now overdue.
 
 Energy is the majority term in Gulf winter (74 % of that condition's saving) and the minority in summer, where the chiller envelope caps how far the fan can be backed off. Both terms are in the objective; neither dominates everywhere. That is the whole argument for optimising them together.
 
@@ -306,12 +320,17 @@ controller.** Now the top laboratory priority and an open item in every document
 **The skin temperature is a hardcoded 8 K and was never computed.**
 `chemistry.wall_bulk_delta_t` exists and is never called; `run_controller.py`
 never passes `skin_delta_k`. The film calculation gives 2.4-3.7 K clean; 8 K is
-fouled. `src/skin_sensitivity.py` measures the consequence: at a clean 3 K the
-gypsum wall moves IN from 8 cycles to 7, and the reported V5 optimum at 7 cycles
-becomes infeasible. **Direction is counter-intuitive** -- gypsum's log_K is
-nearly temperature-independent, so the Debye-Huckel A term dominates and SI falls
-as temperature rises, which means a hotter assumed skin makes gypsum look SAFER.
-Gates were NOT rescored; the assumption is disclosed instead.
+fouled. **Re-measured 4 September and the answer reversed** -- the paragraph that
+used to stand here said a clean 3 K moved the gypsum wall in from 8 cycles to 7
+and made the V5 optimum infeasible, which was true of the van 't Hoff solubility
+and is not true of the one adopted in defect 15. `SI_gypsum` now has an interior
+minimum at **44.5 C** and the skin sits near 40 C, on the flat bottom of it, so
+across the whole band **2.4 K to 8.0 K the wall stays at 7 cycles and the last
+feasible count at 6.** The assumption is no longer load-bearing for either
+ceiling, and the reported zero saturation violations is no longer conditional on
+a fouled condenser. Still worth replacing the literal with a call to
+`wall_bulk_delta_t`: an assumption that happens not to bind is still an
+assumption. See defect 19 in the register. Gates were NOT rescored.
 
 **A stale figure was withdrawn.** `figs/water_ceiling.png` carried the discredited
 9/10-cycle pair and asserted the cost curve turns over. Moved to
@@ -403,7 +422,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 |---|---|---|
 | Almeria wet-bulb 21.9 C vs Gulf 30.3 C | **Unknown** — the only two-sided one | OPEN. Closed by KFUPM's humidifying wind tunnel. The PINN's physics loss is the interim mitigation, not a substitute |
 | Model error 2.48x measurement uncertainty | Against us | OPEN, reported |
-| Water gate missed (10.02 % vs 15 %) | Against us | **DIAGNOSED** — the threshold required 8.5 cycles and gypsum saturates at 8. Mis-specified, not missed. Stays failed, and after defect 11 it misses by 4.98 points rather than 0.17 |
+| Water gate missed (10.83 % vs 15 %) | Against us | **DIAGNOSED** — the threshold required 8.5 cycles and gypsum saturates at 7. Mis-specified, not missed. Stays failed, and it now misses by 4.17 points against 0.17 as originally reported |
 | Bi-quadratic chiller coefficients | Unknown | **CLOSED** — York YT 1758 kW / 6.28 COP, EnergyPlus `datasets/Chillers.idf` (CoolTools). Reference point IS the AHRI point; fitted to 35 C |
 | Discharge TDS cap | Unknown | **CLOSED** — RCER-2015 Vol. I. Table 3B (sewer) 2,000 mg/L Jubail / 2,500 Yanbu; **Table 3C (coastal outfall, incl. seawater cooling return) has NO TDS limit**; Table 3D (irrigation) 2,000. It is a property of the discharge ROUTE, not the loop |
 | Drift eliminator rate | Was wrong | **CLOSED** — was 0.0005 used as a fraction (0.05 %); the spec is 0.0005 **%**. 100x too large. Makeup unaffected (drift cancels while blowdown > 0) but reported blowdown was 27 % low |
@@ -526,29 +545,27 @@ honest weighting might help the failed V5 gate.
 **It does the opposite.**
 
 ```
-five-condition unweighted mean (what gate V5 scores) : 10.02 % water
-hours-weighted annual, real Dhahran year             : 8.92 % water
-                                                       -1.10 points
-ratio of annual totals -- THE FIGURE TO QUOTE        : 9.23 % water
+five-condition unweighted mean (what gate V5 scores) : 10.83 % water
+hours-weighted annual, real Dhahran year             : 8.42 % water
+                                                       -2.41 points
+ratio of annual totals -- THE FIGURE TO QUOTE        : 8.81 % water
 ```
 
-The saving is still larger when it is hot, but far less so than it looked before
-defect 11 -- 6.0 to 8.7 % across the cooler half of the year, 10.0 to 11.9 % across
-the hotter half -- and the five hand-picked conditions were four summer and one
-winter. **The gate's metric was flattering the product by 1.10 points.**
-
-Defect 11 left the cool half of the year *bit-for-bit unchanged* and cut the hot
-half by four to eight points. That is the signature the diagnosis predicts: a
-chiller capacity limit can only bind when the condenser is hot.
+The saving is still larger when it is hot -- 6.0 to 8.6 % across the cooler half of
+the year, 5.6 to 14.0 % across the hotter half -- and the five hand-picked
+conditions were four summer and one winter. **The gate's metric is flattering the
+product by 2.41 points**, up from 1.10 before defects 15 and 16, so the case for
+quoting the annual figure rather than the gate figure is stronger than ever.
 
 Two consequences, and neither is optional:
 
-1. **Quote 9.2 % annually to customers, not 10.02 %.** The gate figure
+1. **Quote 8.8 % annually to customers, not 10.83 %.** The gate figure
    belongs only to the specific five-condition comparison it was computed
    for and should not travel outside it. Note there are TWO annual numbers:
-   the hours-weighted mean of ratios (8.92 %) and the ratio of hour-weighted
-   totals (9.23 %). `annual_dhahran.json`'s own `weighting_note` says the
-   second is the one to quote outside the repository.
+   the hours-weighted mean of ratios (8.42 %) and the ratio of hour-weighted
+   totals (8.81 %). `annual_dhahran.json`'s own `weighting_note` says the
+   second is the one to quote outside the repository. The full outward-facing
+   set is **8.8 % water, 6.4 % cost, 5.4 % electrical energy**.
 2. Option C is dead as a route to a passing gate. It was the only revision
    that was real work rather than re-labelling, and the work came back
    against us.

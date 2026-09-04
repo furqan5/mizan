@@ -144,15 +144,17 @@ def main() -> int:
         print(f"      dT = {r['skin_delta_k']:.1f} K -> last feasible "
               f"{r['last_feasible']} cycles -> 15 % is {verdict}")
     print()
-    print("   MECHANISM, because the direction is counter-intuitive.")
+    print("   MECHANISM, measured rather than remembered.")
     print()
-    print("   Gypsum's solubility product is very nearly temperature-independent:")
-    print("   log_K moves only from -4.5800 at 25 C to -4.5873 at 55 C. Almost the")
-    print("   whole temperature effect therefore runs through the Debye-Huckel A")
-    print("   parameter, which RISES with temperature and suppresses the activity")
-    print("   coefficients of the 2:2 Ca/SO4 pair harder. So the ion activity")
-    print("   product falls as the evaluation point gets hotter:")
-    print()
+    # DEFECT 19, fixed 4 September 2026. Everything from here to the JSON used
+    # to be hardcoded prose asserting that a hotter skin makes gypsum look
+    # SAFER, that the 8 K assumption buys "about one extra cycle", and that the
+    # V5 optimum at 7 cycles is feasible only at 8 K. All three were true of the
+    # van't Hoff gypsum model. Defect 15 replaced it with the phreeqc.dat
+    # analytic expression, and the table this same script prints stopped
+    # agreeing with the paragraph underneath it -- a remembered conclusion
+    # outliving the computation it was drawn from, which is defects 12 and 13
+    # one more time. The conclusions are now DERIVED from `rows`.
     conc = rc.TSE.concentrate(7.0)
     print(f"      {'T_C':>5s} {'SI_gypsum':>10s} {'D-H A':>8s}   (limit "
           f"{chem.OPERATING_LIMITS['SI_gypsum']})")
@@ -162,50 +164,82 @@ def main() -> int:
         print(f"      {T:5.0f} {st['SI_gypsum']:10.4f} "
               f"{chem.debye_huckel_A(T):8.4f}   {flag}")
     print()
-    print("   A HOTTER assumed skin therefore makes gypsum look SAFER. The 8 K")
-    print("   value is NOT conservative for the mineral that actually binds here:")
-    print("   it buys about one extra cycle of apparent headroom over the clean-")
-    print("   surface value the film calculation gives.")
+
+    # Where does SI_gypsum turn over, and how far does it move across the band
+    # of skin temperatures this sensitivity actually sweeps?
+    scan = [(T / 2.0, chem.saturation_state(conc, T / 2.0, pH=8.0)["SI_gypsum"])
+            for T in range(40, 161)]
+    T_min, si_min = min(scan, key=lambda kv: kv[1])
+    walls = sorted({r["wall_cycles"] for r in rows if r["wall_cycles"] is not None})
+    lasts = sorted({r["last_feasible"] for r in rows if r["last_feasible"] is not None})
+    lo_dt, hi_dt = rows[0]["skin_delta_k"], rows[-1]["skin_delta_k"]
+    insensitive = len(walls) == 1 and len(lasts) == 1
+
+    print(f"   SI_gypsum has an interior MINIMUM at {T_min:.1f} C "
+          f"(SI {si_min:.4f}), so it is retrograde below that point and")
+    print("   prograde above it. The condenser skin in these runs sits near")
+    print("   40 C -- on the flat bottom of that curve, which is why the")
+    print("   sweep below moves so little.")
     print()
-    print("   TWO CONSEQUENCES, and the second is the serious one.")
+    if insensitive:
+        print(f"   RESULT: across the whole band dT = {lo_dt:.1f} to {hi_dt:.1f} K, "
+              f"clean to fouled,")
+        print(f"   the gypsum wall does NOT move. It is {walls[0]} cycles at every "
+              f"skin")
+        print(f"   temperature tested, and the last feasible count is {lasts[0]} at "
+              f"every one.")
+        print()
+        print("   That is a change of status for this open item, and it cuts FOR")
+        print("   the package rather than against it. The hardcoded 8 K was the")
+        print("   least-defended input in the chemistry chain precisely because")
+        print("   the ceilings were believed to be proportional to it. Under the")
+        print("   corrected gypsum solubility they are not sensitive to it at all")
+        print("   over the range the film calculation admits.")
+        print()
+        print("   The 8 K literal should still be replaced by a call to")
+        print("   wall_bulk_delta_t -- an assumption that happens not to bind is")
+        print("   still an assumption -- but it is no longer load-bearing for")
+        print("   either ceiling, and the reported saturation violations are no")
+        print("   longer conditional on a fouled condenser.")
+    else:
+        print(f"   RESULT: the gypsum wall moves across the band: "
+              f"{walls} cycles, last feasible {lasts}.")
+        print("   The assumed skin temperature is load-bearing and must be")
+        print("   reported alongside every gate it touches.")
     print()
-    print("   1. The 'threshold written beyond a physical wall' diagnosis SURVIVES")
-    print("      and gets stronger. 15 % needs 8.5 cycles; at a clean skin the wall")
-    print("      is at 7, not 8, so the criterion is further out of reach, not")
-    print("      closer. V5 stays failed and is not rescored.")
-    print()
-    print("   2. The V5 optimum operates at 7 cycles, and 7 cycles is feasible")
-    print("      ONLY at the fouled 8 K. At the clean-surface 2.4-3.7 K that this")
-    print("      package's own film calculation produces, 7 cycles is a gypsum")
-    print("      violation. The reported '0 saturation violations' is therefore")
-    print("      conditional on a fouled condenser, and that condition is not")
-    print("      currently stated anywhere in the documents.")
-    print()
-    print("   The fix is not to change the number. It is to (a) call")
-    print("   wall_bulk_delta_t instead of hardcoding 8.0, (b) report the gate at")
-    print("   a stated skin condition, and (c) stop writing that the offset is")
-    print("   'computed' while a literal 8.0 sits in the call.")
+    need = 8.5
+    print(f"   The 15 % water criterion needs {need} cycles and the wall is at "
+          f"{walls[0] if walls else '?'}, so it stays")
+    print("   unreachable at every skin temperature in the band. V5 is not rescored.")
 
     out = {"skin_cases": rows,
            "hardcoded_value_used_by_all_gates": 8.0,
            "computed_clean_band_K": [2.4, 3.7],
-           "direction": ("A hotter assumed skin makes gypsum look SAFER, because "
-                         "its log_K is nearly temperature-independent and the "
-                         "Debye-Huckel A parameter rises with temperature, "
-                         "suppressing the 2:2 Ca/SO4 activity coefficients. The "
-                         "8 K value is therefore NOT conservative for the binding "
-                         "mineral; it buys about one extra cycle of apparent "
-                         "headroom."),
-           "consequence": ("The V5 optimum operates at 7 cycles, which is feasible "
-                           "only at 8 K. At the clean-surface 2.4-3.7 K this "
-                           "package's own film calculation gives, 7 cycles is a "
-                           "gypsum violation. The reported zero saturation "
-                           "violations is conditional on a fouled condenser."),
-           "note": ("Sensitivity only. No gate is rescored. V5 was scored at "
-                    "8.0 K and remains failed at 14.83 % against 15 %. The "
-                    "mis-specified-threshold diagnosis survives and strengthens: "
-                    "at a clean skin the wall is at 7 cycles, so the 15 % "
-                    "criterion is further out of reach, not closer.")}
+           "si_gypsum_minimum_C": round(T_min, 2),
+           "wall_cycles_across_band": walls,
+           "last_feasible_across_band": lasts,
+           "ceiling_sensitive_to_skin_delta": not insensitive,
+           "direction": (
+               f"SI_gypsum has an interior minimum at {T_min:.1f} C under the "
+               "phreeqc.dat analytic solubility adopted in defect 15, and the "
+               "condenser skin sits near 40 C, on the flat bottom of that curve. "
+               f"Across dT = {lo_dt:.1f}-{hi_dt:.1f} K the gypsum wall does not "
+               "move at all." if insensitive else
+               "The gypsum wall moves with the assumed skin temperature; see "
+               "wall_cycles_across_band."),
+           "consequence": (
+               f"The ceilings are insensitive to the hardcoded 8.0 K over the "
+               f"whole clean-to-fouled band: wall {walls[0]} cycles, last "
+               f"feasible {lasts[0]} cycles at every value tested. The reported "
+               "zero saturation violations is NOT conditional on a fouled "
+               "condenser. This supersedes the pre-defect-15 finding, which had "
+               "the wall moving by one cycle across the same band."
+               if insensitive else
+               "The assumed skin temperature is load-bearing for the ceilings."),
+           "note": ("Sensitivity only. No gate is rescored. Every conclusion in "
+                    "this artefact is computed from skin_cases above rather than "
+                    "asserted -- defect 19, which is what this file used to do "
+                    "wrong.")}
     (RESULTS / "skin_sensitivity.json").write_text(json.dumps(out, indent=1))
     print()
     print("written -> results/skin_sensitivity.json")
