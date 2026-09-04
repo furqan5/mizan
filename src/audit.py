@@ -106,6 +106,14 @@ def superseded_from_register() -> dict[str, str]:
         "12.51 %": "the pre-chiller-fix water saving",
         "6.48 %": "the pre-chiller-fix cost saving",
         "14.64 %": "the unconverged-solver water saving",
+        # Found 4 Sep in docs/outreach_targets.md, the file the outreach is sent
+        # FROM, still telling the founder to quote these to prospects. They are
+        # the pre-defect-11 hours-weighted MEAN-OF-RATIOS figures, superseded
+        # twice, and they predate the before/after table convention so nothing
+        # derived them. Nothing had been sent, so no prospect received them.
+        "11.5 %": "the pre-defect-11 annual water, mean of ratios",
+        "8.3 %": "the pre-defect-11 annual cost, mean of ratios",
+        "6.7 %": "the pre-defect-11 annual electrical power, mean of ratios",
     })
     # A ROUNDED stale form that collides with a number the artefacts hold RIGHT
     # NOW is not evidence of staleness, it is a coincidence of one decimal
