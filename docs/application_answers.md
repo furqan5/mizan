@@ -80,7 +80,7 @@ Three independent literature sweeps returned the same answer on this point: *"No
 
 ## Market opportunity
 
-> Per 10 MW condenser-water module the model gives **$157,975/yr** in operating cost and **26,711 m³/yr** of water, scaling approximately linearly with condenser duty — about $1.58M/yr at 100 MW, or $2.78M/yr at a 50,000 TR plant. Against a first-year cost near $50,000 per loop, payback is well under three months.
+> Per 10 MW condenser-water module the model gives **$76,236/yr** in operating cost and **11,809 m³/yr** of water across a real Dhahran meteorological year, scaling approximately linearly with condenser duty — about $762,000/yr at 100 MW, or $1.34M/yr at a 50,000 TR plant. Against a first-year cost near $50,000 per loop, payback is under nine months on a single module. *(Rebased 4 Sep 2026: these figures were previously $157,975 and $2.78M, computed by multiplying one condition's hourly saving by 8,760 hours. See defect 20.)*
 >
 > Beachhead is Saudi and Qatari district cooling running treated sewage effluent, plus industrial cooling at Jubail and Yanbu. TSE at high cycles is exactly the regime where the incumbent index fails, so the technical argument is sharpest where national water-reuse policy is strongest. Qatar needs no rework: same physics, same equipment, same water policy.
 

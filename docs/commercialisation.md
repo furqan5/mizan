@@ -25,22 +25,35 @@ The controller ships **read-only in shadow mode**. Blowdown and dosing stay advi
 
 ## 2. Value created, from the model
 
-Per 10 MW condenser-water module, weighted across five Gulf ambient conditions `[A: duty weighting]`, on **published tariffs** rather than assumptions:
+Per 10 MW condenser-water module, across a **real Dhahran meteorological year**
+(TMYx station 404160, 8,760 hours binned by wet-bulb), on **published tariffs**
+rather than assumptions:
 
 | | Baseline | Optimised | Saving |
 |---|---|---|---|
-| Operating cost | $228.76/h | $210.72/h | **$157,975/yr (7.88 %)** `[M]` |
-| Makeup water | 23.6 m³/h | 20.6 m³/h | **26,711 m³/yr** `[M]` |
+| Operating cost | $1,184,446/yr | $1,108,210/yr | **$76,236/yr (6.44 %)** `[M]` |
+| Makeup water | 134,053 m³/yr | 122,244 m³/yr | **11,809 m³/yr (8.81 %)** `[M]` |
+
+> **Rebased 4 September 2026, and the figure halved.** This table previously
+> read **$157,975/yr and 26,711 m³/yr**, taken by multiplying one condition's
+> hourly saving by 8,760 hours. A Gulf plant does not spend 8,760 hours at a
+> summer design condition, and the package had already ruled twice that the
+> hours-weighted annual figure is the one to quote — once for the V5 gate mean
+> and once for the mean-of-ratios defect. The value table had not been brought
+> under the same rule. Recomputed from `results/annual_dhahran.json`, the
+> published figures were **2.07× too high on cost and 2.26× too high on water.**
+> Registered as defect 20. Nothing about the physics changed; the extrapolation
+> did.
 
 Scaling linearly by condenser duty:
 
-| Plant size | Annual saving `[M]` |
-|---|---|
-| 10 MW (~2,840 RT) | $157,975 |
-| 30 MW (~8,530 RT) | $473,927 |
-| 60 MW (~17,060 RT) | $947,855 |
-| 100 MW (~28,430 RT) | $1,579,759 |
-| 176 MW (~50,000 TR plant) | $2,780,376 |
+| Plant size | Annual saving `[M]` | previously published, superseded |
+|---|---|---|
+| 10 MW (~2,840 RT) | **$76,236** | $157,975 |
+| 30 MW (~8,530 RT) | **$228,709** | $473,927 |
+| 60 MW (~17,060 RT) | **$457,418** | $947,855 |
+| 100 MW (~28,430 RT) | **$762,364** | $1,579,759 |
+| 176 MW (~50,000 TR plant) | **$1,341,760** | $2,780,376 |
 
 ### The tariff inputs, and why they are defensible
 
@@ -177,7 +190,7 @@ A third founder raises the bridge by roughly $5,000. The mitigation is that only
 | 5 Sep 2026 | QDB submission | Only after written sector/entity eligibility confirmation |
 | 15 Sep 2026 | Discovery | Fewer than 15 conversations and 3 data-sharing discussions → narrow or stop |
 | 15 Oct 2026 | Bridge | No unrestricted bridge cash → do not enter Dhahran residency |
-| 25 Nov 2026 | QDB decision | No paid diagnostic and no QDB → stay Lahore-based, defer incorporation |
+| 10 Nov 2026 | QDB decision | No paid diagnostic and no QDB → stay Lahore-based, defer incorporation. **Moved in from 25 Nov:** the Qatar in-person phase runs 16–25 Nov, so a gate dated 25 Nov would fall on the last day of a commitment it is supposed to decide whether to make |
 | 11 Jan 2027 | DTV Deal Day | No TRL 4 evidence → do not apply to YC Spring; take Fall 2027 |
 
 ## 8. What would falsify the business

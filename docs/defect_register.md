@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Nineteen found, eighteen fixed, one open.
+## Part 1 — Defects. Twenty found, nineteen fixed, one open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -35,12 +35,31 @@ This document lists both, separately, so neither can be mistaken for the other.
 | 16 | **The chiller was sized at ARI and asked to run a Gulf summer** | `q_avail = Q_evap_kw * capft_here` asserted the installed machine is exactly the size of the load *at ARI* — 6.67 °C chilled water, **29.44 °C entering condenser water**. No machine is selected that way. Once defect 11 made the capacity limit binding, **two of five design conditions had no feasible operating point at all**, which is a statement about the sizing, not about the Gulf. | **Fixed** — the machine is selected at the top of its own fitted range (35 °C), a **15.0 % margin**, and the same nominal now feeds both the capacity check and the power curve. **All five conditions are feasible again** and the V5b sweep is inside the envelope at every cycle count. `src/chiller_selection_audit.py` |
 | 17 | **The modelled makeup water fails charge balance and TDS closure** | `ARAMCO_RECLAIMED` carries **SO₄ = 566 mg/L**; a field write-up of the same Aramco pilot reports **300**. Two objective tests needing no outside authority both fail on the modelled set and both pass on the reported one: charge imbalance **−14.3 %** vs −3.2 %, and the ions sum to **1752 mg/L against a stated TDS of 1500** (+16.8 %) — a water cannot contain more ions than its own TDS. Sulfate is the number the gypsum wall rests on. | **OPEN** |
 | 18 | **Four documents told you to attach a figure that does not exist** | `linkedin_outreach.md`, `linkedin_post_draft.md`, `HANDOFF.md` and `robustness_gaps.md` all said *"Attach: `figs/two_ceilings.png`"*. There is no such file and there never was — the figure is written by `fig_water_ceiling` as `figs/water_ceiling.png`. A document instructing an action that cannot be performed is a defect, and this is the kind nobody finds until they are mid-post. | **Fixed** — all four corrected, and the audit now checks that every `` `figs/*.png` `` a document references actually exists. The check found the fourth one immediately |
+| 20 | **The customer-facing value table extrapolated one hour across a whole year** | `commercialisation.md` §2 gave the saving per 10 MW module as **$157,975/yr and 26,711 m³/yr**, obtained by multiplying one condition's hourly saving by 8,760 hours. A Gulf plant does not spend 8,760 hours at a summer design condition. The package had already ruled twice that the hours-weighted figure is the one to quote — for the V5 gate mean, and again for the mean-of-ratios defect — and the value table, the only table a customer is ever shown, had never been brought under the rule. Recomputed against `annual_dhahran.json`: the published figures were **2.07× too high on cost and 2.26× too high on water**, and the 50,000 TR plant value fell from **$2.78M/yr to $1.34M/yr**. | **Fixed** — rebased on the weather-weighted year in `commercialisation.md`, `application_answers.md` and `WHERE-WE-STAND.md`, with the superseded column kept beside it |
 | 19 | **A sensitivity study asserted a conclusion its own table had stopped supporting** | `src/skin_sensitivity.py` printed a computed sweep of the gypsum wall against assumed skin ΔT, and then a paragraph of **hardcoded prose** underneath it: that a hotter skin makes gypsum look safer, that the 8 K assumption buys "about one extra cycle", and that the reported zero saturation violations was conditional on a fouled condenser. Defect 15 replaced the gypsum solubility model and the table changed; the paragraph did not. It also still quoted V5 at **14.83 %**, two supersessions out of date. Defects 12 and 13 one more time, in a file nobody thought to re-read. | **Fixed** — every conclusion is now derived from the computed rows, and the artefact records `ceiling_sensitive_to_skin_delta` rather than a remembered direction |
 | 14 | **The two headline ceilings are reported from a condition the machine cannot operate at** | `gate_v5b` sweeps cycles at one condition — *Dhahran summer humid*, fan 90 % — and reports **economic 7, physical 8**. That is one of the two conditions V5 discards as having no feasible solution, and its own output says `10 of 10 cycle counts sit outside the machine's validity envelope` (plr 1.097 against a 1.06 limit). `src/ceiling_condition_audit.py` re-runs the same sweep at the three conditions V5 *does* find feasible: both ceilings come back **one cycle lower, 6 and 7**, at all three, with every row inside the envelope. **Fixed** — but not by the reporting judgement this row originally called for. Defects 15 and 16 removed both causes: with gypsum on a temperature function that can turn over, the ceilings come out **6 and 7 at all five conditions**, and with the chiller selected properly the V5b sweep now sits **inside** the envelope at every cycle count. The condition-dependence was an artefact, not a fact about the water. |
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
 **Open defects: one.** — defect 17, declared above.
+
+### Defect 20, and why it was the most expensive one to find late
+
+The physics was never wrong here. The extrapolation was. Every gate in this
+package is scored on a weather-weighted year or on held-out data, and the one
+table that goes in front of a customer was scored on a single summer hour
+repeated 8,760 times.
+
+It is the same error as the mean-of-ratios defect and the V5-gate-mean
+correction, and it survived both of them because the fix each time was applied to
+the *gate* documents and not to the *commercial* one. The lesson is narrow and
+worth writing down: **when a metric convention changes, grep for the metric, not
+for the document you were thinking about.**
+
+The headline consequence is that the value pool across the five named Gulf
+accounts in `market_dossier.md` goes from roughly **$70M/yr to roughly $34M/yr**.
+It is still a venture-scale number and it is now the one the model actually
+supports.
 
 ### Defect 19, and the open item it closed
 
