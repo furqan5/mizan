@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Twelve found, twelve fixed, zero open.
+## Part 1 — Defects. Eighteen found, seventeen fixed, one open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -30,10 +30,16 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 | 11 | **Chiller capacity constraint logged but never enforced** — the same curve as defect 5, the other of its two limits | Above ~32.5 °C entering condenser water the York YT cannot make the 10 MW duty. `chiller_power_biquad` clamps `plr_raw` to 1.0 and reports the machine as merely full-loaded, so **computed chiller power fell as condenser water got hotter** — backwards. The optimiser's main lever is fan speed, and lowering the fan raises condenser temperature, so it was rewarded in exactly the region where the offsetting cost was under-computed. It moved the plant from **2 of 5** conditions infeasible to **4 of 5**, worst shortfall **1,216 kW of 10,000 kW**. | **Fixed** — `plr_raw > 1.06` is now a hard feasibility constraint alongside the temperature window |
 | 12 | **A constant that documents are validated against, hardcoded into four files** | The V5 water figure `14.83` was typed into `annual.py` (×4), `make_report.py` and `audit.py`. When defect 11 moved it to `10.02`, `annual.py` wrote the stale value into the JSON the audit checks other documents against, and `audit.py` began *requiring* the report to quote a superseded number — an audit enforcing staleness. | **Fixed** — all six now read `controller_summary.json`. The audit's `"Open defects: none"` literal was replaced the same way, by a check that the declared count matches the rows marked OPEN |
+| 13 | **The audit's memory of superseded numbers was itself hand-maintained, and the artefacts were never scanned** | Defect 12's fix removed hardcoded values from the *checks*, but section 5 still held a typed list of what the numbers used to be. Defect 11 superseded six headline figures and none was added, so the scan passed `linkedin_post_draft.md` while it sourced `12.6 %` to a key holding `9.23 %` — and that draft was published. The glob was `docs/*.md`, so `results/` was never read at all: `calib_out.txt` recorded **V2 as PASS at 7.11 %** while `calibration.json` said **FAIL at 9.90 %**. | **Fixed** — the stale set is now read from the before/after table below; stated provenance (`file.json → key`) is resolved against the artefact and compared; `.txt` is in scope; and a transcript older than the JSON its script writes now fails the audit |
+| 15 | **Gypsum's solubility could not have the shape the module's own comment describes** | `log_k_gypsum` was a single-enthalpy van 't Hoff — monotonic by construction — while the comment at `MINERAL_EVAL_POINT` says gypsum has a *"maximum near 35-40 C"*. Measured: strictly decreasing over 10-80 C, moving 0.0105 log units across 25→70 C while activity coefficients moved the full SI ten times that in the **same** direction. Gypsum therefore looked LESS saturated at the hot skin than in the bulk — the opposite of the mechanism this product sells, and the cause of defect 14. | **Fixed** — switched to the `phreeqc.dat` analytic expression, the same treatment calcite already had, from the database already cited. Anchored to the same log_k25 (agrees to 0.0009), interior maximum near 23 C, 10.8× the temperature response. `SI_gypsum` now has a **minimum at 40 C and rises above it** — a solubility maximum at 40 C, matching the literature's ~42 C gypsum–anhydrite transition without being fitted to it. Four pre-registered predictions in `src/gypsum_logk_upgrade.py`, all passed |
+| 16 | **The chiller was sized at ARI and asked to run a Gulf summer** | `q_avail = Q_evap_kw * capft_here` asserted the installed machine is exactly the size of the load *at ARI* — 6.67 °C chilled water, **29.44 °C entering condenser water**. No machine is selected that way. Once defect 11 made the capacity limit binding, **two of five design conditions had no feasible operating point at all**, which is a statement about the sizing, not about the Gulf. | **Fixed** — the machine is selected at the top of its own fitted range (35 °C), a **15.0 % margin**, and the same nominal now feeds both the capacity check and the power curve. **All five conditions are feasible again** and the V5b sweep is inside the envelope at every cycle count. `src/chiller_selection_audit.py` |
+| 17 | **The modelled makeup water fails charge balance and TDS closure** | `ARAMCO_RECLAIMED` carries **SO₄ = 566 mg/L**; a field write-up of the same Aramco pilot reports **300**. Two objective tests needing no outside authority both fail on the modelled set and both pass on the reported one: charge imbalance **−14.3 %** vs −3.2 %, and the ions sum to **1752 mg/L against a stated TDS of 1500** (+16.8 %) — a water cannot contain more ions than its own TDS. Sulfate is the number the gypsum wall rests on. | **OPEN** |
+| 18 | **Four documents told you to attach a figure that does not exist** | `linkedin_outreach.md`, `linkedin_post_draft.md`, `HANDOFF.md` and `robustness_gaps.md` all said *"Attach: `figs/two_ceilings.png`"*. There is no such file and there never was — the figure is written by `fig_water_ceiling` as `figs/water_ceiling.png`. A document instructing an action that cannot be performed is a defect, and this is the kind nobody finds until they are mid-post. | **Fixed** — all four corrected, and the audit now checks that every `` `figs/*.png` `` a document references actually exists. The check found the fourth one immediately |
+| 14 | **The two headline ceilings are reported from a condition the machine cannot operate at** | `gate_v5b` sweeps cycles at one condition — *Dhahran summer humid*, fan 90 % — and reports **economic 7, physical 8**. That is one of the two conditions V5 discards as having no feasible solution, and its own output says `10 of 10 cycle counts sit outside the machine's validity envelope` (plr 1.097 against a 1.06 limit). `src/ceiling_condition_audit.py` re-runs the same sweep at the three conditions V5 *does* find feasible: both ceilings come back **one cycle lower, 6 and 7**, at all three, with every row inside the envelope. **Fixed** — but not by the reporting judgement this row originally called for. Defects 15 and 16 removed both causes: with gypsum on a temperature function that can turn over, the ceilings come out **6 and 7 at all five conditions**, and with the chiller selected properly the V5b sweep now sits **inside** the envelope at every cycle count. The condition-dependence was an artefact, not a fact about the water. |
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
-**Open defects: none.**
+**Open defects: one.** — defect 17, declared above.
 
 ### Defect 11, and what it cost
 
@@ -50,12 +56,55 @@ Found 3 September 2026 by a pre-registered physics gate in `src/fouling_energy.p
 | Electrical power | 4.91 % | **4.17 %** |
 | Annual water, ratio of totals | 12.57 % | **9.23 %** |
 | Annual cost, ratio of totals | 8.16 % | **5.88 %** |
+| Annual electrical power, ratio of totals [†] | 6.0 % | **4.20 %** |
 | Conditions with a feasible optimum | 5 | **3** |
 | Cycles the optimiser reaches | 7 | **6** |
+
+[†] Every other "before" in this table is read from a committed artefact. This one is not: `annual_dhahran.json` gained its `*_ratio_of_totals` keys after the previous commit and was next committed with the fix already applied, so **the pre-fix value survives only in the documents that quoted it** — at one decimal place. That is a gap in the evidence, and it is recorded rather than rounded over. **Commit the artefact before the fix, not just after it.**
 
 The old figures were bought in a region where the machine could not make its duty. **A saving computed where the plant cannot operate is not a saving** — the same sentence defect 5 was fixed with, one dimension over.
 
 **What did not move:** the gypsum ceiling. Economic ceiling 7 cycles, physical ceiling 8, binding mineral gypsum, cost falling monotonically. None of it goes through the chiller curve, so the two-ceilings result and the figure built on it stand unchanged.
+
+### Defect 17, and why it is open rather than fixed
+
+The consequence is bounded, and that is the useful part. `src/makeup_analysis_audit.py` computes
+the gypsum wall under both analyses: **5 cycles at SO₄ 566, 6 cycles at SO₄ 300**. One cycle. The
+thesis — that gypsum binds, that acid cannot move it, that LSI cannot represent it — survives
+either way, and so does the shape of the two-ceilings result.
+
+It stays **open** because neither analysis can be adopted from here. The primary paper is behind a
+publisher wall, the two candidate sets differ on five ions, and picking the one that flatters the
+product would be indistinguishable from picking the one that is right. What can be said without
+the paper is that **the set currently in the model is not self-consistent**, and that is recorded
+rather than smoothed over.
+
+---
+
+### Defect 14, and why the gypsum wall moved
+
+The chemistry is not corrupted by the chiller clamp. Skin saturation is computed from the thermal
+solve, not from the chiller curve, so `violations` is clean at every condition. The wall moves for
+a physical reason instead, and it is one this package already documented from the other direction:
+**gypsum is prograde in this model.** Its saturation index *falls* as the skin gets hotter, so the
+hottest condition gives the most permissive wall.
+
+The published V5b condition is the hottest of the five. It is therefore simultaneously the most
+flattering for gypsum **and** the one at which the York YT cannot make its duty. Reporting from it
+picks up an extra cycle on both ceilings.
+
+This also explains something the run log had been saying plainly and nothing had picked up. V5
+raises cycles to exactly 6 in every condition and calls it *“the chemistry constraint boundary”*.
+At an operable condition, 6 **is** the last chemistry-feasible cycle count — the controller was
+never leaving 2.5 points of water on the table, it was sitting on the real wall while a different
+gate reported a wall one cycle further out.
+
+**What is not in doubt:** the two-ceilings *result* — that an economic limit and a physical limit
+exist, that they are different numbers, that the binding mineral is gypsum, and that an LSI-based
+controller cannot represent it. Every one of those survives at every condition tested. What is in
+doubt is the pair of integers attached to it in public.
+
+---
 
 ### Defect 12, and why an audit can enforce a lie
 
@@ -65,7 +114,7 @@ An audit that hardcodes expected values does not verify consistency — it **fre
 
 Both are now consistency checks against the artefacts rather than string comparisons against remembered values.
 
-`python src/audit.py` runs 50 checks across code, results and documents and gates the packaging. An inconsistent tree produces no bundle.
+`python src/audit.py` runs 63 checks across code, results, run transcripts and documents and gates the packaging. Note the count is not a constant: the document scans call the check function once per problem found, so a tree with faults reports *more* checks than a clean one. Quote it as "the audit passes", not as a number. An inconsistent tree produces no bundle.
 
 ---
 
@@ -144,7 +193,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Twelve defects were found, all twelve are fixed, none is open, and a 50-check audit gates every release. Five of the twelve were found because a first-principles model refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
+**"Is the work sound?"** Eighteen defects were found, seventeen are fixed, one is open and declared, and a passing audit gates every release. Six of the thirteen were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 

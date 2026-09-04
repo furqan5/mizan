@@ -1,0 +1,72 @@
+{
+  "condition": "Dhahran summer peak, 45 C, 20 % RH",
+  "enforced_at": "bulk temperature (T_basin), where LSI practice sits",
+  "default_in_use": 0.0,
+  "why": "A plant chemist holds LSI 0.8-1.0 deliberately as corrosion protection; the optimiser previously had no floor at all. The right value is a plant decision, so it is swept rather than asserted.",
+  "field_anchor": "Aramco pilot ran a CLEAN condenser on TSE at a reported LSI of 0 to 0.5; this model puts that water at SI_calcite 0.484 at 25 C.",
+  "rows": [
+    {
+      "floor": null,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    },
+    {
+      "floor": -0.5,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    },
+    {
+      "floor": 0.0,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    },
+    {
+      "floor": 0.3,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    },
+    {
+      "floor": 0.5,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    },
+    {
+      "floor": 0.8,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    },
+    {
+      "floor": 1.0,
+      "feasible": true,
+      "cycles": 6.0,
+      "fan_pct": 60.0,
+      "target_ph": 8.25,
+      "makeup_m3_h": 24.0195291557539,
+      "cost_per_h": 204.97490163383733
+    }
+  ]
+}

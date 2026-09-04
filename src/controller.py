@@ -160,7 +160,8 @@ def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
 
     # energy
     p_fan = float(fan_power(m_a, cond["m_a_rated"], cond["p_fan_rated_kw"]))
-    p_chill, cop = chiller_power_biquad(cond["Q_evap_kw"], T_wo)
+    p_chill, cop = chiller_power_biquad(
+        cond["Q_evap_kw"], T_wo, Q_ref_kw=nominal_capacity(cond))
     p_total = p_fan + float(p_chill)
 
     # water
@@ -276,7 +277,8 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
     # sequence is then x2 - (dx1)^2 / (x2 - 2*x1 + x0), which lands on the
     # fixed point in about 9 tower solves instead of 26.
     def _step(T):
-        p_chill, _cop = chiller_power_biquad(cond["Q_evap_kw"], T)
+        p_chill, _cop = chiller_power_biquad(
+            cond["Q_evap_kw"], T, Q_ref_kw=nominal_capacity(cond))
         Q = cond["Q_evap_kw"] + float(p_chill)
         T_in = T + Q / (m_w * CPW)
         T_next, inf = tw.solve_outlet_temperature(
@@ -375,11 +377,12 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
 
 
 def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
-                skin_delta_k):
+                skin_delta_k, corrosion_floor_si=None):
     """Complete an operating point given a cached thermal solution."""
     m_a, aw, T_wo, info, conc, T_wi, Q_cond = th
     p_fan = float(fan_power(m_a, cond["m_a_rated"], cond["p_fan_rated_kw"]))
-    p_chill, cop = chiller_power_biquad(cond["Q_evap_kw"], T_wo)
+    p_chill, cop = chiller_power_biquad(
+        cond["Q_evap_kw"], T_wo, Q_ref_kw=nominal_capacity(cond))
     p_total = p_fan + float(p_chill)
     wb = water_balance(info["m_evap"], cond["m_w"], cycles)
 
@@ -397,6 +400,30 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
                                       pH_hot=target_ph, pH_cold=target_ph)
     limits = chem.OPERATING_LIMITS
     violations = {k: sat[k] - limits[k] for k in limits if sat[k] > limits[k]}
+
+    # --- CORROSION FLOOR -------------------------------------------------
+    # Until 4 September 2026 this optimiser searched pH 7.0-9.0 against
+    # saturation limits ONLY, with nothing stopping it driving the water
+    # aggressive. That is not a conservative omission, it is the wrong sign of
+    # error. Customer discovery found a plant chemist holding LSI at 0.8-1.0
+    # DELIBERATELY, because a thin calcium-carbonate film IS the corrosion
+    # defence, and a 1992 training syllabus lists "calcium carbonate protective
+    # scale" as a corrosion-control method. An optimiser pushing toward LSI = 0
+    # strips that film and corrodes the plant it was hired to protect.
+    #
+    # Saturation is therefore a BAND, not a ceiling. The floor is evaluated at
+    # BULK temperature, because that is where LSI practice sits and where the
+    # film has to survive; the ceiling stays at the SKIN, where scale forms.
+    # Those being different evaluation points is the whole product.
+    #
+    # The floor is a violation exactly like a saturation breach, so no run can
+    # quietly buy water by corroding the condenser.
+    floor = CORROSION_FLOOR_SI if corrosion_floor_si is None else corrosion_floor_si
+    if floor is not None:
+        si_bulk = chem.saturation_state(conc, T_c=T_basin,
+                                        pH=target_ph)["SI_calcite"]
+        if si_bulk < floor:
+            violations["SI_calcite_corrosion_floor"] = floor - si_bulk
 
     # The chiller model is an empirical correlation, and an empirical
     # correlation is only evidence inside the box it was fitted in. The
@@ -437,9 +464,28 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     t_lo, t_hi = CHILLER_TCWS_RANGE
     temp_ok = bool(t_lo <= T_wo <= t_hi)
 
+    # DEFECT 16, fixed 4 September 2026. This read
+    #     q_avail = cond["Q_evap_kw"] * capft_here
+    # `capft_here` is normalised to ARI conditions -- 6.67 C chilled water,
+    # 29.44 C ENTERING CONDENSER WATER -- so that line asserted the installed
+    # machine is exactly the size of the load AT ARI. Nothing is ever selected
+    # that way. A chiller is selected at its DESIGN entering-condenser
+    # temperature, and for a Gulf plant on a cooling tower that is far above
+    # 29.44 C. Selecting at ARI and then operating at 33-35 C guarantees a
+    # shortfall on every hot day, which is exactly what was observed: after
+    # defect 11 made the capacity limit binding, TWO OF FIVE design conditions
+    # had no feasible operating point at all. Gulf plants demonstrably run on
+    # those days, so the defect was in the sizing, not in the Gulf.
+    #
+    # The machine is now selected at the top of its own validated range,
+    # CHILLER_TCWS_RANGE[1] = 35 C, so the capacity limit and the temperature
+    # limit bind in the same place -- which is what a real selection does. The
+    # resulting margin is 15.0 %, an ordinary number for this duty.
+    # Audited in src/chiller_selection_audit.py.
     capft_ref = _biquad(CHILLER_CAPFT, 6.67, 29.44)
     capft_here = _biquad(CHILLER_CAPFT, cond.get("T_chws_c", 7.0), T_wo) / capft_ref
-    q_avail = cond["Q_evap_kw"] * capft_here
+    q_nominal = nominal_capacity(cond)
+    q_avail = q_nominal * capft_here
     plr_raw = cond["Q_evap_kw"] / max(q_avail, 1e-6)
     capacity_ok = bool(plr_raw <= CHILLER_PLR_RANGE[1])
 
@@ -606,11 +652,53 @@ CHILLER_TCHWS_RANGE = (4.44, 8.89)     # degC, fitted range of x
 CHILLER_TCWS_RANGE = (15.56, 35.00)    # degC, fitted range of y
 CHILLER_PLR_RANGE = (0.20, 1.06)
 
+# Minimum calcium-carbonate saturation at BULK temperature. Below this the
+# water is aggressive and strips the protective film -- see the corrosion
+# floor in _cost_at_ph. 0.0 is the least defensible floor that is still a
+# floor: it forbids driving the water into undersaturation without asserting
+# the 0.8-1.0 an interviewed chemist actually holds, which is that plant's
+# choice and not a universal constant. Sensitivity in
+# src/corrosion_floor_audit.py. Set to None to disable, which is what the
+# model did until 4 September 2026.
+CORROSION_FLOOR_SI = 0.0
+
 # Every evaluation outside the fitted box is counted rather than silently
 # clipped, so a run can report how much of its answer was extrapolated
 # instead of leaving the reader to assume none of it was.
 CHILLER_RANGE_LOG = {"calls": 0, "T_chws_out": 0, "T_cws_out": 0,
                      "PLR_out": 0, "T_cws_min": None, "T_cws_max": None}
+
+
+def selection_factor(T_chws_c=7.0, T_design_cws_c=None):
+    """Installed nominal capacity as a multiple of the design load.
+
+    A chiller is selected at its DESIGN entering-condenser temperature, not at
+    the ARI rating point. Capacity falls as condenser water warms, so a machine
+    whose nameplate equals the load at ARI cannot make that load anywhere
+    hotter -- see defect 16 in _cost_at_ph.
+
+    The design point used here is the top of the curve's own fitted range,
+    CHILLER_TCWS_RANGE[1] = 35 C, so capacity and temperature validity end
+    together. On this York YT that gives a factor of 1.1505, a 15.0 % margin.
+    """
+    T_design = CHILLER_TCWS_RANGE[1] if T_design_cws_c is None else T_design_cws_c
+    ref = _biquad(CHILLER_CAPFT, 6.67, 29.44)
+    capft_design = _biquad(CHILLER_CAPFT, T_chws_c, T_design) / ref
+    return 1.0 / capft_design
+
+
+def nominal_capacity(cond):
+    """Installed nominal (ARI) capacity of the machine serving this load.
+
+    Explicit `Q_nominal_kw` wins; otherwise it is derived by selecting at the
+    design entering-condenser temperature. Defaulting to the LOAD -- which is
+    what every call site did before defect 16 -- asserts a machine sized at ARI
+    for a plant that never operates there.
+    """
+    q_nom = cond.get("Q_nominal_kw")
+    if q_nom:
+        return float(q_nom)
+    return float(cond["Q_evap_kw"]) * selection_factor(cond.get("T_chws_c", 7.0))
 
 
 def reset_chiller_range_log():

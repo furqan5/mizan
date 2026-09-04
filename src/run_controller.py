@@ -71,10 +71,20 @@ for _rev in V5_REVISIONS:
 # ---- plant archetype ----------------------------------------------------
 # One condenser-water module of a Gulf district-cooling plant.
 PLANT = {
-    "Q_evap_kw": 10_000.0,        # 10 MW cooling, ~2 840 RT  [A archetype]
+    "Q_evap_kw": 10_000.0,        # 10 MW cooling LOAD, ~2 840 RT  [A archetype]
     "m_w": 478.0,                 # kg/s, sized for ~5 K condenser range [A]
     "m_a_rated": 400.0,           # kg/s at full fan  [A]
     "p_fan_rated_kw": 110.0,      # induced-draught cell bank  [A]
+    # Installed NOMINAL (ARI) capacity, which is not the same thing as the
+    # load. DEFECT 16: every capacity check used the load itself as the
+    # nameplate, i.e. a machine selected at ARI 29.44 degC entering condenser
+    # water and then asked to run a Gulf summer at 33-35 degC. It could not,
+    # and two of five design conditions came back with no feasible operating
+    # point at all. Selected instead at the top of the curve's own fitted
+    # range (35 degC), which is a 15.0 % margin -- an ordinary selection.
+    # Left as None so it is DERIVED from the curve rather than typed here;
+    # a typed nameplate is the defect-12 shape waiting to happen.
+    "Q_nominal_kw": None,
 }
 
 # ---- tariffs -- now from published schedules, not assumption ------------

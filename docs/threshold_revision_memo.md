@@ -23,7 +23,9 @@ There are only three honest responses to a threshold that turns out to have been
 
 ## V5 — makeup water reduction
 
-Pre-registered: **≥ 15 %**. Achieved: **14.83 %**. Failed by 0.17 points.
+Pre-registered: **≥ 15 %**. Achieved: **10.02 %**. Failed by 4.98 points.
+
+> **Rewritten 4 September 2026.** This memo was first written on 30 August against the pre-defect-11 artefacts, when V5 scored 14.83 % and the miss was 0.17 points. Enforcing the chiller capacity limit moved it to 10.02 %. Every number below has been recomputed. **The recommendation did not change — it got stronger — but one of the three options died**, and that is recorded rather than quietly dropped.
 
 ### What the number is actually made of
 
@@ -31,7 +33,8 @@ Makeup water is evaporation × C/(C−1), so raising cycles of concentration buy
 
 | Cycles | Saving from cycles alone |
 |---|---|
-| 4 → 7 | 12.50 % ← the last **feasible** point |
+| 4 → 6 | 10.00 % ← **where the optimiser actually lands**, once the chiller capacity limit is enforced |
+| 4 → 7 | 12.50 % ← the economic ceiling from the fixed-fan sweep |
 | 4 → 8 | 14.29 % ← the gypsum wall itself, infeasible |
 | 4 → 8.5 | 15.00 % ← **what the criterion required** |
 
@@ -41,24 +44,84 @@ Gypsum saturation is not pH-sensitive, so acid — the lever that buys cycles ag
 
 | Condition | Water saving |
 |---|---|
-| Dhahran summer peak | **18.37 %** |
-| Dhahran summer humid | **16.34 %** |
-| Dhahran shoulder | **15.56 %** |
-| Doha summer humid | **15.45 %** |
+| Dhahran summer peak | 10.02 % |
+| Dhahran shoulder | 11.59 % |
 | Gulf winter | 8.45 % |
-| **unweighted mean** | **14.83 %** |
+| **unweighted mean** | **10.02 %** |
 
-**Four of the five conditions clear 15 % on their own.** The gate fails on the *mean*, and the mean is dragged down by Gulf winter — where the optimiser correctly trades water for energy, because in winter energy is 74 % of that condition's saving.
+**This is where the memo reverses.** In its first version four of five conditions cleared 15 % on their own and the gate failed only on the mean. Enforcing the chiller capacity limit removed two conditions as infeasible outright and cut the rest: **none of the 3 surviving conditions now clears 15 %, and the best of them reaches 11.59 %.** The old margin was bought in a region where the machine could not make its duty.
 
-The controller sits on a constraint boundary in every condition: cycles at the chemistry wall, fan at the chiller ceiling in four of five. There is no slack left. **14.83 % is the physical ceiling for this water, this plant and this machine.**
+The optimiser lands on 6 cycles in all 3 conditions, and almost all of the water saving is the cycles term.
+
+**The first version of this memo claimed 14.83 % was “the physical ceiling for this water, this plant and this machine”. That sentence does not survive, and it should not be reinstated with the new number substituted in.** The gypsum wall permits 8 cycles, worth 14.29 % on cycles alone. The optimiser reaches 6, worth 10.00 %. So 10.02 % is *where the optimiser stops*, not a physical ceiling — there are more than four points of water between it and the chemistry limit, and nothing in this package yet explains who is holding them.
+
+Cycles alone, 4 → 6, is worth 10.00 %. The mean comes out at 10.02 %. **That near-equality is a
+coincidence and should not be quoted as an identity**: per condition the air-side lever moves the
+water result by up to ±1.6 points either way — Dhahran shoulder gains 1.59 points because the
+optimiser slows the fan, Gulf winter loses 1.55 because it speeds the fan up to buy 12.09 % of
+electrical saving — and across the three surviving conditions those two nearly cancel. Averaged,
+the water benefit looks like pure chemistry headroom. It is not; it is chemistry headroom plus an
+air-side trade that happens to net to roughly zero on this particular set of three.
+
+### Two different walls are being reported as one
+
+The optimiser lands on **6 cycles in all three conditions**, and the run log names the reason:
+*“the chemistry constraint boundary”*. The two-ceilings sweep reports the gypsum wall at **8**.
+Both are in the same package and they are not the same number, because **they are computed at
+different conditions**.
+
+- **V5** runs the three weather conditions that survive the chiller capacity limit. At those, the
+  skin is hot enough that saturation binds at **6**.
+- **V5b**, the two-ceilings sweep, runs at a single condition — *Dhahran summer humid* — with the
+  fan pinned at 90 %. At that condition saturation binds at **8**.
+
+**“Dhahran summer humid” is one of the two conditions V5 discards as having no feasible
+solution.** And the sweep's own output says every row of it is out of envelope:
+
+> `CHILLER ENVELOPE: 10 of 10 cycle counts sit outside the machine's validity envelope at this
+> condition, at fan 90 %.`
+
+The script adds that this *“does not move the ceilings below”*, and for the **physical** ceiling
+that is right: gypsum saturation depends on water composition and temperature, not on whether the
+chiller can make its duty. **It does not obviously hold for the economic ceiling.** “Cost falls
+monotonically to 7 cycles” is a statement about cost, cost is dominated by chiller power, and
+chiller power is the quantity that is not valid out of envelope — which is exactly what defect 11
+was.
+
+**This has now been measured.** `src/ceiling_condition_audit.py` re-runs the same sweep at five
+conditions:
+
+| condition | fan | economic | gypsum | envelope |
+|---|---|---|---|---|
+| Dhahran summer humid — **the published one** | 90 % | 7 | 8 | **0 of 10 rows inside** |
+| Dhahran summer humid | 100 % | 7 | 8 | **0 of 10 rows inside** |
+| Dhahran summer peak | 70 % | **6** | **7** | all rows inside |
+| Dhahran shoulder | 50 % | **6** | **7** | all rows inside |
+| Gulf winter | 90 % | **6** | **7** | all rows inside |
+
+**The published pair reproduces only at the condition the machine cannot operate at.** At all three
+conditions V5 finds feasible, both ceilings are one cycle lower.
+
+The gypsum wall is not corrupted by the chiller clamp — skin saturation comes from the thermal
+solve, not the chiller curve. It moves because **gypsum is prograde in this model**: a hotter skin
+makes it look safer, so the hottest condition yields the most permissive wall. The published
+condition is simultaneously the hottest and the one the York YT cannot serve, which buys an extra
+cycle on both ceilings at once.
+
+And it closes the question this section originally opened. V5 lands on 6 and its log calls that
+*“the chemistry constraint boundary”*. At an operable condition, **6 is** the last chemistry-feasible
+cycle count. The controller was never leaving water on the table; a different gate was reporting a
+wall one cycle further out than the plant can reach.
+
+Recorded as **defect 14, open** — open because the fix is a reporting judgement, not a patch.
 
 ### Three options
 
 | | Revision | Result | Argument for | Argument against |
 |---|---|---|---|---|
 | **A** | Leave it failed | FAIL | Nothing to defend. The evidence record is clean and a reviewer sees a team that reports its own misses. | A headline number reads as a failure when the product is at its physical limit. |
-| **B** | Re-register to **≥ 12.4 %**, anchored to the last feasible cycle count | 14.83 % → **PASS** | The threshold becomes a physical quantity — what the gypsum wall permits — rather than a round number. | Choosing a threshold *after* seeing the result, even a principled one. A sharp reviewer will ask when it was set. |
-| **C** | Re-register the metric as an **hours-weighted** annual average | **11.51 % → still FAIL, and worse** | An unweighted mean over five arbitrary conditions is not a physical quantity; a Gulf plant spends far more hours in summer than winter. | **Computed. It makes the number worse by 3.32 points**, because the five conditions over-represent summer. This is now the honest annual figure, not a route to a pass. |
+| **B** | Re-register to **≥ 12.4 %**, anchored to the last feasible cycle count | **DEAD.** 10.02 % → still **FAIL** | — | This was the fallback in the 30 August version, where it converted 14.83 % into a pass. It no longer converts anything: 10.02 % misses 12.4 % as well. **The option that existed only because the result was close to the threshold disappeared when the result moved.** Worth noticing on its own — a revision argued for on principle turned out to be worth proposing only while it happened to work. |
+| **C** | Re-register the metric as an **hours-weighted** annual average | **8.92 % → still FAIL, and still worse** | An unweighted mean over five arbitrary conditions is not a physical quantity; a Gulf plant spends far more hours in summer than winter. | **Computed. It makes the number worse by 1.10 points.** Smaller than the 3.32-point gap in the first version, because defect 11 cut the summer conditions that were doing the flattering. Still not a route to a pass. |
 
 ---
 
@@ -99,7 +162,7 @@ Three reasons, in order of weight.
 
 2. **The failures carry the two most useful findings in the package.** V5's failure is how the gypsum wall was found — a hard limit on this water that no competitor's LSI-based controller can even represent. V2's failure is the quantitative measurement of fill drift, which is the entire justification for the annual recalibration licence the business model rests on. Convert them to passes and both findings become footnotes.
 
-3. **It is consistent with how everything else here was done.** Ten defects were found and reported, including four that were caught only because a first-principles model refused a bad input. Revising two thresholds at the end, after seeing the results, would be the one place the discipline slipped — and it would be the first place a sceptical reviewer looked.
+3. **It is consistent with how everything else here was done.** Thirteen defects were found and reported, including five that were caught only because a first-principles model refused a bad input. Revising two thresholds at the end, after seeing the results, would be the one place the discipline slipped — and it would be the first place a sceptical reviewer looked.
 
 **If you disagree**, option B on V5 is the stronger of the two revisions, because 12.4 % is a physical quantity rather than a round number. If you take it, it must appear in the PoC report as a **declared revision** with the original 15 % threshold, the date, and the reason on the record. I will implement it that way and not otherwise.
 
@@ -111,20 +174,26 @@ Option C — re-registering the metric as an hours-weighted annual average — w
 
 | | Water saving |
 |---|---|
-| Five-condition unweighted mean — what the V5 gate scores | 14.83 % |
-| **Hours-weighted annual, real Dhahran year** | **11.51 %** |
-| Difference | **−3.32 points** |
+| Five-condition unweighted mean — what the V5 gate scores | 10.02 % |
+| **Hours-weighted annual, real Dhahran year** | **8.92 %** |
+| Difference | **−1.10 points** |
 
 The reason is visible in the bins. The saving is large when it is hot and small when it is not:
 
-| Half of the year | Water saving by bin |
-|---|---|
-| Cooler half (wet-bulb 9.7–19.3 °C) | 8.2, 8.7, 6.4, 6.0 % |
-| Hotter half (wet-bulb 21.4–28.5 °C) | 14.1, 13.8, 16.4, 18.4 % |
+| Half of the year | Water saving by bin | Same bins, 30 August |
+|---|---|---|
+| Cooler half (wet-bulb 9.7–19.3 °C) | 8.2, 8.7, 6.4, 6.0 % | 8.2, 8.7, 6.4, 6.0 % — **unchanged** |
+| Hotter half (wet-bulb 21.4–28.5 °C) | 10.0, 11.9, 10.0, 10.0 % | 14.1, 13.8, 16.4, 18.4 % — **superseded** |
+
+The third column is the most useful thing in this memo. Defect 11 left the cool half of the year
+**bit-for-bit unchanged** and cut the hot half by four to eight points. That is exactly the
+signature the diagnosis predicts: the chiller capacity limit can only bind when the condenser is
+hot. The defect was not spread across the model, it was concentrated in the half of the year the
+product is sold for.
 
 The five hand-picked conditions were four summer and one winter. A real Dhahran year is not weighted that way, so **the gate's metric was flattering the product by more than three points.** Weighting it honestly removes that.
 
-**This kills option C as a route to a passing gate**, and it does something more useful instead: it says the number that should be quoted to a customer is **≈11.5 % annually, not 14.83 %**. That is the figure a plant would actually see over a year, and it is the one that belongs in a commercial conversation. The 14.83 % should not be used outside the specific five-condition comparison it was computed for.
+**This kills option C as a route to a passing gate**, and it does something more useful instead: it says the number to quote to a customer is the annual one, **not** the 10.02 % the gate scores. Two annual figures exist and they are not interchangeable — the hours-weighted mean of ratios is 8.92 %, and the ratio of hour-weighted totals is **9.23 %**. `annual_dhahran.json` says in its own `weighting_note` that the ratio of totals is the one to quote outside this repository, so **9.23 % is the commercial figure**. The 10.02 % should not be used outside the specific five-condition comparison it was computed for.
 
 It also carries its own caveat, from the same file: only **62.5 %** of the weighted year lies inside the wet-bulb envelope the model was validated in. The remaining 37.5 % rests on extrapolation, which no weighting scheme can fix.
 

@@ -9,21 +9,21 @@ PRE-REGISTERED THRESHOLDS (declared before fitting):
 train n=115   holdout n=50 (never seen during fit)
 
 identified fill law   Me = 1.2401 * (m_w/m_a)^(-0.5014)
-   fitted on 114/115 training points, log-space R2 = 0.3719   [1.0s]
+   fitted on 114/115 training points, log-space R2 = 0.3719   [3.3s]
 
 --- TRAIN  (n=115, converged 100.0%)
     Tout  MAE 0.454 K   RMSE 0.620   bias -0.055   p95 1.417
     Q     MAPE 7.48 %
-    evap  MAPE 9.34 %  (bias +5.03 %)
+    evap  MAPE 7.80 %  (bias -0.83 %)
 
 --- HOLDOUT  (n=50, converged 100.0%)
     Tout  MAE 0.542 K   RMSE 0.662   bias +0.453   p95 1.366
     Q     MAPE 5.94 %
-    evap  MAPE 7.11 %  (bias -5.68 %)
+    evap  MAPE 9.90 %  (bias -9.44 %)
 
 VERDICT on the untouched holdout, vs thresholds fixed in advance:
    V1 thermal  Tout MAE   0.542 <= 1.00 K   PASS
    V1 thermal  Q MAPE      5.94 <= 6.00 %   PASS
-   V2 water    evap MAPE   7.11 <= 8.00 %   PASS
+   V2 water    evap MAPE   9.90 <= 8.00 %   FAIL
 
 written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\calibration.json

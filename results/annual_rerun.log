@@ -3,36 +3,36 @@ HOURS-WEIGHTED ANNUAL PERFORMANCE  --  Dhahran TMYx 2011-2025
 ============================================================================
 This is NOT the pre-registered V5 gate and does not change its
 verdict. V5 is an unweighted mean over five conditions; it scored
-14.83 % against 15 % and failed. This is the annual figure.
+10.83 % against 15 % and failed. This is the annual figure.
 
  bin  hours   T_wb C   T_db C     RH   load  energy %   water %   cost %  in envlp
 ----------------------------------------------------------------------------
-   0   1095      9.7     14.7   0.54   0.50     11.54      8.24    10.22       yes
-   1   1095     14.2     19.6   0.58   0.57     11.91      8.67    10.64       yes
-   2   1095     16.9     23.4   0.55   0.64     11.49      6.45     9.59       yes
-   3   1095     19.3     27.2   0.51   0.70      6.65      6.00     6.25       yes
-   4   1095     21.4     30.3   0.49   0.75      1.25     14.11     5.62       yes
-   5   1095     23.6     33.7   0.47   0.80      1.57     13.84     6.03        NO
-   6   1095     25.8     36.9   0.45   0.85      2.27     16.40     7.42        NO
-   7   1095     28.5     37.4   0.55   0.86      6.74     18.41    10.88        NO
+   0   1095      9.7     14.7   0.54   0.50     11.52      8.23    10.21       yes
+   1   1095     14.2     19.6   0.58   0.57     11.62      8.63    10.43       yes
+   2   1095     16.9     23.4   0.55   0.64     12.45      6.58    10.28       yes
+   3   1095     19.3     27.2   0.51   0.70      6.78      6.01     6.34       yes
+   4   1095     21.4     30.3   0.49   0.75      6.94      5.57     6.28       yes
+   5   1095     23.6     33.7   0.47   0.80      1.13      8.33     3.65        NO
+   6   1095     25.8     36.9   0.45   0.85     -0.04     10.02     3.59        NO
+   7   1095     28.5     37.4   0.55   0.86      0.91     13.99     5.55        NO
 ----------------------------------------------------------------------------
-ANNUAL   8760                                      6.68     11.51     8.33
+ANNUAL   8760                                      6.41      8.42     7.04
 
 WHAT THIS IS, AND WHAT IT RESTS ON
-   hours-weighted annual total-power reduction  : 6.68 %
-   hours-weighted annual makeup water reduction : 11.51 %
-   hours-weighted annual cost reduction         : 8.33 %
+   hours-weighted annual total-power reduction  : 6.41 %
+   hours-weighted annual makeup water reduction : 8.42 %
+   hours-weighted annual cost reduction         : 7.04 %
 
    Those three are means of ratios. As RATIOS OF ANNUAL TOTALS,
    which is what a plant actually banks over a year:
-   annual electrical energy reduction           : 5.96 %   (-0.72 pts)
-   annual makeup water reduction                : 12.57 %   (+1.06 pts)
-   annual operating cost reduction              : 8.16 %   (-0.18 pts)
+   annual electrical energy reduction           : 5.36 %   (-1.05 pts)
+   annual makeup water reduction                : 8.81 %   (+0.39 pts)
+   annual operating cost reduction              : 6.44 %   (-0.60 pts)
    The energy and water corrections have OPPOSITE signs, because
    the energy saving is biggest when the plant draws least power
    and the water saving is biggest when it evaporates most.
    for comparison, the five-condition unweighted mean the V5 gate
-   scores                                        : 14.83 % water
+   scores                                        : 10.83 % water
 
    fraction of the weighted year INSIDE the validated wet-bulb
    envelope (<= 21.9 C)                        : 62.5 %

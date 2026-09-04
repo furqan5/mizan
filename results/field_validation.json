@@ -1,0 +1,70 @@
+{
+  "source": "Saudi Aramco Dhahran 8-month pilot, published by the operating engineers (Badruzzaman et al.)",
+  "status": "RETRODICTION -- gate written after the observation was found. Must never be quoted as a pre-registered prediction.",
+  "T_bulk_C": 33.0,
+  "skin_delta_K": 8.0,
+  "observed": {
+    "groundwater": {
+      "coc": 2.0,
+      "outcome": "severe scaling on condenser surfaces"
+    },
+    "tse": {
+      "coc": 3.5,
+      "outcome": "condenser surface clean, no mineral deposit"
+    }
+  },
+  "modelled": {
+    "groundwater": {
+      "SI_calcite": 1.5325847986078749,
+      "SI_gypsum": -0.2198971717073377,
+      "SI_silica_am": -27.42402456472337
+    },
+    "tse": {
+      "SI_calcite": 0.6854651104427738,
+      "SI_gypsum": -0.13779861987553765,
+      "SI_silica_am": -27.42402456472337
+    }
+  },
+  "over_limit": {
+    "groundwater": [
+      "SI_calcite"
+    ],
+    "tse": [
+      "SI_calcite"
+    ]
+  },
+  "criteria": [
+    {
+      "name": "F1 groundwater supersaturated at COC 2",
+      "passed": true,
+      "detail": "over in ['SI_calcite']"
+    },
+    {
+      "name": "F2 TSE undersaturated at COC 3.5",
+      "passed": false,
+      "detail": "over in ['SI_calcite']"
+    },
+    {
+      "name": "F3 groundwater more saturated in SI_calcite",
+      "passed": true,
+      "detail": "separation +0.847 log units"
+    },
+    {
+      "name": "F4 verdict is not silica",
+      "passed": true,
+      "detail": "silica is not reported in either analysis"
+    }
+  ],
+  "n_passed": 3,
+  "n_total": 4,
+  "reported_diagnostic": {
+    "lsi_reported_by_plant": [
+      0.0,
+      0.5
+    ],
+    "model_SI_calcite_tse_25C": 0.4835135400131767,
+    "model_SI_calcite_tse_bulk": 0.5871772643139153,
+    "model_SI_calcite_groundwater_25C": 1.33033155032017,
+    "note": "F2 failed against DEFAULT_LIMITS['SI_calcite'] = 0.5 applied at SKIN temperature, but the plant's published LSI is a BULK index. At 25 C this model gives 0.484 against the plant's reported range of 0 to 0.5. F2 is NOT rescored; this agreement is reported alongside the failure, never in place of it."
+  }
+}

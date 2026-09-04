@@ -71,8 +71,30 @@ def _vant_hoff(log_k25, delta_h_kcal, T_c):
 
 
 def log_k_gypsum(T_c):
-    """CaSO4:2H2O = Ca+2 + SO4-2 + 2H2O. phreeqc.dat log_k -4.58, dH -0.109 kcal."""
-    return _vant_hoff(-4.58, -0.109, T_c)
+    """CaSO4:2H2O = Ca+2 + SO4-2 + 2H2O (phreeqc.dat analytical expression).
+
+    DEFECT 15, fixed 4 September 2026. This was
+        _vant_hoff(-4.58, -0.109, T_c)
+    A single-enthalpy van't Hoff is MONOTONIC BY CONSTRUCTION, and the comment
+    at MINERAL_EVAL_POINT below has always said gypsum has a "maximum near
+    35-40 C". That form cannot produce a maximum anywhere. Measured: strictly
+    decreasing over 10-80 C, moving only 0.0105 log units across 25->70 C,
+    while activity coefficients moved the full SI ~10x that in the SAME
+    direction. Gypsum therefore looked LESS saturated at the hot skin than in
+    the bulk -- the opposite of the mechanism this product is built on, and the
+    reason the hottest condition returned the most permissive wall (defect 14).
+
+    No new source was needed. phreeqc.dat, already cited above for calcite and
+    for carbonic K2 in exactly this analytic form, supplies one for gypsum:
+        Gypsum  -analytic  68.2401  0.0  -3221.51  -25.0627
+    Calcite had been given this treatment from the start; gypsum had not.
+    Anchored to the same log_k25 (agrees to 0.0009), it has an interior maximum
+    near 23 C and 10.8x the temperature response.
+
+    Scored against pre-registered predictions in src/gypsum_logk_upgrade.py.
+    """
+    T = T_c + T_K0
+    return 68.2401 - 3221.51 / T - 25.0627 * math.log10(T)
 
 
 def log_k_silica_am(T_c):

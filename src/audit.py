@@ -25,6 +25,19 @@ sys.path.insert(0, str(pathlib.Path(__file__).parent))
 
 PROBLEMS: list[str] = []
 CHECKS = 0
+PAIRS: dict[str, str] = {}
+ROUNDED: set[str] = set()
+
+# The documents are full of the characters engineering prose needs -- >=, x,
+# degree signs, arrows. On a Windows console stdout defaults to cp1252 and
+# printing one of them raises. A PASSING audit prints only ASCII, so this
+# crashed ONLY when there was something to report: the failure path was the
+# untested path, and an audit that dies while listing problems is worse than
+# no audit. Errors are replaced rather than raised.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, OSError):  # pragma: no cover - non-reconfigurable
+    pass
 
 
 def check(ok: bool, what: str, detail: str = ""):
@@ -32,6 +45,111 @@ def check(ok: bool, what: str, detail: str = ""):
     CHECKS += 1
     if not ok:
         PROBLEMS.append(f"{what}" + (f"  --  {detail}" if detail else ""))
+
+
+def superseded_from_register() -> dict[str, str]:
+    """Read the set of superseded headline figures OUT OF the defect register.
+
+    This used to be four literals typed into section 5. That is the defect-12
+    shape one level up: a hand-maintained record of what the numbers USED to
+    be, which has to be edited by hand every time they move, and which
+    therefore goes stale at exactly the moment a fix has made it matter.
+
+    It did. Defect 11 superseded six headline figures on 3 September and not
+    one was added to that list, so the scan went on passing documents that
+    quote them -- including the draft of a post that was actually published.
+
+    The register's before/after table is already the supersession record and
+    is already required to be accurate. So it is read rather than copied.
+    Any future fix that moves a headline number updates this scan for free,
+    because writing that table is part of recording the defect.
+    """
+    reg = (DOCS / "defect_register.md").read_text(encoding="utf-8")
+    out: dict[str, str] = {}
+    # value -> the value that replaced it, so the scan can recognise a
+    # paragraph that shows BOTH as a supersession record rather than a stale
+    # quote. Without this the register's own table fails the check it feeds.
+    PAIRS.clear()
+    ROUNDED.clear()
+    rows = re.findall(r"^\|([^|\n]*)\|([^|\n]*)\|([^|\n]*)\|\s*$",
+                      reg, re.MULTILINE)
+    for label, before, after in rows:
+        label = label.strip()
+        if not label or "---" in before:
+            continue
+        # only percentages: a bare "5 -> 3" count would match half the prose
+        b = re.fullmatch(r"\**\s*([0-9]+\.[0-9]+)\s*%\s*\**", before.strip())
+        a = re.search(r"([0-9]+\.[0-9]+)\s*%", after)
+        if not (b and a):
+            continue
+        out[f"{b.group(1)} %"] = f"the pre-fix {label.lower()}"
+        PAIRS[f"{b.group(1)} %"] = a.group(1)
+        # Also the ROUNDED form. Documents quote two decimals internally and one
+        # decimal to the outside world, so "12.57 %" leaves the repository as
+        # "12.6 %" -- and it was the one-decimal form that reached LinkedIn, the
+        # Sanabil website spec and three outreach templates while the audit
+        # watched only for the two-decimal one.
+        # Rounding is applied ONLY to supersessions recorded in this table, never
+        # to the four legacy prose entries below: 12.51 and 6.48 round onto 12.5
+        # and 6.5, which are a live cycles-arithmetic constant and a live cost
+        # figure respectively. A stale-number scan that cries wolf gets silenced.
+        rb, ra = f"{float(b.group(1)):.1f} %", f"{float(a.group(1)):.1f}"
+        if rb != f"{b.group(1)} %":
+            ROUNDED.add(rb)
+            out[rb] = f"the pre-fix {label.lower()}, as rounded for publication"
+            PAIRS[rb] = ra
+    # Four supersessions predate the table convention and are recorded in the
+    # register as prose only. They stay declared here, and they are the reason
+    # the convention exists.
+    out.update({
+        "7.11 %": "the pre-drift-fix evaporation MAPE",
+        "12.51 %": "the pre-chiller-fix water saving",
+        "6.48 %": "the pre-chiller-fix cost saving",
+        "14.64 %": "the unconverged-solver water saving",
+    })
+    return out
+
+
+def artefact_value(spec: str):
+    """Resolve `file.json -> a.b.c` against the results directory.
+
+    Documents cite a key the way a reader would say it -- `binding_mineral`,
+    not `summary.binding_mineral`. An exact path is tried first; failing
+    that, a key that occurs exactly ONCE anywhere in the file resolves to it.
+    A key occurring more than once does not resolve, because then the
+    citation really is ambiguous and the document should say which one.
+    """
+    fname, _, keypath = spec.partition("|")
+    fp = RESULTS / fname
+    if not fp.exists():
+        return None
+    doc = json.loads(fp.read_text())
+
+    node = doc
+    for part in keypath.split("."):
+        if not isinstance(node, dict) or part not in node:
+            node = None
+            break
+        node = node[part]
+    if node is not None:
+        return node
+
+    if "." in keypath:
+        return None
+    found = []
+
+    def walk(n):
+        if isinstance(n, dict):
+            for k, v in n.items():
+                if k == keypath:
+                    found.append(v)
+                walk(v)
+        elif isinstance(n, list):
+            for v in n:
+                walk(v)
+
+    walk(doc)
+    return found[0] if len(found) == 1 else None
 
 
 def main():
@@ -288,19 +406,25 @@ def main():
               f"artefact says {want}")
 
     # --- 5. no document may quote a superseded headline number -----------
-    stale = {
-        "7.11 %": "the pre-drift-fix evaporation MAPE",
-        "12.51 %": "the pre-chiller-fix water saving",
-        "6.48 %": "the pre-chiller-fix cost saving",
-        "14.64 %": "the unconverged-solver water saving",
-    }
+    stale = superseded_from_register()
+    SCANNED = sorted(list(DOCS.glob("*.md")) + list(DOCS.glob("*.txt"))
+                     + [ROOT / "HANDOFF.md"])
     # A superseded number may appear ONLY where the surrounding paragraph
     # says so. The label is often a sentence or two above the figure, so the
     # whole paragraph is the unit of context, not the line.
     LABELS = ("as sent", "earlier", "was later", "superseded", "withdrawn",
               "turned out", "artefact", "no longer", "previously",
               "used to", "corrected to")
-    for md in sorted(DOCS.glob("*.md")):
+    # .txt is in scope too. `docs/linkedin_correction_post.txt` is the text of
+    # a post that was actually published and it was outside the glob, so the
+    # one document in here with real-world consequences was the one document
+    # the scan could not see. HANDOFF.md is in scope for the same reason from
+    # the other direction: it is the first thing the next session reads, so a
+    # superseded number in it propagates into everything written afterwards.
+    # Documents written by make_report.py / make_deck.py from the artefacts.
+    GENERATED = {"poc_report.md", "deck_content.md"}
+    for md in SCANNED:
+        generated = md.name in GENERATED
         text = md.read_text(encoding="utf-8")
         paras = text.split("\n\n")
         pos = 0
@@ -310,11 +434,148 @@ def main():
             low = para.lower()
             labelled = any(k in low for k in LABELS)
             for tok, why in stale.items():
-                if tok in para and not labelled:
+                # A ROUNDED stale form is only meaningful in a HAND-WRITTEN
+                # document. Generated reports recompute every number at build
+                # time, so they cannot carry a figure someone forgot to update
+                # -- but they CAN legitimately print a current value that
+                # happens to round onto a superseded one. Not hypothetical:
+                # poc_report.md prints Doha summer humid's water saving of
+                # 12.64 % as "+12.6 %", colliding exactly with the pre-fix
+                # annual water figure of 12.57 %. Flagging a freshly computed
+                # number as stale is the fastest way to teach someone to ignore
+                # this check. Exact forms still apply everywhere: if a GENERATED
+                # file ever prints "12.57 %" the generator is broken, and that
+                # must still fail.
+                if generated and tok in ROUNDED:
+                    continue
+                # A paragraph carrying BOTH the old value and the one that
+                # replaced it is a supersession record, not a stale quote --
+                # otherwise the register's own before/after table, which is
+                # where this list comes from, would fail the check it feeds.
+                if PAIRS.get(tok) and PAIRS[tok] in para:
+                    continue
+                # Match on a NUMBER boundary, not a substring. Plain `in` finds
+                # "6.0 %" inside "66.0 %" and reports a cost split as a stale
+                # energy figure -- a false positive in a check whose only value
+                # is that people believe it.
+                if re.search(r"(?<![\d.])" + re.escape(tok), para) and not labelled:
                     line = text[:start].count("\n") + 1
                     check(False, f"{md.name}:~{line} quotes {tok} ({why}) "
                                  f"with nothing marking it as superseded",
                           para.strip().replace("\n", " ")[:90])
+
+    # --- 5b. a stated provenance must actually hold ----------------------
+    # Several documents carry a "Numbers used, and why these ones" table
+    # whose rows name the artefact and the key each figure was taken from.
+    # That is the strongest claim a document makes and nothing checked it.
+    # `linkedin_post_draft.md` asserted
+    #     | Annual makeup water | 12.6 % | annual_dhahran.json -> annual_water_pct_ratio_of_totals |
+    # while that key held 9.23, and the draft was published in that state.
+    # A cited number is WORSE than an uncited one when the citation is wrong:
+    # it spends the reader's trust to carry the error.
+    #
+    # This check needs no list of figures. The document states where its
+    # number came from; the artefact is opened and asked.
+    ROW = re.compile(
+        r"^\|(?P<label>[^|\n]*)\|(?P<value>[^|\n]*)\|(?P<prov>[^|\n]*)\|\s*$",
+        re.MULTILINE)
+    CITE = re.compile(r"`([A-Za-z0-9_]+\.json)`\s*(?:→|->)\s*`([A-Za-z0-9_.]+)`")
+    for md in SCANNED:
+        text = md.read_text(encoding="utf-8")
+        for m in ROW.finditer(text):
+            cite = CITE.search(m.group("prov"))
+            if not cite:
+                continue
+            # A row may record what a document ONCE said, provided it says so.
+            # A markdown table is a single block, and the sentence introducing
+            # it is the block before -- so both are searched for a label, the
+            # same allowance section 5 makes for prose.
+            blk_start = text.rfind("\n\n", 0, m.start()) + 1
+            ctx_start = max(0, text.rfind("\n\n", 0, blk_start - 2))
+            blk_end = text.find("\n\n", m.end())
+            ctx = text[ctx_start:blk_end if blk_end > 0 else len(text)].lower()
+            if any(k in ctx for k in LABELS):
+                continue
+            fname, keypath = cite.group(1), cite.group(2)
+            actual = artefact_value(f"{fname}|{keypath}")
+            if actual is None:
+                line = text[:m.start()].count("\n") + 1
+                check(False, f"{md.name}:{line} cites {fname} -> {keypath}, "
+                             f"which does not exist in the artefact")
+                continue
+            # the quoted figure may sit in the value cell or beside the key
+            claimed = m.group("value") + " " + m.group("prov")
+            if isinstance(actual, (int, float)) and not isinstance(actual, bool):
+                nums = re.findall(r"[0-9]+(?:\.[0-9]+)?", claimed)
+                if not nums:
+                    continue
+                # compare at whatever precision the document chose to quote
+                ok = any(
+                    abs(float(n) - round(float(actual), len(n.split(".")[1])
+                                         if "." in n else 0)) < 1e-9
+                    for n in nums)
+                line = text[:m.start()].count("\n") + 1
+                check(ok, f"{md.name}:{line} quotes {nums} for "
+                          f"{fname} -> {keypath}, which holds {actual:.4g}",
+                      m.group("label").strip()[:60])
+            else:
+                line = text[:m.start()].count("\n") + 1
+                check(str(actual) in claimed,
+                      f"{md.name}:{line} cites {fname} -> {keypath} = "
+                      f"{actual!r}, which the row does not carry",
+                      m.group("label").strip()[:60])
+
+    # --- 5b2. a figure a document tells you to attach must exist ----------
+    # `linkedin_outreach.md` and `linkedin_post_draft.md` both said
+    # "Attach: figs/two_ceilings.png" for weeks. There is no such file -- the
+    # figure is written by fig_water_ceiling as water_ceiling.png. A document
+    # that instructs an action which cannot be performed is a defect, and it is
+    # the kind nobody notices until someone is mid-post.
+    # A block naming BOTH a missing figure and a real one is a record of the
+    # correction, not an instruction to attach the missing file -- the same
+    # allowance the supersession scan makes for the register's before/after
+    # table. Without it, writing defect 18 down fails the check defect 18
+    # created.
+    for md in SCANNED:
+        text = md.read_text(encoding="utf-8")
+        for block in text.split("\n\n"):
+            refs = set(re.findall(r"`figs/([A-Za-z0-9_]+\.png)`", block))
+            if not refs:
+                continue
+            missing = {r for r in refs if not (ROOT / "figs" / r).exists()}
+            if missing and (refs - missing):
+                continue
+            for figref in missing:
+                check(False, f"{md.name} references figs/{figref}, "
+                             f"which does not exist")
+
+    # --- 5c. a run transcript must not be older than what the run wrote ---
+    # `results/` holds the JSON artefacts AND the captured stdout of the
+    # scripts that write them. The JSON was regenerated when defects 7 and 11
+    # were fixed; the transcripts were not, because nothing regenerates them
+    # and no check looked. So `calib_out.txt` sat in the results directory
+    # recording
+    #     V2 water  evap MAPE  7.11 <= 8.00 %  PASS
+    # while `calibration.json` beside it held 9.90 -- a FAIL. A file shaped
+    # like an artefact, stored with the artefacts, asserting a pass on a gate
+    # that fails is the most dangerous single object in this repository, and
+    # the audit that exists to prevent exactly that was only reading docs/.
+    TRANSCRIPTS = {
+        "calib_out.txt": "calibration.json",
+        "controller_out.txt": "controller_summary.json",
+        "annual_rerun.log": "annual_dhahran.json",
+        "fill_law_out.txt": "fill_law_decision.json",
+        "drift_out.txt": "drift.json",
+        "uncertainty_out.txt": "uncertainty.json",
+    }
+    for txt, js in TRANSCRIPTS.items():
+        tp, jp = RESULTS / txt, RESULTS / js
+        if not (tp.exists() and jp.exists()):
+            continue
+        check(tp.stat().st_mtime >= jp.stat().st_mtime - 2,
+              f"results/{txt} is older than results/{js}, so it is the "
+              f"transcript of a run that has since been superseded",
+              "re-run the script and capture its output again")
 
     # --- 6. a document must not claim a pass the artefacts do not support -
     poc = (DOCS / "poc_report.md").read_text(encoding="utf-8")

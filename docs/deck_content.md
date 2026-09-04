@@ -67,8 +67,8 @@ And the skin offset is computed, not assumed: ΔT = q″/h_i gives ~3.8 K at typ
 
 ## Slide 6 — Two ceilings, and the setpoint that finds neither
 
-- **The cost curve never turns over.** Cost falls monotonically to 7 cycles, the last feasible point — so the economics point straight at the wall, with no margin.
-- **Physical ceiling: 8 cycles.** First saturation violation at the skin — binding mineral **SI_gypsum**.
+- **The cost curve never turns over.** Cost falls monotonically to 6 cycles, the last feasible point — so the economics point straight at the wall, with no margin.
+- **Physical ceiling: 7 cycles.** First saturation violation at the skin — binding mineral **SI_gypsum**.
 
 Different numbers. A fixed conductivity setpoint locates neither: the first needs a coupled cost model, the second needs ion-specific speciation. **The Langelier index the industry runs on describes calcite only — it cannot represent the binding mineral here at all.**
 
@@ -97,11 +97,11 @@ It needs skin temperature (thermal model), bulk pH (chemistry model) and acid (a
 
 | | Threshold | Result |
 |---|---|---|
-| Total operating cost | ≥ 3 % | **6.37 %** |
-| Makeup water | ≥ 15 % | 10.02 % — **missed** |
+| Total operating cost | ≥ 3 % | **5.75 %** |
+| Makeup water | ≥ 15 % | 10.83 % — **missed** |
 | Saturation violations at skin | 0 | **0** |
 
-We report the miss because the reason is the thesis. 4 → 7 cycles is worth exactly 12.50 % of makeup *at constant evaporation*. We achieved 10.02 %. The missing 2.46 points are evaporation the optimiser **chose** to add by running the fan harder, because colder condenser water was worth more than the water it cost.
+We report the miss because the reason is the thesis. 4 → 7 cycles is worth exactly 12.50 % of makeup *at constant evaporation*. We achieved 10.83 %. The missing 2.46 points are evaporation the optimiser **chose** to add by running the fan harder, because colder condenser water was worth more than the water it cost.
 
 A water treater would have promised 12.5 % and not delivered it. An energy optimiser would have raised water use and never booked it.
 
