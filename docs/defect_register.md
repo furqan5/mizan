@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Twenty found, nineteen fixed, one open.
+## Part 1 — Defects. Twenty-two found, twenty-one fixed, one open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -38,6 +38,8 @@ This document lists both, separately, so neither can be mistaken for the other.
 | 20 | **The customer-facing value table extrapolated one hour across a whole year** | `commercialisation.md` §2 gave the saving per 10 MW module as **$157,975/yr and 26,711 m³/yr**, obtained by multiplying one condition's hourly saving by 8,760 hours. A Gulf plant does not spend 8,760 hours at a summer design condition. The package had already ruled twice that the hours-weighted figure is the one to quote — for the V5 gate mean, and again for the mean-of-ratios defect — and the value table, the only table a customer is ever shown, had never been brought under the rule. Recomputed against `annual_dhahran.json`: the published figures were **2.07× too high on cost and 2.26× too high on water**, and the 50,000 TR plant value fell from **$2.78M/yr to $1.34M/yr**. | **Fixed** — rebased on the weather-weighted year in `commercialisation.md`, `application_answers.md` and `WHERE-WE-STAND.md`, with the superseded column kept beside it |
 | 19 | **A sensitivity study asserted a conclusion its own table had stopped supporting** | `src/skin_sensitivity.py` printed a computed sweep of the gypsum wall against assumed skin ΔT, and then a paragraph of **hardcoded prose** underneath it: that a hotter skin makes gypsum look safer, that the 8 K assumption buys "about one extra cycle", and that the reported zero saturation violations was conditional on a fouled condenser. Defect 15 replaced the gypsum solubility model and the table changed; the paragraph did not. It also still quoted V5 at **14.83 %**, two supersessions out of date. Defects 12 and 13 one more time, in a file nobody thought to re-read. | **Fixed** — every conclusion is now derived from the computed rows, and the artefact records `ceiling_sensitive_to_skin_delta` rather than a remembered direction |
 | 14 | **The two headline ceilings are reported from a condition the machine cannot operate at** | `gate_v5b` sweeps cycles at one condition — *Dhahran summer humid*, fan 90 % — and reports **economic 7, physical 8**. That is one of the two conditions V5 discards as having no feasible solution, and its own output says `10 of 10 cycle counts sit outside the machine's validity envelope` (plr 1.097 against a 1.06 limit). `src/ceiling_condition_audit.py` re-runs the same sweep at the three conditions V5 *does* find feasible: both ceilings come back **one cycle lower, 6 and 7**, at all three, with every row inside the envelope. **Fixed** — but not by the reporting judgement this row originally called for. Defects 15 and 16 removed both causes: with gypsum on a temperature function that can turn over, the ceilings come out **6 and 7 at all five conditions**, and with the chiller selected properly the V5b sweep now sits **inside** the envelope at every cycle count. The condition-dependence was an artefact, not a fact about the water. |
+| 21 | The staleness guard could not reach the figures declared by hand | The data centre run's annual energy saving is 6.4779 %, which prints as "6.48 %" and collides exactly with the cost saving retired by the chiller capacity fix. The guard that clears live values only ran against tokens derived from the before/after tables, so it never touched the exact figures declared in code, and the audit demanded that a number generated that morning be labelled superseded. | **Fixed** |
+| 22 | **The total defect count was maintained by hand in five documents and went stale in all five** | The register's own header said twenty while its table listed twenty-one; its concluding section said eighteen; `threshold_revision_memo.md` said thirteen; `robustness_gaps.md` said fourteen; and `ENGINEERING_IN_PLAIN_ENGLISH.md` — the document the two non-technical co-founders read before speaking to a customer — said **ten found, ten fixed, none open**, while the register declared defect 17 OPEN. `audit.py` checked that the register's declared OPEN count matched its OPEN rows, but nothing checked the TOTAL, which is the number that moves every time a defect is found. Same shape as 12, 13 and 21: a figure maintained by hand, in a file nobody re-reads. | **Fixed** — the count is now DERIVED from the register's own table rows and cross-checked against every document that states one, in `audit.py`; the guard was verified non-vacuous by injecting a wrong count |
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
@@ -267,7 +269,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 | **Skin temperature rise is a hardcoded +8 K.** The film calculation in the codebase gives 2.4-3.7 K clean; 8 K is a fouled surface | **Neutral, and no longer load-bearing.** Re-measured 4 Sep against the corrected gypsum solubility: `SI_gypsum` has an interior minimum at 44.5 °C and the skin sits near 40 °C, so across the whole band 2.4-8.0 K the wall stays at **7 cycles** and the last feasible count at **6**. The previous entry said this bought about one cycle of apparent headroom; that was true of the van 't Hoff model and is not true of this one | `src/skin_sensitivity.py`, now deriving its own conclusions (defect 19). The heated-coupon rig still measures the real ΔT |
 | Magnesium-silicate SI threshold | Unknown | Handled by the empirical Mg × SiO₂ product instead of asserted |
 | OpenModelica leg | Neutral | Written, not installed, not run. Makes no claim |
-| **Acid dosing at high cycles may make the water corrosive, and the controller has no corrosion term.** EPRI warns that sulphuric acid replaces protective alkalinity with corrosive sulphate as cycles rise. **Two operators and a 1992 training syllabus now say this is the first constraint a practitioner sets, not a refinement** | **Against us**, and more sharply than when this line was written. The optimiser searches pH 7.0–9.0 against saturation only, with no corrosion floor. Field evidence in `docs/discovery_findings.md`: a plant chemist holds LSI at **0.8–1.0** deliberately, because a thin carbonate film **is** the corrosion defence; a textile engineer sets the pH window from **metallurgy** before anything else; and the 1992 course notes list *"calcium carbonate protective scale"* as a corrosion-control method. An optimiser driving toward LSI ≈ 0 strips that film | Potentiostat and coupon work in the KFUPM corrosion laboratory. **And before that, a corrosion floor in the optimiser** — this is now a specification, not an open question |
+| **Acid dosing at high cycles may make the water corrosive, and the controller has no corrosion term.** EPRI warns that sulphuric acid replaces protective alkalinity with corrosive sulphate as cycles rise. **Two operators and a 1992 training syllabus now say this is the first constraint a practitioner sets, not a refinement** | **Against us**, and more sharply than when this line was written. The optimiser searches pH 7.0–9.0 against saturation only, with no corrosion floor. Field evidence in `docs/discovery_findings.md`: a plant chemist holds LSI at **0.8–1.0** deliberately, because a thin carbonate film **is** the corrosion defence; a textile engineer sets the pH window from **metallurgy** before anything else; and the 1992 course notes list *"calcium carbonate protective scale"* as a corrosion-control method. An optimiser driving toward LSI ≈ 0 strips that film | Potentiostat and coupon work in the KFUPM corrosion laboratory. **And before that, a corrosion floor in the optimiser** — this is now a specification, not an open question. **Partly answered, 7 Sep 2026:** the floor is implemented (`CORROSION_FLOOR_SI`, enforced at bulk temperature where LSI practice sits) and `src/corrosion_floor_conditions.py` now sweeps it across **all five V5 conditions**, not the one in `corrosion_floor.json`. Pre-registered C1 — that the floor binds nowhere — **HELD**: cycles, fan, pH, makeup and cost are identical from a floor of -0.5 to +1.0 at every condition, because every optimum sits at pH 8.00-8.25 where SI_calcite is already well above the top of the band a plant chemist holds. So the EPRI objection does not change the controller's answer anywhere in the envelope. It does **not** retire the laboratory work: the floor is a saturation proxy, not a corrosion rate, and sulfate-driven attack after acid dosing is not a saturation phenomenon |
 | **Fouling has no energy consequence in the model.** `chiller_power` carries `approach_cond = 4.0` as a fixed constant, so scale can build to the saturation limit and the chiller draws identical power | **Against us, and it under-sells the product.** The ESCO argument in `outreach_messages_saudi.md` §5 asserts the fouling → approach → efficiency chain, and nothing computed it. `src/fouling_energy.py` now does: at the TEMA treated-water allowance, **+11.6 % chiller power**, worth **$80,757/yr** against **$52,285/yr** of water saving at the same tariffs — a ratio of **1.54**. Energy is the larger lever, and every operator interviewed described fouling as a performance problem, never a water one | Wiring `approach_cond` to a fouling state in the controller. The remaining unknown is **rate** — how fast fouling accumulates at a given supersaturation — which needs the heated-coupon rig |
 | No traction, no LOIs, no patents | Neutral | Customer interviews. Cohort 1 winners had none either |
 
@@ -277,10 +279,47 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Eighteen defects were found, seventeen are fixed, one is open and declared, and a passing audit gates every release. Six of the thirteen were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
+**"Is the work sound?"** Twenty-two defects were found, twenty-one are fixed, one is open and declared, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 
 Fixing 11 cost the product 4.8 points of water saving and two of five operating conditions. It is reported that way because the old number was earned where the chiller could not make its duty.
 
 **"Did everything work?"** No. Two gates failed. Both are diagnosed to a specific cause with no open questions, neither threshold was moved, and one of them failed precisely *because* a defect was fixed.
+
+
+---
+
+## Defect 21, and why the fix is about scope rather than about 6.48
+
+This is the third time the audit itself has been the defect, after 12 and 13, and
+the three share a shape. A check that is supposed to detect staleness acquires a
+way of asserting it, and then asserts it about something current.
+
+The guard exists because a retired figure and a live one can print identically.
+It reads the artefacts, rounds what it finds, and subtracts those forms from the
+stale list. It was written when every stale token came from a before/after table
+in this register, so it only ever cleared tokens of that kind. Seven figures are
+declared by hand instead, because they predate the table convention, and the
+guard could not see them at all. `annual_datacentre.json` then produced 6.4779 %
+and the audit began requiring a document to disown a number the same repository
+had computed an hour earlier.
+
+The fix subtracts the hand-declared figures too, but **against headline values
+only**, and that restriction is the whole of it. The first attempt cleared them
+against every float in the artefacts, per-bin arrays included, which made the
+audit pass and quietly retired two declarations that were earned: `11.5 %` and
+`8.3 %` were found live in the file the outreach is sent from, still being
+offered to prospects. Bin 0 of the Dhahran year saves 11.52 % energy and bin 5
+saves 8.33 % water. Those coincidences would have disabled both checks.
+
+The per-bin arrays stay in scope for the table-derived tokens, because documents
+quote bin ranges legitimately, and HANDOFF's *"6.0 to 8.6 % across the cooler
+half"* is one. So the two callers get two scopes, and the reason is written into
+the code rather than left to be rediscovered.
+
+**One declaration was retired honestly.** `6.7 %`, the pre-defect-11 annual
+electrical power on mean of ratios, now collides with the data centre run's
+annual energy of 6.6534 %. That is a real current headline, so the token cannot
+be enforced any more without flagging live work. It is recorded here rather than
+left silent, because a check that stops checking should say so.

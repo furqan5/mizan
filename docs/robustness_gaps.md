@@ -5,7 +5,7 @@ here is either measured in this repository or is an internal inconsistency
 between the code and its own comments. Nothing is imported from outside without
 saying so.
 
-The audit passes, the register stands at fourteen found / thirteen fixed / one
+The audit passes, the register stands at twenty-two found / twenty-one fixed / one
 open, and the numbers in every document match the artefacts. That is
 *consistency*. It is not the same thing as *robustness*, and the gap between the
 two is what this file is about.
@@ -313,3 +313,39 @@ that cannot be done from a desk, and it is still the one that decides whether an
 true.** What changed today is that there is now real plant data to be measured against at all,
 the model agrees with it to 0.016 log units where they overlap, and four independent sources put
 the operating band exactly where the model computes it.
+
+
+---
+
+## Corrosion floor — widened from one condition to five, 7 September 2026
+
+`results/corrosion_floor.json` swept the floor at **Dhahran summer peak only** and
+found the optimum completely insensitive to it. That was a strong claim resting on
+one condition, which is exactly the kind of thing this file exists to name.
+
+`src/corrosion_floor_conditions.py` repeats it at **all five conditions the V5 gate
+scores**, with the prediction registered before the run:
+
+```
+Dhahran summer peak   6 cycles, fan 60 %, pH 8.25   -> floor slack
+Dhahran summer humid  6 cycles, fan 80 %, pH 8.00   -> floor slack
+Dhahran shoulder      6 cycles, fan 80 %, pH 8.25   -> floor slack
+Doha summer humid     6 cycles, fan 80 %, pH 8.00   -> floor slack
+Gulf winter           6 cycles, fan 80 %, pH 8.25   -> floor slack
+
+C1  the floor binds at none of the five                 HELD
+```
+
+Identical cycles, fan, pH, makeup and cost at every floor from **-0.5 to +1.0** —
+the whole band a real plant chemist works in, and past the top of it. The reason is
+visible in the table: every optimum lands at **pH 8.00-8.25**, where SI_calcite is
+already far above any floor in that range. The optimiser was never near the
+aggressive corner.
+
+**What this does and does not settle.** It settles that adding the floor costs
+nothing and that the EPRI objection does not move the answer anywhere in the
+envelope. It does **not** settle corrosion: `CORROSION_FLOOR_SI` is a *saturation
+proxy*, and EPRI's actual warning is that sulphuric acid replaces protective
+alkalinity with **corrosive sulfate** — an attack mechanism that a calcite
+saturation index cannot represent at all. The KFUPM potentiostat and coupon work
+stays on the list, and it is now the only way to close it.

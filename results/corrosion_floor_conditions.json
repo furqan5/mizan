@@ -1,0 +1,383 @@
+{
+ "floors": [
+  null,
+  -0.5,
+  0.0,
+  0.3,
+  0.5,
+  0.8,
+  1.0
+ ],
+ "enforced_at": "bulk temperature (T_basin), where LSI practice sits",
+ "default_in_use": 0.0,
+ "status": "Extends results/corrosion_floor.json from one condition to five. Not a pre-registered GATE; C1/C2 are predictions and are scored honestly.",
+ "conditions": [
+  {
+   "condition": "Dhahran summer peak",
+   "T_db": 45.0,
+   "RH_pct": 20.0,
+   "T_wb": 25.206616688471364,
+   "floor_binds": false,
+   "n_infeasible": 0,
+   "rows": [
+    {
+     "floor": null,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    },
+    {
+     "floor": -0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    },
+    {
+     "floor": 0.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    },
+    {
+     "floor": 0.3,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    },
+    {
+     "floor": 0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    },
+    {
+     "floor": 0.8,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    },
+    {
+     "floor": 1.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 60.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 24.0195291557539,
+     "cost_per_h": 204.97490163383733
+    }
+   ]
+  },
+  {
+   "condition": "Dhahran summer humid",
+   "T_db": 38.0,
+   "RH_pct": 55.0,
+   "T_wb": 29.742703562472865,
+   "floor_binds": false,
+   "n_infeasible": 0,
+   "rows": [
+    {
+     "floor": null,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    },
+    {
+     "floor": -0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    },
+    {
+     "floor": 0.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    },
+    {
+     "floor": 0.3,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    },
+    {
+     "floor": 0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    },
+    {
+     "floor": 0.8,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    },
+    {
+     "floor": 1.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 21.303014493696864,
+     "cost_per_h": 204.10490724755584
+    }
+   ]
+  },
+  {
+   "condition": "Dhahran shoulder",
+   "T_db": 33.0,
+   "RH_pct": 40.0,
+   "T_wb": 22.383769731239866,
+   "floor_binds": false,
+   "n_infeasible": 0,
+   "rows": [
+    {
+     "floor": null,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    },
+    {
+     "floor": -0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    },
+    {
+     "floor": 0.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    },
+    {
+     "floor": 0.3,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    },
+    {
+     "floor": 0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    },
+    {
+     "floor": 0.8,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    },
+    {
+     "floor": 1.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 20.82153198318616,
+     "cost_per_h": 185.64355828513467
+    }
+   ]
+  },
+  {
+   "condition": "Doha summer humid",
+   "T_db": 40.0,
+   "RH_pct": 50.0,
+   "T_wb": 30.305263570745826,
+   "floor_binds": false,
+   "n_infeasible": 0,
+   "rows": [
+    {
+     "floor": null,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    },
+    {
+     "floor": -0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    },
+    {
+     "floor": 0.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    },
+    {
+     "floor": 0.3,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    },
+    {
+     "floor": 0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    },
+    {
+     "floor": 0.8,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    },
+    {
+     "floor": 1.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.0,
+     "makeup_m3_h": 22.074373449621014,
+     "cost_per_h": 208.06160223856605
+    }
+   ]
+  },
+  {
+   "condition": "Gulf winter",
+   "T_db": 22.0,
+   "RH_pct": 45.0,
+   "T_wb": 14.672361588574272,
+   "floor_binds": false,
+   "n_infeasible": 0,
+   "rows": [
+    {
+     "floor": null,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    },
+    {
+     "floor": -0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    },
+    {
+     "floor": 0.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    },
+    {
+     "floor": 0.3,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    },
+    {
+     "floor": 0.5,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    },
+    {
+     "floor": 0.8,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    },
+    {
+     "floor": 1.0,
+     "feasible": true,
+     "cycles": 6.0,
+     "fan_pct": 80.0,
+     "target_ph": 8.25,
+     "makeup_m3_h": 17.718938478956666,
+     "cost_per_h": 161.7958417746339
+    }
+   ]
+  }
+ ],
+ "C1_floor_never_binds": true,
+ "binding_conditions": []
+}

@@ -1,0 +1,70 @@
+==============================================================================
+CORROSION FLOOR ACROSS ALL FIVE V5 CONDITIONS
+==============================================================================
+Pre-registered C1/C2 are in this file's docstring.
+
+Dhahran summer peak  (45 C, 20 % RH, wb 25.2 C)
+       floor   cycles   fan %     pH     makeup   cost $/h
+        none        6      60   8.25      24.02     204.97
+       -0.50        6      60   8.25      24.02     204.97
+       +0.00        6      60   8.25      24.02     204.97
+       +0.30        6      60   8.25      24.02     204.97
+       +0.50        6      60   8.25      24.02     204.97
+       +0.80        6      60   8.25      24.02     204.97
+       +1.00        6      60   8.25      24.02     204.97
+  -> floor is slack here
+
+Dhahran summer humid  (38 C, 55 % RH, wb 29.7 C)
+       floor   cycles   fan %     pH     makeup   cost $/h
+        none        6      80   8.00      21.30     204.10
+       -0.50        6      80   8.00      21.30     204.10
+       +0.00        6      80   8.00      21.30     204.10
+       +0.30        6      80   8.00      21.30     204.10
+       +0.50        6      80   8.00      21.30     204.10
+       +0.80        6      80   8.00      21.30     204.10
+       +1.00        6      80   8.00      21.30     204.10
+  -> floor is slack here
+
+Dhahran shoulder  (33 C, 40 % RH, wb 22.4 C)
+       floor   cycles   fan %     pH     makeup   cost $/h
+        none        6      80   8.25      20.82     185.64
+       -0.50        6      80   8.25      20.82     185.64
+       +0.00        6      80   8.25      20.82     185.64
+       +0.30        6      80   8.25      20.82     185.64
+       +0.50        6      80   8.25      20.82     185.64
+       +0.80        6      80   8.25      20.82     185.64
+       +1.00        6      80   8.25      20.82     185.64
+  -> floor is slack here
+
+Doha summer humid  (40 C, 50 % RH, wb 30.3 C)
+       floor   cycles   fan %     pH     makeup   cost $/h
+        none        6      80   8.00      22.07     208.06
+       -0.50        6      80   8.00      22.07     208.06
+       +0.00        6      80   8.00      22.07     208.06
+       +0.30        6      80   8.00      22.07     208.06
+       +0.50        6      80   8.00      22.07     208.06
+       +0.80        6      80   8.00      22.07     208.06
+       +1.00        6      80   8.00      22.07     208.06
+  -> floor is slack here
+
+Gulf winter  (22 C, 45 % RH, wb 14.7 C)
+       floor   cycles   fan %     pH     makeup   cost $/h
+        none        6      80   8.25      17.72     161.80
+       -0.50        6      80   8.25      17.72     161.80
+       +0.00        6      80   8.25      17.72     161.80
+       +0.30        6      80   8.25      17.72     161.80
+       +0.50        6      80   8.25      17.72     161.80
+       +0.80        6      80   8.25      17.72     161.80
+       +1.00        6      80   8.25      17.72     161.80
+  -> floor is slack here
+
+==============================================================================
+PRE-REGISTERED PREDICTIONS, SCORED
+==============================================================================
+    HELD  C1 the floor does not bind at any of the five conditions
+          no condition is floor-sensitive
+
+A failed prediction is a finding. If the floor binds, it has a price
+and that price belongs in commercialisation.md.
+
+written -> results/corrosion_floor_conditions.json

@@ -1,0 +1,51 @@
+==============================================================================
+ANNUAL PERFORMANCE AT A DATA CENTRE LOAD PROFILE -- Dhahran TMYx
+==============================================================================
+IT-driven load held FLAT at 0.90 of nameplate in every
+wet-bulb bin. Everything else is identical to src/annual.py.
+
+This is NOT a pre-registered gate and changes no gate verdict.
+V5 remains failed on water. See docs/defect_register.md.
+
+Pre-registered predictions P1-P5 are in this file's docstring and
+were committed before the first run. They are scored at the end.
+
+ bin  hours   T_wb C   T_db C     RH   load  energy %   water %   cost %   ECWT C  in envlp
+------------------------------------------------------------------------------
+   0   1095      9.7     14.7   0.54   0.90     20.64     16.07    19.00    19.45       yes
+   1   1095     14.2     19.6   0.58   0.90     11.23     10.87    10.96    23.25       yes
+   2   1095     16.9     23.4   0.55   0.90     10.37      9.00     9.75    25.10       yes
+   3   1095     19.3     27.2   0.51   0.90      5.29      7.52     5.91    26.76       yes
+   4   1095     21.4     30.3   0.49   0.90      4.27      7.89     5.39    28.98       yes
+   5   1095     23.6     33.7   0.47   0.90      1.43      8.62     3.90    30.58        NO
+   6   1095     25.8     36.9   0.45   0.90     -0.56     11.61     3.89    32.17        NO
+   7   1095     28.5     37.4   0.55   0.90      0.57     13.77     5.23    33.95        NO
+------------------------------------------------------------------------------
+ANNUAL   8760                            0.90      6.65     10.67     8.00
+
+RATIOS OF ANNUAL TOTALS (the figures to quote):
+   electrical energy reduction :   6.48 %
+   makeup water reduction      :  10.67 %
+   operating cost reduction    :   7.80 %
+   annual cost saved           : $117,760/yr at 10 MW nameplate
+
+   cool half : energy  11.91 %   water  10.75 %   cost  11.36 %
+   hot  half : energy   1.39 %   water  10.60 %   cost   4.60 %
+   energy/water correlation across bins : r = +0.439
+
+==============================================================================
+PRE-REGISTERED PREDICTIONS, SCORED
+==============================================================================
+   FAILED  P1 cool-half energy BELOW district cooling
+           11.91 % vs 10.37 %
+     HELD  P2 annual water within +/-2.0 pts of district cooling
+           10.67 % vs 8.81 % (delta +1.86)
+     HELD  P3 energy/water anti-correlation WEAKENS
+           |r| 0.439 vs 0.548
+   MANUAL  P4 more bins pinned against the 35 C chiller ceiling
+           1 of 8 bins at ECWT >= 33.5 C -- compare against the 4-of-5 summer conditions in HANDOFF.md by hand
+     HELD  P5 absolute annual money saved above $76,236
+           $117,760/yr
+
+A failed prediction is a finding, not an error. Report it.
+written -> results/annual_datacentre.json

@@ -129,14 +129,41 @@ def superseded_from_register() -> dict[str, str]:
             ROUNDED.discard(tok)
             out.pop(tok, None)
             PAIRS.pop(tok, None)
+    # The hand-declared exact figures above never enter ROUNDED, so the loop
+    # just run cannot reach them, and that is how the data centre run broke this
+    # audit: its annual energy saving is 6.4779 %, prints as "6.48 %", and
+    # collides exactly with the cost saving the chiller fix retired. So they get
+    # their own pass -- against HEADLINE values only. Scope is the whole point.
+    # Clearing them against per-bin values as well would retire the declared
+    # "11.5 %" and "8.3 %" on nothing more than bin 0 saving 11.52 % energy and
+    # bin 5 saving 8.33 % water, and those two were declared precisely because
+    # they were found live in the file the outreach is sent from.
+    for tok in _live_rounded_forms(headline_only=True):
+        out.pop(tok, None)
+        PAIRS.pop(tok, None)
     return out
 
 
-def _live_rounded_forms() -> set[str]:
-    """Every current headline figure, rounded to one decimal, as "N.N %"."""
+def _live_rounded_forms(headline_only: bool = False) -> set[str]:
+    """Current artefact figures, as "N.N %" and "N.NN %".
+
+    Two scopes, because the two callers need different ones. The default
+    includes the per-bin arrays, since documents legitimately quote bin ranges
+    ("6.0 to 8.6 % across the cooler half"). `headline_only` stops at the
+    scalars, because a coincidence between one hourly bin and an annual total
+    is not grounds for retiring a figure the register declared stale.
+
+    A number a live artefact still generates cannot be a stale quote, whatever
+    it once meant. The data centre run makes that concrete: its annual energy
+    saving is 6.4779 %, which prints as "6.48 %" and collides exactly with the
+    cost saving retired by the chiller capacity fix. Documents quote figures at
+    one decimal and at two, so both forms have to be cleared, and every artefact
+    that carries a headline has to be listed here or the audit starts demanding
+    that current numbers be labelled superseded.
+    """
     live: set[str] = set()
     for name in ("controller_summary.json", "annual_dhahran.json",
-                 "calibration.json"):
+                 "annual_datacentre.json", "calibration.json"):
         path = RESULTS / name
         if not path.exists():
             continue
@@ -145,10 +172,13 @@ def _live_rounded_forms() -> set[str]:
                 for v in node.values():
                     walk(v)
             elif isinstance(node, list):
+                if headline_only:
+                    return
                 for v in node:
                     walk(v)
             elif isinstance(node, float):
                 live.add(f"{node:.1f} %")
+                live.add(f"{node:.2f} %")
         walk(json.loads(path.read_text(encoding="utf-8")))
     return live
 
@@ -350,6 +380,62 @@ def main():
         check(f"{spread:.1f}" in reg,
               "the defect register quotes a fill drift the artefact does not "
               "support", f"artefact says {spread:.1f} %")
+
+        # --- the TOTAL count, across every document that states it -------
+        #
+        # The check above guards the OPEN count. Nothing guarded the TOTAL,
+        # and the total is the number that moves every single time a defect
+        # is found -- so it went stale in four documents at once, including
+        # the co-founder-facing one, which claimed "none open" while the
+        # register declared one. Defects 12, 13 and 21 are all the same
+        # shape: a figure maintained by hand, in a file nobody re-reads.
+        #
+        # Derive it from the register's own table rather than declaring it.
+        _NUM = {"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13,
+                "fourteen": 14, "fifteen": 15, "sixteen": 16,
+                "seventeen": 17, "eighteen": 18, "nineteen": 19,
+                "twenty": 20, "twenty-one": 21, "twenty-two": 22,
+                "twenty-three": 23, "twenty-four": 24, "twenty-five": 25}
+        # Match on the STATE MARKER anywhere in the row rather than on cell
+        # position: row 14 merged its State column into the prose of the
+        # previous one, so a position-based count silently drops it and
+        # reports 20 for a table of 21. Counting is the goal; the register's
+        # formatting is not this guard's business.
+        rows = [m.group(1) for m in
+                re.finditer(r"^\|\s*(\d+)\s*\|.*?\*\*(?:Fixed|OPEN)\*\*",
+                            reg, re.M)]
+        n_defects = len({int(r) for r in rows})
+        check(n_defects > 0,
+              "could not count defect rows in the register's own table; the "
+              "table format changed and this guard is now blind")
+
+        # Longest-first, or "twenty" matches inside "twenty-one" and silently
+        # reports 20 for a document that says twenty-one.
+        _alts = "|".join(sorted(_NUM, key=len, reverse=True))
+        _pat = re.compile(
+            r"\b(" + _alts + r")\b[^.|\n]{0,40}?\bdefects?\b"
+            r"[^.|\n]{0,40}?\bfound\b", re.I)
+        _pat2 = re.compile(r"\b(" + _alts + r")\b\s+found\b", re.I)
+        # A document whose job is to QUOTE the disagreement is not asserting
+        # a count of its own.
+        _quoting = {"datacentre_strategy.md"}
+        disagree = []
+        for md in list(DOCS.glob("*.md")) + [ROOT / "HANDOFF.md"]:
+            if not md.exists() or md.name in _quoting:
+                continue
+            for ln, line in enumerate(
+                    md.read_text(encoding="utf-8",
+                                 errors="replace").splitlines(), 1):
+                if line.lstrip().startswith("|"):
+                    continue
+                for mm in list(_pat.finditer(line)) + list(_pat2.finditer(line)):
+                    said = _NUM[mm.group(1).lower()]
+                    if said != n_defects:
+                        disagree.append(f"{md.name}:{ln} says {said}")
+        check(not disagree,
+              "a document states a defect count that disagrees with the "
+              "register's own table",
+              f"table shows {n_defects}; " + "; ".join(disagree[:6]))
 
     # --- 4d. no document may exist as two copies -------------------------
     # A duplicated document is a defect waiting to happen: identical today,
