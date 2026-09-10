@@ -1,5 +1,24 @@
 # Mizan, explained from scratch
 
+> **SUPERSEDED IN PART — 10 September 2026.** Four chemistry defects were found
+> and fixed (register 24–27) and defect 17 was resolved. Every annual figure in
+> this document moved, and the *narrative* moved with them: water was the
+> headline term and is now the smallest one.
+>
+> | | as written here | corrected |
+> |---|---|---|
+> | annual makeup water | 8.8 % | **2.72 %** |
+> | annual operating cost | 6.4 % | **3.77 %** |
+> | annual electrical power | 5.4 % | **4.33 %** |
+> | V5 water gate | 10.83 %, failed | **6.65 %, still failed** |
+> | ceilings | 6 and 7, gypsum | **5 and 6, amorphous silica** |
+>
+> Inline figures below are tagged where they occur. **The pitch is not rewritten
+> here — that is a founder decision**, because energy is now the largest term and
+> `docs/prior_art_esc.md` shows the energy half is prior art seven times over.
+
+
+
 **For Damia, Ahsan and Furqan. Written so that any of us can hold a technical
 conversation with an operator without the others in the room.**
 
@@ -152,7 +171,7 @@ one is large the other is small. Statistically, a correlation of −0.55.
 |---|---|---|---|
 | Cool half (4,380 hours) | **10.4 %** | 7.2 % | 9.1 % |
 | Hot half (4,380 hours) | 2.1 % | **9.8 %** | 4.7 % |
-| **Whole year, as a ratio of totals** | **5.4 %** | **8.8 %** | **6.4 %** |
+| **Whole year, as a ratio of totals** | **5.4 % [SUPERSEDED 10 Sep 2026 -> 4.33 %]** | **8.8 % [SUPERSEDED 10 Sep 2026 -> 2.72 %]** | **6.4 % [SUPERSEDED 10 Sep 2026 -> 3.77 %]** |
 
 In the cool half the controller runs the fan **up**, spending fan power to buy
 compressor power. In the hot half it slows the fan down to save evaporation.
@@ -226,11 +245,11 @@ commands.
 | Can it predict how much heat is rejected? | within 6.00 % | **5.94 %** | Pass |
 | Can it predict how much water is consumed? | within 8.00 % | 9.90 % | **Fail** |
 | Does the controller cut total operating cost? | at least 3 % | **5.75 %** | Pass |
-| Does the controller cut makeup water? | at least 15 % | 10.83 % | **Fail** |
+| Does the controller cut makeup water? | at least 15 % | 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %] | **Fail** |
 | Does it ever cross a scaling limit? | never | never | Pass |
 
 Alongside those we report, but do **not** count as a test, the electrical power
-reduction: **2.86 %** averaged over the test conditions, **5.4 %** over a real
+reduction: **2.86 %** averaged over the test conditions, **5.4 % [SUPERSEDED 10 Sep 2026 -> 4.33 %]** over a real
 Dhahran year. We do not count it because we computed it after seeing the
 results, and setting a pass mark after you know the answer is not a test.
 
@@ -321,7 +340,7 @@ you where the physics stops.
 
 ## Part 8 — The mistakes we found in our own work
 
-Twenty-two defects found, twenty-one fixed, **one still open**. The four worth knowing about:
+Thirty-two defects found, **all thirty-two fixed**. The four worth knowing about:
 
 **The fan correlation was in the wrong units.** The published equation for air
 flow takes fan frequency in hertz; the dataset's own text described that column
@@ -373,8 +392,12 @@ Gulf conditions directly.
 **2. We assumed the tube wall runs 8 °C hotter than the bulk water, and we never
 computed it.** Our own code contains the calculation and never calls it. Run
 properly it gives 2.4–3.7 °C for a *clean* tube; 8 °C corresponds to a fouled
-one. This matters: at a clean 3 °C the gypsum wall moves in from 8 cycles to 7,
-and our reported optimum at 7 cycles would no longer be safe. We found this by
+one. This matters, and it mattered less than we first thought: when this was
+written the wall was believed to be gypsum at 8 cycles, moving in to 7 on a
+clean tube. Correcting the aqueous speciation moved the binding mineral to
+**amorphous silica** at 6 cycles — and silica is *prograde*, so it binds at the
+cold basin rather than the hot skin and the skin assumption barely moves it.
+The skin temperature still decides the calcite and phosphate limits. We found this by
 auditing our own code and we report it.
 
 **3. Acid dosing at high cycles may make the water corrosive, and our controller
@@ -418,7 +441,7 @@ operator, the whole business case computes from their own numbers.
 
 | Say this | Not this | Why |
 |---|---|---|
-| 8.8 % water, 6.4 % cost, 5.4 % power — annual | 10.83 %, 5.75 %, 2.86 % | The second set is the average of the five test conditions and is a different metric. The first is a real weighted year |
+| 8.8 % [SUPERSEDED 10 Sep 2026 -> 2.72 %] water, 6.4 % [SUPERSEDED 10 Sep 2026 -> 3.77 %] cost, 5.4 % [SUPERSEDED 10 Sep 2026 -> 4.33 %] power — annual | 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], 5.75 %, 2.86 % | The second set is the average of the five test conditions and is a different metric. The first is a real weighted year |
 | Gypsum wall "7 cycles" | "8 cycles", or hedging it against fouling | Measured 4 Sep across a clean-to-fouled tube wall, 2.4 K to 8.0 K: the wall does not move. It is 7 at every one |
 | "Prototype, validated against public experimental data" | "Proven", "deployed", "in use at" | We have no installed base |
 | "Two of our six criteria failed and we report them" | Silence | It is the most credible thing we have |

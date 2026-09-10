@@ -1,0 +1,945 @@
+{
+  "script_sha256": "d9fb4e3752409acf64a464363774bc6c0f5394be02d52b1887b602f83a959dce",
+  "run_sha256": "356e99960a188ad077481dad337a9ee34a4f6b2ff833cd535187d4f631bf756c",
+  "lookup_sha256": "e754f9cdfdbc5787efbf68b4bfd034b352cd27b973e92ff77c3c47431ff1b858",
+  "H4_non_ITD_FWS_comparison": [
+    {
+      "bin": 0,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -5456.621446207866,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 1,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -5715.712952603773,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 2,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -5929.275882131658,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 3,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -6152.305195463345,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 4,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -6221.445353537945,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 5,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -6465.791246507271,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 6,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -6804.958945621209,
+      "ITD_attribution": false
+    },
+    {
+      "bin": 7,
+      "hours": 1095,
+      "FWS_before_C": 7.0,
+      "FWS_after_C": 8.89,
+      "cycles_before": 6.0,
+      "cycles_after": 6.0,
+      "cycles_cost_of_warming": 0.0,
+      "annual_cost_change_USD": -7308.25049575292,
+      "ITD_attribution": false
+    }
+  ],
+  "dry_counterparts": [
+    {
+      "bin": 0,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 17.677716894977166,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1089.117255302885,
+      "makeup_tariff_crossover_USD_m3": -0.3744743529942653,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 0,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 19.677716894977166,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1144.1774605439628,
+      "makeup_tariff_crossover_USD_m3": -0.08194049003309488,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 0,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 21.677716894977166,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1201.93722037178,
+      "makeup_tariff_crossover_USD_m3": 0.22493605705131461,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 1,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 22.5551598173516,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1228.083260602103,
+      "makeup_tariff_crossover_USD_m3": -0.09225872212760741,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 1,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 24.5551598173516,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1289.4410946491453,
+      "makeup_tariff_crossover_USD_m3": 0.21031206961941834,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 1,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 26.5551598173516,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1353.1998311949353,
+      "makeup_tariff_crossover_USD_m3": 0.5247223107413455,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 2,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 26.382739726027395,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1347.6086574571798,
+      "makeup_tariff_crossover_USD_m3": 0.17136969363914403,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 2,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 28.382739726027395,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1413.5868622402347,
+      "makeup_tariff_crossover_USD_m3": 0.4778497945852924,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 2,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 30.382739726027395,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1482.1616318509932,
+      "makeup_tariff_crossover_USD_m3": 0.7963913854298776,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 3,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 30.178538812785387,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1475.0318995776845,
+      "makeup_tariff_crossover_USD_m3": 0.4306533450931758,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 3,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 32.17853881278539,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1546.2664517924813,
+      "makeup_tariff_crossover_USD_m3": 0.7443092583523507,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 3,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 34.17853881278539,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1621.143317719854,
+      "makeup_tariff_crossover_USD_m3": 1.0740027993971195,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 4,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 33.32986301369863,
+      "status": "IN_CURVE_CONDITIONAL_ESTIMATE",
+      "P_dry_total_kW": 1588.861170425545,
+      "makeup_tariff_crossover_USD_m3": 0.6959767444541999,
+      "dry_fan_assumed_kW": 110.0
+    },
+    {
+      "bin": 4,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 35.32986301369863,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 4,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 37.32986301369863,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 5,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 36.72054794520548,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 5,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 38.72054794520548,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 5,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 40.72054794520548,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 6,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 39.864292237442925,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 6,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 41.864292237442925,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 6,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 43.864292237442925,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 7,
+      "hours": 1095,
+      "dry_approach_K": 3.0,
+      "dry_ECWT_C": 40.360182648401825,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 7,
+      "hours": 1095,
+      "dry_approach_K": 5.0,
+      "dry_ECWT_C": 42.360182648401825,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    },
+    {
+      "bin": 7,
+      "hours": 1095,
+      "dry_approach_K": 7.0,
+      "dry_ECWT_C": 44.360182648401825,
+      "status": "UNSUPPORTED",
+      "reason": "ECWT outside curve",
+      "P_dry_total_kW": null,
+      "makeup_tariff_crossover_USD_m3": null
+    }
+  ],
+  "W_class_margins": [
+    {
+      "bin": 0,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 0,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 0,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 0,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 0,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 1,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 1,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 1,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 1,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 1,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 2,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 2,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 2,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 2,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 2,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 3,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 3,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 3,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 3,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 3,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 4,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 4,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 4,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 4,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 4,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 5,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 5,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 5,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 5,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 5,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 6,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 6,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 6,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 6,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 6,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 7,
+      "class_name": "W17",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 8.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 7,
+      "class_name": "W27",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 18.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 7,
+      "class_name": "W32",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 23.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 7,
+      "class_name": "W40",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 31.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    },
+    {
+      "bin": 7,
+      "class_name": "W45",
+      "boundary": "facility_supply_water",
+      "FWS_C": 8.89,
+      "margin_K": 36.11,
+      "GPU_water_C": 13.89,
+      "GPU_OEM_limit_C": null,
+      "GPU_OEM_margin_K": null
+    }
+  ],
+  "makeup_analyses": [
+    {
+      "source": "published_2022",
+      "sodium_balancing_assumption": false,
+      "ions": {
+        "name": "published_2022",
+        "Ca": 94.0,
+        "Mg": 41.0,
+        "Na": 379.0,
+        "K": 25.0,
+        "HCO3": 70.0,
+        "SO4": 566.0,
+        "Cl": 565.0,
+        "NO3": 12.0,
+        "SiO2": 0.0,
+        "pH": 7.8,
+        "TDS": 1500.0
+      },
+      "cations_meq_L": 25.189491581172376,
+      "anions_meq_L": 29.061650753217997,
+      "imbalance_repo_pct": -14.27494060190883,
+      "imbalance_sum_denominator_pct": -7.137470300954415,
+      "ion_sum_mg_L": 1752.0,
+      "gypsum_operating_limit_cycles_at40C": 6.672519736064782,
+      "source_is_resolved": false
+    },
+    {
+      "source": "published_2022",
+      "sodium_balancing_assumption": true,
+      "ions": {
+        "name": "published_2022 (Na-balanced)",
+        "Ca": 94.0,
+        "Mg": 41.0,
+        "Na": 468.02093936532884,
+        "K": 25.0,
+        "HCO3": 70.0,
+        "SO4": 566.0,
+        "Cl": 565.0,
+        "NO3": 12.0,
+        "SiO2": 0.0,
+        "pH": 7.8,
+        "TDS": 1500.0
+      },
+      "cations_meq_L": 29.061650753217997,
+      "anions_meq_L": 29.061650753217997,
+      "imbalance_repo_pct": 0.0,
+      "imbalance_sum_denominator_pct": 0.0,
+      "ion_sum_mg_L": 1841.0209393653288,
+      "gypsum_operating_limit_cycles_at40C": 6.742338837353244,
+      "source_is_resolved": false
+    },
+    {
+      "source": "field_2020",
+      "sodium_balancing_assumption": false,
+      "ions": {
+        "name": "field_2020",
+        "Ca": 106.0,
+        "Mg": 41.0,
+        "Na": 310.0,
+        "K": 0.0,
+        "HCO3": 105.0,
+        "SO4": 300.0,
+        "Cl": 528.0,
+        "NO3": 0.0,
+        "SiO2": 0.0,
+        "pH": 7.8,
+        "TDS": 1500.0
+      },
+      "cations_meq_L": 22.147600046944376,
+      "anions_meq_L": 22.85988496166713,
+      "imbalance_repo_pct": -3.1651842558475316,
+      "imbalance_sum_denominator_pct": -1.5825921279237658,
+      "ion_sum_mg_L": 1390.0,
+      "gypsum_operating_limit_cycles_at40C": 8.710852881438763,
+      "source_is_resolved": false
+    },
+    {
+      "source": "field_2020",
+      "sodium_balancing_assumption": true,
+      "ions": {
+        "name": "field_2020 (Na-balanced)",
+        "Ca": 106.0,
+        "Mg": 41.0,
+        "Na": 326.37543018947616,
+        "K": 0.0,
+        "HCO3": 105.0,
+        "SO4": 300.0,
+        "Cl": 528.0,
+        "NO3": 0.0,
+        "SiO2": 0.0,
+        "pH": 7.8,
+        "TDS": 1500.0
+      },
+      "cations_meq_L": 22.85988496166713,
+      "anions_meq_L": 22.85988496166713,
+      "imbalance_repo_pct": 0.0,
+      "imbalance_sum_denominator_pct": 0.0,
+      "ion_sum_mg_L": 1406.3754301894762,
+      "gypsum_operating_limit_cycles_at40C": 8.730622454236602,
+      "source_is_resolved": false
+    }
+  ],
+  "dry_annual_ROI": null,
+  "dry_annual_status": "NOT_IDENTIFIABLE_WITH_GULF_OUTSIDE_CURVE",
+  "water_tariff_policy_repricing": [
+    {
+      "label": "legacy_requested",
+      "makeup_USD_m3": 3.11,
+      "discharge_USD_m3": 0,
+      "hours": 8760,
+      "annual_saving_USD": 179763.37188656407,
+      "mean_of_ratios_pct": 12.015233486131075,
+      "ratio_of_totals_pct": 11.793056962108976,
+      "policy_reoptimized": false
+    },
+    {
+      "label": "process_and_industrial_discharge",
+      "makeup_USD_m3": 2.1439999999999997,
+      "discharge_USD_m3": 0.9706666666666667,
+      "hours": 8760,
+      "annual_saving_USD": 178314.82334841153,
+      "mean_of_ratios_pct": 12.930415256662778,
+      "ratio_of_totals_pct": 12.710065471077824,
+      "policy_reoptimized": false
+    },
+    {
+      "label": "process_and_unbilled_outfall",
+      "makeup_USD_m3": 2.1439999999999997,
+      "discharge_USD_m3": 0,
+      "hours": 8760,
+      "annual_saving_USD": 161739.79600269196,
+      "mean_of_ratios_pct": 12.092943083271775,
+      "ratio_of_totals_pct": 11.871521895914011,
+      "policy_reoptimized": false
+    }
+  ],
+  "dry_break_even_power": [
+    {
+      "bin": 0,
+      "hours": 1095,
+      "wet_kW": 1109.5321505636168,
+      "water_and_chemical_USD_h": 33.56698342144439,
+      "allowable_dry_extra_kW": 453.60788407357285,
+      "dry_break_even_total_kW": 1563.1400346371897
+    },
+    {
+      "bin": 1,
+      "hours": 1095,
+      "wet_kW": 1192.7536738112474,
+      "water_and_chemical_USD_h": 36.17244476787367,
+      "allowable_dry_extra_kW": 488.81682118748205,
+      "dry_break_even_total_kW": 1681.5704949987294
+    },
+    {
+      "bin": 2,
+      "hours": 1095,
+      "wet_kW": 1253.2543952733383,
+      "water_and_chemical_USD_h": 38.4072405093623,
+      "allowable_dry_extra_kW": 519.0167636400312,
+      "dry_break_even_total_kW": 1772.2711589133696
+    },
+    {
+      "bin": 3,
+      "hours": 1095,
+      "wet_kW": 1316.507338853277,
+      "water_and_chemical_USD_h": 40.52562501286271,
+      "allowable_dry_extra_kW": 547.6435812549015,
+      "dry_break_even_total_kW": 1864.1509201081785
+    },
+    {
+      "bin": 4,
+      "hours": 1095,
+      "wet_kW": 1353.6644292107603,
+      "water_and_chemical_USD_h": 43.56423538204821,
+      "allowable_dry_extra_kW": 588.7058835411921,
+      "dry_break_even_total_kW": 1942.3703127519525
+    },
+    {
+      "bin": 5,
+      "hours": 1095,
+      "wet_kW": 1410.7662071191523,
+      "water_and_chemical_USD_h": 44.98889094495952,
+      "allowable_dry_extra_kW": 607.9579857426962,
+      "dry_break_even_total_kW": 2018.7241928618487
+    },
+    {
+      "bin": 6,
+      "hours": 1095,
+      "wet_kW": 1480.3539386710092,
+      "water_and_chemical_USD_h": 46.00431157481484,
+      "allowable_dry_extra_kW": 621.6798861461466,
+      "dry_break_even_total_kW": 2102.0338248171556
+    },
+    {
+      "bin": 7,
+      "hours": 1095,
+      "wet_kW": 1563.3944870394744,
+      "water_and_chemical_USD_h": 44.814313771783134,
+      "allowable_dry_extra_kW": 605.5988347538262,
+      "dry_break_even_total_kW": 2168.9933217933003
+    }
+  ],
+  "skin_gypsum_below_basin_count": 831,
+  "skin_sensitivity_feasibility_changes": 0,
+  "H3_note": "Required rise is an algebraic condition, not a device model or actual delivery shortfall.",
+  "H4_note": "FWS comparison is cooling-plant operating cost only; IT draw fixed by assumption."
+}

@@ -1,0 +1,85 @@
+{
+  "regex": "saturation index|langelier|ryznar|puckorius|gypsum|caso4|calcium sulfate|calcium sulphate|calcite|calcium carbonate|cycles of concentration|blow-?down|sulfate|sulphate|silica",
+  "sources": [
+    {
+      "name": "2606.11163v1.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\2606.11163v1.pdf",
+      "sha256": "a1de0c7a86cbd7a7a350185851490689231152a5bd0d78ae5bd83657da9e87bc",
+      "pages": 7,
+      "characters": 48304,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "2605.15516v4.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\2605.15516v4.pdf",
+      "sha256": "62a298f4690320394195a401e5a28046f6e39169911e462929624c373c02c354",
+      "pages": 19,
+      "characters": 81677,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "2603.01198v4.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\2603.01198v4.pdf",
+      "sha256": "6eab8b396605efc85771a05c84afe78af18e66f4fca1331ec8621704551c9ef0",
+      "pages": 24,
+      "characters": 88308,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "2606.15408v2.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\2606.15408v2.pdf",
+      "sha256": "4b08fb6f406be4d10844e5d125c163dece7520de7fa990841f72e3853f250d9a",
+      "pages": 30,
+      "characters": 72666,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "2608.19552v1.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\2608.19552v1.pdf",
+      "sha256": "9f496586a5859a451a02ebde4612b2f4f9f481154ab3021cd62d72a09e532441",
+      "pages": 19,
+      "characters": 54980,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "3575813.3595189.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\3575813.3595189.pdf",
+      "sha256": "fb0e98c8a6e19345057d25c9d5eb223e22348cdc3adba903d2b604304ba2b139",
+      "pages": 13,
+      "characters": 103098,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "j.jcp.2018.10.045.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\j.jcp.2018.10.045.pdf",
+      "sha256": "7aed9566042b596fe6a5b21f139e8db410b41a59200a8f69ca87beee9fbc2a2f",
+      "pages": 47,
+      "characters": 257899,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    },
+    {
+      "name": "tj_from_transient_rth_data_an-e.pdf",
+      "path": "C:\\Users\\Nouman\\Desktop\\tj_from_transient_rth_data_an-e.pdf",
+      "sha256": "0aa476d9a462a551d1184376a7b755f7682687bef7dfc9fd3b20e4fe6cfc0959",
+      "pages": 7,
+      "characters": 22033,
+      "chem_count": 0,
+      "chem_matches": [],
+      "extractor": "pypdf layout"
+    }
+  ]
+}

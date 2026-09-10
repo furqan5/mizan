@@ -106,12 +106,27 @@ PLANT = {
 #   Hormuz disruption. Base case is set mid-range, deliberately not at
 #   either extreme. Delivered small-lot pricing to a plant would be a
 #   multiple of bulk and was not found [UNVERIFIED].
+# DEFECT 30 FIXED 10 Sep 2026. The two Marafiq line items are now carried
+# SEPARATELY, because they are charged on different streams. Process water is
+# bought per cubic metre of MAKEUP; the wastewater charge falls only on what
+# is actually DISCHARGED, which is blowdown. Evaporation -- most of the makeup
+# at any useful cycles count -- leaves as vapour and is never discharged, and
+# drift leaves as entrained droplets, not down a drain.
+#
+# The combined 3.11 is retained because it is the correct price of a cubic
+# metre of BLOWDOWN avoided, which is what the prose above always said it was,
+# and external callers that do not know about the split still get it.
 TARIFFS = {
     "elec_per_kwh": 0.074,        # USD/kWh, Saudi business all-in Dec 2025 [C]
-    "water_per_m3": 3.11,         # USD/m3 avoided (makeup + discharge)     [C-derived]
+    "water_per_m3": 3.11,         # USD/m3 of BLOWDOWN avoided              [C-derived]
+    "water_makeup_per_m3": 2.144,   # SAR 8.04 process water   / 3.75       [C]
+    "water_discharge_per_m3": 0.971,  # SAR 3.64 industrial wastewater/3.75 [C]
     "acid_per_kg": 0.19,          # USD/kg bulk 98%, mid-range base case    [C]
     "antiscalant_per_m3": 0.05,   # USD per m3 makeup treated               [A]
 }
+assert abs(TARIFFS["water_makeup_per_m3"]
+           + TARIFFS["water_discharge_per_m3"]
+           - TARIFFS["water_per_m3"]) < 0.01, "the split must reconstruct 3.11"
 
 # ---- makeup water: MEASURED Saudi analysis, not a third-party estimate ---
 #
@@ -128,7 +143,21 @@ TARIFFS = {
 # constraint is inactive on this water. The true ceiling could therefore be
 # lower than computed here if silica is present -- stated rather than
 # assumed away.
-TSE = chem.balance_sodium(chem.ARAMCO_RECLAIMED)
+# DEFECTS 17, 24 and the silica open item, 10 September 2026.
+#
+# This was `chem.balance_sodium(chem.ARAMCO_RECLAIMED)`. That analysis fails
+# TDS closure by +22.7 % once sodium is balanced, and carries SiO2 = 0.0 for a
+# species its source never reported -- and amorphous silica turned out to be
+# the binding mineral once it was declared, moving the ceiling from 12.3 to
+# 5.8 cycles. Running the product on an analysis that fails its own closure
+# test is the thing this package exists to refuse.
+#
+# `ARAMCO_FIELD_VALIDATED` makes both corrections explicit and passes all four
+# checks in `chem.validate_analysis`. It is a PARTIAL reconstruction and defect
+# 17 stays open: it does not establish that sulfate is 300, only that 566
+# cannot be, and that a model must not be run on the analysis that fails.
+TSE = chem.ARAMCO_FIELD_VALIDATED
+chem.require_valid_analysis(TSE, silica_declared=True)   # refuse, do not absorb
 
 # ---- ambient conditions: Gulf operating spread [A] ----------------------
 AMBIENTS = [
@@ -454,11 +483,30 @@ def gate_v5b(fill_c, fill_n, name="Dhahran summer humid", T_db=38.0,
     else:
         print(f"  The cost curve does NOT turn over. Operating cost falls "
               f"monotonically to {econ} cycles, the last feasible point.")
+        # DEFECT 28. This prose was hardcoded for gypsum and printed the word
+        # "sulfate" underneath whatever mineral the sweep had actually found.
+        # When the validated water made amorphous silica the binding mineral
+        # it still explained the wall in terms of sulfate saturation -- the
+        # same fault as defect 19, a paragraph asserting a conclusion its own
+        # table had stopped supporting. Derived from the computed mineral now.
+        _WHY = {
+            "SI_gypsum": ("calcium sulfate saturation is not pH-sensitive",
+                          "it forms at the hot condenser skin"),
+            "SI_silica_am": ("amorphous silica is not pH-sensitive below "
+                             "about pH 9",
+                             "it is prograde and binds at the COLD tower "
+                             "basin, not the hot skin"),
+            "SI_calcite": ("calcite saturation IS strongly pH-sensitive, so "
+                           "this wall CAN be moved by acid -- which is "
+                           "exactly how an LSI-based controller walks into "
+                           "the mineral behind it",
+                           "it forms at the hot condenser skin"),
+        }
+        why, where = _WHY.get(mineral, ("its saturation behaviour is not "
+                                        "characterised here", "unstated"))
         print(f"  PHYSICAL ceiling : {phys} cycles -- binding mineral "
-              f"{mineral}. Acid cannot move it: sulfate saturation is not "
-              f"pH-sensitive,")
-        print(f"  so the lever that buys cycles against calcite stops working "
-              f"entirely at this wall.")
+              f"{mineral}, and {where}.")
+        print(f"  {why.capitalize()}.")
         print()
         print(f"  This is the more dangerous case. The economics point "
               f"straight at a hard limit, and the Langelier index the "

@@ -62,3 +62,13 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+# A full copy of the repository, taken as a reproduction snapshot by an
+# external reviewing agent. A repository inside a repository is not history,
+# it is 2.1 MB of duplicate. The snapshot's value is its hashes, which are
+# recorded in the review documents that reference it.
+research/accepted_v1_snapshot/
+
+# Built PDFs. Generated from the Markdown in docs/ by src/make_pdf.py, so the
+# source is already tracked and the artefact is not worth versioning.
+output/pdf/

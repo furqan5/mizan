@@ -1,0 +1,192 @@
+{
+  "status": "PASS",
+  "preregistration": "Independent artifact verification, registered before its first execution.\n\nThis adds verification, not new scientific success thresholds. Source hashes\nand preregistration must match exactly. Recompute annual totals/percentages\nusing Python math.fsum (relative tolerance 1e-12, absolute 1e-8 for numerical\nroundoff); use the main study's unchanged 1e-3 K forward replay criterion.\nAll accepted states must respect each original chiller envelope, 30..100% fan,\nthe registered CDU balance and water-balance tolerances. Re-extracted ITD\npoints must equal the saved rounded points exactly. Inject one bad PDF page\nstate for every explicit extraction assertion: curve count, tick alignment,\naxis calibration, power closure, ascending temperatures, interior minimum.\nThe recorded first-run spurious inverse root must fail the forward replay\nguard again; never rerun its obsolete optimiser or overwrite its evidence.\nHash checks also cover every registered model input. Missing annual bins and\nstale source records must be detected. The original pytest/audit suites remain\nseparate required checks; no protected test file is modified.\n",
+  "script_sha256": "db21969d44f9cc4c9f39bfa1095408ca9afb74b844c7392600e674e709873761",
+  "source_pdf_verified_at": "C:\\Users\\Nouman\\Desktop\\sources\\2606.11163v1.pdf",
+  "checks": [
+    "main source hash",
+    "registered docstring hash",
+    "failed and accepted numerical preregistrations identical",
+    "diagnostic source hash",
+    "diagnostic run dependency",
+    "diagnostic lookup dependency",
+    "model input src/controller.py",
+    "model input src/chemistry.py",
+    "model input src/tower.py",
+    "model input src/psychro.py",
+    "model input src/water_activity.py",
+    "model input src/run_controller.py",
+    "model input results/calibration.json",
+    "model input results/controller_summary.json",
+    "model input results/annual_datacentre.json",
+    "model input results/tmy_hourly.npy",
+    "eight complete bins and all hours",
+    "coupled_vs_baseline/energy/base_annual_total",
+    "coupled_vs_baseline/energy/opt_annual_total",
+    "coupled_vs_baseline/energy/annual_difference",
+    "coupled_vs_baseline/energy/ratio_of_totals_pct",
+    "coupled_vs_baseline/energy/mean_of_ratios_pct",
+    "coupled_vs_baseline/water/base_annual_total",
+    "coupled_vs_baseline/water/opt_annual_total",
+    "coupled_vs_baseline/water/annual_difference",
+    "coupled_vs_baseline/water/ratio_of_totals_pct",
+    "coupled_vs_baseline/water/mean_of_ratios_pct",
+    "coupled_vs_baseline/cost/base_annual_total",
+    "coupled_vs_baseline/cost/opt_annual_total",
+    "coupled_vs_baseline/cost/annual_difference",
+    "coupled_vs_baseline/cost/ratio_of_totals_pct",
+    "coupled_vs_baseline/cost/mean_of_ratios_pct",
+    "FWS_increment_only/energy/base_annual_total",
+    "FWS_increment_only/energy/opt_annual_total",
+    "FWS_increment_only/energy/annual_difference",
+    "FWS_increment_only/energy/ratio_of_totals_pct",
+    "FWS_increment_only/energy/mean_of_ratios_pct",
+    "FWS_increment_only/water/base_annual_total",
+    "FWS_increment_only/water/opt_annual_total",
+    "FWS_increment_only/water/annual_difference",
+    "FWS_increment_only/water/ratio_of_totals_pct",
+    "FWS_increment_only/water/mean_of_ratios_pct",
+    "FWS_increment_only/cost/base_annual_total",
+    "FWS_increment_only/cost/opt_annual_total",
+    "FWS_increment_only/cost/annual_difference",
+    "FWS_increment_only/cost/ratio_of_totals_pct",
+    "FWS_increment_only/cost/mean_of_ratios_pct",
+    "all stored thermal states: envelopes, fan, heat, water, replay",
+    "all main registered fault injections",
+    "missing annual bin fault",
+    "recorded spurious inverse root replay",
+    "preserved failed replay numeric result",
+    "ITD re-extraction exact points",
+    "ITD source hash",
+    "ITD wrong figure count",
+    "ITD tick alignment",
+    "ITD axis calibration",
+    "ITD power closure",
+    "ITD increasing temperature",
+    "ITD interior minimum"
+  ],
+  "check_count": 60,
+  "main_fault_injections": [
+    {
+      "name": "negative CDU approach",
+      "pass_": true
+    },
+    {
+      "name": "zero CDU flow",
+      "pass_": true
+    },
+    {
+      "name": "nonfinite input",
+      "pass_": true
+    },
+    {
+      "name": "reversed heat transfer",
+      "pass_": true
+    },
+    {
+      "name": "FWS lower",
+      "pass_": true
+    },
+    {
+      "name": "ECWT lower",
+      "pass_": true
+    },
+    {
+      "name": "FWS upper",
+      "pass_": true
+    },
+    {
+      "name": "ECWT upper",
+      "pass_": true
+    },
+    {
+      "name": "PLR range 0.01",
+      "pass_": true
+    },
+    {
+      "name": "PLR range 10",
+      "pass_": true
+    },
+    {
+      "name": "tower nonconvergence",
+      "pass_": true
+    },
+    {
+      "name": "spurious inverse root",
+      "pass_": true
+    },
+    {
+      "name": "mass balance",
+      "pass_": true
+    },
+    {
+      "name": "wrong W-class boundary",
+      "pass_": true
+    },
+    {
+      "name": "stale file hash",
+      "pass_": true
+    },
+    {
+      "name": "lookup extrapolation",
+      "pass_": true
+    }
+  ],
+  "independently_recomputed_annual": {
+    "coupled_vs_baseline": {
+      "energy": {
+        "base_annual_total": 13350820.969215715,
+        "opt_annual_total": 11694848.149493353,
+        "annual_difference": 1655972.8197223619,
+        "ratio_of_totals_pct": 12.40352801929334,
+        "mean_of_ratios_pct": 12.578227795389497
+      },
+      "water": {
+        "base_annual_total": 167595.1602518145,
+        "opt_annual_total": 148937.21420225754,
+        "annual_difference": 18657.946049556962,
+        "ratio_of_totals_pct": 11.132747521779919,
+        "mean_of_ratios_pct": 11.152987899251121
+      },
+      "cost": {
+        "base_annual_total": 1524315.3023354567,
+        "opt_annual_total": 1344551.9304488925,
+        "annual_difference": 179763.37188656404,
+        "ratio_of_totals_pct": 11.793056962108976,
+        "mean_of_ratios_pct": 12.015233486131075
+      }
+    },
+    "FWS_increment_only": {
+      "energy": {
+        "base_annual_total": 12327616.548672372,
+        "opt_annual_total": 11694848.149493353,
+        "annual_difference": 632768.3991790188,
+        "ratio_of_totals_pct": 5.13293382123542,
+        "mean_of_ratios_pct": 5.144524928076948
+      },
+      "water": {
+        "base_annual_total": 149940.83263791038,
+        "opt_annual_total": 148937.21420225754,
+        "annual_difference": 1003.6184356528363,
+        "ratio_of_totals_pct": 0.6693429788244926,
+        "mean_of_ratios_pct": 0.6661734748094631
+      },
+      "cost": {
+        "base_annual_total": 1394606.2919667186,
+        "opt_annual_total": 1344551.9304488925,
+        "annual_difference": 50054.361517825986,
+        "ratio_of_totals_pct": 3.5891392291969164,
+        "mean_of_ratios_pct": 3.5960408025237514
+      }
+    }
+  },
+  "thermal_state_count": 909,
+  "maximum_forward_replay_error_K": 0.0008799017686555999,
+  "failed_root_forward_error_K": 3.0310133670356407,
+  "unavailable_requirements": [
+    "same-device chip-to-water measurements",
+    "closest Applied Energy full manuscript",
+    "reconciled primary makeup laboratory analysis",
+    "applicable hot-hour dry equipment map"
+  ]
+}

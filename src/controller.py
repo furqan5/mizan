@@ -114,14 +114,62 @@ def water_balance(m_evap_kg_s, m_w_kg_s, cycles, drift_fraction=DRIFT_FRACTION):
     return {"makeup": makeup, "blowdown": blowdown, "drift": drift}
 
 
+def _water_cost_per_h(wb, tariffs):
+    """Water cost per hour, charged on the streams that actually incur it.
+
+    DEFECT 30, FOUND 10 Sep 2026. `run_controller.py` derives the water
+    tariff as "the makeup NOT bought plus the industrial wastewater NOT
+    discharged", SAR 8.04 + SAR 3.64 = USD 3.11/m3, and calls it "the value
+    of a cubic metre of BLOWDOWN avoided". Both call sites then multiplied it
+    by MAKEUP. At six cycles makeup is six times blowdown, so the discharge
+    half of the tariff was being charged on roughly six times the water that
+    reaches a sewer -- and on the evaporated water in particular, which
+    leaves as vapour and is never discharged at all.
+
+    This is the defect-19/23/28 shape a fourth time: prose describing one
+    quantity, code computing another. It is caught here rather than in the
+    outputs because the two agree to within a constant factor and the
+    percentage savings barely move.
+
+    Drift is excluded from the discharge term as well. It leaves the tower as
+    entrained droplets, not down a drain.
+
+        cost = p_makeup * M + p_discharge * B
+
+    A tariffs dict that does not carry the split falls back to the single
+    figure on makeup, so an external caller cannot be silently repriced.
+    """
+    m3_h = 3.6
+    p_m = tariffs.get("water_makeup_per_m3")
+    p_b = tariffs.get("water_discharge_per_m3")
+    if p_m is None or p_b is None:
+        return tariffs["water_per_m3"] * wb["makeup"] * m3_h
+    return (p_m * wb["makeup"] + p_b * wb["blowdown"]) * m3_h
+
+
 def acid_dose_for_ph(water, cycles, target_ph, T_c):
     """Sulphuric acid required to hold pH at target against the alkalinity
     carried in at `cycles`.
 
     Acid converts bicarbonate to CO2 and water. The dose is the bicarbonate
     that must be destroyed to move from the CO2-equilibrium pH the loop
-    would otherwise reach down to the target, expressed as kg H2SO4 per
-    kg of circulating makeup.
+    would otherwise reach down to the target.
+
+    RETURNS kg H2SO4 per kg of **circulating** water. `water.concentrate(
+    cycles)` below puts the alkalinity decrement on the circulating basis,
+    (C * a_makeup - a_target), so the caller must multiply by the stream that
+    carries that alkalinity out of the loop.
+
+    **DEFECT 25, FIXED 10 September 2026.** The steady alkalinity balance is
+    `M * a_makeup - L * a_target`, so the correct multiplier is the stream that
+    carries alkalinity out: **blowdown plus drift**, which equals makeup / C.
+    Both callers previously multiplied by MAKEUP, overstating the dose by
+    exactly the cycles ratio C -- 6.99 kg/h against 1.16 kg/h required at six
+    cycles -- and implying a negative outlet alkalinity that a
+    bicarbonate-dominated water near pH 8 cannot have. The docstring said "per
+    kg of circulating makeup", naming two different streams as one; that
+    conflation was the defect in one phrase. See `docs/defect_register.md`
+    defect 25 and `tests/test_reference_benchmarks.py`.
     """
     conc = water.concentrate(cycles)
     ph_free = chem.ph_atmospheric_equilibrium(conc, T_c)
@@ -138,7 +186,7 @@ def acid_dose_for_ph(water, cycles, target_ph, T_c):
 # --- operating point ------------------------------------------------------
 def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
                              makeup_water, tariffs, fill_c, fill_n,
-                             skin_delta_k=8.0):
+                             skin_delta_k=8.0, saturation_limits=None):
     """Cost and constraint state of one supervisory decision.
 
     `cond` carries the ambient and duty conditions:
@@ -180,13 +228,37 @@ def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
                                                target_ph, T_skin)
     sat = chem.saturation_state_split(conc, T_skin, T_basin,
                                       pH_hot=target_ph, pH_cold=target_ph)
-    limits = chem.OPERATING_LIMITS
+    # MILESTONE 1. The limit set is injectable so a site that declares a
+    # phosphate treatment programme can have calcium phosphate BIND rather
+    # than merely be screened. The default is unchanged, so every existing
+    # result and the pre-registered V5 gate are untouched: an undeclared
+    # programme means phosphate binds nothing, which is the honest state for
+    # a site nobody has surveyed. See chem.limits_for_programme().
+    limits = chem.OPERATING_LIMITS if saturation_limits is None else saturation_limits
     violations = {k: sat[k] - limits[k] for k in limits if sat[k] > limits[k]}
 
+    # DEFECT 26. `Water.pitzer_required()` has been computed and REPORTED
+    # since the first commit and enforced by nothing -- the same shape as
+    # defect 11, where the chiller's capacity limit was logged and ignored.
+    # Above I = 0.5 mol/kg the Davies equation is outside its range and every
+    # activity coefficient in the saturation indices is an extrapolation. The
+    # optimiser's whole job is to raise cycles, which raises ionic strength,
+    # so it walks straight at this boundary. Treated as a MODEL-VALIDITY
+    # violation, not a chemistry one: the water may well be fine, but this
+    # model is not entitled to an opinion about it.
+    if conc.pitzer_required():
+        violations["davies_range"] = (conc.ionic_strength()
+                                      - chem.ANALYSIS_TOLERANCES["ionic_strength_max"])
+
     # cost per hour
-    m_acid = acid_kg_per_kg * wb["makeup"] * 3600.0          # kg/h
+    # DEFECT 25 FIXED: acid_dose_for_ph returns kg/kg on the CIRCULATING
+    # basis (C*a_makeup - a_target), so it must be multiplied by the stream
+    # that carries that alkalinity out of the loop -- blowdown plus drift,
+    # which is exactly makeup/C. Multiplying by makeup overstated the dose
+    # by the cycles ratio and implied a negative outlet alkalinity.
+    m_acid = acid_kg_per_kg * (wb["blowdown"] + wb["drift"]) * 3600.0   # kg/h
     cost = (tariffs["elec_per_kwh"] * p_total
-            + tariffs["water_per_m3"] * wb["makeup"] * 3.6
+            + _water_cost_per_h(wb, tariffs)
             + tariffs["acid_per_kg"] * m_acid
             + tariffs["antiscalant_per_m3"] * wb["makeup"] * 3.6)
 
@@ -248,7 +320,24 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
     # CPython can hand the same address to the next one, and this cache
     # would then serve one ambient's solution to another. It has not been
     # observed to bite, which is exactly why it should not be left in.
+    #
+    # DEFECT 31 FIXED 10 Sep 2026. The key omitted the two inputs below,
+    # while the body uses BOTH: it computes the water activity from
+    # makeup_water.concentrate(cycles).tds() a few lines down, and passes
+    # fill_c/fill_n into the outlet-temperature solve. Two different waters
+    # at the same fan and cycles therefore shared one thermal solution.
+    #
+    # It has not bitten because run_controller.py runs a single water and
+    # nothing sweeps composition through this function. It would have bitten
+    # on the very next study planned -- the silica crossover sweep, whose
+    # whole method is to vary SiO2 and hence TDS at fixed fan and cycles.
+    # Same class as defects 11 and 26: computed, understood, enforced by
+    # nothing. The comment above already worried about the smaller hole.
     key = (round(float(fan_pct), 3), round(float(cycles), 4),
+           round(float(makeup_water.tds()), 6),
+           round(float(makeup_water.SiO2), 6),
+           round(float(makeup_water.PO4), 6),
+           round(float(fill_c), 6), round(float(fill_n), 6),
            tuple(sorted((k, float(v)) for k, v in cond.items()
                         if isinstance(v, (int, float)) and k != "T_wo_guess")))
     if key in _cache:
@@ -377,7 +466,8 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
 
 
 def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
-                skin_delta_k, corrosion_floor_si=None):
+                skin_delta_k, corrosion_floor_si=None,
+                saturation_limits=None):
     """Complete an operating point given a cached thermal solution."""
     m_a, aw, T_wo, info, conc, T_wi, Q_cond = th
     p_fan = float(fan_power(m_a, cond["m_a_rated"], cond["p_fan_rated_kw"]))
@@ -398,8 +488,27 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
                                                target_ph, T_skin)
     sat = chem.saturation_state_split(conc, T_skin, T_basin,
                                       pH_hot=target_ph, pH_cold=target_ph)
-    limits = chem.OPERATING_LIMITS
+    # MILESTONE 1. The limit set is injectable so a site that declares a
+    # phosphate treatment programme can have calcium phosphate BIND rather
+    # than merely be screened. The default is unchanged, so every existing
+    # result and the pre-registered V5 gate are untouched: an undeclared
+    # programme means phosphate binds nothing, which is the honest state for
+    # a site nobody has surveyed. See chem.limits_for_programme().
+    limits = chem.OPERATING_LIMITS if saturation_limits is None else saturation_limits
     violations = {k: sat[k] - limits[k] for k in limits if sat[k] > limits[k]}
+
+    # DEFECT 26. `Water.pitzer_required()` has been computed and REPORTED
+    # since the first commit and enforced by nothing -- the same shape as
+    # defect 11, where the chiller's capacity limit was logged and ignored.
+    # Above I = 0.5 mol/kg the Davies equation is outside its range and every
+    # activity coefficient in the saturation indices is an extrapolation. The
+    # optimiser's whole job is to raise cycles, which raises ionic strength,
+    # so it walks straight at this boundary. Treated as a MODEL-VALIDITY
+    # violation, not a chemistry one: the water may well be fine, but this
+    # model is not entitled to an opinion about it.
+    if conc.pitzer_required():
+        violations["davies_range"] = (conc.ionic_strength()
+                                      - chem.ANALYSIS_TOLERANCES["ionic_strength_max"])
 
     # --- CORROSION FLOOR -------------------------------------------------
     # Until 4 September 2026 this optimiser searched pH 7.0-9.0 against
@@ -491,9 +600,9 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
 
     envelope_ok = temp_ok and capacity_ok
 
-    m_acid = acid_kg_per_kg * wb["makeup"] * 3600.0
+    m_acid = acid_kg_per_kg * (wb["blowdown"] + wb["drift"]) * 3600.0  # defect 25
     cost = (tariffs["elec_per_kwh"] * p_total
-            + tariffs["water_per_m3"] * wb["makeup"] * 3.6
+            + _water_cost_per_h(wb, tariffs)
             + tariffs["acid_per_kg"] * m_acid
             + tariffs["antiscalant_per_m3"] * wb["makeup"] * 3.6)
 
@@ -522,8 +631,70 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     }
 
 
+# ---------------------------------------------------------------------------
+# Optimisation objectives
+# ---------------------------------------------------------------------------
+# The pre-registered V5 gate scored COST_MINIMIZING operation and returned a
+# 4.38 % makeup-water reduction against a 15 % threshold: a failure, reported
+# as one. The two modes below do not revise that result and must not be
+# quoted against it. They are DIFFERENT OBJECTIVES, and each earns its own
+# separately reported number.
+#
+#   COST_MINIMIZING    minimise money. What a plant on a flat tariff wants,
+#                      and what the gate was scored on.
+#   WATER_PRESERVING   minimise money with water weighted by a shadow price
+#                      lambda_water. This is the right form when water is
+#                      scarcer than its tariff says -- a Gulf plant under an
+#                      allocation, a site facing a discharge consent, a data
+#                      centre with a WUE commitment. lambda is a POLICY
+#                      input, not a physical constant, and must be declared.
+#   CONSTRAINED_WATER  minimise makeup volume outright, subject to a declared
+#                      energy penalty ceiling. Answers "how much water can I
+#                      save if I accept N % more power?" -- which is the
+#                      question a water-allocation conversation actually asks.
+#
+# lambda_water = 1.0 in WATER_PRESERVING must reproduce COST_MINIMIZING
+# exactly. That identity is asserted in tests/test_water_saving.py and is the
+# reason the antiscalant term is carried inside the water group below even
+# though it is a chemical: it is billed per cubic metre of makeup, so it
+# scales with water and belongs with it.
+OPTIMIZATION_MODES = ("COST_MINIMIZING", "WATER_PRESERVING",
+                      "CONSTRAINED_WATER")
+LAMBDA_WATER_DEFAULT = 3.0
+
+
+def _water_group_cost_per_h(r, tariffs):
+    """The part of hourly cost that scales with water volume."""
+    wb = {"makeup": r["makeup_m3_h"] / 3.6,
+          "blowdown": r["blowdown_m3_h"] / 3.6}
+    return (_water_cost_per_h(wb, tariffs)
+            + tariffs["antiscalant_per_m3"] * r["makeup_m3_h"])
+
+
+def objective(r, tariffs, mode="COST_MINIMIZING",
+              lambda_water=LAMBDA_WATER_DEFAULT):
+    """Scalar to minimise. Lower is better in every mode.
+
+    CONSTRAINED_WATER returns makeup volume, which is not money -- the caller
+    must not compare its objective value against the other two.
+    """
+    if mode not in OPTIMIZATION_MODES:
+        raise ValueError(f"unknown optimization_mode {mode!r}; "
+                         f"expected one of {OPTIMIZATION_MODES}")
+    if mode == "COST_MINIMIZING":
+        return r["cost_per_h"]
+    if mode == "CONSTRAINED_WATER":
+        return r["makeup_m3_h"]
+    water = _water_group_cost_per_h(r, tariffs)
+    return r["cost_per_h"] + (float(lambda_water) - 1.0) * water
+
+
 def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
-             fan_grid=None, cycles_grid=None, ph_grid=None, skin_delta_k=8.0):
+             fan_grid=None, cycles_grid=None, ph_grid=None, skin_delta_k=8.0,
+             optimization_mode="COST_MINIMIZING",
+             lambda_water=LAMBDA_WATER_DEFAULT,
+             max_energy_penalty_pct=None, p_baseline_kw=None,
+             t_chiller_max_c=None, saturation_limits=None):
     """Least-cost supervisory setpoint subject to the skin-temperature
     saturation constraints.
 
@@ -538,7 +709,19 @@ def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
     cycles_grid = np.arange(1.5, 12.01, 0.5) if cycles_grid is None else cycles_grid
     ph_grid = np.arange(7.0, 9.01, 0.25) if ph_grid is None else ph_grid
 
-    best, n_eval = None, 0
+    if optimization_mode == "CONSTRAINED_WATER" and (
+            max_energy_penalty_pct is None or p_baseline_kw is None):
+        raise ValueError(
+            "CONSTRAINED_WATER needs both max_energy_penalty_pct and "
+            "p_baseline_kw: the constraint is meaningless without a declared "
+            "baseline to be a penalty against")
+
+    p_ceiling = (None if p_baseline_kw is None or max_energy_penalty_pct is None
+                 else (1.0 + float(max_energy_penalty_pct)) * float(p_baseline_kw))
+    t_ceiling = (CHILLER_TCWS_RANGE[1] if t_chiller_max_c is None
+                 else float(t_chiller_max_c))
+
+    best, best_j, n_eval, n_rejected_energy = None, None, 0, 0
     for f in fan_grid:
         for cy in cycles_grid:
             th = _thermal_solve(f, cy, cond, makeup_water, fill_c, fill_n)
@@ -546,17 +729,38 @@ def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
                 continue
             for ph in ph_grid:
                 r = _cost_at_ph(th, f, cy, ph, cond, makeup_water, tariffs,
-                                skin_delta_k)
+                                skin_delta_k,
+                                saturation_limits=saturation_limits)
                 n_eval += 1
-                if r["feasible"] and (best is None
-                                      or r["cost_per_h"] < best["cost_per_h"]):
-                    best = r
+                if not r["feasible"]:
+                    continue
+                # The extra constraints apply in every mode when supplied, so
+                # a caller can bound the energy penalty without switching
+                # objective. They are ADDITIONAL to `feasible`, never a
+                # relaxation of it -- the chemistry constraints still bind.
+                if p_ceiling is not None and r["P_total_kW"] > p_ceiling:
+                    n_rejected_energy += 1
+                    continue
+                if r["T_wo"] > t_ceiling:
+                    continue
+                j = objective(r, tariffs, optimization_mode, lambda_water)
+                if best is None or j < best_j:
+                    best, best_j = r, j
+    if best is not None:
+        best = dict(best)
+        best["optimization_mode"] = optimization_mode
+        best["lambda_water"] = (float(lambda_water)
+                                if optimization_mode == "WATER_PRESERVING"
+                                else None)
+        best["objective_value"] = best_j
+        best["energy_ceiling_kW"] = p_ceiling
+        best["points_rejected_on_energy_ceiling"] = n_rejected_energy
     return best, n_eval
 
 
 def baseline(cond, makeup_water, tariffs, fill_c, fill_n,
              fixed_cycles=4.0, fixed_ph=7.8, cw_setpoint_c=29.0,
-             skin_delta_k=8.0, fan_grid=None):
+             skin_delta_k=8.0, fan_grid=None, saturation_limits=None):
     """Incumbent practice: fixed conductivity setpoint (fixed cycles), fixed
     pH setpoint, and the fan modulated to hold a fixed condenser-water
     supply temperature. The fan is not free here -- it is whatever is needed
@@ -569,7 +773,8 @@ def baseline(cond, makeup_water, tariffs, fill_c, fill_n,
         if th is None:
             continue
         r = _cost_at_ph(th, f, fixed_cycles, fixed_ph, cond, makeup_water,
-                        tariffs, skin_delta_k)
+                        tariffs, skin_delta_k,
+                        saturation_limits=saturation_limits)
         if r["T_wo"] <= cw_setpoint_c:      # setpoint reached
             chosen = r
             break

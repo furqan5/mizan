@@ -1,0 +1,107 @@
+{
+  "itd": {
+    "title": "Crop, Moore and Pasricha, Revisiting Cooler is Better",
+    "publisher": "arXiv",
+    "date": "9 Jun 2026, v1",
+    "url": "https://arxiv.org/abs/2606.11163",
+    "access": "Supplied PDF, all seven pages extracted; Figure2 visually inspected and vector coordinates extracted; raw data unavailable."
+  },
+  "ashrae": {
+    "title": "Thermal Guidelines, Fifth Edition, Revised and Expanded, Table3.1",
+    "publisher": "ASHRAE TC9.9",
+    "date": "2021 / 2024 reference card",
+    "url": "https://www.ashrae.org/file%20library/technical%20resources/bookstore/supplemental%20files/therm-gdlns-5th-r-e-refcard.pdf",
+    "access": "Official reference card p8; primary water boundary verified."
+  },
+  "ashrae_ch20": {
+    "title": "ASHRAE Handbook2023, Chapter20: Data Centers and Telecommunication Facilities",
+    "publisher": "ASHRAE",
+    "date": "2023",
+    "url": "https://handbook.ashrae.org/Handbooks/A23/SI/A23_Ch20/a23_ch20_si.aspx",
+    "access": "Official text; CDU approach and FWS temperature boundary."
+  },
+  "chiller": {
+    "title": "EnergyPlus24.2 Chillers.idf: York YT1758kW/6.28COP/Vanes",
+    "publisher": "NREL / EnergyPlus",
+    "date": "v24.2.0",
+    "url": "https://raw.githubusercontent.com/NREL/EnergyPlus/v24.2.0/datasets/Chillers.idf",
+    "access": "Primary source coefficients and three curve domains read; object starts near line5512 in this version."
+  },
+  "eir": {
+    "title": "EnergyPlus24.2 Engineering Reference: Electric EIR Chiller",
+    "publisher": "EnergyPlus documentation, Big Ladder host",
+    "date": "24.2",
+    "url": "https://bigladdersoftware.com/epx/docs/24-2/engineering-reference/chillers.html",
+    "access": "Chiller energy balance and polynomial structure."
+  },
+  "water2022": {
+    "title": "Badruzzaman et al., Municipal reclaimed water as makeup water for cooling systems: Water efficiency, biohazards, and reliability",
+    "publisher": "Water Resources and Industry28,100188",
+    "date": "Dec 2022",
+    "url": "https://doi.org/10.1016/j.wri.2022.100188",
+    "access": "Existing13-page publisher PDF in sources; Table1 p3 and Table2 p4 mechanically extracted."
+  },
+  "water2020": {
+    "title": "Jutail et al., Use of treated sewage effluent as cooling tower makeup water - A pilot study",
+    "publisher": "Water Technology",
+    "date": "15 Dec 2020",
+    "url": "https://www.watertechonline.com/water-reuse/article/14187302/use-of-treated-sewage-effluent-as-cooling-tower-makeup-water-a-pilot-study-print",
+    "access": "Original engineer-authored pilot account; composition differs on several ions."
+  },
+  "astm": {
+    "title": "ASTM D1125-14, Electrical Conductivity and Resistivity of Water",
+    "publisher": "ASTM International",
+    "date": "2014 edition, cited method context",
+    "url": "https://store.astm.org/d1125-14.html",
+    "access": "Official scope; not a gravimetric TDS method."
+  },
+  "water_tariff": {
+    "title": "Marafiq Water Tariff",
+    "publisher": "Marafiq",
+    "date": "Checked7 Sep 2026; revised tariff effective7 Dec 2025",
+    "url": "https://www.marafiq.com.sa/en/partnering-with-us/water-tariff/",
+    "access": "Official indexed industrial tariff table; direct page retrieval timed out. VAT and site applicability not established."
+  },
+  "fx": {
+    "title": "Saudi Central Bank exchange-rate display",
+    "publisher": "SAMA",
+    "date": "2026 display; conversion assumption3.75 SAR/USD",
+    "url": "https://www.sama.gov.sa/en-US",
+    "access": "Official USD rate corroborated; exact site billing conversion remains contractual."
+  },
+  "closest": {
+    "title": "Chen et al., Physics-informed machine learning-based adaptive predictive control for energy-efficient hybrid-cooled data centers management",
+    "publisher": "Applied Energy424,128414",
+    "date": "AssignedDec2026 issue; Crossref deposit16 Jul2026",
+    "url": "https://doi.org/10.1016/j.apenergy.2026.128414",
+    "access": "Only metadata/preview; full text unavailable and unscored. Deposit date is not online-publication date."
+  },
+  "patent": {
+    "title": "ChemTreat US11780742B2, Methods for online control of a chemical treatment solution using scale saturation indices",
+    "publisher": "USPTO document via Google Patents",
+    "date": "10 Oct 2023",
+    "url": "https://patents.google.com/patent/US11780742B2/en",
+    "access": "All20 claims read; claims1,3,19,20 explicitly concern skin-temperature chemical-treatment control."
+  },
+  "patent2": {
+    "title": "ChemTreat US12358820B2, Systems and methods for online control of a chemical treatment solution using scale saturation indices",
+    "publisher": "USPTO document via Google Patents",
+    "date": "2025",
+    "url": "https://patents.google.com/patent/US12358820B2/en",
+    "access": "Prior repository scan retained; not a new freedom-to-operate analysis."
+  },
+  "codesign": {
+    "title": "Co-Design Optimization for Data Center Cooling System via Digital Twin",
+    "publisher": "arXiv2605.15516",
+    "date": "Suppliedv4",
+    "url": "https://arxiv.org/abs/2605.15516",
+    "access": "Supplied full PDF mechanically extracted and searched; CDU allocation and flow/supply co-design already studied."
+  },
+  "dc_twin": {
+    "title": "Digital Twin-Based Cooling System Optimization for Data Center",
+    "publisher": "arXiv2603.01198",
+    "date": "Suppliedv4",
+    "url": "https://arxiv.org/abs/2603.01198",
+    "access": "Supplied full PDF extracted; unconstrained savings explicitly separated from constrained results."
+  }
+}

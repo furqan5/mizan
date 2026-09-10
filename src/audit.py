@@ -391,16 +391,25 @@ def main():
         # shape: a figure maintained by hand, in a file nobody re-reads.
         #
         # Derive it from the register's own table rather than declaring it.
-        _NUM = {"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13,
-                "fourteen": 14, "fifteen": 15, "sixteen": 16,
-                "seventeen": 17, "eighteen": 18, "nineteen": 19,
-                "twenty": 20, "twenty-one": 21, "twenty-two": 22,
-                "twenty-three": 23, "twenty-four": 24, "twenty-five": 25}
-        # Match on the STATE MARKER anywhere in the row rather than on cell
-        # position: row 14 merged its State column into the prose of the
-        # previous one, so a position-based count silently drops it and
-        # reports 20 for a table of 21. Counting is the goal; the register's
-        # formatting is not this guard's business.
+        # Numerals are BUILT, not listed. A hand-maintained dict goes blind
+        # the moment the count passes its last entry -- which is exactly
+        # defect 21, a staleness guard that could not reach part of what it
+        # was meant to police. It happened here too: the dict stopped at
+        # twenty-five and "twenty-eight" silently matched "twenty".
+        _UNITS = ["", "one", "two", "three", "four", "five", "six", "seven",
+                  "eight", "nine"]
+        _TEENS = {"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13,
+                  "fourteen": 14, "fifteen": 15, "sixteen": 16,
+                  "seventeen": 17, "eighteen": 18, "nineteen": 19}
+        _TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50,
+                 "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
+        _NUM = dict(_TEENS)
+        for _w, _v in _TENS.items():
+            _NUM[_w] = _v
+            for _i, _u in enumerate(_UNITS[1:], start=1):
+                _NUM[f"{_w}-{_u}"] = _v + _i
+                _NUM[f"{_w} {_u}"] = _v + _i
+
         rows = [m.group(1) for m in
                 re.finditer(r"^\|\s*(\d+)\s*\|.*?\*\*(?:Fixed|OPEN)\*\*",
                             reg, re.M)]
@@ -727,7 +736,16 @@ def main():
           f"artefact says {_c:.2f} %")
 
     # --- report ----------------------------------------------------------
-    print(f"\n{CHECKS} checks run.")
+    # The counter is ASSERTIONS EVALUATED, not coverage, and the two differ:
+    # several call sites live inside `if violation:` branches, so they only
+    # execute when they have something to report. A FAILING run therefore
+    # reports MORE "checks" than a passing one -- 78 while twenty documents
+    # carried stale figures, 58 once they were tagged. Comparing those two
+    # numbers as if they measured the same thing is exactly the kind of quiet
+    # nonsense this audit exists to catch, so it now says which it is.
+    print(f"\n{CHECKS} assertions evaluated, {len(PROBLEMS)} raised.")
+    print("Not a coverage figure: failure-path assertions only execute when "
+          "they fire, so a failing run reports MORE than a passing one.")
     if PROBLEMS:
         print(f"\n{len(PROBLEMS)} PROBLEM(S):\n")
         for p in PROBLEMS:

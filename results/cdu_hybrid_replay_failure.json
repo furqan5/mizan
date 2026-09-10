@@ -1,0 +1,148 @@
+{
+  "weather": {
+    "T_db_C": 27.178538812785387,
+    "rh": 0.512730593607306
+  },
+  "best": {
+    "P_chiller_kW": 1126.9759444331564,
+    "cop": 7.985973475704308,
+    "plr_raw": 0.717591070763475,
+    "capacity_kW": 12541.962082143144,
+    "T_ecwt_C": 22.85,
+    "T_cw_return_C": 27.911190191869473,
+    "T_skin_C": 35.91119019186947,
+    "T_wb_actual_C": 19.900451334550137,
+    "cycles": 4.0,
+    "fan_pct": 39.994600765911215,
+    "aw": 0.9980562714916853,
+    "P_fan_kW": 7.037149589186626,
+    "P_total_kW": 1134.013094022343,
+    "Q_cond_kW": 10126.975944433156,
+    "makeup_m3_h": 17.733665772113042,
+    "blowdown_m3_h": 4.41620844302826,
+    "evaporation_m3_h": 13.300249329084782,
+    "drift_m3_h": 0.017208,
+    "tower_residual": -2.037487045747355e-08,
+    "Me_fill": 0.7163025621137127,
+    "T_fws_C": 8.89,
+    "T_fws_return_C": 13.89,
+    "T_gpu_inlet_water_C": 13.89,
+    "T_tcs_return_C": 18.89,
+    "approach_K": 5.0,
+    "Q_cdu_kW": 9000.0,
+    "capacity_rate_kW_K": 1800.0,
+    "ph": 8.5,
+    "chemistry_ok": true,
+    "violations": {},
+    "SI_calcite": 1.819885029436719,
+    "SI_gypsum": -0.05227760111800972,
+    "SI_gypsum_basin": -0.03853206992422642,
+    "SI_silica_am": -27.27088614726206,
+    "bulk_SI_calcite": 1.6514218389875914,
+    "acid_kg_h": 2.6094056697382806,
+    "cost_per_h": 140.45113987478084,
+    "ionic_strength": 0.15594449444518596,
+    "assumed_skin_rise_K": 8.0
+  },
+  "replay": 25.881013367035642,
+  "replay_info": {
+    "Me": 0.7163025568351219,
+    "w_out": 0.021897863349066793,
+    "T_a_out": 27.381855627580183,
+    "h_a_out": 83.42796668432624,
+    "m_evap": 1.6544644470660066,
+    "m_w_top": 479.65446444706595,
+    "fogged": false,
+    "T_wb": 19.900451334550137,
+    "approach": 5.980562032485505,
+    "range": 2.0301768248338306,
+    "Q": 4062.19705022461,
+    "Me_fill": 0.7163025621137127
+  },
+  "residual_probes": [
+    {
+      "offset_K": -0.01,
+      "residual": null
+    },
+    {
+      "offset_K": -0.009000000000000001,
+      "residual": null
+    },
+    {
+      "offset_K": -0.008,
+      "residual": null
+    },
+    {
+      "offset_K": -0.007,
+      "residual": -0.5775838700590716
+    },
+    {
+      "offset_K": -0.006,
+      "residual": -0.6551509911511089
+    },
+    {
+      "offset_K": -0.005,
+      "residual": null
+    },
+    {
+      "offset_K": -0.004,
+      "residual": null
+    },
+    {
+      "offset_K": -0.003,
+      "residual": null
+    },
+    {
+      "offset_K": -0.002,
+      "residual": null
+    },
+    {
+      "offset_K": -0.0009999999999999992,
+      "residual": null
+    },
+    {
+      "offset_K": 0.0,
+      "residual": -2.037487045747355e-08
+    },
+    {
+      "offset_K": 0.0009999999999999992,
+      "residual": null
+    },
+    {
+      "offset_K": 0.002,
+      "residual": -0.6110751365088933
+    },
+    {
+      "offset_K": 0.003000000000000001,
+      "residual": null
+    },
+    {
+      "offset_K": 0.004,
+      "residual": null
+    },
+    {
+      "offset_K": 0.004999999999999999,
+      "residual": null
+    },
+    {
+      "offset_K": 0.006,
+      "residual": 0.4642658284462291
+    },
+    {
+      "offset_K": 0.007000000000000001,
+      "residual": 0.09124940223496314
+    },
+    {
+      "offset_K": 0.008000000000000002,
+      "residual": -0.14261425381330062
+    },
+    {
+      "offset_K": 0.009,
+      "residual": null
+    },
+    {
+      "offset_K": 0.01,
+      "residual": null
+    }
+  ]
+}

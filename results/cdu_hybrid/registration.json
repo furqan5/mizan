@@ -1,0 +1,26 @@
+{
+  "script_sha256": "39a04b6bef842486b735c6aab411ec92680e0f7057fb680ae580fa000e8a2ebe",
+  "input_sha256": {
+    "src/controller.py": "03b1a2a67fa002b756eb768fbec2a036930b7495eef787dfb67d82d080fe1b6b",
+    "src/chemistry.py": "afd6c011457cbe3f774259a7cfa10d44c2a50fdda1647ff7ca6c199f0f272680",
+    "src/tower.py": "3ed25512a649918efa80dcdc044dd0e7270f03f63ba49e6639c1a37d784e64ba",
+    "src/psychro.py": "9ede67055a6839eb12532cb2652fd8c7c079817ed98fc16376628df4e441452b",
+    "src/water_activity.py": "4ec350bfb6cd7e36d8fa5f0a9050e221fc5fedb8e02961681c9b6848502ae593",
+    "src/run_controller.py": "0970710c9c8a7a0e198c462d6d6e2a2d5c4ca0efdf366ae41293a19d111d0dbf",
+    "results/calibration.json": "eac4a714385cb0b0d488c470515f1c12b7ee89ca881c5443630f0f7f62d525bb",
+    "results/controller_summary.json": "a6da372ef2b2e2b606aee4e7218283a0038349ce7429ec3f9b5f9355534da24a",
+    "results/annual_datacentre.json": "21c00f3812dc1aa8f2612791996a9288bb84377bf6b0dbac10794a10b83b15c3",
+    "results/tmy_hourly.npy": "57efd6ea18d4162f04d109cdc0753371dc164747135539e5a5ab1e55951a04c0"
+  },
+  "preregistration_sha256": "6187e0ca3bc2eb1cd53b48ea10822f83d9a9b7c8995b80bf892a14e3eeaa35ed",
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "repo": "C:\\Users\\Nouman\\Desktop\\Furqan's Docs\\Startup\\mizan",
+  "Q_nominal_kW": 11504.60117056717,
+  "Q_IT_kW": 9000.0,
+  "tariffs": {
+    "elec_per_kwh": 0.074,
+    "water_per_m3": 3.11,
+    "acid_per_kg": 0.19,
+    "antiscalant_per_m3": 0.05
+  }
+}

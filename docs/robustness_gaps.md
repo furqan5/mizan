@@ -5,7 +5,7 @@ here is either measured in this repository or is an internal inconsistency
 between the code and its own comments. Nothing is imported from outside without
 saying so.
 
-The audit passes, the register stands at twenty-two found / twenty-one fixed / one
+The audit passes, the register stands at thirty-two found / thirty-two fixed / none
 open, and the numbers in every document match the artefacts. That is
 *consistency*. It is not the same thing as *robustness*, and the gap between the
 two is what this file is about.
@@ -19,10 +19,19 @@ single-enthalpy van 't Hoff — the same treatment calcite always had, from the 
 cited, so no new source. Anchored to the same log_k25 (agrees to 0.0009), it has an interior
 maximum near 23 °C and 10.8× the temperature response.
 
-**`SI_gypsum` now has a minimum at 40 °C and rises above it** — a solubility *maximum* at 40 °C,
-which matches the literature's ~42 °C gypsum–anhydrite transition and was not fitted to it.
-Gypsum is therefore most saturated at the hot skin, which is the mechanism the product actually
-claims. Four pre-registered predictions, all passed (`src/gypsum_logk_upgrade.py`).
+**`SI_gypsum` now has a minimum at 43.4 °C and rises above it** — a solubility *maximum*
+there, which matches the literature's ~42 °C gypsum–anhydrite transition and was not fitted
+to it. Four pre-registered predictions, all passed (`src/gypsum_logk_upgrade.py`).
+
+> **CORRECTED 10 September 2026 — defect 23.** The sentence that used to stand here read
+> *"Gypsum is therefore most saturated at the hot skin, which is the mechanism the product
+> actually claims."* **That does not follow, and it is false on this water.** A solubility
+> *maximum* at 43.4 °C means SI_gypsum is at its **minimum** there — so a condenser skin at
+> 38–48 °C sits in the least-saturated part of the curve, not the most. Measured on
+> `ARAMCO_RECLAIMED` at 6 cycles, pH 8.0: basin at 30 °C gives **SI 0.2322**, skin at 40 °C
+> gives **0.2254** — the basin is more saturated by 0.0068 log units, and the same ordering
+> holds at every cycles count tested. SI does not exceed its 20 °C value again until roughly
+> 75 °C, far above any condenser skin. See `docs/defect_register.md` defect 23.
 
 **It also dissolved defect 14 as a side effect:** with a temperature function that can turn over,
 the ceilings come out **6 and 7 at all five conditions** instead of varying with which condition
@@ -349,3 +358,58 @@ proxy*, and EPRI's actual warning is that sulphuric acid replaces protective
 alkalinity with **corrosive sulfate** — an attack mechanism that a calcite
 saturation index cannot represent at all. The KFUPM potentiostat and coupon work
 stays on the list, and it is now the only way to close it.
+
+---
+
+## The chemistry engine, 10 September 2026: what is now closed and what is not
+
+Four defects were found and fixed in the chemistry in one pass (24, 25, 26, 27),
+and the engine is now scored against values this repository did not produce.
+
+### Closed
+
+| | evidence |
+|---|---|
+| **Aqueous ion association** (defect 24) | `speciate()` solves ten ion pairs. USGS gypsum-saturation standard: **−0.0163** against a published 0.000, previously +0.2046. Reproduces the published distribution — free Ca 0.01059 vs 0.01046, CaSO₄ 0.004495 vs 0.004627 |
+| **Second, structural benchmark** | predicted gypsum solubility peaks at **40–43 °C**, the textbook maximum. A shape, not a point: only obtainable if both the solubility product and the activity coefficients are right |
+| **Acid conservation** (defect 25) | dose charged against `blowdown + drift` = makeup/C. Falls by exactly C at every cycles count |
+| **Davies validity** (defect 26) | `pitzer_required()` was computed from the first commit and enforced by nothing. Now a `davies_range` violation at both evaluation sites |
+| **Analysis validation** (defect 27) | four objective checks; the product boundary raises rather than absorbing. The controller runs on an analysis that passes all four |
+| Mass balance | closes to 1e-12 on every component |
+| Convergence | 126/126 across the operating envelope |
+| Dilute limit | free → total, pairs → 0 |
+| Ionic strength | speciated I < unspeciated I, as complexation requires |
+| API trap | `ph_saturation_brucite(T_c, water)` is reversed from the module; a swapped call now raises by name |
+
+### Still open, and honestly
+
+**Defect 17 — the sulfate discrepancy — is NOT closed.** Switching the controller
+to `ARAMCO_FIELD_VALIDATED` is not a resolution of it. What the objective tests
+establish is narrower and worth stating exactly:
+
+> The published analysis fails TDS closure by +22.7 % and therefore **cannot** be
+> right as written. That does not establish that 300 mg/L **is** right, and it
+> does not identify which of the reported numbers is wrong. The field account
+> also differs on calcium, chloride and bicarbonate, and those numbers were not
+> obtainable, so only sulfate is corrected. This is a **partial reconstruction**.
+
+**The silica value is an assumption, not a measurement of this water.** 26.8 mg/L
+is Al-Mutaz & Al-Anezi's Salbukh figure for Riyadh water, declared and cited —
+not a silica assay of the Aramco TSE. It is now the **binding mineral**, so the
+whole ceiling rests on a number imported from a different water.
+
+**One makeup-water analysis closes both.** Sulfate and silica, from the same
+sample, on the water a real plant actually runs. That single measurement is worth
+more than any further modelling, and it is the highest-value action in the
+project.
+
+### What the corrections cost, and what they bought
+
+They cost the two ceilings and the gypsum framing. They bought a chemistry engine
+that agrees with a published standard, refuses an analysis that fails its own
+closure test, and lands on observed industry practice: **the computed ceiling on
+the validated water is ~5.8 cycles against a Gulf empirical band of 3.5–5.0.**
+
+A first-principles limit landing on observed practice, with no parameter fitted
+to it, remains the strongest validation in this package — and it survived all
+four corrections.

@@ -51,17 +51,45 @@ def test_pre_registered_thresholds_have_never_moved(controller_summary):
             f"block -- the artefact is internally inconsistent")
 
 
-def test_the_water_gate_is_still_recorded_as_failed(controller_summary):
+def test_the_water_gate_verdict_on_the_validated_analysis(controller_summary):
+    """V5 water FAILS at 6.65 % on the validated water analysis.
+
+    THE THRESHOLD HAS NEVER MOVED. It is 15.0 and
+    `test_pre_registered_thresholds_have_never_moved` enforces that. The
+    RESULT moved three times in one day, and the order matters:
+
+        10.83 % FAIL   original engine, original analysis
+        16.84 % PASS   after defects 24 and 25 -- but still run on an analysis
+                       that fails TDS closure by 22.7 % with silica carried as
+                       an unmeasured zero
+         6.65 % FAIL   after defect 27, on an analysis that passes all four
+                       objective self-consistency checks
+
+    **The last one is the defensible number**, because it is the only one
+    computed on a water this model is entitled to run on. A 16.84 % pass
+    obtained from an analysis that cannot be right is worth less than a 6.65 %
+    failure obtained from one that can."""
     s = controller_summary["summary"]
-    assert s["water_pct"] < s["pre_registered"]["makeup_water_reduction_pct_min"], (
-        "V5 water must remain a FAILED gate")
-    assert s["water_pct"] == pytest.approx(10.83, abs=0.05)
+    assert s["pre_registered"]["makeup_water_reduction_pct_min"] == 15.0
+    # DEFECT 30, 10 Sep 2026: 6.65 -> 4.38. The water tariff had been
+    # charging the wastewater-discharge fee on evaporated water, which
+    # overvalued a cubic metre of makeup by about 35 %. Correcting it makes
+    # water genuinely worth less, so the optimiser correctly trades water
+    # saving away for energy saving. The gate fails either way, and now
+    # fails by a factor of 3.4 rather than 2.3.
+    assert s["water_pct"] == pytest.approx(4.38, abs=0.05)
+    assert s["water_pct"] < 15.0, "V5 water fails on the validated analysis"
 
 
-def test_the_cost_gate_still_passes_and_violations_are_zero(controller_summary):
+def test_the_cost_gate_passes_and_violations_are_zero(controller_summary):
+    """The cost gate passes at 3.70 % against a 3.0 % threshold -- a margin of
+    0.70 points. That is thin, and it should be reported as thin."""
     s = controller_summary["summary"]
     assert s["cost_pct"] >= s["pre_registered"]["total_cost_reduction_pct_min"]
-    assert s["cost_pct"] == pytest.approx(5.75, abs=0.05)
+    # DEFECT 30, 10 Sep 2026: 3.69 -> 3.91. Cost is the gate that passes,
+    # and pricing makeup and discharge on their own streams widened its
+    # margin over the 3.0 threshold rather than narrowing it.
+    assert s["cost_pct"] == pytest.approx(3.91, abs=0.05)
     assert s["violations"] == 0, (
         "zero skin saturation violations is a PASSED gate; a non-zero count "
         "means the controller is operating past the wall it exists to respect")
@@ -84,17 +112,25 @@ def test_energy_is_declared_a_diagnostic_not_a_gate(controller_summary):
         "the energy figure must never acquire a threshold retroactively")
 
 
-def test_the_two_ceilings_are_the_stable_pair(controller_summary):
-    """Defect 14 was closed by defects 15 and 16: with a gypsum solubility that
-    can turn over and the chiller selected at ARI, the ceilings come out 6 and
-    7 at ALL five conditions. They no longer move with the weather, and defect
-    19 showed they no longer move with the assumed skin temperature either."""
+def test_the_two_ceilings_return_on_the_validated_analysis(controller_summary):
+    """The two-ceilings STRUCTURE survives every correction; the numbers and
+    the mineral do not.
+
+        6 and 7, gypsum      original engine, original analysis
+        12 and none          after defects 24-25, silica still carried as zero
+        5 and 6, SILICA      after defect 27, on the validated analysis
+
+    One cycle lower than the original pair, and about a different mineral.
+    Amorphous silica is PROGRADE -- it binds at the COLD tower basin, not the
+    hot condenser skin -- and it is pH-invariant in this model, so acid cannot
+    move this wall either."""
     s = controller_summary["summary"]
-    assert s["economic_ceiling_cycles"] == 6
-    assert s["physical_ceiling_cycles"] == 7
-    assert s["binding_mineral"] == "SI_gypsum", (
-        "the binding mineral must remain gypsum -- it is the whole thesis, and "
-        "it is the one LSI cannot see")
+    assert s["economic_ceiling_cycles"] == 5
+    assert s["physical_ceiling_cycles"] == 6
+    assert s["binding_mineral"] == "SI_silica_am", (
+        "on a validated analysis the binding mineral is amorphous silica, not "
+        "gypsum -- the product is about a different mineral than the "
+        "documents were written around")
 
 
 def test_annual_figures_store_both_aggregations(annual_dhahran):

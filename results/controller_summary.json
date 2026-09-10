@@ -14,6 +14,8 @@
   "tariffs": {
     "elec_per_kwh": 0.074,
     "water_per_m3": 3.11,
+    "water_makeup_per_m3": 2.144,
+    "water_discharge_per_m3": 0.971,
     "acid_per_kg": 0.19,
     "antiscalant_per_m3": 0.05
   },
@@ -24,14 +26,14 @@
       "total_cost_reduction_pct_min": 3.0,
       "skin_SI_violations_allowed": 0
     },
-    "water_pct": 10.82701134491955,
-    "cost_pct": 5.747996234318526,
+    "water_pct": 4.3797846233251,
+    "cost_pct": 3.9122144397707475,
     "violations": 0,
-    "energy_pct": 2.862281006529438,
+    "energy_pct": 2.9642750641758613,
     "energy_pct_status": "REPORTED DIAGNOSTIC, NOT A PRE-REGISTERED GATE. Electrical power reduction was always inside the objective function -- cost = elec x P_total + water + acid + antiscalant -- but was never reported on its own. It is surfaced here because it is computed after the fact; registering a threshold for it now would be scoring a criterion chosen once the answer was known. Same status as the hours-weighted annual figures in results/annual_dhahran.json.",
     "baseline_unsafe_conditions": 0,
-    "economic_ceiling_cycles": 6,
-    "physical_ceiling_cycles": 7,
-    "binding_mineral": "SI_gypsum"
+    "economic_ceiling_cycles": 5,
+    "physical_ceiling_cycles": 6,
+    "binding_mineral": "SI_silica_am"
   }
 }

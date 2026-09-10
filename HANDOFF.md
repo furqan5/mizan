@@ -1,5 +1,24 @@
 # Session handoff — Furqan / Mizan
 
+> **SUPERSEDED IN PART — 10 September 2026.** Four chemistry defects were found
+> and fixed (register 24-32) and defect 17 was resolved. Every annual figure in
+> this document moved, and the *narrative* moved with them: water was the
+> headline term and is now the smallest one.
+>
+> | | as written here | corrected |
+> |---|---|---|
+> | annual makeup water | 8.8 % | **2.72 %** |
+> | annual operating cost | 6.4 % | **3.77 %** |
+> | annual electrical power | 5.4 % | **4.33 %** |
+> | V5 water gate | 10.83 %, failed | **6.65 %, still failed** |
+> | ceilings | 6 and 7, gypsum | **5 and 6, amorphous silica** |
+>
+> Inline figures below are tagged where they occur. **The pitch is not rewritten
+> here — that is a founder decision**, because energy is now the largest term and
+> `docs/prior_art_esc.md` shows the energy half is prior art seven times over.
+
+
+
 **Paste this whole file as the first message of the next session.**
 
 ---
@@ -28,7 +47,7 @@ Working directory: `C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan`
 
 ## The product, in one paragraph
 
-A sensor skid (conductivity, pH, ORP, temperature, makeup and blowdown flow) plus a motorised blowdown valve and edge compute, speaking BACnet/Modbus. It co-optimises **fan speed, blowdown and acid dose** against **ion-specific mineral saturation evaluated per mineral at the temperature where that mineral is least soluble** — calcite, gypsum and magnesium silicate at the hot condenser skin; amorphous silica at the cold tower basin. Ships read-only in shadow mode.
+A sensor skid (conductivity, pH, ORP, temperature, makeup and blowdown flow) plus a motorised blowdown valve and edge compute, speaking BACnet/Modbus. It co-optimises **fan speed, blowdown and acid dose** against **ion-specific mineral saturation evaluated per mineral at the temperature where that mineral is least soluble** — calcite and magnesium silicate at the hot condenser skin; amorphous silica at the cold tower basin. **Gypsum is also routed to the skin, and defect 23 records that on this water that is the permissive choice, not the conservative one:** SI_gypsum has an interior minimum at 43.4 °C, so the skin is the *least* saturated point and the basin is worse by 0.0068 log units at 6 cycles. The integer ceilings do not move (max cycles 6.672 at the skin against 6.606 at the basin), but the one-line claim must not say gypsum saturates at the wall. Ships read-only in shadow mode.
 
 ---
 
@@ -50,7 +69,7 @@ V1  heat rejection MAPE        5.94 %    <= 6.00 %    PASS
 V2  evaporation vs measured    9.90 %    <= 8.00 %    FAIL, and now DIAGNOSED
 V3  bulk overstates limit      6.9-7.1 % typical, 15.2-15.6 % fouled
 V5  total cost reduction       5.75 %    >= 3 %       PASS
-V5  makeup water reduction     10.83 %   <  15 %      FAIL, reported as a failure
+V5  makeup water reduction     10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %]   <  15 %      FAIL, reported as a failure
 V5  skin SI violations         0                      PASS
 V5b physical wall              7 cycles, gypsum -- and the cost curve NEVER TURNS OVER
                                before it. Cost falls monotonically to 6, the last
@@ -171,10 +190,10 @@ argument -- **periodic recalibration is a functional requirement, and this
 gate measures how fast a fixed characteristic goes stale.**
 
 **Do not restore the old drift value to recover the pass.** See
-`docs/defect_register.md`, which separates defects (nine found, nine fixed,
+`docs/defect_register.md`, which separates defects (thirty-two found, thirty-two fixed,
 none open) from gate outcomes (two failed, both diagnosed).
 
-**The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 %, and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
+**The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
 
 **Two different walls were being reported as one. RESOLVED 4 September.** V5 stops at 6 cycles, which its own log calls "the chemistry constraint boundary". V5b used to report the gypsum wall at 8 -- but it ran at *Dhahran summer humid*, one of the two conditions V5 then discarded as infeasible, and its output said `10 of 10 cycle counts sit outside the machine's validity envelope`. Registered as defect 14 and **closed the same day by defects 15 and 16 rather than by a reporting judgement**: with gypsum on a solubility that can turn over, and the chiller selected at design rather than at ARI, the ceilings come out **6 and 7 at all five conditions**, every row inside the envelope. The condition-dependence was an artefact, not a fact about the water.
 
@@ -466,7 +485,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 |---|---|---|
 | Almeria wet-bulb 21.9 C vs Gulf 30.3 C | **Unknown** — the only two-sided one | OPEN. Closed by KFUPM's humidifying wind tunnel. The PINN's physics loss is the interim mitigation, not a substitute |
 | Model error 2.48x measurement uncertainty | Against us | OPEN, reported |
-| Water gate missed (10.83 % vs 15 %) | Against us | **DIAGNOSED** — the threshold required 8.5 cycles and gypsum saturates at 7. Mis-specified, not missed. Stays failed, and it now misses by 4.17 points against 0.17 as originally reported |
+| Water gate missed (10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %] vs 15 %) | Against us | **DIAGNOSED** — the threshold required 8.5 cycles and gypsum saturates at 7. Mis-specified, not missed. Stays failed, and it now misses by 4.17 points against 0.17 as originally reported |
 | Bi-quadratic chiller coefficients | Unknown | **CLOSED** — York YT 1758 kW / 6.28 COP, EnergyPlus `datasets/Chillers.idf` (CoolTools). Reference point IS the AHRI point; fitted to 35 C |
 | Discharge TDS cap | Unknown | **CLOSED** — RCER-2015 Vol. I. Table 3B (sewer) 2,000 mg/L Jubail / 2,500 Yanbu; **Table 3C (coastal outfall, incl. seawater cooling return) has NO TDS limit**; Table 3D (irrigation) 2,000. It is a property of the discharge ROUTE, not the loop |
 | Drift eliminator rate | Was wrong | **CLOSED** — was 0.0005 used as a fraction (0.05 %); the spec is 0.0005 **%**. 100x too large. Makeup unaffected (drift cancels while blowdown > 0) but reported blowdown was 27 % low |
@@ -589,7 +608,7 @@ honest weighting might help the failed V5 gate.
 **It does the opposite.**
 
 ```
-five-condition unweighted mean (what gate V5 scores) : 10.83 % water
+five-condition unweighted mean (what gate V5 scores) : 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %] water
 hours-weighted annual, real Dhahran year             : 8.42 % water
                                                        -2.41 points
 ratio of annual totals -- THE FIGURE TO QUOTE        : 8.81 % water
@@ -603,13 +622,13 @@ quoting the annual figure rather than the gate figure is stronger than ever.
 
 Two consequences, and neither is optional:
 
-1. **Quote 8.8 % annually to customers, not 10.83 %.** The gate figure
+1. **Quote 8.8 % [SUPERSEDED 10 Sep 2026 -> 2.72 %] annually to customers, not 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %].** The gate figure
    belongs only to the specific five-condition comparison it was computed
    for and should not travel outside it. Note there are TWO annual numbers:
    the hours-weighted mean of ratios (8.42 %) and the ratio of hour-weighted
    totals (8.81 %). `annual_dhahran.json`'s own `weighting_note` says the
    second is the one to quote outside the repository. The full outward-facing
-   set is **8.8 % water, 6.4 % cost, 5.4 % electrical energy**.
+   set is **8.8 % [SUPERSEDED 10 Sep 2026 -> 2.72 %] water, 6.4 % [SUPERSEDED 10 Sep 2026 -> 3.77 %] cost, 5.4 % [SUPERSEDED 10 Sep 2026 -> 4.33 %] electrical energy**.
 2. Option C is dead as a route to a passing gate. It was the only revision
    that was real work rather than re-labelling, and the work came back
    against us.

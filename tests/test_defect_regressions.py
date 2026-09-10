@@ -16,6 +16,8 @@ Each test names its defect number so a failure points straight at the register.
 """
 from __future__ import annotations
 
+import pathlib
+
 import numpy as np
 import pytest
 
@@ -156,23 +158,33 @@ def test_defect_15_gypsum_logk_has_an_interior_maximum():
     assert ch.log_k_gypsum(25.0) == pytest.approx(-4.58, abs=0.01)
 
 
-def test_defect_15_si_gypsum_is_most_saturated_at_the_hot_skin(aramco):
-    """The mechanism the product actually claims: gypsum is MOST saturated at
-    the condenser skin, so SI_gypsum must have a minimum (a solubility
-    maximum) somewhere in the mid-40s and rise above it."""
+def test_defect_15_si_gypsum_can_turn_over_with_temperature(aramco):
+    """Defect 15's real content: the temperature function must be ABLE to turn
+    over. A single-enthalpy van 't Hoff is monotonic by construction and could
+    not represent gypsum at all.
+
+    Renamed 10 Sep 2026. It was called `..._is_most_saturated_at_the_hot_skin`,
+    which defect 23 showed is false on this water: the interior MINIMUM means
+    the skin is the LEAST saturated point, not the most. The old name asserted
+    the opposite of what the test measures."""
     conc = ch.Water(**{**aramco.__dict__,
                        **{k: getattr(aramco, k) * 6.0 for k in
                           ("Ca", "Mg", "Na", "K", "HCO3", "SO4", "Cl", "NO3",
                            "TDS")}})
-    T = np.linspace(25.0, 70.0, 90)
-    si = np.array([ch.saturation_state(conc, t, pH=8.0)["SI_gypsum"] for t in T])
+    T = np.linspace(25.0, 80.0, 120)
+    si = np.array([ch.saturation_state(conc, t, pH=8.0)["SI_gypsum"]
+                   for t in T])
     i = int(si.argmin())
-
     assert 0 < i < len(T) - 1, (
-        "SI_gypsum must have an interior minimum; without one the hot skin is "
-        "the SAFEST place in the loop and the thesis inverts (defect 15)")
-    assert T[i] == pytest.approx(44.5, abs=6.0)
+        "SI_gypsum must have an INTERIOR extremum; a monotonic van 't Hoff "
+        "cannot represent gypsum solubility (defect 15)")
     assert si[-1] > si[i], "SI_gypsum must rise again above the minimum"
+    # Defect 23: the minimum sits ABOVE the condenser skin band (38-48 C),
+    # so the skin is in the trough. After defect 24 it moved further out.
+    assert T[i] > 48.0, (
+        f"the SI_gypsum minimum is at {T[i]:.1f} C; defect 23 records that it "
+        "lies above the skin band, which is why routing gypsum to the skin is "
+        "the permissive choice on this water")
 
 
 # ---------------------------------------------------------------------------
@@ -208,31 +220,62 @@ def test_defect_12_headline_water_figure_is_not_hardcoded_anywhere():
 
 
 # ---------------------------------------------------------------------------
-# Defect 17 -- OPEN. This test documents it and must XPASS when it is fixed.
+# Defect 17 -- RESOLVED 10 Sep 2026, as a category error rather than a number.
 # ---------------------------------------------------------------------------
-@pytest.mark.xfail(strict=True, reason=(
-    "DEFECT 17, OPEN: ARAMCO_RECLAIMED carries SO4 = 566 mg/L where a field "
-    "write-up of the same Aramco pilot reports 300. Charge imbalance -14.3 %, "
-    "and the ions sum to 1752 mg/L against a stated TDS of 1500 -- a water "
-    "cannot contain more ions than its own TDS. Sulfate is the number the "
-    "gypsum wall rests on. When this XPASSes, the defect is fixed: close it in "
-    "docs/defect_register.md and delete this marker."))
-def test_defect_17_makeup_water_closes_charge_and_tds(aramco):
+def test_defect_17_the_source_table_is_marginals_not_an_analysis():
+    """The xfail that used to live here asserted `ARAMCO_RECLAIMED` would one
+    day close its charge balance and TDS. It never will, and that is not a
+    fault in the transcription.
+
+    Badruzzaman et al. (2022) Table 1 reports "Reclaimed Min | Ave | Max" as
+    INDEPENDENT PER-ION MARGINALS over a monitoring campaign. The Max column's
+    ions sum to 3557 mg/L against its own stated TDS of 1800 -- no sample
+    contains twice its own dissolved solids. The Raw Groundwater column, which
+    IS a sample, closes cleanly, so the laboratory method is sound.
+
+    A permanent xfail is the wrong shape: an xfail should mark something
+    fixable. The real defect was that the CONTROLLER ran on a column that is
+    not a water, and that is fixed."""
     from conftest import charge_balance_pct, ion_sum_mg_l
-    assert abs(charge_balance_pct(aramco)) <= 5.0, (
-        "a laboratory water analysis is normally accepted within +/- 5 %")
-    assert ion_sum_mg_l(aramco) <= aramco.TDS * 1.05, (
-        "the ions must not sum to more than the stated TDS")
+    w = ch.ARAMCO_RECLAIMED
+    assert abs(charge_balance_pct(w)) > 5.0
+    assert ion_sum_mg_l(w) > w.TDS
+    # And the Max column, which is what proves the diagnosis.
+    mx = ch.Water(name="Table 1 Reclaimed Max", Na=840.0, K=57.0, Ca=99.0,
+                  Mg=74.0, Cl=1233.0, SO4=1110.0, HCO3=131.0, NO3=13.0,
+                  SiO2=0.0, pH=7.4, TDS=1800.0)
+    assert sum(getattr(mx, s) for s in ch.SPECIES) > 1.9 * mx.TDS
 
 
-def test_defect_17_is_still_declared_open_in_the_register():
-    """Guards the pairing above: if someone fixes the water but forgets the
-    register, or closes the register without fixing the water, this fails."""
-    import pathlib
+def test_defect_17_the_controller_runs_on_a_water_that_closes():
+    """The resolution: a coherent analysis of the SAME pilot exists (Water
+    Technology, Jan 2021) and the controller runs on it."""
+    import run_controller as rc
+    from conftest import charge_balance_pct, ion_sum_mg_l
+    assert abs(charge_balance_pct(rc.TSE)) <= 5.0
+    assert ion_sum_mg_l(rc.TSE) <= rc.TSE.TDS * 1.05
+
+
+def test_the_register_declares_its_open_count_honestly():
+    """Guards both directions. The register must state an open count, and it
+    must match its own OPEN rows -- an honest empty register passes, an honest
+    non-empty one passes, and a table with an undeclared OPEN row fails.
+
+    This is defect 12's lesson: the audit once required the literal string
+    "Open defects: none", which passed for an honest empty register and failed
+    for an honest non-empty one, quietly rewarding concealment."""
+    import re as _re
     reg = (pathlib.Path(__file__).resolve().parents[1]
            / "docs" / "defect_register.md").read_text(encoding="utf-8",
                                                       errors="replace")
-    assert "OPEN" in reg, "the register must still mark defect 17 OPEN"
+    n_open = len(_re.findall(r"\|\s*\*\*OPEN\*\*\s*\|", reg))
+    m = _re.search(r"\*\*Open defects:\s*([A-Za-z]+|\d+)", reg)
+    assert m, "the register must declare an open-defect count"
+    words = {"none": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
+    tok = m.group(1).lower()
+    declared = int(tok) if tok.isdigit() else words.get(tok)
+    assert declared == n_open, (
+        f"register declares {declared} open, table shows {n_open}")
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,90 @@
+PRE-REGISTERED; strict envelope; fixed nameplate; one CDU; NO device model
+bin 0: thermal=124, H2cycles=14, H2temperature=0, elapsed=44.2s
+bin 1: thermal=154, H2cycles=16, H2temperature=0, elapsed=93.8s
+bin 2: thermal=135, H2cycles=15, H2temperature=0, elapsed=146.3s
+bin 3: thermal=119, H2cycles=10, H2temperature=0, elapsed=185.6s
+bin 4: thermal=135, H2cycles=12, H2temperature=0, elapsed=227.2s
+bin 5: thermal=107, H2cycles=9, H2temperature=0, elapsed=282.8s
+bin 6: thermal=81, H2cycles=6, H2temperature=0, elapsed=323.7s
+bin 7: thermal=54, H2cycles=3, H2temperature=0, elapsed=350.4s
+{
+  "verdicts": {
+    "H1a": {
+      "status": "FAIL",
+      "pairs": 1610,
+      "min_change_K": 0.0,
+      "max_change_K": 0.0
+    },
+    "H1b": {
+      "status": "PASS",
+      "pairs": 794,
+      "minimum_SI_increase": 0.08854911498463114
+    },
+    "H2_cycles": {
+      "status": "PASS",
+      "weather_bins_with_witness": 8
+    },
+    "H2_temperature": {
+      "status": "FAIL",
+      "weather_bins_with_witness": 0
+    },
+    "H3": {
+      "status": "NOT_IDENTIFIABLE",
+      "actual_chip_optimum_shortfall_K": null,
+      "reason": "No measured chip-to-water map; CPU paper is not a GPU water response"
+    },
+    "H4": {
+      "status": "NOT_IDENTIFIABLE",
+      "annual_ITD_cost_USD": null,
+      "reason": "H3 map is absent; independent FWS economics are reported separately"
+    }
+  },
+  "annual": {
+    "coupled_vs_baseline": {
+      "energy": {
+        "mean_of_ratios_pct": 12.578227795389497,
+        "ratio_of_totals_pct": 12.40352801929334,
+        "base_annual_total": 13350820.969215717,
+        "opt_annual_total": 11694848.149493353,
+        "annual_difference": 1655972.819722362
+      },
+      "water": {
+        "mean_of_ratios_pct": 11.152987899251121,
+        "ratio_of_totals_pct": 11.132747521779917,
+        "base_annual_total": 167595.16025181452,
+        "opt_annual_total": 148937.2142022575,
+        "annual_difference": 18657.946049556962
+      },
+      "cost": {
+        "mean_of_ratios_pct": 12.015233486131075,
+        "ratio_of_totals_pct": 11.793056962108976,
+        "base_annual_total": 1524315.302335457,
+        "opt_annual_total": 1344551.9304488928,
+        "annual_difference": 179763.37188656407
+      }
+    },
+    "FWS_increment_only": {
+      "energy": {
+        "mean_of_ratios_pct": 5.144524928076948,
+        "ratio_of_totals_pct": 5.13293382123542,
+        "base_annual_total": 12327616.548672372,
+        "opt_annual_total": 11694848.149493353,
+        "annual_difference": 632768.3991790188
+      },
+      "water": {
+        "mean_of_ratios_pct": 0.6661734748094631,
+        "ratio_of_totals_pct": 0.6693429788244926,
+        "base_annual_total": 149940.83263791038,
+        "opt_annual_total": 148937.2142022575,
+        "annual_difference": 1003.6184356528363
+      },
+      "cost": {
+        "mean_of_ratios_pct": 3.5960408025237514,
+        "ratio_of_totals_pct": 3.589139229196916,
+        "base_annual_total": 1394606.2919667189,
+        "opt_annual_total": 1344551.9304488928,
+        "annual_difference": 50054.361517825986
+      }
+    }
+  }
+}

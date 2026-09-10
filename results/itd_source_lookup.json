@@ -1,0 +1,136 @@
+{
+  "source": "C:\\Users\\Nouman\\Desktop\\2606.11163v1.pdf",
+  "source_sha256": "a1de0c7a86cbd7a7a350185851490689231152a5bd0d78ae5bd83657da9e87bc",
+  "source_url": "https://arxiv.org/abs/2606.11163",
+  "source_page": 2,
+  "figure": 2,
+  "status": "PDF vector extraction of published measured/derived curve; not raw observations",
+  "application": "Xeon8480 povray fixed-frequency, not GPU and not coolant temperature",
+  "license": "CC BY-NC-ND 4.0, research use; commercial permissions not established",
+  "coordinate_calibration": {
+    "x_pairs": [
+      [
+        122.40057343232,
+        20.0
+      ],
+      [
+        159.38314377184003,
+        40.0
+      ],
+      [
+        196.36571348488,
+        60.0
+      ],
+      [
+        233.34828319792,
+        80.0
+      ],
+      [
+        270.33085291096006,
+        100.0
+      ]
+    ],
+    "y_pairs": [
+      [
+        312.17376742976,
+        350.0
+      ],
+      [
+        332.84576307264,
+        300.0
+      ],
+      [
+        353.51775871552,
+        250.0
+      ],
+      [
+        374.18975498488,
+        200.0
+      ],
+      [
+        394.86175062776,
+        150.0
+      ],
+      [
+        415.53374689712,
+        100.0
+      ],
+      [
+        436.20574254,
+        50.0
+      ]
+    ],
+    "x_residual": 1.3551897382058087e-07,
+    "y_residual": 7.03525984135922e-07
+  },
+  "points": [
+    {
+      "T_chip_C": 10.0,
+      "P_total_W": 299.2,
+      "P_dynamic_W": 257.6,
+      "P_static_W": 41.7
+    },
+    {
+      "T_chip_C": 20.0,
+      "P_total_W": 295.6,
+      "P_dynamic_W": 251.6,
+      "P_static_W": 44.1
+    },
+    {
+      "T_chip_C": 30.0,
+      "P_total_W": 293.0,
+      "P_dynamic_W": 245.6,
+      "P_static_W": 47.4
+    },
+    {
+      "T_chip_C": 40.0,
+      "P_total_W": 290.4,
+      "P_dynamic_W": 239.8,
+      "P_static_W": 50.7
+    },
+    {
+      "T_chip_C": 50.0,
+      "P_total_W": 292.1,
+      "P_dynamic_W": 234.0,
+      "P_static_W": 58.1
+    },
+    {
+      "T_chip_C": 60.0,
+      "P_total_W": 295.1,
+      "P_dynamic_W": 228.3,
+      "P_static_W": 66.8
+    },
+    {
+      "T_chip_C": 70.0,
+      "P_total_W": 301.5,
+      "P_dynamic_W": 222.6,
+      "P_static_W": 78.9
+    },
+    {
+      "T_chip_C": 80.0,
+      "P_total_W": 313.0,
+      "P_dynamic_W": 217.0,
+      "P_static_W": 96.0
+    },
+    {
+      "T_chip_C": 90.0,
+      "P_total_W": 331.5,
+      "P_dynamic_W": 211.5,
+      "P_static_W": 119.9
+    },
+    {
+      "T_chip_C": 100.0,
+      "P_total_W": 359.8,
+      "P_dynamic_W": 206.1,
+      "P_static_W": 153.7
+    }
+  ],
+  "minimum_sample": {
+    "T_chip_C": 40.0,
+    "P_total_W": 290.4,
+    "P_dynamic_W": 239.8,
+    "P_static_W": 50.7
+  },
+  "chip_to_water_map": null,
+  "extrapolation_allowed": false
+}

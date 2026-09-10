@@ -178,15 +178,27 @@ def test_gypsum_is_not_ph_sensitive(aramco):
     conc = _concentrate(aramco, 6.0)
     si = [ch.saturation_state(conc, 40.0, pH=p)["SI_gypsum"]
           for p in (7.0, 7.5, 8.0, 8.5, 9.0)]
-    assert max(si) - min(si) < 0.02, (
-        f"SI_gypsum moved {max(si) - min(si):.4f} across pH 7-9; it must be "
-        "essentially pH-insensitive")
+    gypsum_span = max(si) - min(si)
+    # After defect 24 the engine solves ion association, so gypsum acquires a
+    # small INDIRECT pH dependence: as pH rises, carbonate grows and more
+    # calcium is taken up as CaCO3/CaHCO3 pairs, leaving less free Ca(2+).
+    # That is physically real and EPRI's statement is comparative, not
+    # absolute -- so the test is comparative too.
+    assert gypsum_span < 0.06, (
+        f"SI_gypsum moved {gypsum_span:.4f} across pH 7-9; the indirect complexation effect should stay small")
 
     si_cal = [ch.saturation_state(conc, 40.0, pH=p)["SI_calcite"]
               for p in (7.0, 9.0)]
-    assert si_cal[1] - si_cal[0] > 1.0, (
+    calcite_span = si_cal[1] - si_cal[0]
+    assert calcite_span > 1.0, (
         "calcite MUST be strongly pH-sensitive -- if it is not, the "
         "comparison above is vacuous")
+    assert calcite_span / gypsum_span > 20.0, (
+        f"calcite moves {calcite_span:.3f} and gypsum {gypsum_span:.3f}, a "
+        f"factor of {calcite_span/gypsum_span:.0f}. EPRI's claim is that "
+        "calcium sulphate scale 'is not pH sensitive as is calcium carbonate "
+        "scale' -- a comparison. This is why the acid lever buys cycles "
+        "against calcite but cannot move gypsum")
 
 
 # ---------------------------------------------------------------------------
@@ -323,3 +335,80 @@ def test_ratio_of_totals_differs_from_mean_of_ratios_when_load_correlates():
     assert ratio_of_totals < mean_of_ratios, (
         "when the larger saving sits on the lighter load, the mean of ratios "
         "FLATTERS the result -- that is the defect")
+
+
+# ---------------------------------------------------------------------------
+# The product thesis, as a measurement
+# ---------------------------------------------------------------------------
+def test_acid_dosing_walks_a_calcite_only_controller_into_the_gypsum_wall(aramco):
+    """THE CENTRAL CLAIM, encoded so it cannot quietly stop being true.
+
+    Calcite saturation is strongly pH-sensitive, so dosing acid relaxes the
+    calcite limit and lets an LSI-style controller keep raising cycles. Gypsum
+    saturation is not pH-sensitive, so it does not move. Below some pH the
+    gypsum limit therefore crosses under the calcite limit, and a calcite-only
+    model authorises an operating point that will scale the condenser.
+
+    Measured on the corrected engine at 40 C, published sulfate: at pH 7.5 a
+    calcite-only limit permits the full 30-cycle search bound while the true
+    limit is ~12. That is the failure this product exists to prevent, and it
+    is a SAFETY constraint rather than an optimisation term."""
+    full = ch.OPERATING_LIMITS
+    calcite_only = {"SI_calcite": full["SI_calcite"],
+                    "SI_gypsum": 99.0, "SI_silica_am": 99.0}
+
+    low_pH_full = ch.max_cycles(aramco, 40.0, limits=full, pH=7.5)
+    low_pH_cal = ch.max_cycles(aramco, 40.0, limits=calcite_only, pH=7.5)
+    assert low_pH_cal - low_pH_full > 5.0, (
+        f"at pH 7.5 a calcite-only limit permits {low_pH_cal:.1f} cycles "
+        f"against a true limit of {low_pH_full:.1f}. If this gap closes, the "
+        "differentiation claim has stopped being true on this water")
+    assert ch.binding_mineral(aramco, min(low_pH_full, 29.9), 40.0,
+                              limits=full, pH=7.5) == "SI_gypsum"
+
+    # And the guard is not vacuous: at higher pH calcite binds first and the
+    # two models agree, which is why a well-tuned optimiser sees no difference.
+    high_pH_full = ch.max_cycles(aramco, 40.0, limits=full, pH=8.5)
+    high_pH_cal = ch.max_cycles(aramco, 40.0, limits=calcite_only, pH=8.5)
+    assert high_pH_full == pytest.approx(high_pH_cal, rel=1e-6), (
+        "at pH 8.5 calcite binds first and the two limits must coincide; if "
+        "they do not, the comparison above proves less than it claims")
+
+
+def test_the_water_gate_result_is_hostage_to_unmeasured_silica(aramco):
+    """THE CAVEAT THAT MUST TRAVEL WITH THE 16.84 % PASS.
+
+    `ARAMCO_RECLAIMED` ships `SiO2 = 0.0`. That is UNMEASURED, not silica-free:
+    the source analysis does not report it. Amorphous silica is prograde -- it
+    binds at the COLD basin, not the hot skin -- and it is not pH-sensitive
+    either, so acid cannot buy cycles against it.
+
+    At the optimiser's pH the ceiling collapses as soon as any realistic silica
+    is present, and the binding mineral stops being gypsum:
+
+        SiO2 = 0.0  mg/L  ->  12.3 cycles, gypsum   ->  18.2 % water saving
+        SiO2 = 20   mg/L  ->   7.8 cycles, silica   ->  14.0 %  (gate FAILS)
+        SiO2 = 26.8 mg/L  ->   5.8 cycles, silica   ->   9.5 %  (gate FAILS)
+
+    26.8 mg/L is the Salbukh measured Saudi value recorded in HANDOFF.md. So
+    the V5 pass is conditional on an input nobody has measured, and measuring
+    it is the highest-value open action in the project."""
+    full = ch.OPERATING_LIMITS
+    clean = ch.max_cycles(aramco, 40.0, limits=full, pH=8.0)
+    assert clean > 12.0, "baseline expectation: no silica, gypsum-bound"
+
+    salbukh = ch.balance_sodium(ch.Water(**{**aramco.__dict__, "SiO2": 26.8}))
+    limited = ch.max_cycles(salbukh, 40.0, limits=full, pH=8.0)
+    assert limited < 7.0, (
+        f"at the measured Saudi silica the ceiling is {limited:.1f} cycles")
+    assert ch.binding_mineral(salbukh, min(limited, 29.9), 40.0,
+                              limits=full, pH=8.0) == "SI_silica_am", (
+        "with realistic silica the binding mineral is amorphous silica, not "
+        "gypsum -- the product would be about a different mineral")
+
+    def water_saving(cycles):
+        return 100.0 * (1.0 - (cycles / (cycles - 1.0)) / (4.0 / 3.0))
+    assert water_saving(limited) < 15.0, (
+        f"at measured Saudi silica the achievable water saving is "
+        f"{water_saving(limited):.1f} %, below the 15 % V5 threshold -- the "
+        "gate passes only because silica is carried as zero")
