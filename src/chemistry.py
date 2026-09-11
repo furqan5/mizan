@@ -820,6 +820,30 @@ def temperature_floor_for_silica(makeup, cycles, si_limit=0.0,
     return float(brentq(si, lo, hi, xtol=1e-4))
 
 
+def limits_with_diurnal_margin(T_mean_c, T_amplitude_k, programme=None,
+                               base=None):
+    """Operating limits with the silica ceiling discounted for the daily swing.
+
+    DEFECT 37. `diurnal_silica_margin()` was computed, documented, agreed with
+    an independent Modelica simulation to half a percentage point -- and
+    enforced by nothing. That is the fourth time in this package a quantity
+    has been calculated and then ignored (defect 11, the chiller capacity
+    limit; defect 26, Davies validity; defect 31, the thermal cache key), and
+    the shape is always the same: the number is right, the number is printed,
+    and the optimiser never sees it.
+
+    Here it matters more than usual, because the optimiser's whole job is to
+    push cycles up against the silica ceiling, and the ceiling it is pushing
+    against is the one that holds only at MEAN basin temperature. The
+    simulation says a setpoint placed there is supersaturated for half of
+    every day.
+    """
+    limits = limits_for_programme(programme, base)
+    limits["SI_silica_am"] = silica_limit_with_diurnal_margin(
+        T_mean_c, T_amplitude_k, limits.get("SI_silica_am", 0.0))
+    return limits
+
+
 def limits_for_programme(programme=None, base=None):
     """Operating limits, with calcium phosphate promoted to a binding limit
     only when a treatment programme is DECLARED.

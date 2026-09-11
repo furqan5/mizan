@@ -341,3 +341,40 @@ def test_defect_36_the_measured_silica_removal_replaced_an_assumption():
     assert b["silica_removed_pct"] == pytest.approx(89.8, abs=0.1)
     assert 100.0 * (1 - 18.0 / 176.0) == pytest.approx(b["silica_removed_pct"],
                                                        abs=0.1)
+
+
+def test_defect_37_the_diurnal_margin_is_enforced_not_merely_reported():
+    """DEFECT 37, and the fourth instance of one pattern.
+
+    `diurnal_silica_margin()` was computed, documented, and agreed with an
+    independent Modelica simulation to better than half a percentage point --
+    and no limit set used it. The optimiser pushed cycles against a ceiling
+    that holds only at mean basin temperature, which the simulation shows is
+    supersaturated for 11.8 hours of every 24.
+
+    Same shape as defect 11 (chiller capacity logged, not enforced), defect 26
+    (Davies validity computed, not enforced) and defect 31 (cache key).
+    """
+    import chemistry as ch
+    import sidestream as ss
+    import run_controller as rc
+
+    plain = ch.limits_for_programme()
+    marg = ch.limits_with_diurnal_margin(30.0, 5.0)
+
+    assert plain["SI_silica_am"] == 0.0
+    assert marg["SI_silica_am"] < plain["SI_silica_am"], (
+        "the margin must LOWER the silica limit, or it is not a margin")
+    assert marg["SI_silica_am"] == pytest.approx(-0.0434, abs=0.002)
+
+    # and it must actually cost cycles, or enforcing it changed nothing
+    c_plain, _ = ss.ceiling_with(rc.TSE, 45.0, 32.0, pH=8.25, limits=plain)
+    c_marg, _ = ss.ceiling_with(rc.TSE, 45.0, 32.0, pH=8.25, limits=marg)
+    assert c_marg < c_plain - 0.25, (
+        f"margin cost only {c_plain - c_marg:.3f} cycles; if that is right "
+        f"the margin is immaterial and this test should say so")
+    assert c_marg == pytest.approx(4.55, abs=0.1)
+
+    # the other limits must be untouched -- this is a silica correction only
+    for k in ("SI_calcite", "SI_gypsum"):
+        assert marg[k] == plain[k]
