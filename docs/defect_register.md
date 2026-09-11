@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Thirty-four found, thirty-four fixed, none open.
+## Part 1 — Defects. Thirty-five found, thirty-four fixed, one open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -50,6 +50,8 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 | 30 | **The water tariff charged the wastewater-discharge fee on evaporated water** | `run_controller.py` derives USD 3.11/m³ as *"the value of a cubic metre of blowdown avoided — the makeup NOT bought plus the industrial wastewater NOT discharged"*, SAR 8.04 + SAR 3.64 from the same approved Marafiq schedule. Both cost sites, `controller.py:222` and `:542`, then multiplied it by **makeup**. At six cycles makeup is six times blowdown, so the SAR 3.64 discharge half was charged on roughly **six times the water that reaches a sewer** — and on the evaporated fraction in particular, which leaves as vapour and is never discharged at all. Drift was also charged a sewer fee it does not incur. This is the **defect-19/23/28 shape a fourth time**: prose naming one quantity, code computing another. Found by an external agent's review of the tariff derivation. | **Fixed** — 10 Sep 2026. `_water_cost_per_h()` charges `p_makeup·M + p_discharge·B` with the two Marafiq line items carried separately (USD 2.144 and 0.971), asserted at import to reconstruct 3.11. A tariffs dict without the split falls back to the old single figure, so an external caller cannot be silently repriced |
 
+| 35 | **The ceiling is 64 % more permissive than the operator's own limit, on the operator's own water** | AlMajnouni & Jaffer (Saudi Aramco, NACE Paper 577) conclude of the Riyadh Refinery TSE analysis: *"the cycles of concentration should be limited to 4 at a maximum pH of 8.0."* The engine returns **6.56 cycles** at pH 8.0 on that exact water, binding calcite. Their 4 carries margin the model does not: process leaks of amines and hydrocarbons, a named inhibitor programme, and a corrosion objective alongside the scaling one. But **being more permissive than the plant operator is the direction that scales a condenser**, and the `SI_calcite` limit of 2.0 (saturation ratio 100) is the most likely place the difference sits. | **OPEN** |
+
 | 34 | **Every headline number was a point estimate, and the instrument producing them fails its own gate** | Gate V7 cleared a 15.00 % threshold at **15.01 %** and was reported as a pass. A 0.01-point margin means something only if the error is smaller than 0.01 points, and **nothing in the package had ever computed the error on a water result**. Meanwhile gate V2 scores the evaporation model at 9.90 % MAPE against an 8 % threshold and FAILS — and makeup water is computed from evaporation, so every water number inherits that. Diagnosed by decomposing the residual per campaign as `rel = a + k·fan`: the **offset** `a` varies −14.6 to +9.1 pp and **cancels** in a ratio, but the **slope** `k` runs −0.366 to +0.187 %/fan% and does **not**, because baseline and optimised run at different fan speeds. Its sign is not even consistent between campaigns, so it cannot be corrected — only propagated. | **Fixed** — 11 Sep 2026. `scripts/gate_uncertainty.py` propagates the measured residual structure. **V7 = 15.01 %, 95 % interval 1.0 to 22.8, P(true ≥ 15 %) = 0.41. V5 = 4.38 %, interval −11.2 to +13.1** — which includes the optimiser using *more* water than the baseline. Held by `tests/test_gate_uncertainty.py`, which recomputes the error model from the raw dataset rather than trusting typed constants |
 
 | 33 | **Every ceiling in the package was a saturation limit, and the operator's real ceiling is often the discharge permit** | The engine computed how far a water could be concentrated before a mineral precipitated, and nothing else. Blowdown has to go somewhere and where it goes has a consent. **The controller could therefore recommend an operating point that breaches the permit, and would have reported it as optimal.** Measured on the validated makeup analysis against RCER-2015 (Royal Commission for Jubail and Yanbu): the scaling ceiling is **5.02 cycles**, the Table 3C discharge ceiling is **1.00 cycles** — the permit binds **five times harder than the chemistry**, and the makeup water breaches total phosphorus *before it is concentrated at all* (8 mg/L PO₄ = **2.61 mg/L as P** against a 2.0 maximum and a 1.0 monthly average). Found while reading RCER-2015 after the acid-ban clause turned up. | **Fixed** — 11 Sep 2026. `src/discharge.py` carries RCER Table 3C and Table 3B (Jubail), and `binding_ceiling()` returns `min(scaling, discharge)` with the binding parameter named. Both ceilings are always reported; neither is discarded. Held by `tests/test_discharge.py` |
@@ -60,7 +62,11 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
-**Open defects: none.** Thirty-four found, thirty-four fixed.
+**Open defects: one.** Thirty-five found, thirty-four fixed. Defect 35 is
+open because it is a disagreement with a plant operator about their own
+water, and resolving it means deciding whether the `SI_calcite` limit of 2.0
+is right for a phosphonate programme on treated sewage -- a modelling
+decision with its own evidence burden, not a typo.
 
 ### Gate V2 is not passable on this dataset, and that is now measured
 
@@ -406,7 +412,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Thirty-four defects were found, all thirty-four are fixed, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
+**"Is the work sound?"** Thirty-five defects were found, thirty-four are fixed and one is open, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 

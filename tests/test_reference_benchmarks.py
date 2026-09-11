@@ -425,3 +425,62 @@ def test_brucite_refuses_a_swapped_call():
         ch.ph_saturation_brucite(ch.ARAMCO_FIELD_VALIDATED, 40.0)
     assert ch.ph_saturation_brucite(
         40.0, ch.ARAMCO_FIELD_VALIDATED.concentrate(6.0)) > 7.0
+
+
+# ===========================================================================
+# The measured Saudi TSE analysis -- NACE Paper 577, Riyadh Refinery
+# ===========================================================================
+
+def test_the_measured_saudi_tse_analysis_is_self_consistent():
+    """Found 11 Sep 2026 and it closes on its own numbers.
+
+    Ion sum against stated TDS is the check that matters here, because the
+    charge balance is knowingly incomplete: the analysis carries ammonia and
+    nitrite that `SPECIES` has no room for.
+    """
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    ions = sum(getattr(w, s) for s in ch.SPECIES)
+    assert abs(100.0 * (ions - w.TDS) / w.TDS) < 5.0, (
+        f"ion sum {ions:.0f} vs TDS {w.TDS:.0f}")
+    assert w.SiO2 == 18.0, "the measured silica, not the imported 26.8"
+    assert w.PO4 == 1.0
+
+
+def test_the_engine_reproduces_aramcos_own_calcite_saturation_ratio():
+    """External validation on a number this repository did not produce.
+
+    Aramco report, for the circulating water: LSI 1.4, RSI 5.1, and a calcite
+    saturation RATIO of 9.0 -- which they state is "more indicative of the
+    calcium carbonate scaling potential" than the indices. At their stated
+    average of 2.9 cycles the engine returns a ratio of about 8.5.
+
+    The agreement is the point, and so is which quantity agrees: the
+    speciated saturation ratio lands within ~6 % of the operator's figure.
+    """
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    f = ch.ARAMCO_RIYADH_FIELD_FACTS
+    circ = w.concentrate(f["cycles_average"])
+    si = ch.saturation_state(circ, 40.0, pH=7.5)["SI_calcite"]
+    ratio = 10.0 ** si
+    assert abs(ratio - f["calcite_saturation_ratio"]) / f["calcite_saturation_ratio"] < 0.15, (
+        f"model ratio {ratio:.2f} vs Aramco {f['calcite_saturation_ratio']}")
+
+
+@pytest.mark.xfail(reason="DEFECT 35 -- the model is 64 % more permissive "
+                          "than the operator's own stated limit, and being "
+                          "wrong in that direction scales a condenser",
+                   strict=True)
+def test_the_ceiling_agrees_with_the_operators_recommended_limit():
+    """OPEN. Aramco conclude: "the cycles of concentration should be limited
+    to 4 at a maximum pH of 8.0". The engine returns 6.56 cycles at pH 8.0.
+
+    Their 4 carries margin the model does not have -- process leaks of amines
+    and hydrocarbons, a specific inhibitor programme, and a corrosion
+    objective as well as a scaling one. But the engine being MORE permissive
+    than the operator is the dangerous direction to disagree in, and it is
+    registered as defect 35 rather than explained away.
+    """
+    import sidestream as ss
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    ceiling, _ = ss.ceiling_with(w, 45.0, 32.0, pH=8.0)
+    assert ceiling <= 4.0 * 1.15, f"model says {ceiling:.2f}, operator says 4.0"

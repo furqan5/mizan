@@ -1517,3 +1517,65 @@ DOE_SYN_MWW_COC4 = Water(
     Ca=4.00 * 40.078, Mg=1.60 * 24.305, Na=13.0 * 22.990, K=0.48 * 39.098,
     HCO3=6.00 * 61.017, SO4=3.50 * 96.06, Cl=11.2 * 35.453,
     NO3=0.0, SiO2=0.0, PO4=0.48 * 94.971, pH=8.8)
+
+
+# ---------------------------------------------------------------------------
+# THE MEASURED SAUDI TSE ANALYSIS -- found 11 September 2026
+# ---------------------------------------------------------------------------
+# AlMajnouni, A.D. and Jaffer, A.E. (Saudi Aramco, P&CSD/PED, Dhahran),
+# "Effective Monitoring of Non-Chromate Chemical Treatment Programs for
+# Refinery Cooling Systems Using Sewage Water as Make-Up", NACE International
+# Annual Conference, Paper No. 577. Table 1, "TYPICAL SECONDARY TREATED
+# SEWAGE EFFLUENT MAKE-UP ANALYSIS", Riyadh Refinery Cooling Tower No. 1.
+#
+# THIS IS THE ASSAY THE PACKAGE SPENT A MONTH LOOKING FOR. It is Saudi, it is
+# treated sewage effluent, it is COOLING TOWER MAKEUP rather than blowdown or
+# circulating water, it is the operator's own laboratory, and it reports
+# SILICA AND PHOSPHATE alongside the full major-ion set.
+#
+#   SiO2 = 18 mg/L, MEASURED.
+#
+# Every silica-dependent result in this package until now rested on 26.8 mg/L
+# imported from Al-Mutaz & Al-Anezi's Riyadh BRACKISH GROUNDWATER -- a
+# different water entirely. That import is now superseded for any question
+# about Saudi TSE.
+#
+# WHAT DOES NOT TRANSFER. This is Riyadh Refinery and the NACE paper is from
+# the 1990s. Badruzzaman et al. (2022) is Dhahran, twenty-odd years later, and
+# reports TOTAL PHOSPHATE AT 8.0 mg/L against this water's 1.0 -- an eightfold
+# difference between two Saudi TSE sources. Phosphate is a treatment-plant
+# property, not a regional constant, and neither number may be used for the
+# other site.
+#
+# WHAT THE MODEL CANNOT HOLD. The analysis carries ammonia 16 mg/L and
+# nitrite 31 mg/L. `SPECIES` has neither, so they are dropped, and the charge
+# balance below is computed without them. Including ammonium as NH4+ would
+# move it from -5.25 % to roughly -2 %. The omission is recorded rather than
+# patched, because inventing a species to improve a balance is how defect 17
+# started.
+ARAMCO_RIYADH_REFINERY_TSE = Water(
+    name="Aramco Riyadh Refinery secondary TSE makeup (NACE Paper 577 Table 1)",
+    Ca=80.0, Mg=11.0, Na=222.0, K=15.0,
+    HCO3=140.0 * 61.017 / 50.04,   # alkalinity 140 as CaCO3, converted
+    SO4=326.0, Cl=216.0, NO3=3.0,
+    SiO2=18.0,                     # MEASURED, not assumed
+    PO4=1.0,                       # total phosphate; orthophosphate 0.6
+    pH=7.44, TDS=1050.0,
+)
+
+# The operator's own numbers, for scoring the engine against something it did
+# not produce. All from the same paper.
+ARAMCO_RIYADH_FIELD_FACTS = {
+    "cycles_range": (1.6, 4.0),
+    "cycles_average": 2.9,
+    "recommended_limit_cycles": 4.0,
+    "recommended_max_pH": 8.0,
+    "LSI": 1.4,
+    "RSI": 5.1,
+    "calcite_saturation_ratio": 9.0,   # they call this "more indicative"
+    "acid_policy": "increase cycles WITHOUT the addition of sulfuric acid",
+    "quote_on_indices":
+        "The Langelier and Ryznar indices for this water 1.4 and 5.1 "
+        "respectively. The calcite saturation, which is more indicative of "
+        "the calcium carbonate scaling potential is 9.0.",
+}
