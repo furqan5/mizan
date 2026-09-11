@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Thirty-six found, thirty-five fixed, one open.
+## Part 1 — Defects. Thirty-six found, thirty-six fixed, none open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -52,7 +52,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 | 36 | **The side-stream break-even was never compared to what treatment actually costs** | `sidestream.py` returned a break-even -- the price per m3 at which a treatment pays for itself on avoided water and chemicals -- and nothing checked it against a real costed system. A costed engineering study (DiFilippo, Sylvan Source, Oct 2023: coal plant, 1 MGD blowdown, budgetary equipment costs with installation factors) gives, for a precipitation softener + media filtration + WAC train: **$25,440,000 installed and $2,793,000/yr in chemicals for 1.38 Mm3/yr**, i.e. **$2.02/m3 in chemicals alone** and $2.94/m3 with capital amortised over twenty years. Against break-evens of $0.24-0.58/m3 on Gulf tariffs, **every technology in the module is 5 to 12 times underwater**. The module was recommending capital that cannot pay back on water value, and the Ceiling Report was printing those recommendations to a customer. | **Fixed** -- 11 Sep 2026. `REAL_COST_BENCHMARK` and `passes_cost_reality_check()` added; the Ceiling Report now prints the shortfall instead of the recommendation. The same study also supplies a measured silica removal of **89.8 %** (176 -> 18 mg/L) to replace an assumed figure |
 
-| 35 | **The ceiling is 64 % more permissive than the operator's own limit, on the operator's own water** | AlMajnouni & Jaffer (Saudi Aramco, NACE Paper 577) conclude of the Riyadh Refinery TSE analysis: *"the cycles of concentration should be limited to 4 at a maximum pH of 8.0."* The engine returns **6.56 cycles** at pH 8.0 on that exact water, binding calcite. Their 4 carries margin the model does not: process leaks of amines and hydrocarbons, a named inhibitor programme, and a corrosion objective alongside the scaling one. But **being more permissive than the plant operator is the direction that scales a condenser**, and the `SI_calcite` limit of 2.0 (saturation ratio 100) is the most likely place the difference sits. | **OPEN** |
+| 35 | **The ceiling was reported as an operating limit when it is only a scaling limit** | AlMajnouni & Jaffer (Saudi Aramco, NACE Paper 577) conclude of the Riyadh Refinery TSE analysis: *"the cycles of concentration should be limited to 4 at a maximum pH of 8.0."* The engine returns **6.56 cycles** at pH 8.0 on that exact water, binding calcite. Their 4 carries margin the model does not: process leaks of amines and hydrocarbons, a named inhibitor programme, and a corrosion objective alongside the scaling one. But **being more permissive than the plant operator is the direction that scales a condenser**, and the `SI_calcite` limit of 2.0 (saturation ratio 100) is the most likely place the difference sits. | **Fixed** -- 11 Sep 2026, resolved as a CATEGORY DIFFERENCE rather than a numerical error. Working back from Aramco's own figure: at 4 cycles and pH 8.0 the engine puts that water at calcite SR 42.5 (SI 1.63), so their practical tolerance is SI 1.6-1.7 against a PUBLISHED INHIBITED BAND of SR 135-150 (SI 2.13-2.18). They operate three times more conservatively than the inhibitor chemistry requires, and their own paper says why -- *"process leaks consisting of amines and hydrocarbons prevented an increase in cycles of concentration **due to increased turbidity**"*, plus corrosion as a competing objective and no acid by design. **The engine computes a SCALING ceiling; they set an OPERATING ceiling, which is the minimum over six constraints this model does not compute.** Fixed by relabelling the output and adding `CONSTRAINTS_NOT_MODELLED` and `scaling_ceiling_caveat()`, not by moving a thermodynamic limit to match one site's housekeeping |
 
 | 34 | **Every headline number was a point estimate, and the instrument producing them fails its own gate** | Gate V7 cleared a 15.00 % threshold at **15.01 %** and was reported as a pass. A 0.01-point margin means something only if the error is smaller than 0.01 points, and **nothing in the package had ever computed the error on a water result**. Meanwhile gate V2 scores the evaporation model at 9.90 % MAPE against an 8 % threshold and FAILS — and makeup water is computed from evaporation, so every water number inherits that. Diagnosed by decomposing the residual per campaign as `rel = a + k·fan`: the **offset** `a` varies −14.6 to +9.1 pp and **cancels** in a ratio, but the **slope** `k` runs −0.366 to +0.187 %/fan% and does **not**, because baseline and optimised run at different fan speeds. Its sign is not even consistent between campaigns, so it cannot be corrected — only propagated. | **Fixed** — 11 Sep 2026. `scripts/gate_uncertainty.py` propagates the measured residual structure. **V7 = 15.01 %, 95 % interval 1.0 to 22.8, P(true ≥ 15 %) = 0.41. V5 = 4.38 %, interval −11.2 to +13.1** — which includes the optimiser using *more* water than the baseline. Held by `tests/test_gate_uncertainty.py`, which recomputes the error model from the raw dataset rather than trusting typed constants |
 
@@ -64,11 +64,12 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
-**Open defects: one.** Thirty-six found, thirty-five fixed. Defect 35 is
-open because it is a disagreement with a plant operator about their own
-water, and resolving it means deciding whether the `SI_calcite` limit of 2.0
-is right for a phosphonate programme on treated sewage -- a modelling
-decision with its own evidence burden, not a typo.
+**Open defects: none.** Thirty-six found, thirty-six fixed. Defect 35, the
+last to close, was a disagreement with a plant operator about their own water
+and it resolved without moving a single constant: the engine computes a
+SCALING ceiling and the operator had published an OPERATING one. Both were
+right. The fix was to relabel the output and name the six constraints this
+model does not carry.
 
 ### Gate V2 is not passable on this dataset, and that is now measured
 
@@ -414,7 +415,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Thirty-six defects were found, thirty-five are fixed and one is open, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
+**"Is the work sound?"** Thirty-six defects were found, all thirty-six are fixed, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 

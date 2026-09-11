@@ -1579,3 +1579,71 @@ ARAMCO_RIYADH_FIELD_FACTS = {
         "respectively. The calcite saturation, which is more indicative of "
         "the calcium carbonate scaling potential is 9.0.",
 }
+
+
+# ---------------------------------------------------------------------------
+# WHAT THIS MODEL DOES NOT COMPUTE -- DEFECT 35, resolved
+# ---------------------------------------------------------------------------
+# Defect 35 was opened because the engine returns 6.56 cycles on the Aramco
+# Riyadh Refinery water at pH 8.0 while the operator concludes "the cycles of
+# concentration should be limited to 4 at a maximum pH of 8.0". Being 64 %
+# more permissive than the plant operator is the direction that scales a
+# condenser, so it was registered rather than explained away.
+#
+# It resolves as a CATEGORY DIFFERENCE, and the paper supplies the evidence.
+#
+# Work backwards from their number. At 4 cycles and pH 8.0 this engine puts
+# that water at a calcite saturation ratio of 42.5, i.e. SI 1.63. So Aramco's
+# practical tolerance is SI 1.6-1.7. The PUBLISHED INHIBITED BAND for calcite
+# is SR 135-150, i.e. SI 2.13-2.18 (IWC-11-77 Table 7). **Aramco operate about
+# three times more conservatively than the inhibitor chemistry alone requires**,
+# and this module's SI_calcite <= 2.0 already sits below the published band.
+#
+# The paper says why, and none of the reasons is calcium carbonate:
+#
+#   "process leaks consisting of amines and hydrocarbons prevented an increase
+#    in cycles of concentration DUE TO INCREASED TURBIDITY. Hence, increased
+#    blowdown was mandatory."
+#
+#   "Corrosion rates can be reduced by increasing the cycles of concentrations
+#    or increasing the pH above 8" -- corrosion as a competing objective
+#
+# and they ran without sulfuric acid by design, which caps the pH lever.
+#
+# SO THE MODEL IS NOT WRONG AND NEITHER ARE THEY. It computes a SCALING
+# ceiling. They set an OPERATING ceiling, which is the minimum over scaling,
+# fouling, turbidity, corrosion, biological control and whatever the process
+# is leaking that week. A scaling ceiling is an upper bound on an operating
+# ceiling and must never be quoted as one.
+#
+# The correct fix is therefore to RELABEL THE OUTPUT, not to move the limit.
+# Moving SI_calcite to 1.7 to match one plant would be fitting a
+# thermodynamic constant to one site's housekeeping.
+CONSTRAINTS_NOT_MODELLED = (
+    "particulate fouling and turbidity -- the constraint that actually "
+    "stopped the Aramco pilot, caused by process leaks rather than chemistry",
+    "biological fouling and biocide demand",
+    "corrosion rate, beyond the single calcite corrosion floor this model "
+    "carries; no metallurgy, no galvanic couple, no pitting",
+    "inhibitor programme performance, which sets how much supersaturation is "
+    "actually tolerable and varies by vendor and formulation",
+    "suspended solids and their effect on heat-transfer surfaces",
+    "process contamination -- amines, hydrocarbons, oil, ammonia",
+)
+
+
+def scaling_ceiling_caveat(ceiling_cycles):
+    """The sentence that must travel with every ceiling this engine reports.
+
+    Returns prose rather than a number on purpose: the caveat is the finding,
+    and a caller that wants only the number should not be able to get it
+    without this.
+    """
+    return (
+        f"{ceiling_cycles:.2f} cycles is a SCALING ceiling, computed from "
+        f"mineral saturation alone. The operating ceiling is the minimum over "
+        f"scaling and {len(CONSTRAINTS_NOT_MODELLED)} other constraints this "
+        f"model does not compute. On the one water where a plant operator has "
+        f"published both, the operator's limit was 39 % lower than the "
+        f"scaling ceiling and the binding constraint was turbidity from "
+        f"process leaks, not carbonate. Treat this as an upper bound.")

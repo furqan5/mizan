@@ -466,24 +466,37 @@ def test_the_engine_reproduces_aramcos_own_calcite_saturation_ratio():
         f"model ratio {ratio:.2f} vs Aramco {f['calcite_saturation_ratio']}")
 
 
-@pytest.mark.xfail(reason="DEFECT 35 -- the model is 64 % more permissive "
-                          "than the operator's own stated limit, and being "
-                          "wrong in that direction scales a condenser",
-                   strict=True)
-def test_the_ceiling_agrees_with_the_operators_recommended_limit():
-    """OPEN. Aramco conclude: "the cycles of concentration should be limited
-    to 4 at a maximum pH of 8.0". The engine returns 6.56 cycles at pH 8.0.
+def test_the_ceiling_is_labelled_a_scaling_ceiling_not_an_operating_one():
+    """DEFECT 35, resolved as a category difference.
 
-    Their 4 carries margin the model does not have -- process leaks of amines
-    and hydrocarbons, a specific inhibitor programme, and a corrosion
-    objective as well as a scaling one. But the engine being MORE permissive
-    than the operator is the dangerous direction to disagree in, and it is
-    registered as defect 35 rather than explained away.
+    Aramco conclude "the cycles of concentration should be limited to 4 at a
+    maximum pH of 8.0". The engine returns 6.56 at pH 8.0 on their water.
+    Neither is wrong: working back from their figure puts them at calcite
+    SR 42.5 (SI 1.63), three times more conservative than the published
+    inhibited band of SR 135-150 -- and their paper attributes the limit to
+    turbidity from amine and hydrocarbon process leaks, not to carbonate.
+
+    The engine computes a SCALING ceiling. They set an OPERATING ceiling,
+    which is the minimum over constraints this model does not carry. The fix
+    was to relabel, and this test holds the label on.
     """
     import sidestream as ss
     w = ch.ARAMCO_RIYADH_REFINERY_TSE
     ceiling, _ = ss.ceiling_with(w, 45.0, 32.0, pH=8.0)
-    assert ceiling <= 4.0 * 1.15, f"model says {ceiling:.2f}, operator says 4.0"
+    assert ceiling > 4.0, "a scaling ceiling should exceed an operating one"
+
+    caveat = ch.scaling_ceiling_caveat(ceiling)
+    assert "SCALING ceiling" in caveat
+    assert "upper bound" in caveat
+    assert len(ch.CONSTRAINTS_NOT_MODELLED) >= 6
+    assert any("turbidity" in c for c in ch.CONSTRAINTS_NOT_MODELLED), (
+        "turbidity is the constraint that actually stopped the Aramco pilot "
+        "and must be named among the ones this model cannot see")
+
+    # and the limit must NOT have been fitted to that one plant
+    assert ch.OPERATING_LIMITS["SI_calcite"] == 2.0, (
+        "moving the calcite limit to match one site's housekeeping would be "
+        "fitting a thermodynamic constant to a plant's process leaks")
 
 
 def test_the_typical_cycles_baseline_is_now_four_independent_sources():
