@@ -670,3 +670,141 @@ def test_defect_45_the_brucite_criterion_is_enforced_by_the_optimiser():
     dry = ch.ARAMCO_RECLAIMED       # SiO2 not reported, left at zero
     assert dry.SiO2 == 0.0
     assert ch.si_sepiolite(dry.concentrate(4.0), 45.0, 8.25) == float("-inf")
+
+
+# ---------------------------------------------------------------------------
+# Defect 46 -- the aggressive-anion half of corrosion, absent entirely.
+# ---------------------------------------------------------------------------
+def test_defect_46_the_two_levers_partition_the_corrosion_risk():
+    """Acid owns Larson-Skold; cycles own chloride pitting. Neither is free.
+
+    The received framing -- "the optimiser raises cycles AND doses acid, which
+    is what EPRI warns about" -- is half wrong, and the half that is wrong
+    matters commercially.
+
+    Larson-Skold is a RATIO of anions. Concentrating a water multiplies every
+    ion by the same factor, so cycles cannot move it at all. Acid can and does:
+    it destroys HCO3 and leaves SO4 behind, moving numerator and denominator
+    in opposite directions at once.
+
+    Chloride pitting is an absolute CONCENTRATION limit, so it is the exact
+    mirror: cycles move it proportionally, acid does not touch it.
+
+    A Jubail site under RCER, which may not dose acid at all, therefore takes
+    none of the Larson-Skold exposure -- the regulation that costs us the acid
+    lever also removes the objection to it.
+    """
+    import corrosion
+
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+
+    # cycles do not move a ratio, and the test states the reason rather than
+    # the number, because the number is exactly zero by construction
+    lc = corrosion.lever_conflict(w, 3.0, 6.0)
+    assert lc["cycles_effect_is_negligible"], lc["cycles_effect"]
+
+    # acid does, hard, and monotonically
+    idx = [corrosion.acid_driven_index(w, 3.0, f)["larson_skold"]
+           for f in (0.0, 0.25, 0.5, 0.75, 0.9)]
+    assert idx == sorted(idx)
+    assert idx[0] == pytest.approx(4.60, abs=0.05)
+    assert idx[-1] > 40.0
+
+    # and the sulfate must GO UP as alkalinity comes down -- a model that only
+    # dropped the alkalinity would understate the effect by half
+    a0 = corrosion.acid_driven_index(w, 3.0, 0.0)
+    a9 = corrosion.acid_driven_index(w, 3.0, 0.9)
+    assert a9["SO4_mg_l"] > a0["SO4_mg_l"]
+    assert a9["HCO3_mg_l"] < a0["HCO3_mg_l"]
+    # stoichiometric sanity: 2 HCO3- + H2SO4 -> SO4(2-), so the sulfate added
+    # is half the alkalinity removed on a molar basis
+    hco3_removed = (a0["HCO3_mg_l"] - a9["HCO3_mg_l"]) / 61.017
+    so4_added = (a9["SO4_mg_l"] - a0["SO4_mg_l"]) / 96.06
+    assert so4_added == pytest.approx(0.5 * hco3_removed, rel=1e-6)
+
+
+def test_defect_46_chloride_can_bind_below_the_scaling_ceiling():
+    """On the measured Riyadh water a 316 stainless condenser pits at 1.85
+    cycles, against a 4.52-cycle SCALING ceiling and a 3.0-cycle baseline.
+
+    That is the finding: where the tubing is austenitic stainless, chloride
+    binds FIRST, at less than half the limit this package computes, and below
+    the operating point it recommends. It bites hardest on the CDU side, where
+    plate heat exchangers are routinely 316.
+
+    The constraint is enforced only when the caller DECLARES the alloy,
+    because the limit is a property of the metal and this package cannot know
+    what a stranger's condenser is made of. Declaring nothing leaves it
+    inactive -- which is not the same as satisfied, and the report must not
+    let those two read alike.
+    """
+    import corrosion
+
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    c316 = corrosion.chloride_pitting_check(w, 3.0, "316_stainless")
+    c304 = corrosion.chloride_pitting_check(w, 3.0, "304_stainless")
+
+    assert c316["max_cycles_on_chloride"] == pytest.approx(1.85, abs=0.05)
+    assert c304["max_cycles_on_chloride"] < c316["max_cycles_on_chloride"]
+    assert c316["exceeds"] and c304["exceeds"]
+    assert c316["max_cycles_on_chloride"] < 3.0, (
+        "chloride no longer binds below the V7 baseline; if the limit or the "
+        "water changed, the data-centre CDU case needs re-reading")
+
+    # an alloy we hold no published limit for must RAISE, not default
+    with pytest.raises(ValueError):
+        corrosion.chloride_pitting_check(w, 3.0, "admiralty_brass")
+
+
+# ---------------------------------------------------------------------------
+# Defect 47 -- the assumed composition was never checked against anything.
+# ---------------------------------------------------------------------------
+def test_defect_47_the_assumed_composition_has_a_free_field_check():
+    """Every index rests on makeup-analysis x cycles, and nothing tested it.
+
+    Measuring the ions online costs $120,000-185,000 per tower against an
+    $89,000 annual saving -- the instruments cost more than the thing they
+    optimise, which is why nobody sells this.
+
+    But specific conductance is a known function of the composition, and the
+    sensor is already on the skid because the cycles calculation needs it. So
+    the assumption can be checked continuously for nothing.
+
+    The test pins the DIRECTION, which is what makes it a scaling alarm rather
+    than a diagnostic: precipitation removes ions, the measured conductance
+    falls below what the assumed composition implies, and the imbalance goes
+    POSITIVE.
+    """
+    import conductivity as cond
+
+    conc = ch.ARAMCO_RIYADH_REFINERY_TSE.concentrate(3.0)
+    base = cond.specific_conductance(conc)
+
+    # a perfect sensor on an intact assumption reads zero imbalance
+    assert cond.specific_conductance_imbalance(conc, base)["sci_pct"] == \
+        pytest.approx(0.0, abs=1e-9)
+
+    # ions leaving solution -> measured falls -> SCI positive -> precipitation
+    d = cond.residual_is_precipitation(conc, base * 0.85)
+    assert d["sci_pct"] > 0
+    assert d["direction"] == "precipitation"
+
+    # more ionic material than accounted for -> the other direction
+    d = cond.residual_is_precipitation(conc, base * 1.15)
+    assert d["sci_pct"] < 0
+    assert d["direction"] == "accumulation"
+
+    # small residuals must not raise an alarm
+    assert cond.residual_is_precipitation(conc, base * 0.99)["actionable"] is False
+
+    # the model has to land inside the only cross-check these analyses carry
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    lo, hi = cond.tds_to_conductance(w.TDS)["band_us_cm"]
+    assert lo <= cond.specific_conductance(w) <= hi
+
+    # silica must contribute nothing -- it is neutral H4SiO4 below pH 9, the
+    # same fact that makes SI_silica_am pH-free
+    import dataclasses
+    more_silica = dataclasses.replace(w, SiO2=w.SiO2 * 5.0)
+    assert cond.specific_conductance(more_silica) == \
+        pytest.approx(cond.specific_conductance(w), rel=1e-12)

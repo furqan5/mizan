@@ -41,6 +41,7 @@ from scipy.optimize import brentq, minimize_scalar
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 import chemistry as chem
+import corrosion
 import psychro as ps
 import tower as tw
 import water_activity as wa
@@ -469,7 +470,7 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
 
 def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
                 skin_delta_k, corrosion_floor_si=None,
-                mg_silicate_margin_k="default",
+                mg_silicate_margin_k="default", tube_alloy=None,
                 saturation_limits=None):
     """Complete an operating point given a cached thermal solution."""
     m_a, aw, T_wo, info, conc, T_wi, Q_cond = th
@@ -545,6 +546,36 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
         if target_ph > ph_s - mg_silicate_margin_k:
             violations["brucite_mg_silicate"] = (
                 target_ph - (ph_s - mg_silicate_margin_k))
+
+    # --- AGGRESSIVE ANIONS, the other half of corrosion --------------------
+    # DEFECT 46. The corrosion floor below is the whole of this package's
+    # corrosion model, and it represents ONE mechanism: a calcium-carbonate
+    # film that protects mild steel. The aggressive-anion side had nothing.
+    #
+    # The two levers this controller owns turn out to partition the risk
+    # exactly, and not in the way the usual framing suggests:
+    #
+    #   ACID owns Larson-Skold. Sulfuric acid destroys HCO3 and leaves SO4,
+    #     so it raises (Cl + SO4)/(HCO3 + CO3) hard -- 4.6 to 55 as alkalinity
+    #     goes from untouched to 90 % acidified on the measured Riyadh water.
+    #     CYCLES MOVE IT BY EXACTLY ZERO, because concentrating a water
+    #     multiplies every ion by the same factor and a ratio is scale-
+    #     invariant. The received wisdom that "raising cycles corrodes" is
+    #     half wrong on this index.
+    #
+    #   CYCLES own chloride pitting, which is an absolute CONCENTRATION limit
+    #     and therefore the exact opposite: cycles move it proportionally and
+    #     acid does not move it at all.
+    #
+    # Chloride pitting is enforced only when the caller DECLARES the tubing
+    # alloy, because the limit is a property of the metal and this package has
+    # no way to know what a stranger's condenser is made of. Declaring nothing
+    # means the constraint is inactive and the report says so -- it does not
+    # mean the constraint is satisfied.
+    if tube_alloy is not None:
+        cl = corrosion.chloride_pitting_check(makeup_water, cycles, tube_alloy)
+        if cl["exceeds"]:
+            violations["chloride_pitting"] = -cl["margin_mg_l"]
 
     # --- CORROSION FLOOR -------------------------------------------------
     # Until 4 September 2026 this optimiser searched pH 7.0-9.0 against
