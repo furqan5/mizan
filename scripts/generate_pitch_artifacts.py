@@ -24,20 +24,23 @@ other three are sinusoidal profiles anchored on published design conditions,
 which is weaker and is tagged accordingly. A sine is not a climate, and a
 number derived from one should not be quoted as an annual saving.
 
-KNOWN LIMITATION, 11 Sep 2026 -- THIS SCRIPT DOES NOT YET COMPLETE.
+RUNTIME, resolved 11 Sep 2026. This script previously completed only the
+Gulf region and the banner here said so. The cause was never the physics:
+`hybrid_supervisor.solve_free_cooling` was a damped fixed-point substitution
+taking 17.7 s per call, and `fan_for_target_fws` bisected over it. Replacing
+the substitution with a secant iteration cut it to 2.82 s -- 6.3x, to the
+same answer -- and all four regions now run.
 
-The Gulf region runs. The three others do not finish in reasonable time,
-and the cause is in `hybrid_supervisor.fan_for_target_fws`, not in the
-physics: its bisection runs 30 iterations, each solving the tower to a fixed
-point of up to 60 sweeps, each of which runs a 24-point scan plus a Brent
-solve. That is of order 10^5 tower solves per region, which is a bug in how
-the search was written rather than a computation anyone needs to wait for.
+WHAT IS STILL WEAK, and must not be quoted as if it were not:
 
-The fix is to cache the monotone map fan -> T_fws once per hour and invert
-it, instead of re-solving the tower inside the bisection. Until that is done
-this script must not be quoted, and `results/pitch_artifacts.json` is not
-produced. The four-region table in any pitch material is therefore still
-OUTSTANDING, not merely unpublished.
+  * silica in the makeup is ASSUMED at 26.8 mg/L, imported from Riyadh
+    brackish groundwater. We now hold a MEASURED Gulf TSE silica -- 18.0
+    mg/L, NACE Paper 577 Table 1 -- and the Cycle Ceiling Report runs on it.
+    This script does not, because switching the package default would move
+    every pinned gate figure at once. Until that is done deliberately, the
+    silica-driven results here are a SENSITIVITY, not a site prediction.
+  * three of the four weather profiles are sinusoids anchored on design
+    conditions, not real weather. Only Dhahran is a TMYx file.
 
 Run:  python scripts/generate_pitch_artifacts.py
 Writes: results/pitch_artifacts.json
@@ -217,10 +220,33 @@ def run_region(key, cfg, makeup, fill_c, fill_n):
     n = len(solved)
     hours_per_year = 8760.0 * n / 24.0
 
-    blind_violating = [r for r in solved
-                       if "SI_silica_am" in r["blind"]["violations"]]
-    bounded_violating = [r for r in solved
-                         if "SI_silica_am" in r["bounded"]["violations"]]
+    # DEFECT 40. Counting a violation with a strict > against a root-found
+    # boundary counts the solver's own tolerance as scaling.
+    #
+    # The bounded controller drives the silica index TO its limit, so it
+    # lands on whichever side the root-finder stops at -- here about 1e-5 to
+    # 1e-4 log units above zero. Counted strictly, that reads as 24 violating
+    # hours out of 24, identical to the blind case, when the blind case is
+    # exceeding by 1e-2 to 1e-1. The table said the controller was no better
+    # than no controller.
+    #
+    # SI is a LOG scale, and that is the whole point: SI = 1e-4 is a
+    # saturation ratio of 1.0002, and SI = 0.119 is 1.32, i.e. 32 % super-
+    # saturated. One of those deposits solid and the other is not
+    # measurable. So both counts are reported -- every hour strictly over
+    # the line, AND every hour over it by more than the solver can resolve --
+    # together with the saturation ratio, which is the number an operator
+    # can actually check against a coupon.
+    SI_SOLVER_TOL = 1e-3       # 0.23 % supersaturation; below any measurement
+
+    def _over(r, case, tol=0.0):
+        v = r[case]["violations"].get("SI_silica_am")
+        return v is not None and v > tol
+
+    blind_violating = [r for r in solved if _over(r, "blind")]
+    bounded_violating = [r for r in solved if _over(r, "bounded")]
+    blind_material = [r for r in solved if _over(r, "blind", SI_SOLVER_TOL)]
+    bounded_material = [r for r in solved if _over(r, "bounded", SI_SOLVER_TOL)]
 
     cur_name, cur_rate = cfg["currency"]
     return {
@@ -247,6 +273,13 @@ def run_region(key, cfg, makeup, fill_c, fill_n):
         "currency": cur_name,
         "hours_blind_violating_silica": len(blind_violating),
         "hours_bounded_violating_silica": len(bounded_violating),
+        "si_solver_tolerance": SI_SOLVER_TOL,
+        "hours_blind_materially_violating": len(blind_material),
+        "hours_bounded_materially_violating": len(bounded_material),
+        "max_silica_SR_blind": 10.0 ** max(r["blind"]["SI"]["SI_silica_am"]
+                                           for r in solved),
+        "max_silica_SR_bounded": 10.0 ** max(r["bounded"]["SI"]["SI_silica_am"]
+                                             for r in solved),
         "max_SI_silica_blind": max(r["blind"]["SI"]["SI_silica_am"]
                                    for r in solved),
         "max_SI_silica_bounded": max(r["bounded"]["SI"]["SI_silica_am"]
@@ -286,7 +319,8 @@ def main() -> int:
 
     print()
     hdr = (f"{'region':<34}{'floor':>7}{'PUE b/c':>16}{'WUE b/c':>16}"
-           f"{'water m3/d':>13}{'saved %':>9}{'SI_si b/c':>16}{'viol h':>9}")
+           f"{'water m3/d':>13}{'saved %':>9}{'max SR silica b/c':>20}"
+           f"{'scaling h':>11}")
     print(hdr)
     print("-" * len(hdr))
     for key, r in out["regions"].items():
@@ -299,14 +333,27 @@ def main() -> int:
               f"{r['WUE_blind']:>8.2f}/{r['WUE_bounded']:<7.2f}"
               f"{r['water_bounded_m3_day']:>13.1f}"
               f"{r['water_saved_pct']:>9.2f}"
-              f"{r['max_SI_silica_blind']:>+8.3f}/{r['max_SI_silica_bounded']:<+7.3f}"
-              f"{r['hours_blind_violating_silica']:>4d}/"
-              f"{r['hours_bounded_violating_silica']:<4d}")
+              f"{r['max_silica_SR_blind']:>10.3f}/"
+              f"{r['max_silica_SR_bounded']:<9.3f}"
+              f"{r['hours_blind_materially_violating']:>5d}/"
+              f"{r['hours_bounded_materially_violating']:<5d}")
     print()
     print("  floor      = minimum facility-water temperature at which "
           "amorphous silica stays at or below saturation, at the stated cycles")
     print("  b/c        = blind free cooling / chemically bounded")
-    print("  viol h     = hours out of 24 with a silica violation")
+    print("  max SR     = peak amorphous-silica saturation RATIO, the number an")
+    print("               operator can check against a coupon. 1.00 is saturation.")
+    print("  scaling h  = hours out of 24 supersaturated by more than the solver")
+    print("               can resolve (SI > 1e-3, i.e. SR > 1.002). The bounded")
+    print("               controller drives the index TO its limit, so counting a")
+    print("               strict SI > 0 would count the root-finder's own tolerance")
+    print("               as scaling -- see defect 40.")
+    print("  strict h   = "
+          + ", ".join(f"{r['label'].split()[0]} "
+                      f"{r['hours_blind_violating_silica']}/"
+                      f"{r['hours_bounded_violating_silica']}"
+                      for r in out["regions"].values() if r.get("solved_hours"))
+          + "  (any SI > 0 at all, both cases, for completeness)")
     print()
     print("  NOTE: the three non-Gulf profiles are sinusoids anchored on "
           "design conditions [A], not real weather. Annual figures derived "

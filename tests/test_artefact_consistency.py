@@ -14,6 +14,8 @@ from __future__ import annotations
 import json
 import pathlib
 
+import re
+
 import pytest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -192,12 +194,32 @@ def test_corrosion_floor_sweep_covers_observed_practice(corrosion_floor):
 # matched at all, which makes the guard silently blind -- the exact failure
 # mode of defect 21, where a staleness guard could not reach part of what it
 # was meant to police.
-WORDS = {"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14,
-         "fifteen": 15, "sixteen": 16, "seventeen": 17, "eighteen": 18,
-         "nineteen": 19, "twenty": 20, "twenty-one": 21, "twenty-two": 22,
-         "twenty-three": 23, "twenty-four": 24, "twenty-five": 25,
-         "twenty-six": 26, "twenty-seven": 27, "twenty-eight": 28,
-         "twenty-nine": 29, "thirty": 30}
+# DEFECT 41. This table stopped at "thirty", so from defect 31 onward every
+# document could disagree and the test SKIPPED instead of failing -- with a
+# message, "no defect-count claims found to compare", that read like an
+# absence of claims rather than a parser that had run out of vocabulary. The
+# guard disabled itself precisely when the number it guards started moving.
+#
+# Same shape as defect 12 and as the register's own note on second-order
+# staleness: a constant duplicated into files that other files are validated
+# against. Generated to a hundred now, and `_declared_defect_counts` refuses
+# to skip while the register plainly states a count.
+_UNITS = ["zero", "one", "two", "three", "four", "five", "six", "seven",
+          "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
+          "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+_TENS = {20: "twenty", 30: "thirty", 40: "forty", 50: "fifty", 60: "sixty",
+         70: "seventy", 80: "eighty", 90: "ninety"}
+
+
+def _spell(n):
+    if n < 20:
+        return _UNITS[n]
+    tens, unit = divmod(n, 10)
+    base = _TENS[tens * 10]
+    return base if not unit else f"{base}-{_UNITS[unit]}"
+
+
+WORDS = {_spell(n): n for n in range(10, 100)}
 
 
 # Documents whose JOB is to quote the disagreement are not making a claim of
@@ -243,6 +265,16 @@ def test_every_document_agrees_on_how_many_defects_were_found():
     against is a slow-acting fault."""
     counts = _declared_defect_counts()
     if not counts:
+        # DEFECT 41. Skipping here is only honest if no document claims a
+        # count. The register always does, so failing to parse one means the
+        # PARSER is broken, not that the claims are absent -- and that is the
+        # failure mode this test spent ten defects in.
+        reg = (DOCS / "defect_register.md").read_text(encoding="utf-8",
+                                                      errors="replace")
+        assert not re.search(r"\bdefects?\b[^.\n]{0,40}\bfound\b", reg, re.I), (
+            "docs/defect_register.md states a defect count that this test "
+            "could not parse. The vocabulary in WORDS has run out again -- "
+            "extend it rather than letting the check skip.")
         pytest.skip("no defect-count claims found to compare")
     distinct = sorted({n for _, n in counts})
     assert len(distinct) == 1, (

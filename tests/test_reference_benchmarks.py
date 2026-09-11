@@ -550,3 +550,78 @@ def test_austin_corrects_the_cost_conclusion_rather_than_contradicting_it():
     assert ss.REAL_COST_BENCHMARK["duty_m3_per_h"] > 100.0, (
         "the ZLD benchmark is a large blowdown train, i.e. an upper bound "
         "on makeup-side treatment cost rather than an estimate of it")
+
+
+def test_our_water_balance_reproduces_a_regulatory_filing():
+    """The water arithmetic, checked against someone else's published version.
+
+    Every other external check in this package validates a CHEMISTRY limit.
+    Nothing validated the arithmetic that turns a cycles setpoint into a
+    makeup figure -- and that arithmetic is what every water-saving claim in
+    the deck rests on.
+
+    Bill Powers, P.E., computed it for Diablo Canyon in a filing to the
+    California State Water Resources Control Board, cross-checked in the same
+    document against a separate consultant's estimate. Feeding his stated
+    inputs into `controller.water_balance()` must land on his answers.
+
+    The tolerances are loose on purpose: he rounds 12.17 gpm to 12 and carries
+    that through. A test that demanded three decimals would be testing his
+    rounding, not our physics.
+    """
+    import recycle as rcy
+
+    d = rcy.POWERS_DIABLO_CANYON_2013
+    r = rcy.reproduce_powers_balance()
+
+    assert r["evaporation_gpm_per_mwe"] == pytest.approx(
+        d["evaporation_gpm_per_mwe"], abs=0.25)
+    assert r["blowdown_gpm_per_mwe"] == pytest.approx(
+        d["blowdown_gpm_per_mwe"], abs=0.5)
+    assert r["drift_gpm_per_mwe"] == pytest.approx(
+        d["drift_gpm_per_mwe"], abs=1e-4)
+    assert r["makeup_gpm_per_mwe"] == pytest.approx(
+        d["makeup_gpm_per_mwe"], abs=0.75)
+
+    # and the headline the filing exists to establish
+    assert r["withdrawal_reduction_pct"] == pytest.approx(
+        d["withdrawal_reduction_pct"], abs=0.2)
+    assert abs(r["withdrawal_reduction_pct"]
+               - d["tetratech_withdrawal_reduction_pct"]) < 0.5, (
+        "we now disagree with the independent consultant estimate too, which "
+        "would mean the gap is ours rather than his rounding")
+
+    # his blowdown relation is ours: B = E/(C-1) with drift set aside
+    assert (d["blowdown_gpm_per_mwe"] / d["evaporation_gpm_per_mwe"]
+            == pytest.approx(1.0 / (d["cycles"] - 1.0), rel=1e-9))
+
+
+def test_the_cycles_ladder_is_monotone_in_makeup_salinity():
+    """Cycles are set by the water going in, not by the tower.
+
+    This is the thesis in one line, and it now has three points spanning three
+    orders of magnitude of makeup TDS:
+
+        seawater      ~35,000 mg/L   1.5 - 2.0 cycles   CEC PIER, via Powers
+        treated effluent 1,000-1,500   2.0 - 4.0        five operators
+        polished water      low          ~9             Qatar Cool
+
+    A seawater tower at 1.5 cycles is not badly run. The test pins the
+    ORDERING, not the values, because the ordering is the claim.
+    """
+    import recycle as rcy
+    import sidestream as ss
+
+    seawater_hi = 2.0                       # top of the seawater band
+    tse = [hi for _n, _w, (_lo, hi) in ss.typical_cycles_evidence()]
+    polished = 9.0                          # Qatar Cool, polished water
+
+    assert seawater_hi <= min(tse), (
+        "the seawater band now overlaps the effluent band; the ladder is the "
+        "argument, so check which source moved before relaxing this")
+    assert max(tse) < polished
+
+    # and the seawater figure must NOT have been folded into the TSE evidence,
+    # which is a different water class on a different axis
+    names = [n for n, _w, _r in ss.typical_cycles_evidence()]
+    assert not any("Diablo" in n or "seawater" in n.lower() for n in names)

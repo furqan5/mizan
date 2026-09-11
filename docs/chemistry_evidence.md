@@ -426,6 +426,67 @@ An institutional operator explicitly tying **silica management to blowdown elimi
 - **Strengthens**: an RO vendor, a food plant and a university all independently name silica as the thing that sets cycles. Our central claim is no longer ours alone.
 - **Narrows**: the incumbent answer to a silica ceiling is **capital** — HERO, or lime softening on the makeup — not control. Mizan competes with that only where the capital route is refused or unaffordable, which is precisely the Pakistan and mid-market Gulf case, and precisely **not** the case where a client will spend on a HERO train. Claiming otherwise against an operator who has already priced HERO would be a losing pitch, and an untrue one.
 
+### 4.4 Second Wayback sweep — the water balance itself, checked by a third party `[C]` + `[A]`
+
+The first sweep (§4.3) went after silica. This one went after the domains the deck still leaned on without external support: the **water arithmetic**, **phosphate in the field**, and **cost**. Run through the collection index's own API (`__wb/search/waybacksearch`) across fifteen queries, filtered to `.gov`, `.edu`, `.ac.*`, MDPI and named water-treatment vendors — the index is dominated by SEO-farm PDFs and an unfiltered read of it is worthless.
+
+**(a) Bill Powers, P.E. — Diablo Canyon makeup calculation, filed with the California State Water Resources Control Board, 25 Nov 2013** — `sources/Powers_2013_DiabloCanyon_makeup_calculation.pdf`
+
+**This is the most useful single document either sweep produced, and not for a chemistry reason.** Everything else that validates the water side of this package validates a *chemistry limit*. Nothing validated the arithmetic that turns a cycles setpoint into a makeup figure — and that arithmetic is what **every water-saving claim in the deck rests on**.
+
+Powers writes the blowdown as
+
+```
+w_blowdown = [1 / (n − 1)] × w_evaporation
+```
+
+which is `recycle.blowdown_for_cycles()` with no side-stream and no recycle — derived independently, by a licensed engineer, for a regulatory proceeding, and cross-checked *inside the same document* against a separate consultant's estimate (TetraTech, 2008).
+
+Feeding his stated inputs into our `controller.water_balance()`:
+
+| | Powers 2013 | our engine |
+|---|---|---|
+| evaporation | 12 gpm/MWe | 12.17 |
+| blowdown | 24 | 24.34 |
+| drift | 0.0039 | 0.0039 |
+| **makeup** | **36** | **36.52** |
+| withdrawal reduction | **95.4 %** | **95.34 %** |
+| — TetraTech's independent estimate | 95.7 % | |
+
+The gap is **his own rounding of 12.17 to 12**, carried through. Pinned in `test_our_water_balance_reproduces_a_regulatory_filing`, with tolerances set loose on purpose — a test demanding three decimals would be testing his rounding, not our physics.
+
+**(b) The cycles ladder, extended downward** `[C]` + `[A]`
+
+Citing the California Energy Commission's PIER study (Maulbetsch & DiFilippo, 2010), Powers records: *"towers with high-salinity makeup … are operated at low cycles of concentration in the range of x 1.5 to x 2."*
+
+Set beside §4.3 and `sidestream.typical_cycles_evidence()`:
+
+| makeup water | TDS | cycles | source |
+|---|---|---|---|
+| seawater | ~35,000 mg/L | **1.5 – 2.0** | CEC PIER, via Powers |
+| treated effluent | 1,000 – 1,500 | **2.0 – 4.0** | five operators, §4.3 |
+| polished | low | **~9** | Qatar Cool |
+
+**Monotone in makeup salinity across three orders of magnitude, and that is the thesis in one line: cycles are set by the chemistry of the water going in, not by the tower.** A seawater tower at 1.5 cycles is not badly run — which is also the discipline the ladder imposes on us, since the same logic forbids promising a TSE site the cycles a polished-water site gets. Pinned in `test_the_cycles_ladder_is_monotone_in_makeup_salinity`, which asserts the **ordering**, and separately asserts the seawater point has **not** been folded into the effluent evidence. It is a different water class on a different axis, not a sixth low-cycles operator.
+
+**(c) GE Water CS1145EN — Western refinery, sixteen towers on clarified lake water plus RO reject** — `sources/GE_CS1145_western_refinery_calcium_phosphate.pdf`
+
+> *"acid under feeds and/or over cycling at the cooling towers significantly increased the propensity for calcium phosphate scaling of the cooling water"*
+
+Field corroboration of **defect 29**, from a treatment vendor's own case study: the mineral that appears when a plant over-cycles is **calcium phosphate**, and it is the one LSI cannot see. The site targets **4 to 5 cycles**, and *"did not have provisions for acid or chemical feed"* at the towers — the same capital-constrained shape as the Gulf sites, for a different reason.
+
+It also names a constraint we do not model and should not pretend to: *"carryover of aluminum during clarifier upsets"*, since aluminium phosphate is insoluble. That belongs with turbidity in `chemistry.CONSTRAINTS_NOT_MODELLED`.
+
+**(d) What the sweep did NOT find, which is worth recording** `[A]`
+
+No primary source was found for any of:
+
+- an installed cost for a cooling-tower supervisory controller retrofit — the CAPEX side of our payback is still unsupported
+- a measured WUE for a Gulf data centre
+- CDU-level water figures for liquid cooling at any named site
+
+Fourteen of fifteen queries returned hundreds of results and **nothing citable on cost**. That is a real gap in the deck and it is not for want of looking: the numbers appear to be commercial and unpublished. Until one is found, the payback slide must show the water and energy saving and state the CAPEX as an assumption `[U]`, not fold an invented figure into an IRR.
+
 ---
 
 ## 5. Antiscalant performance — the key table

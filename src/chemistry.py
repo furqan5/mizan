@@ -1697,6 +1697,13 @@ CONSTRAINTS_NOT_MODELLED = (
     "actually tolerable and varies by vendor and formulation",
     "suspended solids and their effect on heat-transfer surfaces",
     "process contamination -- amines, hydrocarbons, oil, ammonia",
+    # GE Water CS1145EN, a western refinery on clarified lake water plus RO
+    # reject: 'carryover of aluminum during clarifier upsets'. Aluminium
+    # phosphate is insoluble, so a clarifier upset both scales AND destroys
+    # calcium phosphate deposition control -- a coupling this model has no
+    # species for. See docs/chemistry_evidence.md S4.4.
+    "aluminium carryover from a makeup clarifier, which precipitates as "
+    "aluminium phosphate and simultaneously defeats the phosphate programme",
 )
 
 

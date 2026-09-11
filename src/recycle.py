@@ -281,3 +281,96 @@ METITO_KAHRAMAA_2014 = {
                  "waste_fraction": 0.30},
     "silica_reported": False,      # not in the presentation
 }
+
+
+# ---------------------------------------------------------------------------
+# External validation of the water balance itself.
+# ---------------------------------------------------------------------------
+POWERS_DIABLO_CANYON_2013 = {
+    "source": ("Bill Powers, P.E., 'Calculation of Effect of Cycles of "
+               "Concentration on Amount of Makeup Water Necessary for Seawater "
+               "Cooling Towers at Diablo Canyon Power Plant', 25 Nov 2013, "
+               "filed with the California State Water Resources Control Board, "
+               "CWA 316 review"),
+    "url": ("waterboards.ca.gov/water_issues/programs/ocean/cwa316/rcnfpp/"
+            "docs/121813mtg/calculation_makeup.pdf"),
+    # his inputs, transcribed
+    "q_btu_hr_per_mwe": 7.0e6,
+    "f_latent": 0.9,
+    "h_fg_btu_per_lbm": 1010.0,        # seawater at 50,000 ppm, 60 F
+    "lb_per_gal": 8.54,
+    "circulating_gpm": 862690.0,
+    "net_mwe": 1100.0,
+    "cycles": 1.5,
+    "drift_fraction": 5e-6,            # "0.0005 %", best available eliminators
+    # his answers
+    "evaporation_gpm_per_mwe": 12.0,
+    "blowdown_gpm_per_mwe": 24.0,
+    "drift_gpm_per_mwe": 0.0039,
+    "makeup_gpm_per_mwe": 36.0,
+    "withdrawal_reduction_pct": 95.4,
+    # and the independent estimate he checks himself against
+    "tetratech_withdrawal_reduction_pct": 95.7,
+}
+"""A third party's published water balance, used to check ours.
+
+WHY THIS ONE. Everything else in this package that validates the water side
+validates a CHEMISTRY limit. Nothing validated the arithmetic that turns a
+cycles setpoint into a makeup figure -- and that arithmetic is what every
+saving claim rests on.
+
+Powers writes the blowdown as
+
+    w_blowdown = [1 / (n - 1)] * w_evaporation
+
+which is `blowdown_for_cycles()` with no side-stream and no recycle, derived
+independently, by a licensed engineer, for a regulatory proceeding, and
+cross-checked in the same document against a separate consultant's estimate
+(TetraTech 2008) to within 0.3 percentage points. `controller.water_balance()`
+reproduces his 36 gpm/MWe to 36.5 -- the gap is his own rounding of 12.17 to
+12 -- and his 95.4 % withdrawal reduction to 95.34 %.
+
+IT ALSO EXTENDS THE CYCLES LADDER DOWNWARD, which matters more for the pitch
+than the arithmetic check does. Citing the California Energy Commission's
+PIER study, Powers records that towers on seawater-strength makeup run at
+1.5 to 2.0 cycles. Set beside the sources in `sidestream.typical_cycles_evidence()`:
+
+    seawater, ~35,000 mg/L TDS      1.5 - 2.0 cycles   (CEC PIER, via Powers)
+    treated effluent, 1,000 - 1,500   2.0 - 4.0        (five operators)
+    polished water                    ~9               (Qatar Cool)
+
+The ladder is monotone in makeup salinity across three orders of magnitude,
+and that IS the thesis: cycles are set by the chemistry of the water going in,
+not by the tower. A seawater tower is not badly run at 1.5 cycles.
+
+NOTE this is a DIFFERENT WATER CLASS from the TSE evidence and is deliberately
+kept out of `typical_cycles_evidence()`. Seawater at 1.5 cycles is not another
+operator running low on effluent; it is the far end of a different axis.
+"""
+
+
+def reproduce_powers_balance():
+    """Recompute Powers (2013) from his stated inputs, using OUR engine."""
+    import controller as ctl
+
+    d = POWERS_DIABLO_CANYON_2013
+    evap_lbm_hr = d["q_btu_hr_per_mwe"] * d["f_latent"] / d["h_fg_btu_per_lbm"]
+    evap_gpm = evap_lbm_hr / 60.0 / d["lb_per_gal"]
+    circ_gpm_per_mwe = d["circulating_gpm"] / d["net_mwe"]
+
+    kg_per_lb = 0.45359237
+    to_kg_s = lambda gpm: gpm * d["lb_per_gal"] * kg_per_lb / 60.0
+    to_gpm = lambda kg_s: kg_s * 60.0 / (d["lb_per_gal"] * kg_per_lb)
+
+    wb = ctl.water_balance(m_evap_kg_s=to_kg_s(evap_gpm),
+                           m_w_kg_s=to_kg_s(circ_gpm_per_mwe),
+                           cycles=d["cycles"],
+                           drift_fraction=d["drift_fraction"])
+    makeup = to_gpm(wb["makeup"])
+    return {
+        "evaporation_gpm_per_mwe": evap_gpm,
+        "blowdown_gpm_per_mwe": to_gpm(wb["blowdown"]),
+        "drift_gpm_per_mwe": to_gpm(wb["drift"]),
+        "makeup_gpm_per_mwe": makeup,
+        "withdrawal_reduction_pct": 100.0 * (1.0 - makeup / circ_gpm_per_mwe),
+    }
