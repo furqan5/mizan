@@ -340,7 +340,7 @@ you where the physics stops.
 
 ## Part 8 — The mistakes we found in our own work
 
-Forty-one defects found, **all forty-one fixed**. The four worth knowing about:
+Forty-two defects found, **all forty-two fixed**. The four worth knowing about:
 
 **The fan correlation was in the wrong units.** The published equation for air
 flow takes fan frequency in hertz; the dataset's own text described that column
@@ -414,6 +414,30 @@ explain. We report the honest number rather than the floor.
 **5. All the chemistry is computed, never measured.** The constants are from the
 standard reference database, but we have never put this water in front of an
 instrument ourselves.
+
+**6. In a cold climate our controller cannot do its job with a fan alone, and
+this is a product requirement, not a caveat.** The silica floor is a *minimum*
+water temperature — below it, silica comes out of solution in the basin. In hot
+air you hold that floor by slowing the fan. In cold air you cannot: a cooling
+tower in 16 °C air over-cools even at its slowest usable fan speed, so the water
+lands below the floor whatever the controller does. On the Frankfurt profile that
+is **ten hours out of twenty-four**. The answer is a **tower bypass** — route
+part of the flow around the tower so it stays warm — which is a valve, not
+software.
+
+Say this before a customer finds it. It is also a *selling* point in the Gulf,
+where the problem does not arise, and it tells a European customer exactly what
+they must install for the product to work. We found it because our own model was
+quietly claiming compliance in those hours; the fault is recorded as defect 42.
+
+**7. We do not know what our own product costs to build.** So we do not quote a
+payback. We searched the Internet Archive's PDF collection across fifteen cost,
+controls and retrofit queries and found nothing citable on what a cooling-tower
+supervisory controller costs installed — the figures appear to be commercial and
+unpublished. Instead we invert the question and quote a **bound**: on a 4.2 MW
+tower saving about $89,000 a year of water, the system may cost up to **$267,000
+installed** and still pay back in three years. That is a ceiling on a price, not
+a price. Never let it be quoted as one.
 
 ---
 

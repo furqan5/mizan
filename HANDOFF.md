@@ -190,7 +190,7 @@ argument -- **periodic recalibration is a functional requirement, and this
 gate measures how fast a fixed characteristic goes stale.**
 
 **Do not restore the old drift value to recover the pass.** See
-`docs/defect_register.md`, which separates defects (forty-one found, forty-one fixed,
+`docs/defect_register.md`, which separates defects (forty-two found, forty-two fixed,
 none open) from gate outcomes (two failed, both diagnosed).
 
 **The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
@@ -663,7 +663,7 @@ than six passes.
 ## Next actions, in order
 
 1. ~~Chiller coefficients~~ **DONE** — see finding 6.
-2. **Simulink without Simscape Fluids.** Licence *checkouts* on this machine: Simulink OK, Simscape (base) OK, Stateflow OK, MPC Toolbox OK, System Identification OK, Optimization OK, Curve Fitting OK, Simulink Control Design OK, **Deep Learning OK**, Parallel Computing OK, MATLAB Coder OK, Simulink Compiler OK. **Simscape Fluids FAILS — License Manager Error -5, installed but not licensed** (`ver` lists installed products, not licensed ones); Simscape Electrical / Driveline / Multibody and Embedded Coder also fail.
+2. ~~Simulink without Simscape Fluids~~ **DONE — OpenModelica, see below.** Licence *checkouts* on this machine: Simulink OK, Simscape (base) OK, Stateflow OK, MPC Toolbox OK, System Identification OK, Optimization OK, Curve Fitting OK, Simulink Control Design OK, **Deep Learning OK**, Parallel Computing OK, MATLAB Coder OK, Simulink Compiler OK. **Simscape Fluids FAILS — License Manager Error -5, installed but not licensed** (`ver` lists installed products, not licensed ones); Simscape Electrical / Driveline / Multibody and Embedded Coder also fail.
 
    **Recommended replacement: OpenModelica + the LBNL Modelica Buildings Library.** Free, BSD, and it contains exactly the components needed — `Buildings.Fluid.HeatExchangers.CoolingTowers.Merkel` and `Buildings.Fluid.Chillers.ElectricEIR`. The detail that decides it: the library ships the **same CoolTools chiller curve data we are already using** (`ElectricEIRChiller_York_YT_1055kW` is in it), so the Modelica plant and the Python core would be driven by one chiller dataset rather than two.
 
@@ -671,7 +671,29 @@ than six passes.
    - **(a) OMMatlab** — MATLAB drives the OpenModelica model directly. No FMU, no import block, nothing extra to license. Preferred.
    - **(b) FMU** — export FMI 2.0 Co-Simulation from OpenModelica and import into Simulink. **Checked: base Simulink here has no FMU Import block** (it is not in `simulink/User-Defined Functions`). Needs the free **FMI Kit for Simulink** (Modelon/Dassault). OpenModelica FMUs are known to need the OM `bin` directory on PATH before MATLAB starts.
 
-   Neither OpenModelica nor OMPython is installed yet. The HIL demo is still V6 — drive a load transient and show the brucite criterion crossing in real time while pH and conductivity stay flat.
+   **DONE, 11 September 2026.** OpenModelica 1.27.0 with MSL 4.1.0 is installed and
+   driven from `.mos` scripts through `omc.exe`; `modelica/README.md` has the run
+   lines. Two models exist and both answer a question the steady-state engine
+   structurally cannot:
+
+   - `modelica/TowerBasin.mo` — the basin's own time constant, V/(B+D), about
+     **thirteen hours** on a 50 m³ basin at five cycles.
+   - `modelica/TowerSilicaDynamics.mo` — **the two timescales are the wrong way
+     round.** Amorphous silica is prograde, so its solubility falls as the basin
+     cools overnight and the *ceiling* moves on a twelve-hour period, while the
+     *concentration* that must respect it can only move on half a week. A
+     setpoint placed at the limit computed for mean conditions is therefore
+     exceeded every night and no blowdown policy can prevent it. The model
+     returns the margin a real supervisory controller must carry, and it agrees
+     with `chemistry.diurnal_silica_margin()` to better than half a percentage
+     point — two independent implementations, one in Python and one in Modelica.
+
+   That margin is now **enforced** rather than merely computed
+   (`limits_with_diurnal_margin`, defect 37); it costs about 0.3 cycles.
+
+   Build products are gitignored. The HIL demo is still V6 — drive a load
+   transient and show the brucite criterion crossing in real time while pH and
+   conductivity stay flat.
 
 3. **PINN surrogate — `src/pinn.py` exists and runs.** Gates pre-registered before training, same discipline as V1/V2/V5. Purpose: (a) a differentiable, ~1000x faster stand-in so the grid search can become gradient-based MPC on edge hardware, and (b) the only honest thing that can be said about Gulf wet-bulb before the KFUPM rig exists — the physics loss is evaluated at collocation points at 30 C wet-bulb *where there is no data*, enforcing the inequalities thermodynamics guarantees everywhere: cannot cool below wet-bulb, more air cannot warm the water, hotter inlet cannot cool the outlet, outlet cannot exceed inlet. It is **never** the authority on a safety limit and is **forbidden from the chemistry** — speciation is algebraic thermodynamics and must stay exactly computable.
 

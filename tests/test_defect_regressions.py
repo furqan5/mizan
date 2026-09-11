@@ -466,3 +466,93 @@ def test_defect_39_a_failed_charge_balance_is_priced_not_just_flagged():
 
     # and the module must not have mutated the water to get there
     assert w.Na == 222.0 and w.Cl == 216.0
+
+
+# ---------------------------------------------------------------------------
+# Defect 42 -- the "chemically bounded" policy returned points below its own
+# floor, and a solver failure was read as a measurement.
+# ---------------------------------------------------------------------------
+def test_defect_42_the_fan_inversion_returns_the_safe_side_of_the_floor():
+    """The silica floor is a MINIMUM temperature, so the answer must be warm.
+
+    Two faults, one function. `fan_for_target_fws` bracketed the crossing and
+    returned the COLDEST point at or below target -- the wrong side of its own
+    constraint, by 0.02 K in ordinary conditions. And when the tower solver
+    failed at low fan it did `lo_pct = mid`, reading a FAILURE as the datum
+    "this fan speed is too warm" and bisecting upward from it.
+
+    On the Frankfurt profile the solver does not converge below about 30 % fan
+    in cold humid air, so the low-fan region was discarded one failure at a
+    time and the search settled on 32.3 % and 27.4 C against a 31.8 C floor --
+    a policy named "chemically bounded" sitting 4.4 K below its floor, in
+    silence, for ten hours of twenty-four.
+
+    The physics underneath is real and is the finding for cold climates: FAN
+    TURNDOWN ALONE CANNOT KEEP A TOWER'S WATER WARM ENOUGH IN COLD AIR. A site
+    that needs the floor there needs a tower bypass, not a better setpoint.
+    What was wrong was reporting it as compliance.
+    """
+    import json
+    import pathlib
+    import hybrid_supervisor as hs
+    import run_controller as rc
+
+    cal = json.loads((pathlib.Path(__file__).resolve().parent.parent
+                      / "results" / "calibration.json").read_text())
+    fc, fn = cal["fill_c"], cal["fill_n"]
+    q = 20000.0
+    args = (q / 20.0, q * 1.03, q / 22.5, fc, fn)
+    floor = ch.temperature_floor_for_silica(rc.TSE, 5.0)
+
+    # warm ambient: the floor is reachable, and the answer must be AT OR ABOVE
+    # it -- never a hair below, which is the side the old code returned
+    for T_db, rh in ((30.0, 0.50), (42.0, 0.20)):
+        fan, st = hs.fan_for_target_fws(floor, T_db, rh, *args)
+        assert st["target_met"] is True, (T_db, st["T_fws"], floor)
+        assert st["T_fws"] >= floor - 1e-6, (
+            f"returned {st['T_fws']:.3f} C against a {floor:.3f} C floor -- "
+            f"the cold side of the constraint")
+        assert st["T_fws"] - floor < 1.0, "gave up more free cooling than needed"
+
+    # cold ambient: the floor is NOT reachable, and that must be said
+    fan, st = hs.fan_for_target_fws(floor, 16.0, 0.62, *args)
+    assert st["target_met"] is False
+    assert st["target_shortfall_k"] > 1.0
+    assert st["low_fan_unexplorable"] is True, (
+        "the miss must be attributed to the solver's low-fan limit, not "
+        "silently absorbed")
+
+
+def test_defect_42_evaluate_reports_an_unreachable_floor():
+    """`evaluate` must carry the miss out, not swallow it.
+
+    A caller averaging over hours cannot tell a bounded hour from a violating
+    one unless the flag travels, and the four-region artifact averages over
+    twenty-four of them.
+    """
+    import json
+    import pathlib
+    import hybrid_supervisor as hs
+    from models import cdu_model as cdu
+    import run_controller as rc
+
+    cal = json.loads((pathlib.Path(__file__).resolve().parent.parent
+                      / "results" / "calibration.json").read_text())
+    q = 20000.0
+    unit = cdu.sized_for(q, delta_t_k=10.0)
+    kw = dict(q_it_kw=q, makeup=rc.TSE, cycles=5.0, tariffs=rc.TARIFFS,
+              unit=unit, m_w_pri=q / 20.0, m_a_rated=q / 22.5,
+              fill_c=cal["fill_c"], fill_n=cal["fill_n"])
+
+    cold = hs.evaluate(T_db=16.0, rh=0.62, enforce_chemical_floor=True, **kw)
+    assert cold is not None
+    assert cold["floor_unreachable"] is True
+    assert cold["floor_shortfall_k"] > 1.0
+    assert cold["T_fws_c"] < cold["chemical_floor_c"], (
+        "flagged unreachable while actually meeting the floor")
+
+    warm = hs.evaluate(T_db=42.0, rh=0.20, enforce_chemical_floor=True, **kw)
+    assert warm is not None
+    assert warm["floor_unreachable"] is False
+    assert warm["floor_shortfall_k"] == 0.0
+    assert warm["T_fws_c"] >= warm["chemical_floor_c"] - 1e-6

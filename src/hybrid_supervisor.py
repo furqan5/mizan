@@ -192,35 +192,85 @@ def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
 
     hi = curve[-1][2]
     if hi["T_fws"] > target_c:
+        # cannot get COLDER even flat out. That is a thermal shortfall, not a
+        # chemical one, and it is reported as met because the floor is a
+        # minimum: water warmer than the floor is always chemically safe.
+        hi = dict(hi)
+        hi.update(target_c=float(target_c), target_met=True,
+                  target_shortfall_k=float(target_c - hi["T_fws"]),
+                  low_fan_unexplorable=False)
         _FAN_ANSWER_CACHE[ans_key] = (fan_hi, hi)
-        return fan_hi, hi                      # cannot get colder even flat out
+        return fan_hi, hi
 
-    # bracket on the cached curve: the coldest point at or below target, and
-    # the warmest point above it
-    lo_pct = fan_lo
-    hi_pct, best = curve[-1][0], curve[-1][2]
+    # DEFECT 42, second half. The bracket used to keep the COLDEST point at or
+    # below target and return that. But the floor is a MINIMUM temperature:
+    # water at or above it is chemically safe and water below it is not, so
+    # that returned the wrong side of its own constraint every time -- by
+    # 0.02 K in ordinary conditions, which is immaterial, and by 5.8 K when
+    # the solver failed at low fan, which is not.
+    #
+    # It now brackets the crossing and returns the WARM side: the fastest fan
+    # whose outlet is still at or above the floor. That gives up a sliver of
+    # free cooling and can never hand back a supersaturated point.
+    warm_pct, warm = None, None                 # t >= target: safe
+    cold_pct = None                             # t <  target: not safe
     for f, t, st in curve:
-        if t <= target_c and f <= hi_pct:
-            hi_pct, best = f, st
-        if t > target_c and f > lo_pct:
-            lo_pct = f
-
-    # Five refinements halve a 10.6-point grid spacing to about 0.33 points of
-    # fan speed, which is finer than any tower is actually controlled to.
-    for _ in range(5):                          # refine inside the bracket
-        if hi_pct - lo_pct < 0.4:
-            break
-        mid = 0.5 * (lo_pct + hi_pct)
-        st = solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, mid,
-                                m_a_rated, fill_c, fill_n, aw)
-        if st is None:
-            lo_pct = mid
-            continue
-        if st["T_fws"] > target_c:
-            lo_pct = mid
+        if t >= target_c:
+            if warm_pct is None or f > warm_pct:
+                warm_pct, warm = f, st
         else:
-            hi_pct, best = mid, st
-    out = (float(hi_pct), best)
+            if cold_pct is None or f < cold_pct:
+                cold_pct = f
+
+    unexplorable = False
+    if warm_pct is None:
+        # nothing on the grid is warm enough. The crossing, if there is one,
+        # lies below the slowest fan the solver would converge at.
+        lo, hi = fan_lo, curve[0][0]
+        for _ in range(5):
+            if hi - lo < 0.4:
+                break
+            mid = 0.5 * (lo + hi)
+            st = solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, mid,
+                                    m_a_rated, fill_c, fill_n, aw)
+            if st is None:
+                unexplorable = True     # unknown, NOT warm. Stop, do not steer.
+                break
+            if st["T_fws"] >= target_c:
+                warm_pct, warm = mid, st
+                lo = mid
+            else:
+                hi = mid
+    else:
+        # ordinary case: refine between the warm point and the first cold one
+        lo, hi = warm_pct, (cold_pct if cold_pct is not None else fan_hi)
+        for _ in range(5):
+            if hi - lo < 0.4:
+                break
+            mid = 0.5 * (lo + hi)
+            st = solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, mid,
+                                    m_a_rated, fill_c, fill_n, aw)
+            if st is None:
+                unexplorable = True
+                break
+            if st["T_fws"] >= target_c:
+                warm_pct, warm = mid, st
+                lo = mid
+            else:
+                hi = mid
+
+    if warm is None:
+        # The floor cannot be held with fan control at this ambient. Return
+        # the warmest point that actually solved, flagged as a miss, so the
+        # caller reports an unreachable floor instead of a false compliance.
+        warm_pct, warm = curve[0][0], curve[0][2]
+
+    best = dict(warm)
+    best["target_c"] = float(target_c)
+    best["target_met"] = bool(best["T_fws"] >= target_c - 1e-6)
+    best["target_shortfall_k"] = float(target_c - best["T_fws"])
+    best["low_fan_unexplorable"] = unexplorable
+    out = (float(warm_pct), best)
     if len(_FAN_ANSWER_CACHE) > 8192:
         _FAN_ANSWER_CACHE.clear()
     _FAN_ANSWER_CACHE[ans_key] = out
@@ -270,6 +320,7 @@ def evaluate(T_db, rh, q_it_kw, makeup, cycles, tariffs, unit,
     if full is None:
         return None
 
+    floor_unreachable = False
     if enforce_chemical_floor and full["T_fws"] < floor:
         got = fan_for_target_fws(floor, T_db, rh, m_w_pri, q_guess,
                                  m_a_rated, fill_c, fill_n)
@@ -277,6 +328,16 @@ def evaluate(T_db, rh, q_it_kw, makeup, cycles, tariffs, unit,
             return None
         fan_pct, state = got
         bounded_by_chemistry = True
+        # DEFECT 42. The inversion can fail to reach the floor -- in cold
+        # humid air the tower solver does not converge at low fan, so the
+        # slowest usable fan still over-cools. That is a real physical
+        # result and it is the finding for cold climates: FAN TURNDOWN ALONE
+        # CANNOT KEEP A TOWER'S WATER WARM ENOUGH IN COLD AIR, and a site
+        # that needs the floor there needs a tower bypass, not a smarter
+        # setpoint. Previously this returned silently and the hour was
+        # reported as chemically bounded while sitting 4.4 K below its own
+        # floor. It is now carried out to the caller.
+        floor_unreachable = not state.get("target_met", True)
     else:
         fan_pct, state = 100.0, full
         bounded_by_chemistry = False
@@ -320,6 +381,9 @@ def evaluate(T_db, rh, q_it_kw, makeup, cycles, tariffs, unit,
         "policy": ("chemically_bounded" if enforce_chemical_floor
                    else "blind_free_cooling"),
         "bounded_by_chemistry": bounded_by_chemistry,
+        "floor_unreachable": bool(floor_unreachable),
+        "floor_shortfall_k": float(state.get("target_shortfall_k", 0.0)
+                                   if floor_unreachable else 0.0),
         "chemical_floor_c": float(floor),
         "cycles": float(cycles),
         "fan_pct": float(fan_pct),

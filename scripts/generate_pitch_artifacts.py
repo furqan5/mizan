@@ -276,6 +276,14 @@ def run_region(key, cfg, makeup, fill_c, fill_n):
         "si_solver_tolerance": SI_SOLVER_TOL,
         "hours_blind_materially_violating": len(blind_material),
         "hours_bounded_materially_violating": len(bounded_material),
+        # DEFECT 42. Hours where fan turndown could not hold the floor at all.
+        # In cold air the tower over-cools even at its slowest usable fan, and
+        # a site that needs the floor there needs a tower BYPASS, not a
+        # smarter setpoint. This used to be reported as compliance.
+        "hours_floor_unreachable": sum(
+            1 for r in solved if r["bounded"].get("floor_unreachable")),
+        "max_floor_shortfall_k": max(
+            [r["bounded"].get("floor_shortfall_k", 0.0) for r in solved] or [0.0]),
         "max_silica_SR_blind": 10.0 ** max(r["blind"]["SI"]["SI_silica_am"]
                                            for r in solved),
         "max_silica_SR_bounded": 10.0 ** max(r["bounded"]["SI"]["SI_silica_am"]
@@ -320,7 +328,7 @@ def main() -> int:
     print()
     hdr = (f"{'region':<34}{'floor':>7}{'PUE b/c':>16}{'WUE b/c':>16}"
            f"{'water m3/d':>13}{'saved %':>9}{'max SR silica b/c':>20}"
-           f"{'scaling h':>11}")
+           f"{'scaling h':>11}{'no-floor h':>12}")
     print(hdr)
     print("-" * len(hdr))
     for key, r in out["regions"].items():
@@ -336,7 +344,8 @@ def main() -> int:
               f"{r['max_silica_SR_blind']:>10.3f}/"
               f"{r['max_silica_SR_bounded']:<9.3f}"
               f"{r['hours_blind_materially_violating']:>5d}/"
-              f"{r['hours_bounded_materially_violating']:<5d}")
+              f"{r['hours_bounded_materially_violating']:<5d}"
+              f"{r['hours_floor_unreachable']:>12d}")
     print()
     print("  floor      = minimum facility-water temperature at which "
           "amorphous silica stays at or below saturation, at the stated cycles")
@@ -348,6 +357,11 @@ def main() -> int:
     print("               controller drives the index TO its limit, so counting a")
     print("               strict SI > 0 would count the root-finder's own tolerance")
     print("               as scaling -- see defect 40.")
+    print("  no-floor h = hours where FAN TURNDOWN ALONE CANNOT HOLD THE FLOOR.")
+    print("               In cold air a tower over-cools even at its slowest")
+    print("               usable fan. Those hours are a product requirement, not")
+    print("               a control failure: the site needs a tower bypass. They")
+    print("               were previously reported as compliance -- defect 42.")
     print("  strict h   = "
           + ", ".join(f"{r['label'].split()[0]} "
                       f"{r['hours_blind_violating_silica']}/"
