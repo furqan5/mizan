@@ -300,3 +300,44 @@ def test_corrosion_floor_exists_and_is_wired_into_the_optimiser():
     src = inspect.getsource(ctl._cost_at_ph)
     assert "corrosion_floor_si" in src and "floor" in src, (
         "the parameter exists but is not referenced in the body")
+
+
+def test_defect_36_a_break_even_is_checked_against_a_real_costed_system():
+    """DEFECT 36. `sidestream.py` returned a break-even and nothing compared
+    it to what treatment actually costs, so the module recommended capital
+    that cannot pay back on water value -- and the Ceiling Report printed
+    those recommendations to a customer.
+
+    The benchmark is a costed engineering study: a precipitation softener
+    plus media filtration and WAC polishing, 1 MGD of cooling tower blowdown,
+    $25,440,000 installed and $2,793,000/yr in chemicals for 1.38 Mm3/yr.
+
+    Every technology in the module must be recorded as NOT paying at Gulf
+    water tariffs, because that is the finding.
+    """
+    import sidestream as ss
+    import run_controller as rc
+
+    real = ss.real_cost_per_m3()
+    assert real["chemicals_per_m3"] == pytest.approx(2.02, abs=0.05)
+    assert real["total_per_m3"] == pytest.approx(2.94, abs=0.05)
+
+    surveyed = [t for t in ss.survey(rc.TSE, 4.2, rc.TARIFFS, 45.0, 32.0,
+                                     baseline_cycles=3.0, pH=8.25)
+                if t["raises_ceiling"]]
+    assert surveyed, "the survey must return something to check"
+    for t in surveyed:
+        c = ss.passes_cost_reality_check(t["break_even_per_m3"])
+        assert not c["pays"], (
+            f"{t['technology']} now claims to pay; if that is real it is a "
+            f"finding, and this test must be rewritten rather than deleted")
+        assert c["shortfall_ratio"] > 3.0, t["technology"]
+
+
+def test_defect_36_the_measured_silica_removal_replaced_an_assumption():
+    """The same study reports 176 -> 18 mg/L across the softening train."""
+    import sidestream as ss
+    b = ss.REAL_COST_BENCHMARK
+    assert b["silica_removed_pct"] == pytest.approx(89.8, abs=0.1)
+    assert 100.0 * (1 - 18.0 / 176.0) == pytest.approx(b["silica_removed_pct"],
+                                                       abs=0.1)

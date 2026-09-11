@@ -132,6 +132,10 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
         evap_kg_s, cycles_now, ceiling, tgt, m_w_kg_s)
     out["treatment"] = ss.survey(water, evap_kg_s, tariffs, T_hot, T_cold,
                                  baseline_cycles=cycles_now, pH=pH)
+    for t in out["treatment"]:
+        t["cost_check"] = ss.passes_cost_reality_check(
+            t.get("break_even_per_m3") or 0.0)
+    out["real_treatment_cost"] = ss.real_cost_per_m3()
     return out
 
 
@@ -230,7 +234,9 @@ def render(a, client="", site=""):
         f'<tr><td>{e(t["technology"].replace("_"," "))}</td>'
         f'<td class="n">{t["ceiling_after"]:.2f}</td>'
         f'<td class="n">{t["water_saved_vs_baseline_pct"]:+.1f} %</td>'
-        f'<td class="n">${t["break_even_per_m3"]:.2f}</td></tr>'
+        f'<td class="n">${t["break_even_per_m3"]:.2f}</td>'
+        f'<td class="n {"ok" if t["cost_check"]["pays"] else "no"}">'
+        f'{"pays" if t["cost_check"]["pays"] else f"{t[chr(34)+chr(34)] if False else t["cost_check"]["shortfall_ratio"]:.0f}x short"}</td></tr>'
         for t in a["treatment"] if t["raises_ceiling"])
 
     xover = (f'{a["silica_crossover"]:.1f} mg/L' if a["silica_crossover"]
@@ -327,7 +333,7 @@ deposits at the <b>coldest</b> point in the loop, not the hottest.</p>
 Calcium phosphate is kinetically inhibited &mdash; it tolerates far more
 supersaturation than carbonate before it deposits &mdash; so what matters is not
 the index alone but which inhibitor programme is dosed.</p></div>
-{"<h2 style='margin-top:26px'>If you want to go past the ceiling</h2><div class='tw'><table><thead><tr><th>Side-stream treatment</th><th class='n'>New ceiling</th><th class='n'>Water saved</th><th class='n'>Break-even</th></tr></thead><tbody>" + tre + "</tbody></table></div><p style='font-size:.82rem;color:var(--ink3);margin-top:10px'>Break-even is the price per cubic metre of treated water at which the saving pays for the treatment, on water and chemicals only. Capital, membranes and sludge are excluded.</p>" if tre else ""}
+{"<h2 style='margin-top:26px'>If you want to go past the ceiling</h2><div class='tw'><table><thead><tr><th>Side-stream treatment</th><th class='n'>New ceiling</th><th class='n'>Water saved</th><th class='n'>Break-even</th><th class='n'>Verdict</th></tr></thead><tbody>" + tre + "</tbody></table></div><p style='font-size:.82rem;color:var(--ink3);margin-top:10px'><b>None of these pay at your water price.</b> Break-even is what the saved water is worth per cubic metre treated. A costed engineering study of a precipitation-softening train (DiFilippo, Sylvan Source, Oct 2023 - 1 MGD, $25.4 M installed, $2.79 M/yr in chemicals) puts the real cost at <b>$2.02/m&sup3; in chemicals alone</b> and $2.94/m&sup3; with capital over twenty years. Side-stream treatment pays where <b>discharge is prohibited</b> and the alternative is zero liquid discharge - a regulatory driver, not a water-price one.</p>" if tre else ""}
 </section>
 
 <footer>

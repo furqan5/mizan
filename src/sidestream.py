@@ -333,3 +333,97 @@ def survey(water, evap_kg_s, tariffs, T_hot, T_cold, baseline_cycles=3.0,
                                    T_cold, baseline_cycles, fraction_treated,
                                    limits, pH=pH))
     return sorted(out, key=lambda r: -r["ceiling_after"])
+
+
+# ---------------------------------------------------------------------------
+# COST REALITY CHECK -- DEFECT 36
+# ---------------------------------------------------------------------------
+# The break-even figures this module returns are the price per cubic metre at
+# which a treatment would pay for itself on avoided water and chemicals. Until
+# 11 September 2026 nothing compared them to what treatment ACTUALLY costs,
+# and the omission flattered every recommendation the module made.
+#
+# A costed engineering study closes that gap. DiFilippo, M., "Equipment Cost
+# Analysis for Cooling Tower Blowdown Treatment Systems", technical
+# memorandum for Sylvan Source, 24 October 2023 (update of a May 2017
+# version). A coal-fired power plant, 1 MGD of cooling tower blowdown, with
+# budgetary equipment costs and installation factors. [C]
+#
+# Its Table 2 is also a real, complete cooling-tower blowdown analysis:
+#
+#   Na 6,368  K 276  Ca 400  Mg 236  HCO3 46  Cl 4,160  F 21
+#   SO4 9,791  SiO2 176  B 4  TDS 21,494  TSS 5  (all mg/L)
+#
+# and its pre-treated column gives the removal actually achieved by a
+# precipitation softener followed by media filtration and weak-acid-cation
+# polishing:  SiO2 176 -> 18 mg/L, Ca 400 -> 12, Mg 236 -> 24.
+#
+# THE NUMBER THAT MATTERS. For that duty -- 1 MGD, 157.7 m3/h, 1.38 Mm3/yr --
+# the pretreatment train costs $25,440,000 installed and $2,793,000 a year in
+# chemicals alone. That is
+#
+#     chemicals only                      $2.02 / m3 treated
+#     + capital over 20 years, no interest $0.92 / m3
+#     + capital over 10 years              $1.84 / m3
+#
+# against a break-even this module computes at $0.39/m3 for lime softening on
+# Gulf tariffs. **Chemicals alone are 5.2x the break-even, and the whole train
+# is roughly eight times underwater.**
+#
+# SO: SIDE-STREAM SOFTENING DOES NOT PAY ON WATER VALUE AT GULF TARIFFS. It
+# pays when discharge is PROHIBITED and the alternative is zero liquid
+# discharge, which is why the study exists -- its plant cannot use evaporation
+# ponds. That is a regulatory driver, not a water-price one, and the
+# distinction decides whether any of this is a business.
+#
+# WHAT IS NOT FAIR ABOUT THE COMPARISON, stated so it is not overclaimed: this
+# is a ZLD pretreatment train on a very concentrated blowdown (TDS 21,494,
+# silica 176), sized for 1 MGD. A smaller side-stream on weaker water costs
+# less per cubic metre. But the chemical dose scales with the hardness and
+# silica actually removed, which is the entire point of the unit, so it does
+# not scale away -- and an eightfold gap does not close on scale alone.
+REAL_COST_BENCHMARK = {
+    "source": ("DiFilippo, M., Equipment Cost Analysis for Cooling Tower "
+               "Blowdown Treatment Systems, Sylvan Source technical "
+               "memorandum, 24 Oct 2023"),
+    "duty_m3_per_h": 157.7,
+    "duty_m3_per_yr": 1_381_437.0,
+    "pretreatment_installed_usd": 25_440_000.0,
+    "pretreatment_chemicals_usd_per_yr": 2_793_000.0,
+    "silica_removed_pct": 89.8,            # 176 -> 18 mg/L, measured
+    "calcium_removed_pct": 97.0,           # 400 -> 12
+    "magnesium_removed_pct": 89.8,         # 236 -> 24
+    "zld_unit_opex_usd_per_m3": {          # whole-train, for scale
+        "sylvan_core": 3.60, "ro_plus_vce": 5.38, "vce": 3.97},
+}
+
+
+def real_cost_per_m3(amortise_years=20.0):
+    """What side-stream softening actually costs per cubic metre treated."""
+    b = REAL_COST_BENCHMARK
+    chem = b["pretreatment_chemicals_usd_per_yr"] / b["duty_m3_per_yr"]
+    cap = b["pretreatment_installed_usd"] / amortise_years / b["duty_m3_per_yr"]
+    return {"chemicals_per_m3": chem, "capital_per_m3": cap,
+            "total_per_m3": chem + cap, "amortise_years": amortise_years}
+
+
+def passes_cost_reality_check(break_even_per_m3, amortise_years=20.0):
+    """Does a computed break-even survive contact with a costed study?
+
+    Returns a dict rather than a bool, because the RATIO is the useful
+    output: a break-even eight times under the real cost is not a marginal
+    case to be resolved by better estimating.
+    """
+    real = real_cost_per_m3(amortise_years)
+    be = float(break_even_per_m3)
+    return {
+        "break_even_per_m3": be,
+        "real_cost_per_m3": real["total_per_m3"],
+        "real_chemicals_only_per_m3": real["chemicals_per_m3"],
+        "shortfall_ratio": real["total_per_m3"] / be if be > 0 else float("inf"),
+        "pays": be >= real["total_per_m3"],
+        "pays_on_chemicals_alone": be >= real["chemicals_per_m3"],
+        "note": ("Benchmarked against a ZLD pretreatment train on concentrated "
+                 "blowdown; a smaller side-stream on weaker water costs less "
+                 "per m3, but the chemical dose scales with what is removed."),
+    }
