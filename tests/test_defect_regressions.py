@@ -556,3 +556,117 @@ def test_defect_42_evaluate_reports_an_unreachable_floor():
     assert warm["floor_unreachable"] is False
     assert warm["floor_shortfall_k"] == 0.0
     assert warm["T_fws_c"] >= warm["chemical_floor_c"] - 1e-6
+
+
+# ---------------------------------------------------------------------------
+# Defect 44 -- the skin rise was a literal, and the function meant to compute
+# it could not have produced it.
+# ---------------------------------------------------------------------------
+def test_defect_44_the_skin_rise_is_derived_from_published_fouling_data():
+    """8 K was never a guess. It was a condenser at its design fouling
+    allowance, and nobody had written down which allowance.
+
+    `wall_bulk_delta_t` existed to replace the literal and was never called --
+    and could not have produced 8 K in any case, because it returns only the
+    CLEAN film rise, 2.4-3.7 K on the corrected heat-flux band. The missing
+    term was the fouling layer.
+
+    The surface a saturation index belongs on is the DEPOSIT FACE, not the
+    metal: scale forms where water touches solid, and once a deposit exists
+    that face runs hotter than clean metal by q'' * R_f.
+    """
+    import controller as ctl
+
+    lad = ch.skin_rise_ladder()
+    # monotone in fouling resistance, and clean is the floor
+    order = ["clean", "ahri_rating", "ac_industry_legacy", "tema_cooling_tower"]
+    dts = [lad[k]["delta_t_k"] for k in order]
+    assert dts == sorted(dts)
+    assert lad["clean"]["delta_t_fouling_k"] == 0.0
+
+    # the clean rise must land in the band external review established
+    assert 2.4 <= lad["clean"]["delta_t_k"] <= 3.7
+
+    # and the historical 8.0 must be explained, not merely bracketed
+    assert lad["tema_cooling_tower"]["delta_t_k"] == pytest.approx(7.45, abs=0.1)
+    assert ctl.SKIN_DELTA_K_DEFAULT == pytest.approx(7.45, abs=0.1)
+
+    # AHRI Guideline E-1997 S5.1, the number ARI standards rate chillers at
+    assert lad["ahri_rating"]["R_f_hr_ft2_f_btu"] == 0.00025
+    assert lad["ahri_rating"]["R_f_m2k_w"] == pytest.approx(4.4e-5, rel=0.02)
+
+    # an unknown allowance must be refused, not silently defaulted
+    with pytest.raises(ValueError):
+        ch.skin_temperature_rise(fouling="whatever_is_convenient")
+
+
+def test_defect_44_the_skin_assumption_is_no_longer_load_bearing():
+    """The docs said "every V3/V5 result is proportional to it". Measure it.
+
+    That claim was written when GYPSUM was believed to bind at the wall.
+    Calcite binds there now, and amorphous silica -- the species that usually
+    sets the ceiling on this water -- binds at the COLD basin, where the skin
+    temperature does not enter at all.
+    """
+    import sidestream as ss
+
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    T_bulk, T_cold = 37.0, 32.0
+    ceilings = []
+    for k in ("clean", "ahri_rating", "ac_industry_legacy", "tema_cooling_tower"):
+        dt = ch.skin_rise_ladder()[k]["delta_t_k"]
+        c, _b = ss.ceiling_with(w, T_bulk + dt, T_cold, pH=8.25,
+                                limits=ch.limits_for_programme())
+        ceilings.append(c)
+
+    spread = max(ceilings) - min(ceilings)
+    assert spread < 0.5, (
+        f"the ceiling now moves {spread:.2f} cycles across the whole "
+        f"clean-to-fouled range; if that has grown, the skin assumption has "
+        f"become load-bearing again and the documents must say so")
+    # hotter skin must TIGHTEN the ceiling -- the conservative direction
+    assert ceilings[0] > ceilings[-1]
+
+
+# ---------------------------------------------------------------------------
+# Defect 45 -- the sharpest test the controller has, applied by nothing.
+# ---------------------------------------------------------------------------
+def test_defect_45_the_brucite_criterion_is_enforced_by_the_optimiser():
+    """`ph_saturation_brucite` was called by the V6 report, the figures and
+    the MATLAB export -- and never by the feasibility check, which is the only
+    place a constraint binds. `si_sepiolite` was called from nowhere at all.
+
+    The mechanism is two-step: brucite Mg(OH)2 precipitates first, then reacts
+    with silica in the boundary layer. So the criterion is on BRUCITE, which
+    is why the missing "magnesium silicate SI threshold" was never the blocker
+    the register recorded -- a sepiolite index is a state, not a criterion.
+
+    It is load-dependent in a way no fixed pH setpoint can express: brucite's
+    saturation pH is retrograde, so the same tower at the same pH deposits at
+    high load and does not at low load.
+    """
+    import controller as ctl
+
+    w = ch.balance_sodium(ch.ARAMCO_RECLAIMED)
+    w.SiO2 = 26.8
+    conc = w.concentrate(4.0)
+
+    # retrograde: the safe pH ceiling FALLS as the skin gets hotter
+    hot = ch.ph_saturation_brucite(48.0, conc)
+    cold = ch.ph_saturation_brucite(38.0, conc)
+    assert hot < cold, "brucite saturation pH must fall with temperature"
+
+    # and it must actually bind in the optimiser's own search space
+    assert ctl.MG_SILICATE_BRUCITE_MARGIN_PH == 0.0, (
+        "a non-zero margin is a number this package invented; it must come "
+        "from site coupon evidence and be passed in")
+    assert any(ph > ch.ph_saturation_brucite(45.0, w.concentrate(cy))
+               for cy in (3.0, 4.0, 5.0, 6.0)
+               for ph in (7.5, 8.0, 8.25, 8.5, 9.0)), (
+        "the criterion no longer excludes any operating point, so enforcing "
+        "it changed nothing and one of the two is wrong")
+
+    # inactive rather than violated when the water carries no Mg or no silica
+    dry = ch.ARAMCO_RECLAIMED       # SiO2 not reported, left at zero
+    assert dry.SiO2 == 0.0
+    assert ch.si_sepiolite(dry.concentrate(4.0), 45.0, 8.25) == float("-inf")

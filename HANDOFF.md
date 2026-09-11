@@ -190,7 +190,7 @@ argument -- **periodic recalibration is a functional requirement, and this
 gate measures how fast a fixed characteristic goes stale.**
 
 **Do not restore the old drift value to recover the pass.** See
-`docs/defect_register.md`, which separates defects (forty-three found, forty-three fixed,
+`docs/defect_register.md`, which separates defects (forty-five found, forty-five fixed,
 none open) from gate outcomes (two failed, both diagnosed).
 
 **The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
@@ -491,7 +491,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 | Drift eliminator rate | Was wrong | **CLOSED** — was 0.0005 used as a fraction (0.05 %); the spec is 0.0005 **%**. 100x too large. Makeup unaffected (drift cancels while blowdown > 0) but reported blowdown was 27 % low |
 | Duty fixed-point convergence | Was wrong | **CLOSED** — 6 substitution steps at 5e-3 K was unconverged AND seed-dependent; evaporation moved 3.8 % on the seed alone. Now Aitken + Brent fallback, 0/360 non-converged |
 | Chiller validity envelope | Was being violated | **CLOSED** — the optimiser was leaving the fitted range and booking a false 20.41 % water saving. Envelope now a hard constraint; 1,840 of 6,307 candidate points rejected |
-| Mg-silicate SI threshold | Unknown | OPEN, handled by the empirical Mg x SiO2 product rule instead |
+| Mg-silicate SI threshold | Was thought unknown | **CLOSED, 11 Sep 2026 — it was the wrong question.** The deposition mechanism is two-step: brucite Mg(OH)2 precipitates first, then reacts with silica in the boundary layer. So the criterion is on BRUCITE, `pH_bulk > pH_s(brucite at skin)`, which is thermodynamic and needs no empirical threshold. A sepiolite SI is a state, not a criterion. Now ENFORCED in the optimiser (defect 45); the empirical Mg x SiO2 product rule is kept as the cross-check |
 | No traction, no LOIs, no patents | Neutral | OPEN — Cohort 1 winners had none either |
 | Simscape Fluids | Was blocked | **CLOSED, 11 Sep 2026** — not licensed here (License Manager Error -5) and no longer needed. Replaced by **OpenModelica 1.27.0 + MSL 4.1.0**, which carries the two dynamic models the steady engine structurally cannot give: basin time constant, and the diurnal silica margin that agrees with the Python implementation to better than half a percentage point |
 

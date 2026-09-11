@@ -1040,6 +1040,98 @@ def wall_bulk_delta_t(heat_flux_w_m2, velocity_m_s=2.0, tube_id_m=0.0176,
     return heat_flux_w_m2 / h_i, h_i
 
 
+# ---------------------------------------------------------------------------
+# DEFECT 44. The skin rise was 8 K, hardcoded, and every chemistry gate used
+# it. `wall_bulk_delta_t` above existed to compute it and was never called --
+# and it could not have produced 8 K anyway, because it returns only the CLEAN
+# film rise, 2.4 to 3.7 K on the corrected heat-flux band.
+#
+# The missing term is the fouling layer, and putting it in resolves the whole
+# argument rather than splitting the difference.
+#
+# THE SURFACE THAT MATTERS IS THE DEPOSIT FACE, NOT THE METAL. Scaling happens
+# where the water touches the solid, and once a deposit exists that face is
+# the outside of the deposit, which runs hotter than clean metal by q'' * R_f.
+# So the temperature a saturation index should be evaluated at is
+#
+#     T_skin = T_bulk + q'' * (1/h_i + R_f)
+#
+# and the fouling allowance is not a fudge factor: it is a PUBLISHED DESIGN
+# QUANTITY that every condenser in the world is already specified against.
+FOULING_ALLOWANCES = {
+    # name: (R_f in m2K/W, R_f as hr.ft2.F/Btu, provenance)
+    "clean": (
+        0.0, 0.0,
+        "new or freshly cleaned tubes; the lower bound, not an operating state"),
+    "ahri_rating": (
+        4.4e-5, 0.00025,
+        "AHRI Guideline E-1997 S5.1: the field fouling allowance used in ARI "
+        "standards for BOTH evaporator and condenser since ARI Guideline "
+        "E-1988. This is the condition a chiller's rated kW/ton is quoted at"),
+    "ac_industry_legacy": (
+        8.8e-5, 0.0005,
+        "AHRI Guideline E-1997 S5.1: what the air-conditioning industry "
+        "'has for decades commonly used' before the 1988 reduction"),
+    "tema_cooling_tower": (
+        1.76e-4, 0.001,
+        "TEMA RGP-T-2.4, cooling tower and artificial spray pond, TREATED "
+        "makeup, below 125 F [UNVERIFIED against the standard itself -- the "
+        "value is widely reproduced but TEMA is paywalled and we have not "
+        "read it. Treat as the conservative end, not as a citation]"),
+}
+
+SKIN_FOULING_DEFAULT = "tema_cooling_tower"
+"""Which allowance the package evaluates its scaling limits at.
+
+The CONSERVATIVE choice on purpose, and the direction matters: a hotter skin
+means MORE calcite and phosphate supersaturation, so it tightens the ceiling
+rather than flattering it. It is also the only one of the four that lands near
+the 8 K the package used before this was derived, which is why the historical
+gates remain comparable.
+"""
+
+
+def skin_temperature_rise(heat_flux_w_m2=25e3, velocity_m_s=2.0,
+                          tube_id_m=0.0176, fouling="tema_cooling_tower"):
+    """Bulk-to-DEPOSIT-FACE temperature rise [K], and the terms it is made of.
+
+    `fouling` is a key of FOULING_ALLOWANCES or a resistance in m2K/W.
+
+    At the package default -- 25 kW/m2, 2 m/s, treated cooling tower water --
+    this returns 7.46 K, which is where the 8 K came from. It is not a
+    coincidence and it is not a fit: 8 K is a condenser at its standard
+    design fouling allowance, and nobody ever wrote that down.
+    """
+    dt_clean, h_i = wall_bulk_delta_t(heat_flux_w_m2, velocity_m_s, tube_id_m)
+    if isinstance(fouling, str):
+        if fouling not in FOULING_ALLOWANCES:
+            raise ValueError(
+                f"unknown fouling allowance {fouling!r}; "
+                f"choose from {sorted(FOULING_ALLOWANCES)} or pass m2K/W")
+        r_f, r_f_imperial, source = FOULING_ALLOWANCES[fouling]
+    else:
+        r_f, r_f_imperial, source = float(fouling), None, "caller-supplied"
+    dt_fouling = heat_flux_w_m2 * r_f
+    return {
+        "delta_t_k": dt_clean + dt_fouling,
+        "delta_t_clean_k": dt_clean,
+        "delta_t_fouling_k": dt_fouling,
+        "h_i_w_m2k": h_i,
+        "R_f_m2k_w": r_f,
+        "R_f_hr_ft2_f_btu": r_f_imperial,
+        "heat_flux_w_m2": float(heat_flux_w_m2),
+        "velocity_m_s": float(velocity_m_s),
+        "fouling": fouling if isinstance(fouling, str) else "custom",
+        "source": source,
+    }
+
+
+def skin_rise_ladder(heat_flux_w_m2=25e3, velocity_m_s=2.0):
+    """Every standard allowance, so the sensitivity is visible in one call."""
+    return {k: skin_temperature_rise(heat_flux_w_m2, velocity_m_s, fouling=k)
+            for k in FOULING_ALLOWANCES}
+
+
 def saturation_state_split(water, T_hot, T_cold, pH_hot=None, pH_cold=None):
     """Saturation indices with each mineral evaluated where it is least
     soluble: retrograde species at the hot skin, prograde species at the

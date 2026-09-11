@@ -114,7 +114,7 @@ def condition_for_hour(T_db, T_wb, rh, plant, makeup, fill_c, fill_n):
 
 
 def run(makeup, tariffs, plant, fill_c, fill_n, hours, programme=None,
-        lambda_water=ctl.LAMBDA_WATER_DEFAULT, skin_delta_k=8.0,
+        lambda_water=ctl.LAMBDA_WATER_DEFAULT, skin_delta_k=None,
         max_energy_penalty_pct=0.05):
     """One 24-hour run of the baseline and all three objectives."""
     limits = chem.limits_for_programme(programme)

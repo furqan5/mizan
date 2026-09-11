@@ -186,7 +186,7 @@ def acid_dose_for_ph(water, cycles, target_ph, T_c):
 # --- operating point ------------------------------------------------------
 def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
                              makeup_water, tariffs, fill_c, fill_n,
-                             skin_delta_k=8.0, saturation_limits=None):
+                             skin_delta_k=None, saturation_limits=None):
     """Cost and constraint state of one supervisory decision.
 
     `cond` carries the ambient and duty conditions:
@@ -222,6 +222,8 @@ def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
     # cold tower basin governs. Evaluating silica at the skin, as a single
     # evaluation point does, makes the model optimistic about the one
     # species with no effective inhibitor in general service.
+    skin_delta_k = (SKIN_DELTA_K_DEFAULT if skin_delta_k is None
+                    else float(skin_delta_k))
     T_skin = cond["T_wi"] + skin_delta_k
     T_basin = T_wo
     acid_kg_per_kg, ph_free = acid_dose_for_ph(makeup_water, cycles,
@@ -467,6 +469,7 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
 
 def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
                 skin_delta_k, corrosion_floor_si=None,
+                mg_silicate_margin_k="default",
                 saturation_limits=None):
     """Complete an operating point given a cached thermal solution."""
     m_a, aw, T_wo, info, conc, T_wi, Q_cond = th
@@ -482,6 +485,8 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     # cold tower basin governs. Evaluating silica at the skin, as a single
     # evaluation point does, makes the model optimistic about the one
     # species with no effective inhibitor in general service.
+    skin_delta_k = (SKIN_DELTA_K_DEFAULT if skin_delta_k is None
+                    else float(skin_delta_k))
     T_skin = T_wi + skin_delta_k
     T_basin = T_wo
     acid_kg_per_kg, ph_free = acid_dose_for_ph(makeup_water, cycles,
@@ -509,6 +514,37 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     if conc.pitzer_required():
         violations["davies_range"] = (conc.ionic_strength()
                                       - chem.ANALYSIS_TOLERANCES["ionic_strength_max"])
+
+    # --- MAGNESIUM SILICATE, via the brucite criterion --------------------
+    # DEFECT 45. `chemistry.ph_saturation_brucite` and `chemistry.si_sepiolite`
+    # have both existed since gate V6. The V6 report calls the first, the
+    # figures call it, the MATLAB export calls it -- and the OPTIMISER, whose
+    # feasibility check is the only place a constraint actually binds, calls
+    # neither. `si_sepiolite` is called from nowhere at all.
+    #
+    # Its own module docstring says the brucite envelope is "the sharpest test
+    # the controller faces, because it requires all three things the
+    # architecture provides and that no incumbent combines" -- skin
+    # temperature, bulk pH, and acid as the actuator. It was not being applied.
+    #
+    # The mechanism is two-step and published: brucite Mg(OH)2 precipitates
+    # first, then reacts with dissolved and colloidal silica in the boundary
+    # layer to form the dense scale. So the criterion is on BRUCITE, not on a
+    # sepiolite saturation index -- which is why the missing "Mg-silicate SI
+    # threshold" was never the blocker it was recorded as. Brucite's saturation
+    # pH is retrograde, so it is evaluated at the SKIN while the pH that must
+    # stay under it is the BULK pH the acid dose sets.
+    #
+    # This is load-dependent in a way no fixed pH setpoint can express: the
+    # same tower, same water, same pH deposits at high load and does not at
+    # low load, because the skin runs hotter.
+    if mg_silicate_margin_k == "default":
+        mg_silicate_margin_k = MG_SILICATE_BRUCITE_MARGIN_PH
+    if mg_silicate_margin_k is not None and conc.Mg > 0 and conc.SiO2 > 0:
+        ph_s = chem.ph_saturation_brucite(T_skin, conc)
+        if target_ph > ph_s - mg_silicate_margin_k:
+            violations["brucite_mg_silicate"] = (
+                target_ph - (ph_s - mg_silicate_margin_k))
 
     # --- CORROSION FLOOR -------------------------------------------------
     # Until 4 September 2026 this optimiser searched pH 7.0-9.0 against
@@ -660,6 +696,39 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
 # scales with water and belongs with it.
 OPTIMIZATION_MODES = ("COST_MINIMIZING", "WATER_PRESERVING",
                       "CONSTRAINED_WATER")
+
+# DEFECT 44. The skin rise was the literal 8.0 in four signatures and nothing
+# computed it. It is now DERIVED from published fouling allowances --
+# chemistry.skin_temperature_rise() -- and this is the one place it is set.
+#
+# 7.45 K at 25 kW/m2, 2 m/s and the TEMA treated-cooling-tower allowance. The
+# 8.0 that every gate used was that condition all along; nobody had written
+# down which condition it was, so it read as a guess.
+#
+# The sensitivity is now measurable and it is small: across the entire
+# clean-to-fouled range the ceiling on the measured Riyadh assay moves 4.92 ->
+# 4.56 cycles, 0.055 cycles per kelvin. The claim that "every V3/V5 result is
+# proportional to it" was written when GYPSUM was believed to bind at the
+# wall; calcite binds there now and silica binds COLD, where the skin does
+# not enter at all.
+
+# DEFECT 45. The margin the bulk pH must keep BELOW the brucite saturation pH
+# at the skin. Zero is the thermodynamic criterion itself, with no invented
+# safety factor on top -- this package does not get to type a number here any
+# more than it got to type a phosphate limit (defect 29). A site with coupon
+# evidence can pass its own margin; the constraint is injectable for exactly
+# that reason.
+#
+# It was checked against field observation before being switched on, which is
+# the discipline defect 29 cost us. On both measured Aramco waters at 3 to 5
+# cycles it is SAFE at 40 and 44.5 C skin and bites only at 50 C on the
+# higher-magnesium Dhahran water -- i.e. it is load-dependent and does not
+# collapse the ceiling, which is what distinguishes it from the phosphate
+# limit that had to be demoted to a screen.
+MG_SILICATE_BRUCITE_MARGIN_PH = 0.0
+
+SKIN_DELTA_K_DEFAULT = chem.skin_temperature_rise()["delta_t_k"]
+
 LAMBDA_WATER_DEFAULT = 3.0
 
 
@@ -690,7 +759,7 @@ def objective(r, tariffs, mode="COST_MINIMIZING",
 
 
 def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
-             fan_grid=None, cycles_grid=None, ph_grid=None, skin_delta_k=8.0,
+             fan_grid=None, cycles_grid=None, ph_grid=None, skin_delta_k=None,
              optimization_mode="COST_MINIMIZING",
              lambda_water=LAMBDA_WATER_DEFAULT,
              max_energy_penalty_pct=None, p_baseline_kw=None,
@@ -760,7 +829,7 @@ def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
 
 def baseline(cond, makeup_water, tariffs, fill_c, fill_n,
              fixed_cycles=4.0, fixed_ph=7.8, cw_setpoint_c=29.0,
-             skin_delta_k=8.0, fan_grid=None, saturation_limits=None):
+             skin_delta_k=None, fan_grid=None, saturation_limits=None):
     """Incumbent practice: fixed conductivity setpoint (fixed cycles), fixed
     pH setpoint, and the fan modulated to hold a fixed condenser-water
     supply temperature. The fan is not free here -- it is whatever is needed
