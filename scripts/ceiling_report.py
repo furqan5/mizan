@@ -59,7 +59,8 @@ def _ceiling(water, T_hot, T_cold, pH, programme=None):
 
 
 def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
-            m_w_kg_s, programme=None, silica_measured=True):
+            m_w_kg_s, programme=None, silica_measured=True,
+            diurnal_amplitude_k=5.0):
     """Everything the report needs, as data. No formatting here."""
     out = {"water": water.name, "cycles_now": cycles_now,
            "T_hot": T_hot, "T_cold": T_cold, "pH": pH,
@@ -68,6 +69,45 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
 
     ceiling, binding = _ceiling(water, T_hot, T_cold, pH, programme)
     out["ceiling"] = ceiling
+
+    # DEFECT 50, and it is the most embarrassing one in the register: THE FIX
+    # FOR DEFECT 37 REPRODUCED DEFECT 37.
+    #
+    # Defect 37 was "the diurnal silica margin is computed and enforced by
+    # nothing", and it was already the fourth instance of that shape. The fix
+    # added `chemistry.limits_with_diurnal_margin()`. A guard written today to
+    # stop this happening an eighth time found that function defined in
+    # chemistry.py, exercised in tests/test_defect_regressions.py, and called
+    # by NOTHING THAT MAKES A DECISION.
+    #
+    # The physics has not changed since defect 37 and it is not optional:
+    # amorphous silica is prograde, so the ceiling falls as the basin cools
+    # overnight, on a twelve-hour period, while the concentration can only
+    # follow on half a week. A setpoint placed at the mean-temperature limit
+    # is exceeded every night and no blowdown policy can prevent it.
+    #
+    # So the margin is APPLIED, and its cost is DISCLOSED. Reporting it as an
+    # option would be the same mistake a third time.
+    lim_marg = chem.limits_with_diurnal_margin(
+        T_mean_c=T_cold, T_amplitude_k=diurnal_amplitude_k,
+        programme=programme)
+    c_marg, b_marg = ss.ceiling_with(water, T_hot, T_cold, pH=pH,
+                                     limits=lim_marg)
+    out["diurnal"] = {
+        "amplitude_k": float(diurnal_amplitude_k),
+        "T_mean_c": float(T_cold),
+        "ceiling_no_margin": ceiling,
+        "ceiling_with_margin": c_marg,
+        "cost_cycles": ceiling - c_marg,
+        "binding_with_margin": b_marg,
+        "why": ("amorphous silica is prograde, so its solubility falls as the "
+                "basin cools overnight. The limit moves on a twelve-hour "
+                "period; the concentration can only follow on half a week."),
+    }
+    # the RECOMMENDED ceiling carries the margin
+    out["ceiling"] = c_marg
+    out["ceiling_no_diurnal_margin"] = ceiling
+    ceiling, binding = c_marg, b_marg
 
     # DEFECT 49. `discharge.binding_ceiling()` computes scaling-vs-discharge
     # and returns whichever is lower, it is covered by its own test file, and
@@ -496,7 +536,18 @@ def main() -> int:
         # not get to be more confident than the analysis behind it.
         print(f"ANALYSIS CHECK FAILED: {', '.join(failed)}"
               " -- see the report for what it costs")
-    print(f"ceiling      : {a['ceiling']:.2f} cycles, bound by {a['binding']}")
+    print(f"ceiling      : {a['ceiling']:.2f} cycles, bound by {a['binding']}"
+          f"  (carries the diurnal silica margin)")
+    dn = a["diurnal"]
+    if dn["cost_cycles"] > 0.005:
+        print(f"  diurnal    : {dn['ceiling_no_margin']:.2f} at mean basin "
+              f"temperature, {dn['ceiling_with_margin']:.2f} with the "
+              f"+/-{dn['amplitude_k']:.0f} K overnight swing -- costs "
+              f"{dn['cost_cycles']:.2f} cycles")
+    else:
+        print(f"  diurnal    : margin applied and costs nothing here, because "
+              f"{a['binding']} binds before silica does. It is enforced "
+              f"anyway -- on a higher-silica makeup it is the constraint.")
     cc = a.get("charge_closure")
     if cc:
         print(f"  closure    : {cc['ceiling_Cl_closure']:.2f} to "

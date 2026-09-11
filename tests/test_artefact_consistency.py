@@ -421,3 +421,77 @@ def test_every_remaining_silica_violation_is_an_unreachable_floor():
         # defect 43: the bias must be declared where it exists
         assert r["hours_unsolved"] == 24 - r["solved_hours"]
         assert r["averages_biased_optimistic"] is (r["solved_hours"] < 24)
+
+
+# Functions that compute a LIMIT, a CRITERION or a CEILING. Each must be
+# reachable from something that actually binds a decision -- the optimiser's
+# feasibility check, or a report a customer reads. A constraint that is
+# computed and not applied is worse than one that does not exist, because it
+# reads like coverage.
+#
+# This list is maintained BY HAND on purpose. Adding a constraint means adding
+# a line here and making the test pass, which is the smallest possible tax on
+# the thing that has gone wrong seven times.
+_CONSTRAINT_FUNCTIONS = {
+    # name: files that are allowed to count as "applied"
+    "ph_saturation_brucite": ("controller.py",),          # defect 45
+    "temperature_floor_for_silica": ("hybrid_supervisor.py",),
+    "limits_with_diurnal_margin": ("run_controller.py", "controller.py",
+                                   "sidestream.py", "ceiling_report.py"),
+    "binding_ceiling": ("ceiling_report.py",),            # defect 49
+    "chloride_pitting_check": ("controller.py",),         # defect 46
+    "charge_closure_bracket": ("ceiling_report.py",),     # defect 39
+    "silica_index_valid_at_ph": ("chemistry.py",),        # defect 38
+}
+
+
+def test_no_constraint_is_computed_without_being_applied():
+    """The failure mode this package has had seven times.
+
+    Defects 11 (chiller capacity logged, not enforced), 26 (Davies validity),
+    31 (cache key), 37 (diurnal silica margin), 43 (dropped hours), 45
+    (brucite), 49 (discharge ceiling) are ALL the same shape: a quantity
+    computed correctly, documented, tested in isolation, and then applied by
+    nothing that makes a decision.
+
+    It is a particularly bad shape because the code LOOKS like coverage. A
+    reviewer greps for the constraint, finds it, finds a test for it, and
+    moves on.
+
+    So each constraint names the file that must call it, and this test fails
+    when that stops being true. It cannot catch a constraint nobody thought
+    to list -- but it makes the seventh instance the last one that happens
+    by accident.
+    """
+    import re
+    src = ROOT / "src"
+    scripts = ROOT / "scripts"
+
+    missing = []
+    for fn, callers in _CONSTRAINT_FUNCTIONS.items():
+        found = False
+        for caller in callers:
+            for base in (src, scripts):
+                p = base / caller
+                if not p.exists():
+                    continue
+                txt = p.read_text(encoding="utf-8", errors="replace")
+                # a call, not a mention in a comment or a docstring
+                for line in txt.splitlines():
+                    stripped = line.strip()
+                    if stripped.startswith("#"):
+                        continue
+                    if re.search(rf"\b{re.escape(fn)}\s*\(", stripped):
+                        found = True
+                        break
+            if found:
+                break
+        if not found:
+            missing.append(f"{fn} is not called by any of {callers}")
+
+    assert not missing, (
+        "a constraint is computed and applied by nothing:\n  "
+        + "\n  ".join(missing)
+        + "\n\nThis is the defect-11/26/31/37/43/45/49 shape. Either wire it "
+          "in, or move it out of _CONSTRAINT_FUNCTIONS with a comment saying "
+          "why it is diagnostic rather than binding.")
