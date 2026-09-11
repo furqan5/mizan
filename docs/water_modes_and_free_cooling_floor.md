@@ -295,3 +295,18 @@ What replaces it is broader and harder to dismiss:
 That is a diagnostic claim rather than a savings claim, it now has three
 independent legs instead of one, and it survives the acid ban — which the
 narrower LSI argument does not.
+
+**And the honest qualifier, before someone else supplies it.** A cooling
+water system has at least six operating constraints: scaling, discharge
+consent, corrosion, biofouling, inhibitor chemistry and materials
+compatibility. This engine models **three** — scaling, discharge, and a
+corrosion floor on the calcite film. It does **not** model biofouling or
+inhibitor chemistry, and those two are a large part of what the incumbents
+actually sell and monitor. Veolia's daily parameter set at Hadeed is built
+around iron, turbidity and ammonia, not saturation.
+
+So the claim is "no tool computes the binding *saturation* constraint, and
+none joins it to the discharge consent" — which is true and checkable. It is
+not "no tool models cooling water", which is false. The pitch must say which
+one it is making, because a water treater will know the difference inside a
+minute.

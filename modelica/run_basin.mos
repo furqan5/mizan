@@ -1,0 +1,3 @@
+loadFile("modelica/TowerBasin.mo"); getErrorString();
+simulate(TowerBasin, stopTime=432000, numberOfIntervals=720, outputFormat="csv", fileNamePrefix="basin");
+getErrorString();
