@@ -427,3 +427,74 @@ def passes_cost_reality_check(break_even_per_m3, amortise_years=20.0):
                  "blowdown; a smaller side-stream on weaker water costs less "
                  "per m3, but the chemical dose scales with what is removed."),
     }
+
+
+# ---------------------------------------------------------------------------
+# THE COUNTER-EXAMPLE -- and it corrects the paragraph above
+# ---------------------------------------------------------------------------
+# `REAL_COST_BENCHMARK` says side-stream treatment is five to twelve times
+# underwater on water value. A real district cooling operator does it anyway,
+# profitably enough to win an industry award for it, and the difference is
+# WHICH STREAM IS TREATED.
+#
+# Austin Energy Downtown District Energy & Cooling System, IDEA System of the
+# Year 2023 submission. Three plants, DCP1-DCP3. In their own words: [C]
+#
+#   "A typical cooling tower has an average of 2 to 4 cycles of concentration.
+#    By using sulfuric acid in our condenser water chemical treatment systems
+#    at DCP2 and DCP3, we cycled our towers up to 12 cycles of concentration.
+#    This will realize a total savings of over 25 million gallons of water
+#    each year. At DCP1, we utilize a SOFTENED WATER SYSTEM for our condenser
+#    water system. Our DCP1 cycles of concentration is between 15 to 18. At a
+#    minimum, 10 million gallons of water is saved yearly at DCP1."
+#
+# and elsewhere: "Utilize sulfuric acid to increase cycles of concentration
+# from 6 to 12".
+#
+# WHAT THIS CORRECTS. The Sylvan Source benchmark is a ZERO LIQUID DISCHARGE
+# train on CONCENTRATED BLOWDOWN -- TDS 21,494, silica 176 mg/L, sized for
+# 1 MGD, $25.4 M installed. This module treats a fraction of the MAKEUP, which
+# is a far weaker stream and a far smaller unit. Pricing makeup softening
+# against a blowdown ZLD train was not a fair comparison, it was flagged as
+# such in the note above, and Austin is the empirical proof that the caveat
+# mattered: DCP1 softens makeup and reaches 15-18 cycles.
+#
+# So the honest statement is narrower than "treatment does not pay":
+#
+#   * MAKEUP-side softening pays, and is in service at scale. [C Austin]
+#   * BLOWDOWN ZLD does not pay on water value, and is driven by a discharge
+#     prohibition instead. [C Sylvan Source]
+#   * This module models the makeup side, so REAL_COST_BENCHMARK is an upper
+#     bound on its costs, not an estimate of them.
+#
+# WHAT DOES NOT TRANSFER TO THE GULF, and it is the whole regulatory finding:
+# Austin's main lever is SULFURIC ACID, 6 -> 12 cycles. RCER-2015 section
+# 3.6.3 forbids exactly that in Jubail and Yanbu. A Gulf plant under Royal
+# Commission jurisdiction cannot copy DCP2 and DCP3; it can only copy DCP1,
+# the softened one. The acid ban does not merely cost cycles -- it forces the
+# capital route.
+AUSTIN_COUNTER_BENCHMARK = {
+    "source": ("Austin Energy Downtown District Energy & Cooling System, "
+               "IDEA System of the Year 2023 submission"),
+    "typical_cycles": (2.0, 4.0),          # their words, for a typical tower
+    "acid_cycles": (6.0, 12.0),            # DCP2, DCP3 with sulfuric acid
+    "softened_cycles": (15.0, 18.0),       # DCP1, softened makeup
+    "water_saved_gal_per_yr": {"acid_plants": 25_000_000,
+                               "softened_plant": 10_000_000,
+                               "total": 35_000_000},
+    "lever_banned_in_RC_jurisdiction": "sulfuric acid, RCER-2015 s.3.6.3",
+}
+
+
+def typical_cycles_evidence():
+    """Four independent sources on what a tower actually runs at.
+
+    This is the baseline the V7 gate is scored against, and it is no longer
+    an assumption: every source lands in 2 to 4 cycles.
+    """
+    return [
+        ("Austin Energy (IDEA 2023)", "typical cooling tower", (2.0, 4.0)),
+        ("Qatar Cool", "TSE, stated maximum", (None, 3.0)),
+        ("Aramco Riyadh Refinery (NACE 577)", "measured, average 2.9", (1.6, 4.0)),
+        ("Aramco Dhahran pilot (WRI 2022)", "groundwater 2.0, TSE 3.5", (2.0, 3.5)),
+    ]

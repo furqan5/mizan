@@ -484,3 +484,34 @@ def test_the_ceiling_agrees_with_the_operators_recommended_limit():
     w = ch.ARAMCO_RIYADH_REFINERY_TSE
     ceiling, _ = ss.ceiling_with(w, 45.0, 32.0, pH=8.0)
     assert ceiling <= 4.0 * 1.15, f"model says {ceiling:.2f}, operator says 4.0"
+
+
+def test_the_typical_cycles_baseline_is_now_four_independent_sources():
+    """The V7 baseline of 3.0 cycles is no longer an assumption.
+
+    Austin Energy, Qatar Cool, and two Aramco studies all land in 2-4. The
+    gate's baseline sits inside every one of those ranges.
+    """
+    import sidestream as ss
+    ev = ss.typical_cycles_evidence()
+    assert len(ev) >= 4
+    for name, _what, (lo, hi) in ev:
+        if lo is not None:
+            assert lo <= 3.0, name
+        assert hi >= 3.0, name
+
+
+def test_austin_corrects_the_cost_conclusion_rather_than_contradicting_it():
+    """A real operator softens condenser makeup and reaches 15-18 cycles,
+    while the ZLD benchmark says treatment is 5-12x underwater. Both are
+    true, because they treat different streams -- and the module must carry
+    both rather than the flattering one."""
+    import sidestream as ss
+    a = ss.AUSTIN_COUNTER_BENCHMARK
+    assert a["softened_cycles"] == (15.0, 18.0)
+    assert a["acid_cycles"] == (6.0, 12.0)
+    # and the lever Austin leans on is the one the Gulf may not use
+    assert "sulfuric acid" in a["lever_banned_in_RC_jurisdiction"]
+    assert ss.REAL_COST_BENCHMARK["duty_m3_per_h"] > 100.0, (
+        "the ZLD benchmark is a large blowdown train, i.e. an upper bound "
+        "on makeup-side treatment cost rather than an estimate of it")
