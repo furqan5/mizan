@@ -68,6 +68,36 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
 
     ceiling, binding = _ceiling(water, T_hot, T_cold, pH, programme)
     out["ceiling"] = ceiling
+
+    # DEFECT 49. `discharge.binding_ceiling()` computes scaling-vs-discharge
+    # and returns whichever is lower, it is covered by its own test file, and
+    # NOTHING OUTSIDE THOSE TESTS CALLED IT. Seventh instance of
+    # computed-but-not-enforced (11, 26, 31, 37, 43, 45), and the one that
+    # most directly misleads a customer: this report has been answering
+    # "4.52 cycles" while a tested discharge ceiling of 3.33 sat unused. You
+    # cannot recommend an operating point whose blowdown is illegal.
+    #
+    # REPORTED, NOT IMPOSED, and the distinction is the whole of the care
+    # needed here. RCER-2015 binds Jubail and Yanbu. The water this report
+    # defaults to is a RIYADH refinery, which is in neither, so the table may
+    # not apply to it at all. Asserting an illegal operating point for a site
+    # outside the jurisdiction would be its own defect.
+    try:
+        import discharge as dis
+        out["discharge"] = {}
+        for basis in ("max", "monthly_avg"):
+            b = dis.binding_ceiling(water, T_hot, T_cold, pH=pH, basis=basis,
+                                    limits=chem.limits_for_programme(programme))
+            out["discharge"][basis] = {
+                "cycles": b["cycles"], "binding": b["binding"],
+                "parameter": b["parameter"],
+                "discharge_cycles": b["discharge_cycles"],
+                "scaling_cycles": b["scaling_cycles"],
+            }
+        out["discharge"]["jurisdiction"] = dis.JURISDICTION_NOTE
+        out["discharge"]["applies_here"] = None   # unknown for this site
+    except Exception as exc:                      # never fail the report on it
+        out["discharge"] = {"error": str(exc)}
     out["binding"] = binding
 
     # what the incumbent index would say, at the same conditions
@@ -247,6 +277,26 @@ def render(a, client="", site=""):
     # DEFECT 39. An ATTENTION row in the table is not enough on its own: it
     # tells the reader something is wrong without telling them whether it
     # changes the answer. This row does.
+    dsc = a.get("discharge") or {}
+    if "max" in dsc and (dsc["max"]["binding"] == "DISCHARGE"
+                         or dsc["monthly_avg"]["binding"] == "DISCHARGE"):
+        mx, mo = dsc["max"], dsc["monthly_avg"]
+        chk += (
+            f'<tr><td>discharge permit, if RCER-2015 applies</td>'
+            f'<td class="no">BINDS FIRST</td>'
+            f'<td style="font-size:.82rem;color:var(--ink3)">'
+            f'The blowdown at the scaling ceiling of '
+            f'{mx["scaling_cycles"]:.2f} cycles would carry '
+            f'{e(str(mx["parameter"]))} above the Royal Commission limit. On '
+            f'the daily-maximum basis the permit binds at '
+            f'<b>{mx["discharge_cycles"]:.2f} cycles</b>; on the monthly '
+            f'average, at <b>{mo["discharge_cycles"]:.2f}</b>. '
+            f'<b>This is reported, not imposed.</b> RCER-2015 binds Jubail '
+            f'and Yanbu. If your outfall is elsewhere, or discharges to a '
+            f'sewer or an irrigation system rather than to coastal water, a '
+            f'different table applies and this row does not. Check your '
+            f'permit before using either number.</td></tr>')
+
     cc = a.get("charge_closure")
     if cc:
         chk += (
@@ -460,6 +510,15 @@ def main() -> int:
     cx = a["capex_ceiling"]["3"]
     print(f"capex ceiling: ${cx['break_even_capex_usd']:,.0f} installed for a "
           f"3-year payback (a BOUND, not a price)")
+    dsc = a.get("discharge") or {}
+    if "max" in dsc:
+        mx, mo = dsc["max"], dsc["monthly_avg"]
+        if mx["binding"] == "DISCHARGE" or mo["binding"] == "DISCHARGE":
+            print(f"DISCHARGE    : {mx['discharge_cycles']:.2f} cycles on the "
+                  f"daily-max basis, {mo['discharge_cycles']:.2f} on the "
+                  f"monthly average, bound by {mx['parameter']}")
+            print(f"             : IF RCER-2015 applies to this site. It binds "
+                  f"Jubail and Yanbu; check before using it.")
     print(f"silica xover : {a['silica_crossover']}")
     print(f"written      -> {out}")
     if args.json:

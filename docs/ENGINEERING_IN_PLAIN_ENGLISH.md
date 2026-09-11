@@ -340,7 +340,7 @@ you where the physics stops.
 
 ## Part 8 — The mistakes we found in our own work
 
-Forty-seven defects found, **all forty-seven fixed**. The four worth knowing about:
+Forty-nine defects found, **all forty-nine fixed**. The four worth knowing about:
 
 **The fan correlation was in the wrong units.** The published equation for air
 flow takes fan frequency in hertz; the dataset's own text described that column
@@ -404,16 +404,42 @@ auditing our own code and we report it.
 cannot see it.** EPRI warns that sulphuric acid replaces protective alkalinity
 with corrosive sulphate, and that sulphate and chloride both concentrate as
 cycles rise. Our optimiser raises cycles *and* doses acid — exactly that
-combination. There is no corrosion term in the model. This is now the top
-laboratory priority.
+combination. **Answered in part, 12 September 2026 — and the answer inverts the
+objection.** `src/corrosion.py` adds the aggressive-anion term, and working it
+out shows the two levers are *not* both guilty. Larson-Skold is a RATIO of
+anions, and concentrating a water multiplies every ion equally, so **cycles
+move it by exactly zero**. Acid moves it from 4.60 to 55.0 as alkalinity is
+destroyed. Chloride pitting is the mirror: cycles move it, acid does not.
+
+So the corrosion exposure is carried by the acid lever alone — and that lever
+is separately switchable. **A Jubail site under RCER may not dose acid at all,
+so it takes none of this risk.** The regulation that costs us the acid lever
+also removes the objection to it.
+
+What remains genuinely open is a corrosion RATE, which needs coupons. The
+acceptance criteria are already loaded (UFC 3-230-13 Table 5-9) and the coupon
+rack is on the bill of materials.
 
 **4. Our model is about 2.5 times less accurate than the measurement uncertainty
 of the experiment.** Meaning there is a real residual error we cannot yet
 explain. We report the honest number rather than the floor.
 
-**5. All the chemistry is computed, never measured.** The constants are from the
-standard reference database, but we have never put this water in front of an
-instrument ourselves.
+**5. All the chemistry is computed, never measured — and measuring it is priced
+out of the market.** The constants are from the standard reference database and
+we have never put this water in front of an instrument. We costed doing so:
+silica, calcium, alkalinity and phosphate online is **$120,000-185,000 per
+tower**, against an **$89,000/year** saving on a 4.2 MW tower. The instruments
+cost more than the thing they optimise. That is structural and it is why no
+incumbent sells this.
+
+**What we do instead costs nothing.** Specific conductance is a known function
+of ion composition, and the conductivity sensor is already on the skid because
+the cycles calculation needs it. So we compute what the assumed composition
+*should* read, compare it to what the sensor *does* read, and the gap tells us
+when the assumption has stopped being true. It does not measure ions — one
+conductivity and one pH cannot resolve eight — but the **direction** is
+diagnostic: precipitation removes ions from solution, so the measured
+conductance falls below prediction. That is the scaling alarm, for free.
 
 **6. In a cold climate our controller cannot do its job with a fan alone, and
 this is a product requirement, not a caveat.** The silica floor is a *minimum*
@@ -430,7 +456,24 @@ where the problem does not arise, and it tells a European customer exactly what
 they must install for the product to work. We found it because our own model was
 quietly claiming compliance in those hours; the fault is recorded as defect 42.
 
-**7. We do not know what our own product costs to build.** So we do not quote a
+**7. Our water saving is negative where the model has been validated, and
+positive only where it has not.** This is the hardest sentence in the document
+and it must be said before a customer finds it. Splitting the Dhahran year at
+the edge of our test data: inside the validated wet-bulb envelope the
+controller uses **3.3 % MORE** water than the baseline; outside it, in the
+3,285 hours hotter and wetter than anything we have measured, it saves
+**8.23 %** — a figure that must always be written to two decimals, because a
+bare "8.2 %" collides with a superseded annual cost number and our own audit
+will reject it. The annual +2.37 % is entirely carried by the unvalidated
+half.
+
+The energy result is the exact reverse — **+8.8 % inside the envelope, −0.4 %
+outside**. So the two halves of the product are validated to opposite degrees.
+**Lead with energy, which is defensible on our own data, and treat water as
+the thesis the pilot exists to test.** That is also the honest reading of why
+the water gate keeps failing.
+
+**8. We do not know what our own product costs to build.** So we do not quote a
 payback. We searched the Internet Archive's PDF collection across fifteen cost,
 controls and retrofit queries and found nothing citable on what a cooling-tower
 supervisory controller costs installed — the figures appear to be commercial and

@@ -63,12 +63,12 @@ Scale forms where each mineral is least soluble — and the sign differs by mine
 
 Evaluating everything at one temperature is optimistic about silica — the one species with no effective inhibitor in general service. Correcting this moved our predicted silica limit from ~12 cycles to 9.
 
-And the skin offset is computed, not assumed: ΔT = q″/h_i gives ~3.8 K at typical design and ~8.7 K fouled. The bulk basis overstates the safe cycles limit by **7 % typical, 15.4 % fouled** — reported as a band, not a point.
+And the skin offset is computed, not assumed: ΔT = q″/h_i gives ~3.8 K at typical design and ~8.7 K fouled. The bulk basis overstates the safe cycles limit by **7 % typical, 15.2 % fouled** — reported as a band, not a point.
 
 ## Slide 6 — Two ceilings, and the setpoint that finds neither
 
-- **The cost curve never turns over.** Cost falls monotonically to 6 cycles, the last feasible point — so the economics point straight at the wall, with no margin.
-- **Physical ceiling: 7 cycles.** First saturation violation at the skin — binding mineral **SI_gypsum**.
+- **The cost curve never turns over.** Cost falls monotonically to 5 cycles, the last feasible point — so the economics point straight at the wall, with no margin.
+- **Physical ceiling: 6 cycles.** First saturation violation at the skin — binding mineral **SI_silica_am**.
 
 Different numbers. A fixed conductivity setpoint locates neither: the first needs a coupled cost model, the second needs ion-specific speciation. **The Langelier index the industry runs on describes calcite only — it cannot represent the binding mineral here at all.**
 
@@ -97,19 +97,32 @@ It needs skin temperature (thermal model), bulk pH (chemistry model) and acid (a
 
 | | Threshold | Result |
 |---|---|---|
-| Total operating cost | ≥ 3 % | **5.75 %** |
-| Makeup water | ≥ 15 % | 10.83 % — **missed** |
+| Total operating cost | ≥ 3 % | **3.91 %** |
+| Makeup water | ≥ 15 % | 4.38 % — **missed** |
 | Saturation violations at skin | 0 | **0** |
 
-We report the miss because the reason is the thesis. 4 → 7 cycles is worth exactly 12.50 % of makeup *at constant evaporation*. We achieved 10.83 %. The missing 2.46 points are evaporation the optimiser **chose** to add by running the fan harder, because colder condenser water was worth more than the water it cost.
+We report the miss because the reason is the thesis. 4 → 7 cycles is worth exactly 12.50 % of makeup *at constant evaporation*. We achieved 4.38 %. The missing 2.46 points are evaporation the optimiser **chose** to add by running the fan harder, because colder condenser water was worth more than the water it cost.
 
 A water treater would have promised 12.5 % and not delivered it. An energy optimiser would have raised water use and never booked it.
+
+**And the half of this we can defend on our own data is the energy half.** Splitting the Dhahran year at the edge of our test data:
+
+| | hours | water | energy |
+|---|---|---|---|
+| Inside the validated wet-bulb envelope | 5,475 | **-3.31 %** | +8.84 % |
+| Hotter and wetter than any data we hold | 3,285 | +8.23 % | **-0.39 %** |
+
+The water saving is **negative where the model has been validated** and positive only where it has not. Energy is the exact reverse. So we lead with energy, which our own data supports, and treat water as the thesis the pilot exists to test. We would rather say that than have a reviewer find it.
 
 ## Slide 8 — Product
 
 A retrofit **edge controller**, not software: sensor skid (conductivity, pH, ORP, temperature, makeup and blowdown flow) + motorised blowdown valve + edge compute, speaking BACnet/Modbus. Sold as capex plus an annual model-recalibration licence.
 
 Ships read-only in shadow mode; blowdown and dosing stay advisory until site validation. Deterministic fixed-step solver, bounded runtime, documented fallback to incumbent setpoints on solver failure or sensor loss.
+
+**The skid deliberately does not measure the chemistry, and that is the central design decision.** Measuring silica, calcium, alkalinity and phosphate online costs **$120,000-185,000 per tower** against an annual water-and-energy saving of order **$89,000** on a 4.2 MW tower. The instruments cost more than the thing they optimise. That is structural, it is why no incumbent sells chemistry-bounded control, and no amount of negotiation closes it.
+
+So the skid buys only what is cheap -- toroidal conductivity, pH, ORP, temperature, two flow meters, a coupon rack -- at about **$15,000 in instruments and $23,000-30,000 installed**, and the chemistry is *computed*. The one measurement that is already there then checks the computation for nothing: specific conductance is a known function of ion composition, so the residual between computed and measured conductance says when the assumed composition has stopped being true. Precipitation removes ions; the residual moves first. See `docs/instrumentation_spec.md`.
 
 ## Slide 9 — Why the Gulf, and why now
 

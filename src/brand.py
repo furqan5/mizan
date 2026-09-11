@@ -42,6 +42,39 @@ SUBSIDIARY = {
                 "level."),
     "product": "energy-water supervisory controller",
     "parent_line": "A Furqan venture",
+
+    # The NAME tagline above says what Mizan means. This says what the tool
+    # does, and the two jobs are different -- a buyer who already knows the
+    # name still needs one line telling them what they are buying.
+    #
+    # "The limit, computed." earns its place on three counts:
+    #   * it is literally the product. Every incumbent controller holds a
+    #     conductivity setpoint somebody guessed; this one computes the
+    #     ceiling from ion chemistry and says which mineral sets it.
+    #   * it names the gap rather than the benefit. Three unrelated operators
+    #     -- an RO vendor, a food plant and a university -- independently say
+    #     silica sets their cycles, and none of them can say where the limit
+    #     is. The Cycle Ceiling Report is the smallest sellable answer.
+    #   * it pairs with the name instead of competing with it. Mizan is the
+    #     balance; a balance is an instrument for establishing a quantity, not
+    #     a slogan about saving money.
+    #
+    # It also survives the honest version of our own results, which matters:
+    # a tagline about SAVING WATER would be contradicted by the annual study,
+    # where the water saving is negative inside the validated envelope. A
+    # tagline about KNOWING THE LIMIT is not.
+    "product_tagline": "The limit, computed.",
+    "product_line": (
+        "Every cooling tower has a cycles-of-concentration ceiling set by "
+        "mineral chemistry. Almost nobody knows where theirs is, so they run "
+        "two to four cycles on caution. Mizan computes the ceiling from an "
+        "ion-association model, says which mineral sets it, and holds the "
+        "loop against it."),
+    "alternates": (
+        # Kept because each says something the winner does not.
+        "Know the ceiling before you hit it.",
+        "Every tower has a limit. Most are guessing where.",
+    ),
 }
 
 # LaTeX-safe variants (no non-Latin script, which the Times New Roman text
@@ -57,6 +90,7 @@ PARENT_TEX = {
 SUBSIDIARY_TEX = {
     "name": SUBSIDIARY["name"],
     "tagline": SUBSIDIARY["tagline"],
+    "product_tagline": SUBSIDIARY["product_tagline"],
     "line": SUBSIDIARY["line"],
     "product": SUBSIDIARY["product"],
     "meaning": "Mizan: the balance, the scale, the measure held level.",

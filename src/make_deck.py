@@ -13,6 +13,7 @@ the evidence package it accompanies.
 from __future__ import annotations
 
 import json
+import json as _json
 import pathlib
 
 import pandas as pd
@@ -211,6 +212,33 @@ def main():
     A("A water treater would have promised 12.5 % and not delivered it. An "
       "energy optimiser would have raised water use and never booked it.")
     A("")
+    # DEFECT 48. The deck may not quote a water saving without this split.
+    # Not a caveat -- a correction to which half of the product is defensible.
+    try:
+        env = _json.loads((RESULTS / "annual_dhahran.json")
+                          .read_text(encoding="utf-8"))["by_envelope"]
+        A("**And the half of this we can defend on our own data is the energy "
+          "half.** Splitting the Dhahran year at the edge of our test data:")
+        A("")
+        A("| | hours | water | energy |")
+        A("|---|---|---|---|")
+        A(f"| Inside the validated wet-bulb envelope | {env['inside']['hours']:,} "
+          f"| **{env['inside']['water_pct']:+.2f} %** "
+          f"| {env['inside']['energy_pct']:+.2f} % |")
+        A(f"| Hotter and wetter than any data we hold | "
+          f"{env['extrapolated']['hours']:,} "
+          f"| {env['extrapolated']['water_pct']:+.2f} % "
+          f"| **{env['extrapolated']['energy_pct']:+.2f} %** |")
+        A("")
+        A("The water saving is **negative where the model has been "
+          "validated** and positive only where it has not. Energy is the "
+          "exact reverse. So we lead with energy, which our own data "
+          "supports, and treat water as the thesis the pilot exists to "
+          "test. We would rather say that than have a reviewer find it.")
+        A("")
+    except (OSError, KeyError, ValueError):
+        A("*(envelope split unavailable -- re-run `python src/annual.py`)*")
+        A("")
 
     A("## Slide 8 — Product")
     A("")
@@ -223,6 +251,24 @@ def main():
       "until site validation. Deterministic fixed-step solver, bounded "
       "runtime, documented fallback to incumbent setpoints on solver failure "
       "or sensor loss.")
+    A("")
+    A("**The skid deliberately does not measure the chemistry, and that is "
+      "the central design decision.** Measuring silica, calcium, alkalinity "
+      "and phosphate online costs **$120,000-185,000 per tower** against an "
+      "annual water-and-energy saving of order **$89,000** on a 4.2 MW "
+      "tower. The instruments cost more than the thing they optimise. That "
+      "is structural, it is why no incumbent sells chemistry-bounded "
+      "control, and no amount of negotiation closes it.")
+    A("")
+    A("So the skid buys only what is cheap -- toroidal conductivity, pH, "
+      "ORP, temperature, two flow meters, a coupon rack -- at about "
+      "**$15,000 in instruments and $23,000-30,000 installed**, and the "
+      "chemistry is *computed*. The one measurement that is already there "
+      "then checks the computation for nothing: specific conductance is a "
+      "known function of ion composition, so the residual between computed "
+      "and measured conductance says when the assumed composition has "
+      "stopped being true. Precipitation removes ions; the residual moves "
+      "first. See `docs/instrumentation_spec.md`.")
     A("")
 
     A("## Slide 9 — Why the Gulf, and why now")

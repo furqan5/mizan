@@ -169,7 +169,7 @@ Three reasons, in order of weight.
 
 2. **The failures carry the two most useful findings in the package.** V5's failure is how the gypsum wall was found — a hard limit on this water that no competitor's LSI-based controller can even represent. V2's failure is the quantitative measurement of fill drift, which is the entire justification for the annual recalibration licence the business model rests on. Convert them to passes and both findings become footnotes.
 
-3. **It is consistent with how everything else here was done.** Forty-seven defects were found and reported, including five that were caught only because a first-principles model refused a bad input. Revising two thresholds at the end, after seeing the results, would be the one place the discipline slipped — and it would be the first place a sceptical reviewer looked.
+3. **It is consistent with how everything else here was done.** Forty-nine defects were found and reported, including five that were caught only because a first-principles model refused a bad input. Revising two thresholds at the end, after seeing the results, would be the one place the discipline slipped — and it would be the first place a sceptical reviewer looked.
 
 **If you disagree**, option B on V5 is the stronger of the two revisions, because 12.4 % is a physical quantity rather than a round number. If you take it, it must appear in the PoC report as a **declared revision** with the original 15 % threshold, the date, and the reason on the record. I will implement it that way and not otherwise.
 

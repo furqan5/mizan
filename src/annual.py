@@ -178,6 +178,25 @@ def main() -> int:
     inside_frac = float(np.sum(hrs[[r["inside_validated_envelope"] for r in rows]])
                         / hrs.sum())
 
+    # DEFECT 48. Reporting the extrapolated FRACTION is not the same as
+    # reporting what the extrapolation is worth, and on this study they point
+    # in opposite directions. Split every headline by envelope.
+    ins = np.array([r["inside_validated_envelope"] for r in rows])
+
+    def _ratio_over(sel, base_key, opt_key):
+        b = float(np.sum(hrs[sel] * np.array([r[base_key] for r in rows])[sel]))
+        o = float(np.sum(hrs[sel] * np.array([r[opt_key] for r in rows])[sel]))
+        return 100.0 * (b - o) / b if b else float("nan")
+
+    split = {}
+    for tag, sel in (("inside", ins), ("extrapolated", ~ins)):
+        split[tag] = {
+            "hours": int(hrs[sel].sum()),
+            "water_pct": _ratio_over(sel, "base_makeup_m3_h", "opt_makeup_m3_h"),
+            "energy_pct": _ratio_over(sel, "base_kW", "opt_kW"),
+            "cost_pct": _ratio_over(sel, "base_cost_h", "opt_cost_h"),
+        }
+
     print("-" * 76)
     print(f"{'ANNUAL':>4s} {int(hrs.sum()):6d} {'':8s} {'':8s} {'':6s} {'':6s} "
           f"{e_ann:9.2f} {w_ann:9.2f} {c_ann:8.2f}")
@@ -208,6 +227,28 @@ def main() -> int:
     print(f"   fraction resting on EXTRAPOLATION            : "
           f"{100*(1-inside_frac):.1f} %")
     print()
+    print()
+    print("   AND WHAT THE EXTRAPOLATION IS ACTUALLY WORTH -- defect 48.")
+    print("   Reporting the extrapolated FRACTION is not the same as reporting")
+    print("   what it CARRIES, and here they point opposite ways:")
+    print()
+    print(f"   {'':30}{'hours':>7}{'water %':>10}{'energy %':>10}{'cost %':>9}")
+    print(f"   {'whole year':30}{int(hrs.sum()):>7}{w_tot:>10.2f}"
+          f"{e_tot:>10.2f}{c_tot:>9.2f}")
+    for tag in ("inside", "extrapolated"):
+        d = split[tag]
+        lab = ("inside the validated envelope" if tag == "inside"
+               else f"EXTRAPOLATED (wb > {ALMERIA_WB_MAX_C} C)")
+        print(f"   {lab:30}{d['hours']:>7}{d['water_pct']:>10.2f}"
+              f"{d['energy_pct']:>10.2f}{d['cost_pct']:>9.2f}")
+    print()
+    print("   THE WATER SAVING IS NEGATIVE WHERE THE MODEL HAS BEEN VALIDATED.")
+    print("   Every positive water hour is an hour hotter and wetter than any")
+    print("   data we hold. The ENERGY saving is the opposite -- it is earned")
+    print("   inside the envelope and vanishes outside it. So the two halves of")
+    print("   the product are validated to opposite degrees, and the water")
+    print("   claim is the one that cannot be defended from this dataset.")
+    print()
     print("   That second number is the honest caveat on the first. Roughly")
     print("   two fifths of a Dhahran year is hotter and wetter than anything")
     print("   the model was validated against, and no amount of weighting")
@@ -229,6 +270,12 @@ def main() -> int:
                "correlates with load: negatively for energy and cost, "
                "positively for water."),
            "fraction_inside_validated_envelope": inside_frac,
+           "by_envelope": split,
+           "envelope_warning": (
+               "The water saving is NEGATIVE inside the validated wet-bulb "
+               "envelope and positive only outside it, so the annual water "
+               "figure is carried entirely by extrapolated hours. The energy "
+               "saving is the reverse. Quote neither without this split."),
            "v5_gate_unweighted_mean_water_pct": _v5_water_pct(),
            "note": ("A different metric from the pre-registered V5 gate, "
                     "reported alongside it and not in place of it. V5 remains "

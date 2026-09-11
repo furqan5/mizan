@@ -808,3 +808,103 @@ def test_defect_47_the_assumed_composition_has_a_free_field_check():
     more_silica = dataclasses.replace(w, SiO2=w.SiO2 * 5.0)
     assert cond.specific_conductance(more_silica) == \
         pytest.approx(cond.specific_conductance(w), rel=1e-12)
+
+
+# ---------------------------------------------------------------------------
+# Defect 48 -- the extrapolated fraction was reported; what it CARRIES was not.
+# ---------------------------------------------------------------------------
+def test_defect_48_the_annual_figures_are_split_by_validation_envelope():
+    """Reporting how much of the year is extrapolated is not the same as
+    reporting what the extrapolation is worth, and here they point opposite
+    ways.
+
+    The annual study already said 37.5 % of a Dhahran year is hotter and wetter
+    than the Almeria calibration data. What it did not say is that the WATER
+    SAVING IS NEGATIVE inside the validated envelope and positive only outside
+    it -- so the whole positive annual water figure is carried by hours the
+    model has never been checked at. The energy saving is the exact reverse:
+    earned inside the envelope, gone outside it.
+
+    The two halves of the product are therefore validated to opposite degrees,
+    and the water claim is the one this dataset cannot defend.
+    """
+    import json
+    p = pathlib.Path(__file__).resolve().parent.parent / "results" / "annual_dhahran.json"
+    if not p.exists():
+        pytest.skip("annual study not generated")
+    d = json.loads(p.read_text(encoding="utf-8"))
+    if "by_envelope" not in d:
+        pytest.skip("annual study predates the envelope split")
+
+    ins, ext = d["by_envelope"]["inside"], d["by_envelope"]["extrapolated"]
+    assert ins["hours"] + ext["hours"] == 8760
+
+    # the finding, pinned by sign rather than by value so a re-run that moves
+    # the numbers still catches a reversal
+    assert ins["water_pct"] < 0.0, (
+        "the water saving is no longer negative inside the validated "
+        "envelope; that would be good news and it must be re-derived, not "
+        "assumed -- check whether the calibration envelope moved")
+    assert ext["water_pct"] > 0.0
+    assert ext["water_pct"] > ins["water_pct"]
+
+    # energy runs the other way
+    assert ins["energy_pct"] > ext["energy_pct"]
+
+    # and the warning has to travel with the file
+    assert "NEGATIVE" in d["envelope_warning"]
+
+
+# ---------------------------------------------------------------------------
+# Defect 49 -- the discharge ceiling, computed and tested and never applied.
+# ---------------------------------------------------------------------------
+def test_defect_49_the_report_carries_the_discharge_ceiling():
+    """`discharge.binding_ceiling()` returns the lower of scaling and permit.
+    It had its own test file and NOTHING OUTSIDE THOSE TESTS CALLED IT.
+
+    Seventh instance of computed-but-not-enforced, and the one that most
+    directly misleads a customer: the Cycle Ceiling Report answered
+    "4.52 cycles" while a tested discharge ceiling of 3.33 sat unused. You
+    cannot recommend an operating point whose blowdown is illegal.
+
+    The care this needs is in the other direction too. RCER-2015 binds Jubail
+    and Yanbu; the water this report defaults to is a RIYADH refinery, in
+    neither. Asserting an illegal operating point for a site outside the
+    jurisdiction would be its own defect, so the report REPORTS the number and
+    refuses to impose it.
+    """
+    import discharge as dis
+
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    scaling, _ = __import__("sidestream").ceiling_with(
+        w, 45.0, 32.0, pH=8.25, limits=ch.limits_for_programme())
+
+    mx = dis.binding_ceiling(w, 45.0, 32.0, pH=8.25, basis="max")
+    mo = dis.binding_ceiling(w, 45.0, 32.0, pH=8.25, basis="monthly_avg")
+
+    # the permit binds BEFORE the chemistry on this water, which is the point
+    assert mx["binding"] == "DISCHARGE"
+    assert mx["discharge_cycles"] < scaling
+    assert mo["discharge_cycles"] <= mx["discharge_cycles"], (
+        "a monthly average cannot be looser than a daily maximum")
+
+    # nitrate, not a scaling species -- the constraint the chemistry cannot see
+    assert mx["parameter"] == "NO3"
+
+    # and the report must carry it, with the jurisdiction attached
+    import json
+    import subprocess
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        jp = pathlib.Path(td) / "cr.json"
+        subprocess.run(
+            ["python", "scripts/ceiling_report.py", "--json", str(jp),
+             "--out", str(pathlib.Path(td) / "cr.html")],
+            cwd=str(pathlib.Path(__file__).resolve().parent.parent),
+            capture_output=True, check=True)
+        d = json.loads(jp.read_text(encoding="utf-8"))
+    assert "discharge" in d and "max" in d["discharge"], (
+        "the report dropped the discharge ceiling again")
+    assert d["discharge"]["applies_here"] is None, (
+        "the report must not claim to know whether RCER binds a given site")
+    assert "jurisdiction" in d["discharge"]
