@@ -219,3 +219,57 @@ def test_colder_facility_water_makes_the_plate_worse_for_silica(unit, water):
     assert cold["SI"]["SI_silica_am"] > warm["SI"]["SI_silica_am"]
     # and the retrograde species go the other way, on the same plate
     assert cold["SI"]["SI_calcite"] < warm["SI"]["SI_calcite"]
+
+
+def test_makeup_chemistry_constrains_cdu_design_delta_t():
+    """The coupling nothing in the CDU literature evaluates.
+
+    A CDU's warmest acceptable facility water at design flow is
+    42 - approach - design_delta_T. The makeup chemistry sets a FLOOR on that
+    same temperature. They meet, and the meeting point is a capital decision.
+    """
+    from models import cdu_model as cdu
+    import chemistry as chem
+    import run_controller as rc
+
+    floor5 = chem.temperature_floor_for_silica(rc.TSE, 5.0)
+    assert 31.0 < floor5 < 33.0, floor5
+
+    # Google Deschutes: tight approach, but a large design delta-T
+    d = cdu.design_is_compatible(approach_k=3.0, design_delta_t_k=18.0,
+                                 floor_c=floor5)
+    assert d["t_fws_max_c"] == pytest.approx(21.0, abs=0.01)
+    assert not d["compatible"], (
+        "a Deschutes-class CDU cannot run at design flow against a 5-cycle "
+        "silica floor, and that is the finding")
+
+    # and the rule it implies
+    assert d["max_design_delta_t_k"] == pytest.approx(42.0 - 3.0 - floor5,
+                                                      abs=0.01)
+    assert d["max_design_delta_t_k"] < 8.0, (
+        "at five cycles on this water the design delta-T must be under half "
+        "the Deschutes figure")
+
+
+def test_a_tighter_approach_does_not_rescue_a_large_design_delta_t():
+    """The result that is the opposite of the intuition.
+
+    Going 5 K -> 3 K on the approach buys 2 K. Going 10 K -> 18 K on the
+    design delta-T costs 8 K. The spec that looked like good news is worse
+    overall, and worse again on pump power because a larger design delta-T
+    means a smaller nominal flow and pump power is cubic in the flow ratio.
+    """
+    from models import cdu_model as cdu
+    arch = cdu.max_facility_water_at_nominal_flow(5.0, 10.0)
+    desch = cdu.max_facility_water_at_nominal_flow(3.0, 18.0)
+    assert arch == pytest.approx(27.0)
+    assert desch == pytest.approx(21.0)
+    assert desch < arch, "the tighter approach loses to the larger delta-T"
+
+    # nominal flow falls with design delta-T, so the same absolute duty needs
+    # a larger flow RATIO, and the cube makes that expensive
+    q = 9000.0
+    lo = cdu.sized_for(q, delta_t_k=10.0).m_dot_sec_kg_s
+    hi = cdu.sized_for(q, delta_t_k=18.0).m_dot_sec_kg_s
+    assert hi < lo
+    assert (lo / hi) ** 3 > 5.0, "the cubic penalty must be material"

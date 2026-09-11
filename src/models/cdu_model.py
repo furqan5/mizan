@@ -258,3 +258,95 @@ DESCHUTES_SPEC = {
     "flow_gpm": 500.0,
     "pressure_psi": (80.0, 90.0),
 }
+
+
+# ---------------------------------------------------------------------------
+# THE COUPLING NOBODY COMPUTES: makeup chemistry constrains CDU DESIGN
+# ---------------------------------------------------------------------------
+# Everything above treats the CDU as an operating problem. It is also a
+# DESIGN problem, and the two constraints collide in a way that is not
+# obvious and that nothing in the surveyed literature evaluates.
+#
+# A CDU holds the cold-plate return at or below 42 C. At its nominal design
+# flow the return is
+#
+#     T_return = T_fws + approach + design_delta_T
+#
+# so the WARMEST facility water it can accept without running above design
+# flow is
+#
+#     T_fws_max = 42 - approach - design_delta_T
+#
+# Meanwhile the makeup chemistry sets a FLOOR on the facility water: below
+# the amorphous-silica floor the tower basin scales, and that floor rises
+# about ten kelvin per cycle of concentration. Those two bounds move in
+# opposite directions and they meet.
+#
+#     design                     approach   dT    T_fws max
+#     archetype                     5 K    10 K     27.0 C
+#     Google Deschutes              3 K    18 K     21.0 C
+#     low-delta-T                   3 K     8 K     31.0 C
+#
+#     silica floor, Aramco TSE:  4 cycles 20.7 C
+#                                5 cycles 31.8 C
+#                                6 cycles 41.4 C
+#
+# THE RESULT, AND IT IS THE OPPOSITE OF WHAT THE SPEC SUGGESTED. A tighter
+# approach looked like good news -- 3 K instead of 5 K gives 2 K more
+# headroom. But Deschutes pairs that tight approach with a LARGE design
+# delta-T, 18 K, which means a SMALL nominal flow. When the facility water
+# sits above T_fws_max the unit must run above design flow, and pump power
+# goes as the CUBE of the flow ratio. A small nominal flow makes that ratio
+# larger. Measured on the 9 MW case at five cycles:
+#
+#     archetype 10 K / 5 K    pump +1,028 kW   PUE 1.047 -> 1.150
+#     Deschutes 18 K / 3 K    pump +2,088 kW   PUE 1.095 -> 1.316
+#
+# **A high-delta-T CDU is MORE brittle against a chemical floor, not less.**
+#
+# WHICH GIVES A DESIGN RULE. Rearranged, the constraint says what delta-T a
+# CDU may be designed for if the plant intends to run C cycles:
+#
+#     design_delta_T <= 42 - approach - silica_floor(C)
+#
+# At five cycles on this water with a 3 K approach that is 7.2 K -- less than
+# HALF the Deschutes figure. A data centre intending to concentrate its
+# makeup five times cannot buy a Deschutes-class CDU and run it at its design
+# point, and nothing in the CDU specification would tell the buyer that,
+# because the specification has no water chemistry in it.
+#
+# This is a capital decision, not an operating one, which makes it the most
+# valuable thing this module computes.
+
+
+def max_facility_water_at_nominal_flow(approach_k, design_delta_t_k,
+                                       return_max_c=COLD_PLATE_RETURN_MAX_C):
+    """Warmest facility water a CDU accepts before exceeding design flow."""
+    return float(return_max_c) - float(approach_k) - float(design_delta_t_k)
+
+
+def max_design_delta_t_for_floor(floor_c, approach_k,
+                                 return_max_c=COLD_PLATE_RETURN_MAX_C):
+    """Largest design delta-T compatible with a chemical floor.
+
+    Returns a negative number when the floor alone already exceeds the
+    cold-plate budget, which is the answer a buyer most needs: at that
+    cycles target, no CDU design works and the cycles must come down.
+    """
+    return float(return_max_c) - float(approach_k) - float(floor_c)
+
+
+def design_is_compatible(approach_k, design_delta_t_k, floor_c,
+                         return_max_c=COLD_PLATE_RETURN_MAX_C):
+    """Can this CDU run at design flow against this chemical floor?"""
+    t_max = max_facility_water_at_nominal_flow(approach_k, design_delta_t_k,
+                                               return_max_c)
+    head = t_max - float(floor_c)
+    return {
+        "t_fws_max_c": t_max,
+        "floor_c": float(floor_c),
+        "headroom_k": head,
+        "compatible": head >= 0.0,
+        "max_design_delta_t_k": max_design_delta_t_for_floor(
+            floor_c, approach_k, return_max_c),
+    }

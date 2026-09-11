@@ -72,18 +72,65 @@ def solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, fan_pct,
         return None
     rise = q_total_kw / (m_w_pri * CPW_KJ_KGK)
 
-    T_wo = T_db - 4.0
-    for _ in range(max_iter):
-        T_wi = T_wo + rise
+    # SECANT, not damped substitution. The old form was
+    #     T_wo <- 0.5*T_wo + 0.5*f(T_wo + rise)
+    # which halves the error each sweep, so reaching a 1e-5 K tolerance from a
+    # 5 K initial error takes about twenty tower solves -- and a tower solve is
+    # a 24-point scan plus a Brent solve over a Poppe integration, so one call
+    # to this function cost roughly eighteen seconds. That is why the
+    # four-region study never finished.
+    #
+    # The residual g(T) = f(T + rise) - T is smooth and monotone, so a secant
+    # root-find converges in four or five evaluations instead of twenty. The
+    # damped iteration is kept as a fallback for the rare case where the
+    # secant step leaves the physical range.
+    def _resid(T):
         T_new, info = tw.solve_outlet_temperature(
-            T_wi, T_db, rh, m_w_pri, m_a, fill_c, fill_n, aw=aw)
+            T + rise, T_db, rh, m_w_pri, m_a, fill_c, fill_n, aw=aw)
         if info is None or not math.isfinite(T_new):
-            return None
-        if abs(T_new - T_wo) < tol:
-            T_wo = T_new
+            return None, None
+        return T_new - T, (T_new, info)
+
+    t0 = T_db - 4.0
+    t1 = t0 + 1.0
+    g0, s0 = _resid(t0)
+    if g0 is None:
+        return None
+    g1, s1 = _resid(t1)
+    if g1 is None:
+        return None
+    T_wo, info = s1[0], s1[1]
+    ok = False
+    for _ in range(max_iter):
+        if abs(g1) < tol:
+            ok = True
             break
-        T_wo = 0.5 * T_wo + 0.5 * T_new
-    else:
+        denom = (g1 - g0)
+        if abs(denom) < 1e-14:
+            break
+        t2 = t1 - g1 * (t1 - t0) / denom
+        if not math.isfinite(t2) or not (T_db - 40.0 < t2 < T_db + 60.0):
+            break
+        g2, s2 = _resid(t2)
+        if g2 is None:
+            break
+        t0, g0 = t1, g1
+        t1, g1 = t2, g2
+        T_wo, info = s2[0], s2[1]
+    if not ok:
+        # fallback: the original damped substitution, from the best secant point
+        for _ in range(max_iter):
+            T_new, info2 = tw.solve_outlet_temperature(
+                T_wo + rise, T_db, rh, m_w_pri, m_a, fill_c, fill_n, aw=aw)
+            if info2 is None or not math.isfinite(T_new):
+                return None
+            info = info2
+            if abs(T_new - T_wo) < tol:
+                T_wo = T_new
+                ok = True
+                break
+            T_wo = 0.5 * T_wo + 0.5 * T_new
+    if not ok:
         return None
 
     info["T_fws"] = float(T_wo)
@@ -95,6 +142,7 @@ def solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, fan_pct,
 
 
 _FAN_CURVE_CACHE = {}
+_FAN_ANSWER_CACHE = {}
 
 
 def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
@@ -121,6 +169,10 @@ def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
            round(q_total_kw, 2), round(m_a_rated, 3),
            round(fill_c, 6), round(fill_n, 6), round(aw, 6),
            round(fan_lo, 2), round(fan_hi, 2))
+    ans_key = (key, round(float(target_c), 3))
+    if ans_key in _FAN_ANSWER_CACHE:
+        return _FAN_ANSWER_CACHE[ans_key]
+
     curve = _FAN_CURVE_CACHE.get(key)
     if curve is None:
         pts = []
@@ -140,6 +192,7 @@ def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
 
     hi = curve[-1][2]
     if hi["T_fws"] > target_c:
+        _FAN_ANSWER_CACHE[ans_key] = (fan_hi, hi)
         return fan_hi, hi                      # cannot get colder even flat out
 
     # bracket on the cached curve: the coldest point at or below target, and
@@ -152,8 +205,10 @@ def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
         if t > target_c and f > lo_pct:
             lo_pct = f
 
-    for _ in range(8):                          # refine inside the bracket
-        if hi_pct - lo_pct < 0.05:
+    # Five refinements halve a 10.6-point grid spacing to about 0.33 points of
+    # fan speed, which is finer than any tower is actually controlled to.
+    for _ in range(5):                          # refine inside the bracket
+        if hi_pct - lo_pct < 0.4:
             break
         mid = 0.5 * (lo_pct + hi_pct)
         st = solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, mid,
@@ -165,7 +220,11 @@ def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
             lo_pct = mid
         else:
             hi_pct, best = mid, st
-    return float(hi_pct), best
+    out = (float(hi_pct), best)
+    if len(_FAN_ANSWER_CACHE) > 8192:
+        _FAN_ANSWER_CACHE.clear()
+    _FAN_ANSWER_CACHE[ans_key] = out
+    return out
 
 
 def required_secondary_flow(unit: cdu.CDUSubsystem, t_fws_c):
