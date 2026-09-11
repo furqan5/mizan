@@ -625,3 +625,41 @@ def test_the_cycles_ladder_is_monotone_in_makeup_salinity():
     # which is a different water class on a different axis
     names = [n for n, _w, _r in ss.typical_cycles_evidence()]
     assert not any("Diablo" in n or "seawater" in n.lower() for n in names)
+
+
+def test_controller_capex_is_bounded_rather_than_invented():
+    """We do not have an installed cost, so we bound it instead of guessing.
+
+    A second Wayback sweep across fifteen cost, controls and retrofit queries
+    returned nothing citable on what a cooling-tower supervisory controller
+    costs installed. Rather than type a number into an IRR -- the defect-12
+    shape, a constant presented as a result -- the question is inverted, as
+    this module already does for side-stream treatment.
+
+    The test pins the two things that could be quietly got wrong: that a
+    recurring licence is netted off the annual benefit BEFORE the capex is
+    sized (capitalising it would flatter the answer), and that a licence
+    exceeding the saving returns "no cost is low enough" rather than a
+    negative or a large positive.
+    """
+    import sidestream as ss
+
+    b = ss.controller_break_even_capex(90000.0, 3.0)
+    assert b["break_even_capex_usd"] == pytest.approx(270000.0)
+
+    # the licence must come off the BENEFIT, not off the capex
+    withlic = ss.controller_break_even_capex(90000.0, 3.0,
+                                             annual_licence_usd=12000.0)
+    assert withlic["break_even_capex_usd"] == pytest.approx(234000.0)
+    assert withlic["break_even_capex_usd"] != pytest.approx(
+        b["break_even_capex_usd"] - 12000.0), (
+        "the licence was subtracted once instead of every year")
+
+    # a licence bigger than the saving is not a small positive capex
+    dead = ss.controller_break_even_capex(5000.0, 3.0, annual_licence_usd=9000.0)
+    assert dead["pays"] is False
+    assert dead["break_even_capex_usd"] == 0.0
+
+    # discounting must reduce the ceiling, never raise it
+    disc = ss.controller_break_even_capex(90000.0, 3.0, discount_rate=0.10)
+    assert disc["break_even_capex_usd"] < b["break_even_capex_usd"]

@@ -118,6 +118,17 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
                             - rows[1]["water_cost_per_yr"])
     out["max_possible_pct"] = rcy.max_possible_saving_pct(cycles_now)
 
+    # What the controller may cost and still pay. NOT a price and not an
+    # estimate -- a ceiling on one. We have no installed cost, and a second
+    # sweep of the Wayback PDF collection found no published one either, so
+    # the question is inverted the same way it already is for side-stream
+    # treatment: not "what is the payback" but "quote us below this and the
+    # economics close". See docs/chemistry_evidence.md S4.4.
+    out["capex_ceiling"] = {
+        str(int(y)): ss.controller_break_even_capex(out["saving_per_yr"], y)
+        for y in (2.0, 3.0, 5.0)
+    }
+
     # the silica sensitivity -- the honest part
     band = []
     lo, hi = SILICA_BAND
@@ -335,6 +346,22 @@ blowdown is {a["max_possible_pct"]:.1f} % of your makeup, and evaporation is the
 Evaporation is the heat rejection and cannot be recovered, so no measure of any
 kind &mdash; control, treatment, recycle &mdash; can save more than that.
 Reaching {a["target_pct"]:.0f} % would need {e(rec_s)}.</p></div>
+
+<div class="note"><h3>What a controller may cost and still pay</h3>
+<p style="font-size:.88rem;color:var(--ink2)">We will not quote you a payback,
+because a payback needs an installed cost and we do not have one &mdash; nor,
+as far as we can find, does anyone: a search of the Internet Archive's PDF
+collection across fifteen cost, controls and retrofit queries returned nothing
+citable on what a cooling-tower supervisory controller costs installed. So the
+question is inverted. At <b>${a["saving_per_yr"]:,.0f}/year</b> on this duty,
+the most the system may cost installed and still pay back is
+<b>${a["capex_ceiling"]["2"]["break_even_capex_usd"]:,.0f}</b> over two years,
+<b>${a["capex_ceiling"]["3"]["break_even_capex_usd"]:,.0f}</b> over three, and
+<b>${a["capex_ceiling"]["5"]["break_even_capex_usd"]:,.0f}</b> over five.
+<b>These are bounds, not prices.</b> They also assume the site actually reaches
+the ceiling above, which is a SCALING ceiling and therefore an upper bound in
+its own right &mdash; the operating ceiling is the minimum over several
+constraints this model does not compute.</p></div>
 </section>
 
 <section>
@@ -429,6 +456,10 @@ def main() -> int:
               f"({cc['spread_pct']:.1f} %)")
     print(f"running at   : {a['cycles_now']:.1f}  ->  saving {a['saving_pct']:.1f} %")
     print(f"hard ceiling : {a['max_possible_pct']:.1f} % (1/C at the current setpoint)")
+    print(f"saving       : ${a['saving_per_yr']:,.0f}/yr of water at this duty")
+    cx = a["capex_ceiling"]["3"]
+    print(f"capex ceiling: ${cx['break_even_capex_usd']:,.0f} installed for a "
+          f"3-year payback (a BOUND, not a price)")
     print(f"silica xover : {a['silica_crossover']}")
     print(f"written      -> {out}")
     if args.json:

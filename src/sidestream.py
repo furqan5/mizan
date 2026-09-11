@@ -579,3 +579,59 @@ def charge_closure_bracket(water, T_hot, T_cold, pH=None, limits=None):
         "spread_pct": 100.0 * (hi - lo) / lo if lo else 0.0,
         "material": (hi - lo) > 0.25,
     }
+
+
+# ---------------------------------------------------------------------------
+# The same discipline, applied to OUR OWN product.
+# ---------------------------------------------------------------------------
+def controller_break_even_capex(annual_saving_usd, target_payback_years,
+                                annual_licence_usd=0.0, discount_rate=0.0):
+    """The most the Mizan controller may cost installed and still pay back.
+
+    WHY THIS EXISTS, AND WHY IT IS NOT A PAYBACK NUMBER.
+
+    A payback needs an installed cost. We do not have one -- there is no
+    hardware, no quotation, and no comparable. A second sweep of the Wayback
+    PDF collection (docs/chemistry_evidence.md S4.4) ran fifteen queries
+    across cost, controls and retrofit terms and returned hundreds of results
+    and NOTHING CITABLE on the installed cost of a cooling-tower supervisory
+    controller. The figures appear to be commercial and unpublished.
+
+    So the honest move is the one this module already makes for side-stream
+    treatment: invert the question. Not "what is the payback?", which needs a
+    number we would have to invent, but "what is the most this may cost and
+    still pay?", which needs only the saving -- and the saving is what this
+    package computes.
+
+    It converts the weakest slide in the deck from an invented IRR into a
+    procurement constraint we can actually defend in a room: quote the build
+    below this and the economics close.
+
+    An annual licence is subtracted from the annual benefit BEFORE the capex
+    is sized, because a licence is a recurring cost and capitalising it would
+    flatter the answer. `discount_rate` is offered for completeness and
+    defaults to zero: at a three-year horizon the discounting is smaller than
+    the uncertainty on the saving itself, and a discounted figure would imply
+    a precision this input does not have.
+    """
+    net = float(annual_saving_usd) - float(annual_licence_usd)
+    if net <= 0.0:
+        return {
+            "net_annual_benefit_usd": net,
+            "break_even_capex_usd": 0.0,
+            "pays": False,
+            "note": ("the licence alone exceeds the saving; no installed cost "
+                     "is low enough, including zero"),
+        }
+    n, r = float(target_payback_years), float(discount_rate)
+    factor = n if r == 0.0 else (1.0 - (1.0 + r) ** -n) / r
+    return {
+        "net_annual_benefit_usd": net,
+        "annual_licence_usd": float(annual_licence_usd),
+        "target_payback_years": n,
+        "discount_rate": r,
+        "break_even_capex_usd": net * factor,
+        "pays": True,
+        "note": ("maximum installed cost at which the stated payback is met. "
+                 "NOT a price and NOT a cost estimate -- a ceiling on one."),
+    }
