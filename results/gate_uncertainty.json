@@ -1,0 +1,40 @@
+{
+  "error_model": {
+    "campaign_slopes_pct_per_fanpct": {
+      "Exp1": -0.2002,
+      "Exp2": -0.366,
+      "Exp3": 0.1873
+    },
+    "campaign_residual_sd_pp": {
+      "Exp1": 6.27,
+      "Exp2": 11.63,
+      "Exp3": 3.18
+    },
+    "n_samples": 20000,
+    "seed": 20260911
+  },
+  "gates": [
+    {
+      "gate": "V5 (4.0 cycle baseline)",
+      "point_estimate_pct": 4.3797846233251,
+      "mc_median_pct": 3.027715906607885,
+      "sd_pct": 6.128708752865616,
+      "ci95_low_pct": -11.231085687497039,
+      "ci95_high_pct": 13.105952265889032,
+      "mean_abs_fan_change_pp": 24.0,
+      "p_exceeds_15": 0.00925,
+      "p_exceeds_20": 0.00045
+    },
+    {
+      "gate": "V7 (3.0 cycle baseline)",
+      "point_estimate_pct": 15.014272613356377,
+      "mc_median_pct": 13.788406354274176,
+      "sd_pct": 5.513344755852302,
+      "ci95_low_pct": 1.0493526593653668,
+      "ci95_high_pct": 22.77012138360442,
+      "mean_abs_fan_change_pp": 24.0,
+      "p_exceeds_15": 0.406,
+      "p_exceeds_20": 0.09375
+    }
+  ]
+}
