@@ -1,0 +1,327 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+
+<!-- description of the model interface using an extention of the FMI standard -->
+<fmiModelDescription
+  fmiVersion                          = "1.0"
+
+  modelName                           = "TowerSilicaDynamics"
+  modelIdentifier                     = "TowerSilicaDynamics"
+
+  OPENMODELICAHOME                    = "C:/Program Files/OpenModelica1.27.0-64bit"
+
+  guid                                = "{dc888500-8e9b-4cd0-936d-112a44d1db4a}"
+
+  description                         = "Silica saturation in a tower basin, where the LIMIT moves faster than the CONCENTRATION can follow.
+
+   WHY THIS MODEL EXISTS.
+
+   The steady-state engine computes a silica ceiling and the controller holds
+   the basin at it. Both treat the limit as fixed. It is not: amorphous silica
+   is PROGRADE, so its solubility falls as the basin cools, and a tower basin
+   cools every night.
+
+     18 C -&gt; 101 mg/L      30 C -&gt; 130 mg/L
+     22 C -&gt; 110            34 C -&gt; 140
+     26 C -&gt; 120            38 C -&gt; 151
+
+   So over a 10 K diurnal swing the CEILING itself moves by about 20 %, on a
+   twelve-hour period. Meanwhile the basin concentration can only be changed
+   by blowdown, and that has a time constant of V/(B+D) -- about thirteen
+   hours on a 50 m3 basin at five cycles, established in TowerBasin.mo.
+
+   TWO TIMESCALES, AND THEY ARE THE WRONG WAY ROUND. The limit moves on a
+   half-day; the state that must respect it moves on half a week. A setpoint
+   placed at the limit computed for MEAN conditions is therefore exceeded
+   every night, and no blowdown policy can prevent it -- the water simply
+   cannot be diluted fast enough.
+
+   WHAT THIS MODEL PRODUCES: the margin. It runs the basin at a blowdown that
+   holds the saturation ratio at exactly 1.0 at the mean basin temperature,
+   then reports how far above 1.0 the ratio actually goes. That excursion is
+   the setpoint margin a real supervisory controller must carry, and nothing
+   in the steady-state engine computes it.
+
+   Makeup silica is 18 mg/L -- MEASURED, from Table 1 of AlMajnouni &amp; Jaffer,
+   NACE Paper 577, Riyadh Refinery secondary treated sewage effluent. Not the
+   26.8 mg/L previously imported from brackish groundwater.
+  "
+  generationTool                      = "OpenModelica Compiler OpenModelica v1.27.0 (64-bit)"
+  generationDateAndTime               = "2026-09-11T18:46:17Z"
+
+  variableNamingConvention            = "structured"
+
+  numberOfEventIndicators             = "0"  cmt_numberOfEventIndicators             = "NG:       number of zero crossings,                           FMI"
+  numberOfTimeEvents                  = "0"  cmt_numberOfTimeEvents                  = "NG_SAM:   number of zero crossings that are samples,          OMC"
+
+  numberOfInputVariables              = "0"  cmt_numberOfInputVariables              = "NI:       number of inputvar on topmodel,                     OMC"
+  numberOfOutputVariables             = "0"  cmt_numberOfOutputVariables             = "NO:       number of outputvar on topmodel,                    OMC"
+
+  numberOfExternalObjects             = "0"  cmt_numberOfExternalObjects             = "NEXT:     number of external objects,                         OMC"
+  numberOfFunctions                   = "0"  cmt_numberOfFunctions                   = "NFUNC:    number of functions used by the simulation,         OMC"
+
+  numberOfContinuousStates            = "1"  cmt_numberOfContinuousStates            = "NX:       number of states,                                   FMI"
+  numberOfRealAlgebraicVariables      = "9"  cmt_numberOfRealAlgebraicVariables      = "NY:       number of real variables,                           OMC"
+  numberOfRealAlgebraicAliasVariables = "0"  cmt_numberOfRealAlgebraicAliasVariables = "NA:       number of alias variables,                          OMC"
+  numberOfRealParameters              = "8"  cmt_numberOfRealParameters              = "NP:       number of parameters,                               OMC"
+
+  numberOfIntegerAlgebraicVariables   = "0"  cmt_numberOfIntegerAlgebraicVariables   = "NYINT:    number of alg. int variables,                       OMC"
+  numberOfIntegerAliasVariables       = "0"  cmt_numberOfIntegerAliasVariables       = "NAINT:    number of alias int variables,                      OMC"
+  numberOfIntegerParameters           = "0"  cmt_numberOfIntegerParameters           = "NPINT:    number of int parameters,                           OMC"
+
+  numberOfStringAlgebraicVariables    = "0"  cmt_numberOfStringAlgebraicVariables    = "NYSTR:    number of alg. string variables,                    OMC"
+  numberOfStringAliasVariables        = "0"  cmt_numberOfStringAliasVariables        = "NASTR:    number of alias string variables,                   OMC"
+  numberOfStringParameters            = "0"  cmt_numberOfStringParameters            = "NPSTR:    number of string parameters,                        OMC"
+
+  numberOfBooleanAlgebraicVariables   = "0"  cmt_numberOfBooleanAlgebraicVariables   = "NYBOOL:   number of alg. bool variables,                      OMC"
+  numberOfBooleanAliasVariables       = "0"  cmt_numberOfBooleanAliasVariables       = "NABOOL:   number of alias bool variables,                     OMC"
+  numberOfBooleanParameters           = "0"  cmt_numberOfBooleanParameters           = "NPBOOL:   number of bool parameters,                          OMC" >
+
+
+  <!-- startTime, stopTime, tolerance are FMI specific, all others are OMC specific -->
+  <DefaultExperiment
+    startTime      = "0"
+    stopTime       = "864000"
+    stepSize       = "600"
+    tolerance      = "1e-06"
+    solver         = "dassl"
+    outputFormat   = "csv"
+    variableFilter = ".*" />
+
+  <!-- variables in the model -->
+  <ModelVariables>
+
+  <ScalarVariable
+    name = "c"
+    valueReference = "1000"
+    description = "Basin silica"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "0" classType = "rSta"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "67" startColumn = "3" endLine = "67" endColumn = "72" fileWritable = "true">
+    <Real start="90.0" fixed="true" useNominal="false" unit="mg/kg" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "der(c)"
+    valueReference = "1001"
+    description = "der(Basin silica)"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "0" classType = "rDer"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "67" startColumn = "3" endLine = "67" endColumn = "72" fileWritable = "true">
+    <Real fixed="false" useNominal="false" unit="us-1" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "$cse1"
+    valueReference = "1002"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "0" classType = "rAlg"
+    isProtected = "true" hideResult = "true" isEncrypted = "false" initNonlinear = "false"
+    fileName = "" startLine = "0" startColumn = "0" endLine = "0" endColumn = "0" fileWritable = "true">
+    <Real fixed="false" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "B"
+    valueReference = "1003"
+    description = "Blowdown"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "1" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "70" startColumn = "3" endLine = "70" endColumn = "33" fileWritable = "true">
+    <Real fixed="false" useNominal="false" unit="kg/s" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "SR"
+    valueReference = "1004"
+    description = "Saturation ratio, c/S_sat -- the quantity that must stay &lt;= 1"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "2" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "68" startColumn = "3" endLine = "68" endColumn = "74" fileWritable = "true">
+    <Real fixed="false" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "S_sat"
+    valueReference = "1005"
+    description = "Amorphous silica solubility at T_basin"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "3" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "65" startColumn = "3" endLine = "65" endColumn = "68" fileWritable = "true">
+    <Real fixed="false" useNominal="false" unit="mg/kg" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "S_sat_mean"
+    valueReference = "1006"
+    description = "Solubility at the mean temperature"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "4" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "66" startColumn = "3" endLine = "66" endColumn = "69" fileWritable = "true">
+    <Real fixed="true" useNominal="false" unit="mg/kg" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "T_basin"
+    valueReference = "1007"
+    description = "Basin temperature"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "5" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "64" startColumn = "3" endLine = "64" endColumn = "48" fileWritable = "true">
+    <Real fixed="false" useNominal="false" unit="degC" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "c_target"
+    valueReference = "1008"
+    description = "Concentration the setpoint implies at T_mean"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "6" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "71" startColumn = "3" endLine = "71" endColumn = "77" fileWritable = "true">
+    <Real start="129.46767471535847" fixed="false" useNominal="false" unit="mg/kg" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "cycles"
+    valueReference = "1009"
+    description = "c/c_m, what a conductivity controller reads"
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "7" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "69" startColumn = "3" endLine = "69" endColumn = "60" fileWritable = "true">
+    <Real start="5.0" fixed="false" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "excursion"
+    valueReference = "1010"
+    description = "How far SR exceeds its setpoint. THIS IS THE OUTPUT."
+    variability = "continuous" isDiscrete = "false"
+    causality = "local" isValueChangeable = "false"
+    alias = "noAlias"
+    classIndex = "8" classType = "rAlg"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "72" startColumn = "3" endLine = "72" endColumn = "72" fileWritable = "true">
+    <Real fixed="false" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "D"
+    valueReference = "1011"
+    description = "Drift, 1e-5 of 478 kg/s"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "0" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "43" startColumn = "3" endLine = "43" endColumn = "68" fileWritable = "true">
+    <Real start="0.00478" fixed="true" useNominal="false" unit="kg/s" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "E"
+    valueReference = "1012"
+    description = "Evaporation, set by the heat duty"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "1" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "42" startColumn = "3" endLine = "42" endColumn = "74" fileWritable = "true">
+    <Real start="4.2" fixed="true" useNominal="false" unit="kg/s" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "SR_setpoint"
+    valueReference = "1013"
+    description = "Saturation ratio the blowdown is sized to hold AT THE MEAN temperature"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "2" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "55" startColumn = "3" endLine = "56" endColumn = "77" fileWritable = "true">
+    <Real start="1.0" fixed="true" useNominal="false" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "T_amp"
+    valueReference = "1014"
+    description = "Half the diurnal swing"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "3" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "51" startColumn = "3" endLine = "51" endColumn = "64" fileWritable = "true">
+    <Real start="5.0" fixed="true" useNominal="false" unit="K" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "T_mean"
+    valueReference = "1015"
+    description = "Mean basin temperature"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "4" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "50" startColumn = "3" endLine = "50" endColumn = "69" fileWritable = "true">
+    <Real start="30.0" fixed="true" useNominal="false" unit="degC" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "V"
+    valueReference = "1016"
+    description = "Basin water inventory, 50 m3"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "5" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "41" startColumn = "3" endLine = "41" endColumn = "69" fileWritable = "true">
+    <Real start="5e4" fixed="true" useNominal="false" unit="kg" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "c_m"
+    valueReference = "1017"
+    description = "Makeup silica as SiO2 [C: NACE 577 Table 1, measured]"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "6" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "46" startColumn = "3" endLine = "47" endColumn = "60" fileWritable = "true">
+    <Real start="18.0" fixed="true" useNominal="false" unit="mg/kg" />
+  </ScalarVariable>
+  <ScalarVariable
+    name = "t_peak"
+    valueReference = "1018"
+    description = "Time of the daily maximum, 15:00"
+    variability = "parameter" isDiscrete = "true"
+    causality = "parameter" isValueChangeable = "true"
+    alias = "noAlias"
+    classIndex = "7" classType = "rPar"
+    isProtected = "false" hideResult = "" isEncrypted = "false" initNonlinear = "false"
+    fileName = "C:/Users/Nouman/Desktop/Furqan&#39;s Docs/Startup/mizan/modelica/TowerSilicaDynamics.mo" startLine = "52" startColumn = "3" endLine = "52" endColumn = "77" fileWritable = "true">
+    <Real start="54000.0" fixed="true" useNominal="false" unit="s" />
+  </ScalarVariable>
+
+
+
+  </ModelVariables>
+
+
+</fmiModelDescription>
+

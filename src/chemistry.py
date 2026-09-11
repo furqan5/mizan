@@ -1647,3 +1647,72 @@ def scaling_ceiling_caveat(ceiling_cycles):
         f"published both, the operator's limit was 39 % lower than the "
         f"scaling ceiling and the binding constraint was turbidity from "
         f"process leaks, not carbonate. Treat this as an upper bound.")
+
+
+# ---------------------------------------------------------------------------
+# THE DIURNAL SILICA MARGIN -- a dynamic result the steady engine cannot give
+# ---------------------------------------------------------------------------
+# Everything above computes a ceiling and assumes a controller can sit on it.
+# modelica/TowerSilicaDynamics.mo shows why it cannot, and the reason is a
+# collision of timescales rather than anything chemical.
+#
+# Amorphous silica is PROGRADE, so its solubility falls as the basin cools:
+#
+#     18 C -> 101 mg/L        30 C -> 130 mg/L
+#     22 C -> 110             34 C -> 140
+#     26 C -> 120             38 C -> 151
+#
+# A tower basin swinging 25-35 C therefore sees the LIMIT move from 117.2 to
+# 142.6 mg/L -- 25.5 mg/L, every day, on a twelve-hour half-period.
+#
+# The basin CONCENTRATION cannot follow. Its only lever is blowdown, and the
+# basin time constant is V/(B+D), about 13.2 h at five cycles on a 50 m3
+# basin. Simulated with blowdown fixed at the value that holds saturation at
+# the MEAN temperature, the concentration swings 0.01 mg/L against the
+# limit's 25.5 -- a ratio of 2,425 to one.
+#
+# THE CONSEQUENCE, measured on the model:
+#
+#     saturation ratio over a day    0.908 to 1.105
+#     maximum excursion above 1.0    10.5 %
+#     hours per day supersaturated   11.8 of 24
+#
+# A conductivity setpoint placed at the steady-state ceiling is therefore
+# supersaturated for HALF OF EVERY DAY, and no blowdown policy fixes it: to
+# follow a twelve-hour forcing the basin would need a time constant well under
+# that, and it has thirteen hours. TowerBasin.mo puts the achievable response
+# at about 60 % of a commanded step within one half-cycle.
+#
+# So the steady ceiling must be discounted. That discount is what this
+# function returns, and it is the reason the product is a margin rather than
+# a setpoint.
+
+
+def diurnal_silica_margin(T_mean_c, T_amplitude_k):
+    """Fractional margin the silica ceiling needs against a diurnal swing.
+
+    Returns the amount by which a steady-state silica limit must be
+    discounted so a basin cycling +/- `T_amplitude_k` about `T_mean_c` does
+    not go supersaturated at its coldest.
+
+    The basin concentration is treated as CONSTANT over the day, which the
+    dynamic model justifies rather than assumes: at a 13 h time constant
+    against a 12 h half-period the concentration moves by a part in
+    thousands while the limit moves by a fifth.
+    """
+    s_mean = 10.0 ** log_k_silica_am(float(T_mean_c))
+    s_cold = 10.0 ** log_k_silica_am(float(T_mean_c) - float(T_amplitude_k))
+    if s_cold <= 0:
+        return float("nan")
+    return s_mean / s_cold - 1.0
+
+
+def silica_limit_with_diurnal_margin(T_mean_c, T_amplitude_k,
+                                     steady_limit_si=0.0):
+    """The silica SI limit a real controller should hold, in log units.
+
+    `steady_limit_si` is the steady-state limit (0.0 = saturation). The
+    return is lower, by the log of the diurnal margin.
+    """
+    m = diurnal_silica_margin(T_mean_c, T_amplitude_k)
+    return float(steady_limit_si) - math.log10(1.0 + m)

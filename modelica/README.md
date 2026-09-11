@@ -1,54 +1,68 @@
-# The OpenModelica leg — what it is for and how to run it
+# Modelica models
 
-**FURQAN** · *The criterion for energy.* · **MIZAN** · *The balance between energy and water.*
-
-## Why a third implementation
-
-There are already two: the Python core, which is the reference and the thing validated against experiment, and the MATLAB twin, which reproduces it to 1.4e-5 K and carries the Simulink demonstration. A third needs a reason.
-
-The reason is specific. **The LBNL Modelica Buildings library ships the same CoolTools chiller performance data the Python core reads its coefficients from.** `Buildings.Fluid.Chillers.Data.ElectricEIR` contains named records of the form `ElectricEIRChiller_York_YT_1055kW_5_96COP_Vanes` — the same library, the same machines, the same numbers. A Modelica plant model and the Python reference would therefore be driven by **one** chiller dataset rather than two that have to be kept in step by hand.
-
-That was the deciding argument over Simscape Fluids, which would have meant two.
-
-## Status: not yet runnable here
-
-Neither OpenModelica nor the Buildings library is installed on this machine, so `MizanLoop.mo` is **written but unrun**. It is included because it is the destination, not because it is finished. Nothing in the evidence package depends on it.
-
-## Setup
+Dynamics the steady-state engine cannot express, run on **OpenModelica
+1.27.0** against **Modelica Standard Library 4.1.0**.
 
 ```bash
-# 1. OpenModelica (Windows installer, includes OMEdit and the omc compiler)
-#    https://openmodelica.org/download/download-windows/
-
-# 2. The Buildings library, inside OMEdit:
-#      Tools -> Library Browser -> Manage Libraries -> Install "Buildings"
-#    or clone it directly:
-#      git clone https://github.com/lbl-srg/modelica-buildings
-
-# 3. The Python binding
-pip install OMPython
-
-# 4. The MATLAB binding (preferred -- see below)
-#    https://github.com/OpenModelica/OMMatlab
+omc modelica/run_basin.mos     # -> results/basin_res.csv
+omc modelica/run_silica.mos    # -> results/silica_res.csv
 ```
 
-## Two coupling routes
+Both are held by agreement gates in `tests/test_basin_dynamics.py`: the
+numerical integration is scored against a closed-form solution, and the
+silica margin is scored against the analytic version in `chemistry.py`.
+Where two implementations disagree, the disagreement is the finding.
 
-**(a) OMMatlab — preferred.** MATLAB drives the OpenModelica model directly: build, set parameters, simulate, read results back as arrays. No FMU, no import block, nothing further to license. The supervisory controller stays in MATLAB and Simulink where the licensed toolboxes are; the plant lives in Modelica.
+## TowerBasin.mo — how slowly a tower changes its mind
 
-**(b) FMU — fallback.** Export FMI 2.0 Co-Simulation (`buildModelFMU`, or *File → Export → FMU* in OMEdit) and import into Simulink. Two cautions, both documented upstream:
+Salt balance on the basin, exact, no correlation:
 
-1. Base Simulink on this machine has **no FMU Import block** — checked, it is not in `simulink/User-Defined Functions`. This route needs the free **FMI Kit for Simulink** (Modelon/Dassault).
-2. OpenModelica-generated FMUs are known to fail to load in Simulink unless the OpenModelica `bin` directory is on the Windows `PATH` **before MATLAB starts**, because Simulink loads the FMU's main DLL in a way that does not find the auxiliary DLLs inside the archive.
-
-## Running it
-
-```bash
-python ../src/run_modelica.py            # checks for OpenModelica, then runs
+```
+V dc/dt = (E + B + D) c_m - (B + D) c        tau = V / (B + D)
 ```
 
-`run_modelica.py` detects whether OpenModelica is present and says plainly what is missing rather than failing obscurely.
+`tau` is the turnover on the **non-evaporative** losses only, because
+evaporation removes water and leaves the salt behind. On a 50 m³ basin at
+five cycles that is **13.2 h**, so 95 % settling takes **39.5 h**.
 
-## What it must be checked against
+A Gulf diurnal half-cycle is 12 h, over which the basin completes about
+**60 %** of a commanded step. That is an independent second reason the
+diurnal cycle-floating idea was dead — the steady-state work had already
+shown the prograde and retrograde limits cancel, and this shows the basin
+could not follow even if they did not.
 
-The same discipline as everything else here: a third implementation is worth nothing until it is shown to agree with the reference. The gate is the same one `matlab/mizan_verify.m` uses — outlet water temperature to 0.010 K against the Python core over the same case file, `results/matlab_cases.json`. Until that gate has been scored, this model makes no claim.
+**Control-architecture consequence: fan speed is a fast variable and cycles
+is a slow one. Cycles belong on a seasonal schedule, not a diurnal one.**
+
+## TowerSilicaDynamics.mo — the limit moves faster than the state
+
+Amorphous silica is **prograde**, so its solubility falls as the basin cools:
+
+| basin | solubility |
+|---|---|
+| 18 °C | 101 mg/L |
+| 26 °C | 120 mg/L |
+| 34 °C | 140 mg/L |
+
+A basin swinging 25–35 °C sees the **limit** move 117.2 → 142.6 mg/L, by
+25.5 mg/L, every day. The **concentration** cannot follow: with blowdown
+fixed at the value that holds saturation at the mean temperature, it moves
+0.01 mg/L. A ratio of about **2,400 to one**.
+
+Measured over a periodic steady state, on measured makeup silica of 18 mg/L
+(NACE Paper 577, Riyadh Refinery):
+
+| | |
+|---|---|
+| saturation ratio over a day | 0.908 → 1.105 |
+| maximum excursion above the setpoint | **10.5 %** |
+| hours per day supersaturated | **11.8 of 24** |
+
+**A conductivity setpoint placed at the steady-state ceiling is supersaturated
+for half of every day**, and no blowdown policy fixes it — following a
+twelve-hour forcing needs a time constant well under twelve hours, and the
+basin has thirteen.
+
+So the steady ceiling must be discounted. `chemistry.diurnal_silica_margin()`
+returns that discount, and agrees with this simulation to better than half a
+percentage point. **The product is a margin, not a setpoint.**

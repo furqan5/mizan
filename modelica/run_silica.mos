@@ -1,0 +1,3 @@
+loadFile("modelica/TowerSilicaDynamics.mo"); getErrorString();
+simulate(TowerSilicaDynamics, stopTime=864000, numberOfIntervals=1440, outputFormat="csv", fileNamePrefix="silica");
+getErrorString();
