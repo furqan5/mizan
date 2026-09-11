@@ -229,3 +229,55 @@ def recycle_pays(ro_recovery, tariffs, ec_energy=None, ro_energy=None):
         "margin_per_m3": avoided - cost,
         "pays_on_energy_alone": cost < avoided,
     }
+
+
+# ---------------------------------------------------------------------------
+# THE GULF'S OWN ANSWER, and it is a membrane
+# ---------------------------------------------------------------------------
+# Metito, "TSE RO" presentation to the Kahramaa District Cooling Workshop,
+# Doha, 18 June 2014 -- the Qatari utility's own workshop on district cooling.
+# This is what the Gulf market already does with treated sewage effluent, and
+# any pitch has to be made against it rather than into a vacuum. [C]
+#
+#   Feed TSE, typical      TSS 5,  TDS 1,500 mg/L, BOD 5,  COD 50, pH 6.5-7.5
+#   Feed TSE, at tap-off   TSS 7,  TDS 2,000 mg/L, BOD 7,  COD 65, pH 6-8
+#                          temperature 22-35 C in both cases
+#
+#   Product water          pH 6.5-7.5, TDS 100-200 mg/L, TSS negligible
+#                          -- explicitly "equivalent to Kahramaa POTABLE
+#                          water quality", for district cooling make-up
+#
+#   Train    hypochlorite -> multimedia filters -> activated carbon ->
+#            cartridge filters (or UF replacing all three) -> acid and
+#            antiscalant -> SBS -> UV -> RO -> caustic for pH correction
+#
+#   Recovery  pre-treatment 92 %, RO 76 %, OVERALL 70 %, waste 30 %
+#
+# THE COMPETITIVE POINT, stated plainly. The Gulf's answer to TSE chemistry is
+# to REMOVE THE CHEMISTRY: take TDS from 2,000 down to 150 and the scaling
+# question stops being interesting. Empower did the same thing in Dubai with
+# an RO polishing plant and an 80/20 blend. So a controller that manages
+# scaling is competing against a membrane that eliminates it, and that
+# membrane is deployed, financeable and award-winning.
+#
+# What survives the comparison is narrow and should be said in one sentence:
+# RO throws away 30 % of the water it treats, and a plant that could run
+# higher cycles safely would need less RO to begin with. Mizan sizes that
+# question. It does not beat the membrane; it tells you how much membrane to
+# buy, which is a smaller claim and a true one.
+#
+# The TDS figure is also a regional cross-check: Qatar TSE at 1,500-2,000
+# mg/L against the Aramco TSE at 1,500. Two countries, one number.
+METITO_KAHRAMAA_2014 = {
+    "source": ("Metito, TSE RO presentation, Kahramaa District Cooling "
+               "Workshop, Doha, 18 June 2014"),
+    "feed_tse_typical": {"TSS": 5, "TDS": 1500, "BOD": 5, "COD": 50,
+                         "pH": (6.5, 7.5), "T_C": (22, 35)},
+    "feed_tse_actual": {"TSS": 7, "TDS": 2000, "BOD": 7, "COD": 65,
+                        "pH": (6.0, 8.0), "T_C": (22, 35)},
+    "product": {"TDS": (100, 200), "pH": (6.5, 7.5),
+                "note": "equivalent to Kahramaa potable water quality"},
+    "recovery": {"pretreatment": 0.92, "ro": 0.76, "overall": 0.70,
+                 "waste_fraction": 0.30},
+    "silica_reported": False,      # not in the presentation
+}

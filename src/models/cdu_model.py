@@ -231,3 +231,30 @@ def sized_for(q_it_kw: float, delta_t_k: float = 10.0,
     return CDUSubsystem(q_it_kw=q_it_kw, m_dot_sec_kg_s=m_dot,
                         m_dot_sec_nom_kg_s=m_dot,
                         p_pump_sec_nom_kw=p_pump_nom_kw, **kw)
+
+# ---------------------------------------------------------------------------
+# APPROACH TEMPERATURE -- the 5 K here is an archetype and the real spec is 3 K
+# ---------------------------------------------------------------------------
+# Google contributed "Project Deschutes", its fifth-generation CDU design, to
+# the Open Compute Project as v1.0 in February 2026 -- the first CDU
+# specification ever contributed to OCP. Headline targets: 2 MW thermal,
+# 3 degC APPROACH, 500 GPM at 80-90 psi. [C OCP]
+#
+# This module's default approach is 5 K, an archetype chosen before that spec
+# was read. The difference is not cosmetic and it runs the RIGHT way for the
+# chemistry: a tighter approach means the facility water may be 2 K WARMER for
+# the same GPU inlet temperature, which is 2 K of extra headroom against the
+# amorphous-silica floor. Anyone quoting a free-cooling floor for a Deschutes-
+# class CDU should use 3 K and get a more favourable answer than this module's
+# default gives.
+#
+# 500 GPM at 2 MW also implies a secondary delta-T near 15-18 K rather than
+# the 10 K default here, which is a second archetype worth replacing with the
+# spec before any number is quoted to a data-centre operator.
+DESCHUTES_SPEC = {
+    "source": "Google Project Deschutes CDU v1.0, OCP, February 2026",
+    "thermal_mw": 2.0,
+    "approach_k": 3.0,
+    "flow_gpm": 500.0,
+    "pressure_psi": (80.0, 90.0),
+}
