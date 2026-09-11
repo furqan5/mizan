@@ -62,20 +62,20 @@ color:var(--ink3);font-size:.78rem}
 <p class="eyebrow">Cycle Ceiling Report &middot; 2026-09-11</p>
 <h1>How far can this water be concentrated?</h1>
 <p style="color:var(--ink2);margin-top:12px;max-width:60ch">
-Example — Gulf district cooling plant &middot; treated sewage effluent makeup.
-Analysis: <span class="mono">Aramco TSE, Water Technology 2021 field analysis + assumed Gulf silica (Na-balanced)</span>. Evaluated at a
+Worked example — Saudi refinery cooling tower &middot; secondary treated sewage effluent makeup, measured analysis (NACE Paper 577 Table 1).
+Analysis: <span class="mono">Aramco Riyadh Refinery secondary TSE makeup (NACE Paper 577 Table 1)</span>. Evaluated at a
 45&nbsp;&deg;C tube skin and a 32&nbsp;&deg;C basin,
 pH 8.25.</p>
 
 <div class="hero">
-  <div><p class="eyebrow">Ceiling</p><p class="big">5.0</p>
+  <div><p class="eyebrow">Ceiling</p><p class="big">4.5</p>
   <p style="font-size:.8rem;color:var(--ink3)">cycles of concentration</p></div>
   <div style="flex:1;min-width:230px">
-    <h3>Stopped by amorphous silica (SiO2)</h3>
+    <h3>Stopped by calcite (CaCO3)</h3>
     <p style="font-size:.88rem;color:var(--ink2)">You are running
     <b>3.0</b>. Moving to the ceiling cuts makeup water by
-    <b>16.8 %</b> &mdash; about
-    <b>$103,744/year</b> in water and discharge on this duty.</p>
+    <b>14.4 %</b> &mdash; about
+    <b>$88,975/year</b> in water and discharge on this duty.</p>
   </div>
 </div>
 
@@ -83,8 +83,8 @@ pH 8.25.</p>
 <p class="eyebrow">The part that decides everything</p>
 <h2>What the standard index would have told you</h2>
 <div class="tw"><table><thead><tr><th>Mineral</th><th class="n">Saturation index at the ceiling</th><th></th></tr></thead>
-<tbody><tr><td>tricalcium phosphate</td><td class="n">+5.67</td><td></td></tr><tr><td>calcite (CaCO3)</td><td class="n">+1.96</td><td></td></tr><tr><td>amorphous silica (SiO2)</td><td class="n">-0.00</td><td><span class=warn>binds</span></td></tr><tr><td>gypsum (CaSO4)</td><td class="n">-0.36</td><td></td></tr></tbody></table></div>
-<div class="note c"><h3>Langelier index reads +2.31 at that point</h3>
+<tbody><tr><td>tricalcium phosphate</td><td class="n">+3.74</td><td></td></tr><tr><td>calcite (CaCO3)</td><td class="n">+2.00</td><td><span class=warn>binds</span></td></tr><tr><td>amorphous silica (SiO2)</td><td class="n">-0.22</td><td></td></tr><tr><td>gypsum (CaSO4)</td><td class="n">-0.40</td><td></td></tr></tbody></table></div>
+<div class="note c"><h3>Langelier index reads +2.32 at that point</h3>
 <p style="font-size:.88rem;color:var(--ink2)">LSI is a calcium-carbonate index.
 It is computed from pH, calcium and alkalinity, and it carries no information
 about sulfate, silica or phosphate. Where the binding mineral is not calcite,
@@ -101,24 +101,24 @@ while another mineral is already supersaturated.</p></div>
 <tr><td>Current</td><td class="n">3.0</td>
 <td class="n">22.68</td><td class="n">7.54</td>
 <td class="n">$490,122</td></tr>
-<tr><td>At ceiling</td><td class="n">5.0</td>
-<td class="n">18.88</td><td class="n">3.74</td>
-<td class="n">$386,378</td></tr>
+<tr><td>At ceiling</td><td class="n">4.5</td>
+<td class="n">19.42</td><td class="n">4.28</td>
+<td class="n">$401,146</td></tr>
 </tbody></table></div>
 <div class="note"><h3>The most you could ever save is 33.3 %</h3>
 <p style="font-size:.88rem;color:var(--ink2)">At 3.0 cycles your
 blowdown is 33.3 % of your makeup, and evaporation is the rest.
 Evaporation is the heat rejection and cannot be recovered, so no measure of any
 kind &mdash; control, treatment, recycle &mdash; can save more than that.
-Reaching 20 % would need 16 % RO recovery on the blowdown.</p></div>
+Reaching 20 % would need 25 % RO recovery on the blowdown.</p></div>
 </section>
 
 <section>
 <p class="eyebrow">What your analysis does not say</p>
 <h2>Silica decides which mineral stops you</h2>
-<div class="band"><i class="" style="height:100.0%" title="5.0 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="7.5 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="10.0 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="12.5 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="15.0 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="17.5 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="20.0 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="22.5 mg/L -> 5.31 cycles"></i><i class="" style="height:100.0%" title="25.0 mg/L -> 5.31 cycles"></i><i class="si" style="height:92.3%" title="27.5 mg/L -> 4.90 cycles"></i><i class="si" style="height:84.6%" title="30.0 mg/L -> 4.49 cycles"></i><i class="si" style="height:78.1%" title="32.5 mg/L -> 4.14 cycles"></i><i class="si" style="height:72.5%" title="35.0 mg/L -> 3.85 cycles"></i><i class="si" style="height:67.7%" title="37.5 mg/L -> 3.59 cycles"></i><i class="si" style="height:63.4%" title="40.0 mg/L -> 3.37 cycles"></i><i class="si" style="height:59.7%" title="42.5 mg/L -> 3.17 cycles"></i><i class="si" style="height:56.4%" title="45.0 mg/L -> 2.99 cycles"></i></div>
+<div class="band"><i class="" style="height:100.0%" title="5.0 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="7.5 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="10.0 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="12.5 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="15.0 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="17.5 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="20.0 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="22.5 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="25.0 mg/L -> 4.52 cycles"></i><i class="" style="height:100.0%" title="27.5 mg/L -> 4.52 cycles"></i><i class="si" style="height:99.3%" title="30.0 mg/L -> 4.49 cycles"></i><i class="si" style="height:91.7%" title="32.5 mg/L -> 4.14 cycles"></i><i class="si" style="height:85.2%" title="35.0 mg/L -> 3.85 cycles"></i><i class="si" style="height:79.5%" title="37.5 mg/L -> 3.59 cycles"></i><i class="si" style="height:74.5%" title="40.0 mg/L -> 3.37 cycles"></i><i class="si" style="height:70.1%" title="42.5 mg/L -> 3.17 cycles"></i><i class="si" style="height:66.2%" title="45.0 mg/L -> 2.99 cycles"></i></div>
 <div class="bl"><span>5 mg/L SiO&#8322;</span>
-<span>crossover to silica-bound at 27.5 mg/L</span>
+<span>crossover to silica-bound at 30.0 mg/L</span>
 <span>45 mg/L</span></div>
 <p style="font-size:.88rem;color:var(--ink2);margin-top:12px">Each bar is the
 ceiling this water supports at that makeup silica. Green bars are limited by a
@@ -126,20 +126,20 @@ carbonate or sulfate mineral; copper bars are limited by amorphous silica,
 which is <b>not pH-sensitive</b> &mdash; acid cannot buy cycles against it, and it
 deposits at the <b>coldest</b> point in the loop, not the hottest.</p>
 <div class="tw" style="margin-top:16px"><table><thead><tr><th>Check on the analysis</th>
-<th>Result</th><th>Detail</th></tr></thead><tbody><tr><td>charge balance</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">+0.50 % against a +/-5 % tolerance</td></tr><tr><td>tds closure</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">ions sum to 1474 mg/L against a stated TDS of 1500 (-1.8 %); a water cannot contain more ions than its own TDS</td></tr><tr><td>davies applicable</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">ionic strength 0.031 mol/kg against a Davies limit of 0.5</td></tr><tr><td>silica declared</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">SiO2 = 26.8 mg/L. Zero is indistinguishable from UNMEASURED unless declared. Amorphous silica binds at the cold basin and is not pH-sensitive, so acid</td></tr><tr><td>phosphate declared</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">PO4 = 8.0 mg/L. Zero is indistinguishable from UNMEASURED. Tertiary treated municipal wastewater carries 7-10 mg/L, and the US DOE study of this exact</td></tr></tbody></table></div>
+<th>Result</th><th>Detail</th></tr></thead><tbody><tr><td>charge balance</td><td class="no">ATTENTION</td><td style="font-size:.82rem;color:var(--ink3)">-5.25 % against a +/-5 % tolerance</td></tr><tr><td>tds closure</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">ions sum to 1063 mg/L against a stated TDS of 1050 (+1.2 %); a water cannot contain more ions than its own TDS</td></tr><tr><td>davies applicable</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">ionic strength 0.021 mol/kg against a Davies limit of 0.5</td></tr><tr><td>silica declared</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">SiO2 = 18.0 mg/L. Zero is indistinguishable from UNMEASURED unless declared. Amorphous silica binds at the cold basin and is not pH-sensitive, so acid</td></tr><tr><td>phosphate declared</td><td class="ok">PASS</td><td style="font-size:.82rem;color:var(--ink3)">PO4 = 1.0 mg/L. Zero is indistinguishable from UNMEASURED. Tertiary treated municipal wastewater carries 7-10 mg/L, and the US DOE study of this exact</td></tr></tbody></table></div>
 </section>
 
 <section>
 <p class="eyebrow">Treatment programme</p>
 <h2>Calcium phosphate</h2>
-<div class="note a">
-<h3>SI +5.67 &mdash; PHOSPHATE UNCONTROLLABLE: above the published stressed limit, where more chemical does not help.</h3>
+<div class="note c">
+<h3>SI +3.74 &mdash; PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is</h3>
 <p style="font-size:.88rem;color:var(--ink2)">Phosphate
-is measured at 8.0 mg/L.
+is measured at 1.0 mg/L.
 Calcium phosphate is kinetically inhibited &mdash; it tolerates far more
 supersaturation than carbonate before it deposits &mdash; so what matters is not
 the index alone but which inhibitor programme is dosed.</p></div>
-<h2 style='margin-top:26px'>If you want to go past the ceiling</h2><div class='tw'><table><thead><tr><th>Side-stream treatment</th><th class='n'>New ceiling</th><th class='n'>Water saved</th><th class='n'>Break-even</th><th class='n'>Verdict</th></tr></thead><tbody><tr><td>reverse osmosis</td><td class="n">30.00</td><td class="n">+31.0 %</td><td class="n">$0.24</td><td class="n no">12x short</td></tr><tr><td>lime softening with magnesia</td><td class="n">20.00</td><td class="n">+29.8 %</td><td class="n">$0.58</td><td class="n no">5x short</td></tr><tr><td>lime softening</td><td class="n">10.05</td><td class="n">+26.0 %</td><td class="n">$0.39</td><td class="n no">8x short</td></tr><tr><td>electrocoagulation</td><td class="n">7.37</td><td class="n">+22.9 %</td><td class="n">$0.25</td><td class="n no">12x short</td></tr></tbody></table></div><p style='font-size:.82rem;color:var(--ink3);margin-top:10px'><b>None of these pay at your water price.</b> Break-even is what the saved water is worth per cubic metre treated. A costed engineering study of a precipitation-softening train (DiFilippo, Sylvan Source, Oct 2023 - 1 MGD, $25.4 M installed, $2.79 M/yr in chemicals) puts the real cost at <b>$2.02/m&sup3; in chemicals alone</b> and $2.94/m&sup3; with capital over twenty years. Side-stream treatment pays where <b>discharge is prohibited</b> and the alternative is zero liquid discharge - a regulatory driver, not a water-price one.</p>
+<h2 style='margin-top:26px'>If you want to go past the ceiling</h2><div class='tw'><table><thead><tr><th>Side-stream treatment</th><th class='n'>New ceiling</th><th class='n'>Water saved</th><th class='n'>Break-even</th><th class='n'>Verdict</th></tr></thead><tbody><tr><td>reverse osmosis</td><td class="n">30.00</td><td class="n">+31.0 %</td><td class="n">$0.32</td><td class="n no">9x short</td></tr><tr><td>lime softening with magnesia</td><td class="n">27.03</td><td class="n">+30.8 %</td><td class="n">$0.74</td><td class="n no">4x short</td></tr><tr><td>lime softening</td><td class="n">14.96</td><td class="n">+28.6 %</td><td class="n">$0.62</td><td class="n no">5x short</td></tr><tr><td>electrocoagulation</td><td class="n">6.40</td><td class="n">+21.0 %</td><td class="n">$0.26</td><td class="n no">11x short</td></tr></tbody></table></div><p style='font-size:.82rem;color:var(--ink3);margin-top:10px'><b>None of these pay at your water price.</b> Break-even is what the saved water is worth per cubic metre treated. A costed engineering study of a precipitation-softening train (DiFilippo, Sylvan Source, Oct 2023 - 1 MGD, $25.4 M installed, $2.79 M/yr in chemicals) puts the real cost at <b>$2.02/m&sup3; in chemicals alone</b> and $2.94/m&sup3; with capital over twenty years. Side-stream treatment pays where <b>discharge is prohibited</b> and the alternative is zero liquid discharge - a regulatory driver, not a water-price one.</p>
 </section>
 
 <footer>

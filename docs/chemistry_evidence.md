@@ -362,6 +362,50 @@ where Mg is expressed as ppm CaCO₃ and SiO₂ as ppm SiO₂.
 
 **Water activity appears in the silica saturation expression `[C]`.** IWC-11-77 Table 2 gives amorphous silica saturation level as `{H₄SiO₄} / ((H₂O)² × Ksp_SiO₂)`. The water-activity term is squared. This is a direct link between our §6 work and our §4 work: **at high cycles, lowering a_w raises the silica saturation ratio.** At 15,000 mg/L, a_w ≈ 0.995, so the effect is `1/0.995² = 1.010` — a 1% increase in silica SI `[A]`. Small, but it is the one place where the water-activity model feeds the scaling model rather than the evaporation model.
 
+### 4.3 The high-pH regime our model cannot see `[C]` + `[A]`
+
+**Found 11 Sep 2026 by searching the Wayback Machine's PDF collection index for cooling-tower silica operating experience.** Three documents, three different operators, and together they bound the silica question from both ends. This section exists because one of them **falsified a limit of our own engine** — see defect 38.
+
+**(a) Aquatech, *HERO — High Efficiency Reverse Osmosis*** — `sources/aquatech_HERO_high_recovery.pdf`
+
+> *"Silica concentrations frequently limit the cycles of concentration in the cooling tower circulating water"*
+
+That is the market statement, from a vendor with no incentive to overstate a constraint they sell around. It is the single best external corroboration that **silica, not calcium carbonate, is the binding constraint on a real recycled-water tower** — the whole premise of this controller.
+
+Then the number that costs us something:
+
+> *"silica levels in excess of 1600 ppm in the reject"*
+
+HERO achieves that by running the loop at **high pH**, where H₄SiO₄ deprotonates to H₃SiO₄⁻ and total dissolved silica climbs steeply.
+
+**What this does to our model `[A]`.** Our `SI_silica_am` is `log10(total SiO₂) − logK(T)` with **no pH term at all**. That is *correct* below about pH 9, where dissolved silica is essentially all neutral H₄SiO₄ — and it is exactly why this package says, correctly, that acid buys cycles against calcite and **buys nothing against silica**. Above pH 9 it stops being true. Our engine at a 30 °C basin puts saturation at **129.5 mg/L SiO₂**; HERO reports **1,600 ppm**, a factor of **12**. The engine was returning a number for a regime it cannot represent, and saying nothing about it.
+
+Fixed by declaring the range rather than by inventing a speciation model we have no data to calibrate: `chemistry.silica_index_valid_at_ph()`, reported as `silica_index_valid` on every `saturation_state` and carried through `saturation_state_split`. **A high-pH programme is the standard commercial answer to a silica ceiling, and this engine cannot evaluate it. That is now stated rather than hidden.**
+
+**(b) WCTI, food-processing plant cooling tower** — `sources/WCTI_food_processing_cooling_tower.pdf`
+
+| Makeup parameter | Value |
+|---|---|
+| SiO₂ | **32 ppm** |
+| M-Alkalinity | **360 ppm** |
+
+> *"typically operate below 2.1 cycles of concentration"*
+
+> *"silica provides excellent corrosion inhibition"*
+
+Two things here. First, **2.1 cycles** is a *fifth* independent datapoint in the 2–4 band that backs the V7 baseline of 3.0 — and it is the lowest of the five, on a makeup with nearly twice our silica. Second, the corrosion-inhibition line is a genuine counterweight to our framing: we treat silica purely as a scaling constraint, and at least one operator treats it as a *deliberately maintained* species. We do not model that, and should not claim to.
+
+**(c) University of Illinois Urbana-Champaign, campus cooling tower** — `sources/UIUC_campus_tower_near_zero_blowdown.pdf`
+
+> *"silica conditions to demonstrate near zero blowdown operation"*
+
+An institutional operator explicitly tying **silica management to blowdown elimination** — the same causal chain this controller automates, stated independently.
+
+**Where this leaves the pitch `[A]`.** It strengthens the constraint argument and narrows the product claim, in that order:
+
+- **Strengthens**: an RO vendor, a food plant and a university all independently name silica as the thing that sets cycles. Our central claim is no longer ours alone.
+- **Narrows**: the incumbent answer to a silica ceiling is **capital** — HERO, or lime softening on the makeup — not control. Mizan competes with that only where the capital route is refused or unaffordable, which is precisely the Pakistan and mid-market Gulf case, and precisely **not** the case where a client will spend on a HERO train. Claiming otherwise against an operator who has already priced HERO would be a losing pitch, and an untrue one.
+
 ---
 
 ## 5. Antiscalant performance — the key table

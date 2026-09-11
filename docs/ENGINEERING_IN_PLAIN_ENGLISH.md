@@ -340,7 +340,7 @@ you where the physics stops.
 
 ## Part 8 — The mistakes we found in our own work
 
-Thirty-seven defects found, **all thirty-seven fixed**. The four worth knowing about:
+Thirty-eight defects found, **all thirty-eight fixed**. The four worth knowing about:
 
 **The fan correlation was in the wrong units.** The published equation for air
 flow takes fan frequency in hertz; the dataset's own text described that column

@@ -487,14 +487,24 @@ AUSTIN_COUNTER_BENCHMARK = {
 
 
 def typical_cycles_evidence():
-    """Four independent sources on what a tower actually runs at.
+    """Five independent sources on what a tower actually runs at.
 
     This is the baseline the V7 gate is scored against, and it is no longer
-    an assumption: every source lands in 2 to 4 cycles.
+    an assumption: every source lands in 2 to 4 cycles. Two continents, five
+    operators, a refinery, a district-cooling utility, a municipal utility and
+    a food plant -- and none of them reaches the 5 to 7 cycles that the
+    textbook and most vendor literature quote as normal.
+
+    The fifth, WCTI, is the lowest of the five AND has the highest makeup
+    silica (32 ppm, against our 18), which is the direction the silica thesis
+    predicts. Found 11 Sep 2026 in the Wayback PDF index; see
+    docs/chemistry_evidence.md S4.3.
     """
     return [
         ("Austin Energy (IDEA 2023)", "typical cooling tower", (2.0, 4.0)),
         ("Qatar Cool", "TSE, stated maximum", (None, 3.0)),
         ("Aramco Riyadh Refinery (NACE 577)", "measured, average 2.9", (1.6, 4.0)),
         ("Aramco Dhahran pilot (WRI 2022)", "groundwater 2.0, TSE 3.5", (2.0, 3.5)),
+        ("WCTI food-processing plant", "makeup SiO2 32 ppm, 'typically "
+         "operate below 2.1 cycles'", (None, 2.1)),
     ]

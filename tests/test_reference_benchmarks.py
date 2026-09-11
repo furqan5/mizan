@@ -499,19 +499,41 @@ def test_the_ceiling_is_labelled_a_scaling_ceiling_not_an_operating_one():
         "fitting a thermodynamic constant to a plant's process leaks")
 
 
-def test_the_typical_cycles_baseline_is_now_four_independent_sources():
+def test_the_typical_cycles_baseline_is_now_five_independent_sources():
     """The V7 baseline of 3.0 cycles is no longer an assumption.
 
-    Austin Energy, Qatar Cool, and two Aramco studies all land in 2-4. The
-    gate's baseline sits inside every one of those ranges.
+    Austin Energy, Qatar Cool and two Aramco studies bracket 3.0. WCTI, added
+    11 Sep 2026 from the Wayback PDF index, does NOT -- it operates below 2.1,
+    and this test says so rather than quietly dropping it.
+
+    That direction matters and is the reason the source is kept. The maximum
+    water saving available against a baseline of C cycles is 1/C, so a LOWER
+    real baseline means MORE headroom, not less. Holding the gate at 3.0 when
+    a fifth operator runs at 2.1 makes the gate harder to pass, and WCTI is
+    the site with the highest makeup silica of the five (32 ppm against our
+    18) -- exactly where the silica thesis predicts cycles should be lowest.
+
+    A source that disagrees in the conservative direction is evidence. One
+    that disagreed in the flattering direction would need explaining before it
+    could be used at all.
     """
     import sidestream as ss
     ev = ss.typical_cycles_evidence()
-    assert len(ev) >= 4
+    assert len(ev) >= 5
+
+    brackets, below = [], []
     for name, _what, (lo, hi) in ev:
         if lo is not None:
-            assert lo <= 3.0, name
-        assert hi >= 3.0, name
+            assert lo <= 3.0, f"{name} starts above the 3.0 baseline"
+        (brackets if hi >= 3.0 else below).append(name)
+
+    assert len(brackets) >= 4, f"only {len(brackets)} sources bracket 3.0"
+    assert below == ["WCTI food-processing plant"], (
+        f"an unexpected source sits below the baseline: {below}. Check which "
+        f"direction it moves the claim before accepting it.")
+
+    # every source must still be inside the 2-4 band the package claims
+    assert all(hi <= 4.0 for _n, _w, (_lo, hi) in ev)
 
 
 def test_austin_corrects_the_cost_conclusion_rather_than_contradicting_it():

@@ -354,17 +354,34 @@ def main() -> int:
     ap.add_argument("--json", default=None)
     ap.add_argument("--cycles-now", type=float, default=3.0)
     ap.add_argument("--programme", default=None)
+    ap.add_argument("--assumed-water", action="store_true",
+                    help="run on rc.TSE with the imported 26.8 mg/L silica "
+                         "instead of the measured 18 mg/L analysis")
     args = ap.parse_args()
 
     import run_controller as rc
-    water = rc.TSE
+    # DEFAULT IS THE MEASURED WATER. Until 11 Sep 2026 the worked example ran
+    # on `rc.TSE`, whose silica of 26.8 mg/L is imported from Riyadh BRACKISH
+    # GROUNDWATER -- a different water. A measured Saudi TSE make-up analysis
+    # now exists (AlMajnouni & Jaffer, NACE Paper 577, Table 1: Riyadh
+    # Refinery, SiO2 18 mg/L, PO4 1.0, ion sum closing to +1.2 % of TDS), and
+    # a worked example about a cited water is worth more than one about a
+    # plausible one. `--assumed-water` restores the old behaviour for the
+    # sensitivity study that needs it.
+    water = chem.ARAMCO_RIYADH_REFINERY_TSE if not args.assumed_water else rc.TSE
+    silica_measured = not args.assumed_water
     a = analyse(water, cycles_now=args.cycles_now, T_hot=45.0, T_cold=32.0,
                 pH=8.25, tariffs=rc.TARIFFS, evap_kg_s=4.2, m_w_kg_s=478.0,
-                programme=args.programme, silica_measured=False)
+                programme=args.programme,
+                silica_measured=silica_measured)
     out = pathlib.Path(args.out)
     out.parent.mkdir(exist_ok=True)
-    out.write_text(render(a, client="Example — Gulf district cooling plant",
-                          site="treated sewage effluent makeup"),
+    label = ("Worked example — Saudi refinery cooling tower"
+             if silica_measured else "Worked example — Gulf district cooling")
+    site = ("secondary treated sewage effluent makeup, measured analysis "
+            "(NACE Paper 577 Table 1)" if silica_measured
+            else "treated sewage effluent makeup, silica assumed")
+    out.write_text(render(a, client=label, site=site),
                    encoding="utf-8")
     print(f"ceiling      : {a['ceiling']:.2f} cycles, bound by {a['binding']}")
     print(f"running at   : {a['cycles_now']:.1f}  ->  saving {a['saving_pct']:.1f} %")

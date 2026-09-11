@@ -556,6 +556,28 @@ def speciate(water, T_c, pH=None):
             "I": max(I, 1e-12), "iterations": it, "converged": converged}
 
 
+SILICA_PH_VALIDITY_MAX = 9.0
+"""Above this pH the neutral-species assumption behind SI_silica_am fails."""
+
+
+def silica_index_valid_at_ph(pH):
+    """Is the amorphous-silica index meaningful at this pH?
+
+    DEFECT 38. Below pH 9 dissolved silica is essentially all H4SiO4, a
+    neutral species, so its saturation is pH-independent -- which is why acid
+    cannot buy cycles against silica, a claim this package makes throughout
+    and which is correct in that range.
+
+    Above pH 9 the acid dissociates to H3SiO4- and the solubility rises
+    steeply. A high-pH programme is the standard commercial answer to a
+    silica ceiling -- Aquatech's HERO process reports silica above 1,600 ppm
+    in the reject -- and this engine models none of it. Returning False is
+    the honest answer; returning a number would understate the true limit and
+    make the ceiling look tighter than it is.
+    """
+    return float(pH) <= SILICA_PH_VALIDITY_MAX
+
+
 def saturation_state(water, T_c, pH=None):
     """Saturation indices at temperature `T_c`.
 
@@ -594,7 +616,25 @@ def saturation_state(water, T_c, pH=None):
         "ionic_strength": I,
         "SI_calcite": math.log10(max(a_Ca * a_CO3, 1e-30)) - log_k_calcite(T_c),
         "SI_gypsum": math.log10(max(a_Ca * a_SO4, 1e-30)) - log_k_gypsum(T_c),
+        # DEFECT 38. This index has NO pH TERM, and that is correct only
+        # below about pH 9. SiO2(a) + 2H2O = H4SiO4 is a NEUTRAL species, so
+        # below pH 9 total dissolved silica at saturation really is
+        # pH-independent -- which is the basis of the claim, made throughout
+        # this package, that acid cannot buy cycles against silica.
+        #
+        # Above pH 9 that stops being true. H4SiO4 deprotonates to H3SiO4-
+        # and the total solubility rises steeply, and the industry uses
+        # exactly that: Aquatech's HERO process runs the loop at high pH and
+        # reports silica ABOVE 1,600 ppm in the reject, where this model
+        # would call 150 ppm supersaturated. A high-pH programme is the
+        # standard commercial answer to a silica limit, and this engine
+        # cannot evaluate it.
+        #
+        # `silica_index_valid_at_ph()` is the guard, reported alongside as
+        # `silica_index_valid`, so a caller above pH 9 is told rather than
+        # quietly handed a number that is too low.
         "SI_silica_am": math.log10(max(m["SiO2"], 1e-30)) - log_k_silica_am(T_c),
+        "silica_index_valid": silica_index_valid_at_ph(pH),
         "SI_tcp": (3.0 * math.log10(max(a_Ca, 1e-30))
                    + 2.0 * math.log10(max(a_PO4, 1e-30))
                    - log_k_tricalcium_phosphate(T_c)),
@@ -1012,6 +1052,10 @@ def saturation_state_split(water, T_hot, T_cold, pH_hot=None, pH_cold=None):
         out[k + "_at"] = where
     out["ionic_strength"] = hot["ionic_strength"]
     out["pitzer_required"] = hot["pitzer_required"]
+    # DEFECT 38. Silica is evaluated cold, so the cold pH is the one that
+    # decides whether its index means anything. Carried through rather than
+    # dropped, because this is the path the ceiling report runs on.
+    out["silica_index_valid"] = cold["silica_index_valid"]
     return out
 
 

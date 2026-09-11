@@ -378,3 +378,46 @@ def test_defect_37_the_diurnal_margin_is_enforced_not_merely_reported():
     # the other limits must be untouched -- this is a silica correction only
     for k in ("SI_calcite", "SI_gypsum"):
         assert marg[k] == plain[k]
+
+
+# ---------------------------------------------------------------------------
+# Defect 38 -- the silica index has no pH term, and was silently wrong above
+# pH 9.
+# ---------------------------------------------------------------------------
+def test_defect_38_silica_index_declares_its_pH_range():
+    """SI_silica_am is pH-free. That is right below pH 9 and wrong above it.
+
+    SiO2(a) + 2H2O = H4SiO4 produces a NEUTRAL species, so below about pH 9
+    the saturation of amorphous silica really is pH-independent. That fact is
+    load-bearing across this package: it is why acid buys cycles against
+    calcite and buys nothing against silica.
+
+    Above pH 9 H4SiO4 deprotonates to H3SiO4- and total solubility climbs.
+    The industry uses exactly that -- Aquatech's HERO process runs the loop
+    alkaline and reports silica above 1,600 ppm in the reject, an order of
+    magnitude past where this model calls the water supersaturated. The engine
+    still returns a number there. What it must not do is return it silently.
+    """
+    conc = ch.ARAMCO_RIYADH_REFINERY_TSE.concentrate(3.0)
+
+    # the index itself does not move with pH, anywhere -- that is the model
+    lo = ch.saturation_state(conc, 30.0, pH=7.5)["SI_silica_am"]
+    hi = ch.saturation_state(conc, 30.0, pH=10.5)["SI_silica_am"]
+    assert lo == pytest.approx(hi, abs=1e-12), (
+        "SI_silica_am acquired a pH term; if that is deliberate this test "
+        "and the acid-cannot-buy-silica claim both need rewriting")
+
+    # but the flag does
+    assert ch.saturation_state(conc, 30.0, pH=8.25)["silica_index_valid"] is True
+    assert ch.saturation_state(conc, 30.0, pH=9.0)["silica_index_valid"] is True
+    assert ch.saturation_state(conc, 30.0, pH=9.6)["silica_index_valid"] is False
+
+    # and it survives the split, which is the path the ceiling report uses.
+    # Silica is evaluated COLD, so the cold pH is the one that decides.
+    sp = ch.saturation_state_split(conc, 45.0, 30.0, pH_hot=8.0, pH_cold=10.0)
+    assert sp["silica_index_valid"] is False
+
+    # the flag must not leak into the SI_ namespace -- ceiling_report.py
+    # selects on that prefix and would format a bool as a saturation index
+    assert all(isinstance(v, float) for k, v in sp.items()
+               if k.startswith("SI_") and not k.endswith("_at"))
