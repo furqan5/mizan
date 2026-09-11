@@ -493,7 +493,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 | Chiller validity envelope | Was being violated | **CLOSED** — the optimiser was leaving the fitted range and booking a false 20.41 % water saving. Envelope now a hard constraint; 1,840 of 6,307 candidate points rejected |
 | Mg-silicate SI threshold | Unknown | OPEN, handled by the empirical Mg x SiO2 product rule instead |
 | No traction, no LOIs, no patents | Neutral | OPEN — Cohort 1 winners had none either |
-| Simscape Fluids | Blocked | **NOT LICENSED** on this machine (installed, but License Manager Error -5). Plan changed — see below |
+| Simscape Fluids | Was blocked | **CLOSED, 11 Sep 2026** — not licensed here (License Manager Error -5) and no longer needed. Replaced by **OpenModelica 1.27.0 + MSL 4.1.0**, which carries the two dynamic models the steady engine structurally cannot give: basin time constant, and the diurnal silica margin that agrees with the Python implementation to better than half a percentage point |
 
 ## The MATLAB / Simulink stack, and what it showed
 
