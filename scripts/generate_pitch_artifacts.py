@@ -29,7 +29,8 @@ Gulf region and the banner here said so. The cause was never the physics:
 `hybrid_supervisor.solve_free_cooling` was a damped fixed-point substitution
 taking 17.7 s per call, and `fan_for_target_fws` bisected over it. Replacing
 the substitution with a secant iteration cut it to 2.82 s -- 6.3x, to the
-same answer -- and all four regions now run.
+same answer -- and all four regions now run. Measured end to end: about
+17 to 20 minutes for the full four-region, two-policy, 24-hour study.
 
 WHAT IS STILL WEAK, and must not be quoted as if it were not:
 
@@ -280,6 +281,12 @@ def run_region(key, cfg, makeup, fill_c, fill_n):
         # In cold air the tower over-cools even at its slowest usable fan, and
         # a site that needs the floor there needs a tower BYPASS, not a
         # smarter setpoint. This used to be reported as compliance.
+        # DEFECT 43. Unsolved hours are dropped, and in a cold climate the
+        # ones that fail are the coldest -- the worst ones. Recorded so a
+        # consumer of this file can see the averages are over `solved_hours`,
+        # not 24, and are biased optimistic where that is short.
+        "hours_unsolved": 24 - n,
+        "averages_biased_optimistic": bool(n < 24),
         "hours_floor_unreachable": sum(
             1 for r in solved if r["bounded"].get("floor_unreachable")),
         "max_floor_shortfall_k": max(
@@ -328,7 +335,7 @@ def main() -> int:
     print()
     hdr = (f"{'region':<34}{'floor':>7}{'PUE b/c':>16}{'WUE b/c':>16}"
            f"{'water m3/d':>13}{'saved %':>9}{'max SR silica b/c':>20}"
-           f"{'scaling h':>11}{'no-floor h':>12}")
+           f"{'scaling h':>11}{'no-floor h':>12}{'solved h':>10}")
     print(hdr)
     print("-" * len(hdr))
     for key, r in out["regions"].items():
@@ -345,7 +352,8 @@ def main() -> int:
               f"{r['max_silica_SR_bounded']:<9.3f}"
               f"{r['hours_blind_materially_violating']:>5d}/"
               f"{r['hours_bounded_materially_violating']:<5d}"
-              f"{r['hours_floor_unreachable']:>12d}")
+              f"{r['hours_floor_unreachable']:>12d}"
+              f"{r['solved_hours']:>7d}/24")
     print()
     print("  floor      = minimum facility-water temperature at which "
           "amorphous silica stays at or below saturation, at the stated cycles")
@@ -362,6 +370,17 @@ def main() -> int:
     print("               usable fan. Those hours are a product requirement, not")
     print("               a control failure: the site needs a tower bypass. They")
     print("               were previously reported as compliance -- defect 42.")
+    print("  solved h   = hours the coupled plant solved at all. DEFECT 43: hours")
+    print("               that fail to solve are DROPPED before averaging, and in")
+    print("               a cold climate the ones that fail are the COLDEST --")
+    print("               i.e. the worst ones. Every per-day figure for a region")
+    print("               with fewer than 24 is therefore biased OPTIMISTIC, and")
+    print("               scaled from the hours that did solve.")
+    _short = [(r["label"], r["solved_hours"]) for r in out["regions"].values()
+              if r.get("solved_hours", 0) < 24]
+    if _short:
+        print("               SHORT: "
+              + "; ".join(f"{lab.split()[0]} {n}/24" for lab, n in _short))
     print("  strict h   = "
           + ", ".join(f"{r['label'].split()[0]} "
                       f"{r['hours_blind_violating_silica']}/"

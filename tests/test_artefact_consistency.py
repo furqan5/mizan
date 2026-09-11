@@ -377,3 +377,47 @@ def test_corrosion_floor_is_swept_across_every_scored_condition():
             " -- this is a finding, not a test bug. Price it in "
             "commercialisation.md, then update this test to record the "
             "expected binding set.")
+
+
+def test_every_remaining_silica_violation_is_an_unreachable_floor():
+    """The strongest claim the four-region artifact makes, pinned.
+
+    After defect 42 the chemically-bounded policy holds the silica floor in
+    every hour where the floor is physically reachable. What remains is not
+    control error: it is hours where the tower over-cools at its slowest
+    usable fan and no setpoint can help. If that stopped being true -- if a
+    violating hour appeared that was NOT an unreachable-floor hour -- the
+    controller would be failing at its one job and the table would still look
+    respectable, because the counts would match by coincidence.
+
+    So this asserts the violating hours are the SAME HOURS, not merely the
+    same number of them.
+
+    It also pins defect 43: a region that solved fewer than 24 hours has
+    per-day figures scaled from the hours that solved, and must say so.
+    """
+    import json
+    p = ROOT / "results" / "pitch_artifacts.json"
+    if not p.exists():
+        pytest.skip("four-region artifact not generated")
+    d = json.loads(p.read_text(encoding="utf-8"))
+
+    for key, r in d["regions"].items():
+        rows = [x for x in r["rows"] if x.get("bounded")]
+        violating = {x["hour"] for x in rows
+                     if x["bounded"]["violations"].get("SI_silica_am", 0.0) > 1e-3}
+        unreachable = {x["hour"] for x in rows
+                       if x["bounded"].get("floor_unreachable")}
+        assert violating <= unreachable, (
+            f"{key}: hours {sorted(violating - unreachable)} are supersaturated "
+            f"with a REACHABLE floor. That is the controller failing, not the "
+            f"tower, and it is the one thing this policy must not do.")
+
+        # the blind policy must still be worse, or the comparison is pointless
+        blind = {x["hour"] for x in rows
+                 if x["blind"]["violations"].get("SI_silica_am", 0.0) > 1e-3}
+        assert len(blind) >= len(violating), key
+
+        # defect 43: the bias must be declared where it exists
+        assert r["hours_unsolved"] == 24 - r["solved_hours"]
+        assert r["averages_biased_optimistic"] is (r["solved_hours"] < 24)
