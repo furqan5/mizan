@@ -1,0 +1,50 @@
+{
+  "threshold_pct": 15.0,
+  "rows": [
+    {
+      "baseline_cycles": 2.0,
+      "water_pct": 36.26824176757027,
+      "cost_pct": 20.081204486724534,
+      "energy_pct": 2.926663220586905,
+      "violations": 0,
+      "arithmetic_headroom_to_5cy_pct": 37.5,
+      "verdict": "PASS"
+    },
+    {
+      "baseline_cycles": 2.5,
+      "water_pct": 23.517364272009008,
+      "cost_pct": 12.737738862578004,
+      "energy_pct": 2.936002637877153,
+      "violations": 0,
+      "arithmetic_headroom_to_5cy_pct": 25.0,
+      "verdict": "PASS"
+    },
+    {
+      "baseline_cycles": 3.0,
+      "water_pct": 15.014272613356377,
+      "cost_pct": 8.535842531791236,
+      "energy_pct": 2.9453945297547968,
+      "violations": 0,
+      "arithmetic_headroom_to_5cy_pct": 16.666666666666664,
+      "verdict": "PASS"
+    },
+    {
+      "baseline_cycles": 3.5,
+      "water_pct": 8.938512768348811,
+      "cost_pct": 5.8161193706826015,
+      "energy_pct": 2.955163926552082,
+      "violations": 0,
+      "arithmetic_headroom_to_5cy_pct": 10.71428571428571,
+      "verdict": "FAIL"
+    },
+    {
+      "baseline_cycles": 4.0,
+      "water_pct": 4.3797846233251,
+      "cost_pct": 3.9122144397707475,
+      "energy_pct": 2.9642750641758613,
+      "violations": 0,
+      "arithmetic_headroom_to_5cy_pct": 6.25,
+      "verdict": "FAIL"
+    }
+  ]
+}

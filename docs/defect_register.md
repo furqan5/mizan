@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Thirty-two found, thirty-two fixed, none open.
+## Part 1 — Defects. Thirty-three found, thirty-three fixed, none open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -50,13 +50,15 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 | 30 | **The water tariff charged the wastewater-discharge fee on evaporated water** | `run_controller.py` derives USD 3.11/m³ as *"the value of a cubic metre of blowdown avoided — the makeup NOT bought plus the industrial wastewater NOT discharged"*, SAR 8.04 + SAR 3.64 from the same approved Marafiq schedule. Both cost sites, `controller.py:222` and `:542`, then multiplied it by **makeup**. At six cycles makeup is six times blowdown, so the SAR 3.64 discharge half was charged on roughly **six times the water that reaches a sewer** — and on the evaporated fraction in particular, which leaves as vapour and is never discharged at all. Drift was also charged a sewer fee it does not incur. This is the **defect-19/23/28 shape a fourth time**: prose naming one quantity, code computing another. Found by an external agent's review of the tariff derivation. | **Fixed** — 10 Sep 2026. `_water_cost_per_h()` charges `p_makeup·M + p_discharge·B` with the two Marafiq line items carried separately (USD 2.144 and 0.971), asserted at import to reconstruct 3.11. A tariffs dict without the split falls back to the old single figure, so an external caller cannot be silently repriced |
 
+| 33 | **Every ceiling in the package was a saturation limit, and the operator's real ceiling is often the discharge permit** | The engine computed how far a water could be concentrated before a mineral precipitated, and nothing else. Blowdown has to go somewhere and where it goes has a consent. **The controller could therefore recommend an operating point that breaches the permit, and would have reported it as optimal.** Measured on the validated makeup analysis against RCER-2015 (Royal Commission for Jubail and Yanbu): the scaling ceiling is **5.02 cycles**, the Table 3C discharge ceiling is **1.00 cycles** — the permit binds **five times harder than the chemistry**, and the makeup water breaches total phosphorus *before it is concentrated at all* (8 mg/L PO₄ = **2.61 mg/L as P** against a 2.0 maximum and a 1.0 monthly average). Found while reading RCER-2015 after the acid-ban clause turned up. | **Fixed** — 11 Sep 2026. `src/discharge.py` carries RCER Table 3C and Table 3B (Jubail), and `binding_ceiling()` returns `min(scaling, discharge)` with the binding parameter named. Both ceilings are always reported; neither is discarded. Held by `tests/test_discharge.py` |
+
 | 32 | **The DOE benchmark ran on the wrong recipe table, and it was the easier one** | `DOE_SYN_MWW_NF_COC4` was transcribed from **Table 2.3.2** (p. 2-14), the general chapter 2/3 synthetic recipe. The heated-surface experiment this package benchmarks against — the one that produced the hydroxyapatite XRD result — is in **chapter 4**, and chapter 4 has its own recipe, **Table 4.2.1** (p. 4-13). They differ where it matters most: **HCO₃ 0.40 vs 1.60 mM, four times the alkalinity**, and Na 8.60 vs 9.80 mM. The wrong table understates carbonate saturation on precisely the water the benchmark claims calcite is undersaturated in, so **the benchmark was passing partly for the wrong reason**. Found by an external agent's review of the source, not by us. | **Fixed** — 11 Sep 2026. Corrected to Table 4.2.1; the 2.3.2 recipe is retained as `DOE_SYN_MWW_NF_COC4_TABLE_2_3_2` so the two can be compared and neither can be re-imported by accident. `test_the_two_doe_recipes_are_not_interchangeable` pins the difference. **The claim it cost us is recorded below** |
 
 | 31 | **The thermal solver's cache key omitted the water composition and the fill law** | `_thermal_solve` keyed its memo on `(fan_pct, cycles, cond items)` only — while the body computes the water activity from `makeup_water.concentrate(cycles).tds()` and passes `fill_c`/`fill_n` into the outlet-temperature solve. **Two different waters at the same fan and cycles therefore shared one thermal solution.** It never bit, because `run_controller.py` runs a single water and nothing sweeps composition through this function. It would have bitten on the **very next study planned** — the silica crossover sweep, whose entire method is to vary SiO₂, and hence TDS and water activity, at fixed fan and cycles. Same class as defects 11 and 26: a quantity computed, understood, and enforced by nothing. The comment above the key already worried about the smaller `id(cond)` hole and said *"it has not been observed to bite, which is exactly why it should not be left in"* — and then left the larger hole open. | **Fixed** — 10 Sep 2026. The key now includes TDS, SiO₂, PO₄ and both fill coefficients |
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
-**Open defects: none.** Thirty-two found, thirty-two fixed.
+**Open defects: none.** Thirty-three found, thirty-three fixed.
 
 ### Defect 29, and the limit that the model itself refused
 
@@ -370,7 +372,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Thirty-two defects were found, all thirty-two are fixed, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
+**"Is the work sound?"** Thirty-three defects were found, all thirty-three are fixed, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 

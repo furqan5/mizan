@@ -190,3 +190,108 @@ The boundary is the GPU coolant supply temperature and it stops there.
 
 26 new tests in `tests/test_water_saving.py` and `tests/test_cdu_controller.py`.
 Suite total 122, audit passing, register 32 found / 32 fixed / none open.
+
+---
+
+# 5. Regulation, added 11 September 2026 — and it reorders everything
+
+Two clauses of one document changed what this product is in its largest
+target market. Both were found by reading **RCER-2015**, the Royal Commission
+Environmental Regulations for Jubail and Yanbu Industrial Cities — which
+govern Hadeed, and the Marafiq service area whose tariffs the economics here
+are built on.
+
+## 5.1 Sulphuric acid is prohibited
+
+> **RCER-2015 §3.6.3** — *"The operator of the CT shall not use sulfuric acid
+> as a scaling inhibitor. However, the polyphosphonates and other similar
+> type scaling inhibitor shall be utilized during operation of the CT."*
+
+Mizan has three levers: fan speed, blowdown, and **acid dose**. In Royal
+Commission jurisdiction one of the three is illegal.
+
+| | ceiling | binding mineral |
+|---|---|---|
+| acid dosed to pH 8.25 | 5.02 cycles | amorphous silica |
+| acid dosed to pH 7.50 | 5.02 cycles | amorphous silica |
+| **no acid** (atmospheric CO₂) | **2.03 cycles** | **calcite** |
+
+Losing the acid lever costs **58 % of the ceiling** and moves the binding
+mineral from silica to calcite.
+
+**Three consequences, and the second one is against us.**
+
+It **explains the field data**. Aramco ran groundwater at 2.0 cycles and Qatar
+Cool run TSE at a maximum of 3. The no-acid ceiling computes to 2.03, and
+nothing was fitted to those observations.
+
+It **weakens the differentiation in that jurisdiction**. Without acid the
+binding mineral is calcite, and calcite is exactly what the Langelier index
+describes. In Jubail the incumbent's index points at the right mineral. The
+"LSI cannot see the binding species" argument is a Dhahran and Qatar argument
+and it is not universal. That should never have been assumed.
+
+It **makes treatment the product rather than control**. If acid is unavailable,
+the only legal route to higher cycles is to remove the alkalinity and hardness
+— which is what lime softening does (HCO₃ −80 %, Ca −70 %). The regulation
+converts a control problem into a treatment-sizing problem, and treatment
+sizing is what `src/sidestream.py` does.
+
+It also creates a tension the regulation does not resolve: §3.6.3 **requires**
+a phosphorus-bearing inhibitor, and Table 3C caps total phosphorus in the
+discharge at 1 mg/L.
+
+## 5.2 The discharge permit binds harder than the chemistry — DEFECT 33
+
+Every ceiling in this package was a saturation limit. Blowdown has to go
+somewhere, and where it goes has a consent.
+
+Measured on the validated makeup analysis, against RCER Table 3C (direct
+discharge to coastal waters as a variance stream):
+
+| ceiling | cycles | set by |
+|---|---|---|
+| scaling | **5.02** | amorphous silica |
+| **discharge** | **1.00** | **total phosphorus / nitrate** |
+| discharge, IWTP route (Table 3B) | 1.33 | TDS 2000 mg/L |
+
+**The permit binds five times harder than the chemistry.**
+
+And the reason is not concentration at all. The makeup water carries 8 mg/L of
+total phosphate, which is **2.61 mg/L as P** — against a Table 3C maximum of
+2.0 and a monthly average of 1.0. **It breaches before it is concentrated
+once.** Concentrating it is not the problem; using it in that jurisdiction is.
+
+`src/discharge.py` now returns `min(scaling, discharge)` with the binding
+parameter named, and always reports both. Two things are stated in the result
+rather than left implicit:
+
+- **Jurisdiction.** RCER governs Jubail and Yanbu. It does **not** govern
+  Dhahran, where the Aramco pilot supplying this makeup analysis was run.
+  Applying these limits to that water answers *"what if this water were used
+  in Jubail"*, which is a fair question and a different one.
+- **Coverage.** Table 3C also limits some thirty metals, organics and
+  biological parameters that no major-ion analysis can produce. A pass from
+  this module is a pass on what it can see and is **not a compliance
+  statement**.
+
+## 5.3 What this does to the pitch
+
+It removes a claim and supplies a better one.
+
+The claim it removes is that the scaling ceiling is the operator's ceiling. On
+a regulated site it frequently is not, and a controller that optimises against
+saturation alone can recommend an operating point that breaches a permit —
+which is what defect 33 was.
+
+What replaces it is broader and harder to dismiss:
+
+> **The real ceiling is the tightest of scaling, discharge consent and
+> treatment chemistry, and no tool in the market computes even the first of
+> those, let alone all three together.** Incumbent control computes a
+> carbonate index. Design software computes saturation offline. Nobody
+> computes the binding constraint.
+
+That is a diagnostic claim rather than a savings claim, it now has three
+independent legs instead of one, and it survives the acid ban — which the
+narrower LSI argument does not.

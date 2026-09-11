@@ -201,11 +201,32 @@ def gate_v3():
     return df
 
 
-def gate_v5(fill_c, fill_n):
-    """V5: optimised operation vs incumbent fixed-setpoint operation."""
+# ---- GATE V7 ------------------------------------------------------------
+#
+# V7 is V5 with ONE input changed: the baseline conductivity setpoint, from
+# 4.0 cycles to 3.0. The threshold does not move. It is run through the same
+# function as V5 rather than a copy, so "same code, one input" is a property
+# of the program and not a claim in a document.
+#
+# Pre-registered in docs/v7_preregistration.md BEFORE first execution,
+# including a written prior that it would FAIL. The baseline is sourced:
+# Qatar Cool state a maximum of 3 cycles on TSE against about 9 on polished
+# water, and the Aramco pilot ran groundwater at 2.0 and TSE at 3.5. A plant
+# on treated effluent does not run at four.
+V7_BASELINE_CYCLES = 3.0
+V7_PRE_REGISTERED = dict(V5_PRE_REGISTERED)     # identical bar, on purpose
+
+
+def gate_v5(fill_c, fill_n, baseline_cycles=4.0, label="V5"):
+    """V5: optimised operation vs incumbent fixed-setpoint operation.
+
+    `baseline_cycles` exists so gate V7 can run THIS function with a
+    different incumbent setpoint. The default reproduces V5 exactly.
+    """
     print()
     print("=" * 78)
-    print("GATE V5 -- optimised vs incumbent fixed-setpoint operation")
+    print(f"GATE {label} -- optimised vs incumbent fixed-setpoint operation "
+          f"at {baseline_cycles:g} cycles")
     print("=" * 78)
     if V5_REVISIONS:
         print("pre-registered criteria:", json.dumps(V5_PRE_REGISTERED))
@@ -240,7 +261,8 @@ def gate_v5(fill_c, fill_n):
             cond["T_wo_guess"] = seed[2]
 
         base = ctl.baseline(cond, TSE, TARIFFS, fill_c, fill_n,
-                            fixed_cycles=4.0, fixed_ph=7.8, cw_setpoint_c=32.0,
+                            fixed_cycles=baseline_cycles,
+                            fixed_ph=7.8, cw_setpoint_c=32.0,
                             fan_grid=np.arange(30, 101, 10.0))
         best, n_eval = ctl.optimise(
             cond, TSE, TARIFFS, fill_c, fill_n,
@@ -346,6 +368,8 @@ def gate_v5(fill_c, fill_n):
           f"and not chemistry -- that is the coupling this product exists to "
           f"price.")
     return df, {"revisions": V5_REVISIONS,
+                "gate": label,
+                "baseline_cycles": float(baseline_cycles),
                 "pre_registered": V5_PRE_REGISTERED,
                 "water_pct": w, "cost_pct": c, "violations": viol,
                 "energy_pct": e,
@@ -530,9 +554,39 @@ if __name__ == "__main__":
     v5, summary = gate_v5(fill_c, fill_n)
     _v5b, ceilings = gate_v5b(fill_c, fill_n)
     summary.update(ceilings)
+
+    # GATE V7 -- same function, same threshold, one input changed. Reported
+    # ALONGSIDE V5, never instead of it. See docs/v7_preregistration.md.
+    v7, v7_summary = gate_v5(fill_c, fill_n,
+                             baseline_cycles=V7_BASELINE_CYCLES, label="V7")
+    v7.to_csv(RESULTS / "v7_controller.csv", index=False)
+
+    print()
+    print("=" * 78)
+    print("V5 AND V7 SIDE BY SIDE -- the same bar against two incumbents")
+    print("=" * 78)
+    print(f"{'gate':<6}{'baseline':>10}{'water %':>10}{'verdict':>9}"
+          f"{'cost %':>9}{'verdict':>9}{'viol':>6}")
+    thr_w = V5_CRITERIA["makeup_water_reduction_pct_min"]
+    thr_c = V5_CRITERIA["total_cost_reduction_pct_min"]
+    for tag, sm in (("V5", summary), ("V7", v7_summary)):
+        print(f"{tag:<6}{sm['baseline_cycles']:>9.1f}c"
+              f"{sm['water_pct']:>10.2f}"
+              f"{'PASS' if sm['water_pct'] >= thr_w else 'FAIL':>9}"
+              f"{sm['cost_pct']:>9.2f}"
+              f"{'PASS' if sm['cost_pct'] >= thr_c else 'FAIL':>9}"
+              f"{sm['violations']:>6.0f}")
+    print()
+    print(f"  Threshold is {thr_w:g} % in BOTH rows. Only the incumbent "
+          f"baseline differs, and V5 remains the pre-registered gate of "
+          f"record.")
+    print(f"  Arithmetic headroom from cycles alone: "
+          f"3->5 = 16.67 %, 3->6 = 20.00 %, 4->5 = 6.25 %.")
+
     (RESULTS / "controller_summary.json").write_text(
         json.dumps({"criteria": V5_CRITERIA, "plant": PLANT,
-                    "tariffs": TARIFFS, "summary": summary}, indent=2),
+                    "tariffs": TARIFFS, "summary": summary,
+                    "v7": v7_summary}, indent=2),
         encoding="utf8")
     print(f"\nwritten -> {RESULTS/'v3_skin_vs_bulk.csv'}, "
           f"{RESULTS/'v5_controller.csv'}, {RESULTS/'controller_summary.json'}")
