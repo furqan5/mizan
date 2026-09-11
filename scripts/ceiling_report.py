@@ -87,6 +87,14 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
                      for k, v in checks.items()}
     out["charge_balance_pct"] = water.charge_balance_pct()
 
+    # DEFECT 39. If the analysis failed its own charge-balance check, say what
+    # that costs the ceiling instead of leaving the reader to wonder. The
+    # balance is closed both ways and the spread reported; see
+    # sidestream.charge_closure_bracket().
+    if not out["checks"]["charge_balance"]["ok"]:
+        out["charge_closure"] = ss.charge_closure_bracket(
+            water, T_hot, T_cold, pH=pH, limits=chem.limits_for_programme(programme))
+
     # phosphate requirement
     verdict, si_tcp = chem.phosphate_screen(water.concentrate(max(ceiling, 1.01)),
                                             T_hot, pH=pH)
@@ -224,6 +232,28 @@ def render(a, client="", site=""):
         f'<td class="{"ok" if v["ok"] else "no"}">{"PASS" if v["ok"] else "ATTENTION"}</td>'
         f'<td style="font-size:.82rem;color:var(--ink3)">{e(v["detail"][:150])}</td></tr>'
         for k, v in a["checks"].items())
+
+    # DEFECT 39. An ATTENTION row in the table is not enough on its own: it
+    # tells the reader something is wrong without telling them whether it
+    # changes the answer. This row does.
+    cc = a.get("charge_closure")
+    if cc:
+        chk += (
+            f'<tr><td>charge balance, closed both ways</td>'
+            f'<td class="{"no" if cc["material"] else "ok"}">'
+            f'{"MATERIAL" if cc["material"] else "IMMATERIAL"}</td>'
+            f'<td style="font-size:.82rem;color:var(--ink3)">'
+            f'The published cations do not account for the published anions, '
+            f'by {abs(cc["cation_deficit_meq_kg"]):.2f} meq/kg. On a SECONDARY '
+            f'effluent the likely missing species is ammonium '
+            f'({cc["closes_with_NH4_mg_l_as_N"]:.0f} mg/L as N would close it), '
+            f'which this model does not carry. Closing the balance with sodium '
+            f'instead gives {cc["ceiling_Na_closure"]:.2f} cycles and closing it '
+            f'by removing chloride gives {cc["ceiling_Cl_closure"]:.2f} — a spread '
+            f'of {cc["spread_pct"]:.1f} %. The ceiling is set by '
+            f'{e(_si_name(cc["binding_mineral"]))}, in whose ion product neither '
+            f'sodium nor chloride appears. The analysis is incomplete; the '
+            f'ceiling does not depend on how it is completed.</td></tr>')
 
     si = "".join(
         f'<tr><td>{e(_si_name(k))}</td><td class="n">{v:+.2f}</td>'
@@ -383,7 +413,20 @@ def main() -> int:
             else "treated sewage effluent makeup, silica assumed")
     out.write_text(render(a, client=label, site=site),
                    encoding="utf-8")
+    failed = [k for k, v in a["checks"].items() if not v["ok"]]
+    if failed:
+        # DEFECT 39. The console line is what gets pasted into a deck. It does
+        # not get to be more confident than the analysis behind it.
+        print(f"ANALYSIS CHECK FAILED: {', '.join(failed)}"
+              " -- see the report for what it costs")
     print(f"ceiling      : {a['ceiling']:.2f} cycles, bound by {a['binding']}")
+    cc = a.get("charge_closure")
+    if cc:
+        print(f"  closure    : {cc['ceiling_Cl_closure']:.2f} to "
+              f"{cc['ceiling_Na_closure']:.2f} cycles depending on which ion "
+              f"closes the balance -- "
+              f"{'MATERIAL' if cc['material'] else 'immaterial'} "
+              f"({cc['spread_pct']:.1f} %)")
     print(f"running at   : {a['cycles_now']:.1f}  ->  saving {a['saving_pct']:.1f} %")
     print(f"hard ceiling : {a['max_possible_pct']:.1f} % (1/C at the current setpoint)")
     print(f"silica xover : {a['silica_crossover']}")

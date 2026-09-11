@@ -508,3 +508,74 @@ def typical_cycles_evidence():
         ("WCTI food-processing plant", "makeup SiO2 32 ppm, 'typically "
          "operate below 2.1 cycles'", (None, 2.1)),
     ]
+
+
+# ---------------------------------------------------------------------------
+# DEFECT 39. A ceiling reported from an analysis that failed its own check.
+# ---------------------------------------------------------------------------
+def charge_closure_bracket(water, T_hot, T_cold, pH=None, limits=None):
+    """How much of the ceiling rests on an unclosed charge balance.
+
+    WHY THIS EXISTS. The Cycle Ceiling Report defaults to the measured Aramco
+    Riyadh assay, and that assay FAILS its own charge-balance check at
+    -5.25 % against a +/-5 % tolerance. The report printed `ceiling 4.52
+    cycles` anyway, on one console line, with the failed check visible only
+    further down the HTML. A number that leaves this package in a pitch deck
+    must carry its own caveat, because the deck will not.
+
+    The imbalance is NEGATIVE, meaning the published cations do not account
+    for all the published anions. On SECONDARY treated sewage effluent there
+    is an obvious candidate: secondary treatment nitrifies only partially, so
+    the stream carries ammonium, and NH4+ is not in this model's species list
+    at all. The deficit of 0.806 meq/kg closes with 11.3 mg/L as N -- squarely
+    inside the range a secondary effluent carries. So the most likely reading
+    is not that the assay is wrong but that it is INCOMPLETE, in a way this
+    model cannot represent.
+
+    That is an explanation, not a licence. This function does not add the
+    missing ion. It closes the balance BOTH WAYS -- once by adding sodium,
+    once by removing chloride -- and reports the spread in the ceiling, so the
+    question "does the ceiling depend on this?" is answered with a number
+    rather than an argument.
+
+    On the Riyadh assay the answer is that it does not: 4.50 to 4.53 cycles,
+    a spread of 0.7 %. The ceiling is set by calcite, and neither sodium nor
+    chloride appears in the calcite ion product -- they move the result only
+    through the ionic strength, third-decimal stuff at I = 0.021 mol/kg. The
+    check must still be reported as failed. What it does not do is invalidate
+    the ceiling.
+
+    Returns a dict with the three ceilings, the spread, and whether the spread
+    is material -- defined as more than 0.25 cycles, the resolution at which
+    a cycles setpoint is actually adjustable in the field.
+    """
+    import dataclasses
+
+    m = water.molality()
+    cat = sum(m[s] * water._charge(s) for s in chem.SPECIES
+              if water._charge(s) > 0)
+    an = sum(-m[s] * water._charge(s) for s in chem.SPECIES
+             if water._charge(s) < 0)
+    deficit = an - cat                       # +ve means cations are missing
+
+    as_pub, bind = ceiling_with(water, T_hot, T_cold, pH=pH, limits=limits)
+    na = dataclasses.replace(water, name=water.name + " [Na closure]",
+                             Na=water.Na + deficit * 22.99 * 1000.0)
+    cl = dataclasses.replace(water, name=water.name + " [Cl closure]",
+                             Cl=max(water.Cl - deficit * 35.45 * 1000.0, 0.0))
+    c_na, _ = ceiling_with(na, T_hot, T_cold, pH=pH, limits=limits)
+    c_cl, _ = ceiling_with(cl, T_hot, T_cold, pH=pH, limits=limits)
+
+    lo, hi = min(as_pub, c_na, c_cl), max(as_pub, c_na, c_cl)
+    return {
+        "imbalance_pct": water.charge_balance_pct(),
+        "cation_deficit_meq_kg": deficit * 1000.0,
+        "closes_with_NH4_mg_l_as_N": deficit * 14.007 * 1000.0,
+        "ceiling_as_published": as_pub,
+        "ceiling_Na_closure": c_na,
+        "ceiling_Cl_closure": c_cl,
+        "binding_mineral": bind,
+        "spread_cycles": hi - lo,
+        "spread_pct": 100.0 * (hi - lo) / lo if lo else 0.0,
+        "material": (hi - lo) > 0.25,
+    }

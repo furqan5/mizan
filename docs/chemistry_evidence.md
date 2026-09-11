@@ -67,6 +67,26 @@ Within the APHA ±5% acceptance band **as published**. Adding the unreported K�
 
 ---
 
+### 1.1b The measured Riyadh assay, and why it does not balance `[C]` + `[A]`
+
+The Dhahran water above is the package's default. The **Riyadh Refinery** assay — AlMajnouni & Jaffer, NACE Paper 577, Table 1 — is the one the **Cycle Ceiling Report** runs on, because it is the only Gulf TSE analysis we hold in which **silica is measured rather than assumed** (SiO₂ 18.0 mg/L, against the 26.8 imported from brackish groundwater).
+
+It **fails our own charge-balance check at −5.25 %**, outside the ±5 % APHA band, and the report now says so before it says anything else.
+
+**The deficit is on the cation side** — 0.806 meq/kg of positive charge unaccounted for. On a **secondary** treated sewage effluent there is one obvious candidate: secondary treatment nitrifies only partially, so the stream carries **ammonium**, and NH₄⁺ is not in this model's species list at all. The deficit closes with **11.3 mg/L as N**, squarely inside the range a secondary effluent carries. The most likely reading is that the assay is **incomplete, not wrong** — and incomplete in a way this model cannot represent.
+
+**That is an explanation, not a licence, and no ion was added to the water.** Instead the balance is closed *both ways* and the spread reported (`sidestream.charge_closure_bracket()`):
+
+| Closure | Ceiling |
+|---|---|
+| as published (fails the check) | **4.52** cycles |
+| closed with Na⁺ (+18.5 mg/L) | 4.53 |
+| closed by removing Cl⁻ (−28.6 mg/L) | 4.50 |
+
+**Spread 0.7 %, immaterial** — and for a reason that is worth stating rather than hiding behind the number: the ceiling is set by **calcite**, and neither sodium nor chloride appears in the calcite ion product. They move the result only through ionic strength, which at I = 0.021 mol/kg is third-decimal. Had silica or gypsum been binding, the same test would have mattered more.
+
+> The check stays **failed**. What the bracket establishes is that the *conclusion* does not rest on it. Those are different statements and the report makes both. See defect 39.
+
 ### 1.2 Same study — Saudi Aramco groundwater (the water TSE replaced) `[C]`
 
 Same source as §1.1. Partial analysis, but a genuine Gulf brackish cooling makeup and a useful high-hardness stress case.

@@ -421,3 +421,48 @@ def test_defect_38_silica_index_declares_its_pH_range():
     # selects on that prefix and would format a bool as a saturation index
     assert all(isinstance(v, float) for k, v in sp.items()
                if k.startswith("SI_") and not k.endswith("_at"))
+
+
+# ---------------------------------------------------------------------------
+# Defect 39 -- a confident headline over a failed analysis check.
+# ---------------------------------------------------------------------------
+def test_defect_39_a_failed_charge_balance_is_priced_not_just_flagged():
+    """The measured Aramco Riyadh assay fails its own charge-balance check.
+
+    The Ceiling Report defaults to that water and printed `ceiling 4.52
+    cycles` on one line with nothing attached. The console line is the one
+    that gets pasted into a deck.
+
+    Flagging the failure is necessary and not sufficient -- it tells a reader
+    something is wrong without telling them whether it changes the answer.
+    So the balance is closed BOTH ways and the spread reported. The point of
+    the test is that the bracket is computed from the water rather than
+    asserted, and that closing the balance is never allowed to silently
+    become adding an ion to the water.
+    """
+    import sidestream as ss
+
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    checks = ch.validate_analysis(w, silica_declared=True, phosphate_declared=True)
+    assert not checks["charge_balance"][0], (
+        "the assay now balances; if that is a deliberate correction this "
+        "test and defect 39 both need rewriting")
+
+    b = ss.charge_closure_bracket(w, 45.0, 32.0, pH=8.25)
+
+    # the deficit is on the CATION side, which is what makes ammonium the
+    # candidate -- a secondary effluent is only partially nitrified
+    assert b["cation_deficit_meq_kg"] > 0.0
+    assert 5.0 < b["closes_with_NH4_mg_l_as_N"] < 30.0, (
+        "outside the range a secondary effluent carries; the missing-ammonium "
+        "reading would no longer be the most likely one")
+
+    # closing it either way moves the ceiling by less than the resolution at
+    # which a cycles setpoint is adjustable in the field
+    assert b["binding_mineral"] == "SI_calcite"
+    assert b["spread_cycles"] < 0.25
+    assert b["material"] is False
+    assert b["ceiling_Cl_closure"] < b["ceiling_Na_closure"]
+
+    # and the module must not have mutated the water to get there
+    assert w.Na == 222.0 and w.Cl == 216.0
