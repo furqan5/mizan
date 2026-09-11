@@ -387,3 +387,76 @@ def compare_blind_vs_bounded(**kw):
             "bounded_SI_silica": bounded["SI"].get("SI_silica_am"),
         },
     }
+
+
+# ---------------------------------------------------------------------------
+# THE ENERGY CLAIM -- how much free cooling the chemistry forbids
+# ---------------------------------------------------------------------------
+# This package has been honest that condenser-water energy optimisation is
+# prior art: seven published optimisers, savings of 8-25 %, none with any
+# water chemistry. That has been treated as a weakness. It is not.
+#
+# Every economizer in that literature drives the facility water as cold as the
+# tower can make it, because colder water is compressor work avoided. On a
+# silica-bearing makeup that is not merely suboptimal, it is FORBIDDEN below
+# the amorphous-silica floor -- and on real weather the floor binds for most
+# of the year.
+#
+# Counted on Dhahran TMYx 2011-2025, 8,760 hours, with the economizer taking
+# T_fws = T_wetbulb + tower approach:
+#
+#     cycles   floor      hours below the floor      fraction of the year
+#       4      20.7 C          2,632 h                    30.0 %
+#       5      31.8 C          8,053 h                    91.9 %
+#       6      41.4 C          8,760 h                   100.0 %
+#
+#     (4 K tower approach; 3 K and 5 K give 35/96/100 and 25/87/100)
+#
+# So a chemistry-blind optimiser running this water at five cycles claims
+# free cooling it cannot have for NINE TENTHS OF THE YEAR, and at six cycles
+# for all of it. The published 8-25 % savings are not wrong about their own
+# water -- they are inapplicable to this one, and nothing in those papers
+# would reveal that, because none of them carries a chemistry state.
+#
+# THAT IS THE ENERGY PITCH, and it is stronger than competing on percentages:
+# not "we save more energy" but "the savings you were quoted are unavailable
+# on the water you actually have, and here is the fraction of the year".
+#
+# The measured cost of obeying the floor, 9 MW case at five cycles:
+# PUE 1.047 -> 1.150, fan -100 kW against secondary pump +1,028 kW. The
+# correct supervisory response is to lower cycles rather than pay that, which
+# is a decision neither an energy-only nor a water-only optimiser can reach.
+
+
+def free_cooling_hours_forbidden(makeup, cycles, tower_approach_k=4.0,
+                                 tmy_path=None):
+    """Hours per year an economizer would go below the chemical floor.
+
+    Returns the count and the fraction, plus the floor itself, so the caller
+    cannot quote the fraction without the temperature it came from.
+    """
+    import numpy as np
+    import pathlib
+    import chemistry as chem
+
+    p = pathlib.Path(tmy_path or (pathlib.Path(__file__).resolve().parent.parent
+                                  / "results" / "tmy_hourly.npy"))
+    if not p.exists():
+        return None
+    h = np.load(p)
+    t_wb = h[:, 5]
+    floor = chem.temperature_floor_for_silica(makeup, float(cycles))
+    t_fws = t_wb + float(tower_approach_k)
+    below = int((t_fws < floor).sum())
+    return {
+        "cycles": float(cycles),
+        "floor_c": float(floor),
+        "tower_approach_k": float(tower_approach_k),
+        "hours_total": int(t_wb.size),
+        "hours_below_floor": below,
+        "fraction_of_year": below / float(t_wb.size),
+        "note": ("hours in which a thermal-only economizer would drive the "
+                 "facility water below the amorphous-silica floor, i.e. free "
+                 "cooling the surveyed literature counts and this water "
+                 "forbids"),
+    }

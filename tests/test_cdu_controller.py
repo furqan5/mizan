@@ -273,3 +273,36 @@ def test_a_tighter_approach_does_not_rescue_a_large_design_delta_t():
     hi = cdu.sized_for(q, delta_t_k=18.0).m_dot_sec_kg_s
     assert hi < lo
     assert (lo / hi) ** 3 > 5.0, "the cubic penalty must be material"
+
+
+def test_the_chemical_floor_forbids_most_of_the_free_cooling_year():
+    """THE ENERGY CLAIM.
+
+    Condenser-water energy optimisation is prior art seven times over, with
+    published savings of 8-25 % and no water chemistry in any of it. Those
+    optimisers drive the facility water as cold as the tower can make it. On
+    this water, at five cycles, that is forbidden for about ninety-two per
+    cent of a Dhahran year.
+
+    The claim is therefore not "we save more energy". It is "the savings you
+    were quoted are unavailable on the water you actually have".
+    """
+    import hybrid_supervisor as hs
+    import run_controller as rc
+
+    r4 = hs.free_cooling_hours_forbidden(rc.TSE, 4.0)
+    r5 = hs.free_cooling_hours_forbidden(rc.TSE, 5.0)
+    r6 = hs.free_cooling_hours_forbidden(rc.TSE, 6.0)
+    if r4 is None:
+        pytest.skip("results/tmy_hourly.npy not present")
+
+    assert r4["fraction_of_year"] == pytest.approx(0.30, abs=0.03)
+    assert r5["fraction_of_year"] == pytest.approx(0.92, abs=0.03)
+    assert r6["fraction_of_year"] == pytest.approx(1.00, abs=0.01)
+
+    # the fraction must rise with cycles, because the floor does
+    assert r4["floor_c"] < r5["floor_c"] < r6["floor_c"]
+    assert (r4["fraction_of_year"] < r5["fraction_of_year"]
+            <= r6["fraction_of_year"])
+    # and the floor must travel with the fraction
+    assert "floor_c" in r5 and r5["floor_c"] > 30.0
