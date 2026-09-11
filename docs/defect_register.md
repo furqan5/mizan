@@ -638,3 +638,27 @@ coherent analysis** by the operating engineers in *Water Technology*, January
 groundwater at COC 2.0 produced *"severe scaling on the condenser surfaces"*;
 TSE at COC 3.5 left the *"condenser surface clean without mineral deposit
 formation"*; reported LSI 0 to 0.5.
+
+---
+
+## Correction to the commit record, 11 September 2026
+
+Three commit messages state test counts that were never verified:
+
+| commit | claimed | actual |
+|---|---|---|
+| `878f166` | 176 tests pass | 171 |
+| `8b27ccd` | 178 tests pass | 171 |
+| `0df3674` | 179 tests pass | 171 |
+
+The true figure throughout was **171 collected cases from 162 test functions** —
+the difference being parametrised tests, which expand. The counts were written
+into the messages from arithmetic rather than read from a run, which is
+exactly the habit this register exists to catch, and it is recorded here
+rather than silently left in the history.
+
+**No tests were lost.** Every file present at `f7e1808` is present now and the
+definition count rose. The error is in the prose, not the suite.
+
+Git history is not rewritten for this: the commits are real and their
+technical content stands. This note is the correction.
