@@ -70,6 +70,31 @@ SUBSIDIARY = {
         "two to four cycles on caution. Mizan computes the ceiling from an "
         "ion-association model, says which mineral sets it, and holds the "
         "loop against it."),
+    # THE POSITIONING LINE, added 12 Sep 2026. The tagline says what the tool
+    # does in three words; this says which two markets it does it in and what
+    # three constraints it respects. Each of those three is a module, not an
+    # adjective, which is the only reason the line is allowed to exist:
+    #
+    #   chemistry-aware    chemistry.py -- ion association, Davies activity
+    #                      coefficients, benchmarked against PHREEQC 3.9.0
+    #   metallurgy-safe    corrosion.py -- Larson-Skold plus chloride pitting.
+    #                      316 stainless caps this water at 1.85 cycles, below
+    #                      the 3.0 operators run and the 4.52 the scaling
+    #                      chemistry allows
+    #   permit-compliant   discharge.py -- RCER-2015 tables. On this water the
+    #                      permit binds at 3.33 cycles on NITRATE, before the
+    #                      chemistry binds at 4.52
+    #
+    # HONEST TENSE. "Runs" is the target, not the present. It runs no plant
+    # today; it runs a validated model of one. Say "built to run" until a
+    # pilot exists, and the line stops being a claim we cannot support.
+    "positioning": (
+        "A dual-domain AI supervisory controller that runs Saudi district "
+        "cooling plants and data-center CDUs at the true water-energy "
+        "ceiling -- chemistry-aware, metallurgy-safe, permit-compliant."),
+    "positioning_tense_caveat": (
+        "No plant runs on this yet. Until a pilot exists the defensible verb "
+        "is 'built to run', not 'runs'."),
     "alternates": (
         # Kept because each says something the winner does not.
         "Know the ceiling before you hit it.",
