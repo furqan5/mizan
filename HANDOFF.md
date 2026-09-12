@@ -1,5 +1,41 @@
 # Session handoff — Furqan / Mizan
 
+> **CURRENT AS OF 12 SEPTEMBER 2026.** Branch `water-modes-and-cdu` is **pushed**
+> to `origin` (github.com/furqan5/mizan), 26 commits ahead of `main`. Open the PR
+> at https://github.com/furqan5/mizan/pull/new/water-modes-and-cdu when ready.
+>
+> **State:** 193 tests pass · audit passes · register **50 found / 50 fixed / 0 open**.
+>
+> **The three findings that change what you say to people, in order of how much
+> they change it:**
+>
+> 1. **The water saving is negative where the model has been validated** (defect
+>    48). Splitting the Dhahran year at the edge of the Almeria calibration data:
+>    inside the envelope (5,475 h) water is **−3.31 %** and energy **+8.84 %**;
+>    extrapolated (3,285 h) water is **+8.23 %** and energy **−0.39 %**. The whole
+>    positive annual water figure is carried by hours never measured at. **Lead
+>    with energy. Treat water as the thesis the pilot exists to test.** The deck
+>    prints this split itself.
+> 2. **Measuring the chemistry costs more than the chemistry saves** (defect 47).
+>    Online silica + calcium + alkalinity + phosphate is **$120–185k/tower**
+>    against an **$89k/yr** saving on a 4.2 MW tower. So the skid buys only what
+>    is cheap (~**$23–30k installed**) and *computes* the chemistry, using the
+>    conductivity residual as a free scaling alarm. `docs/instrumentation_spec.md`.
+> 3. **A 316 stainless condenser pits at 1.85 cycles** on the measured Riyadh
+>    water — *below* the 3.0 baseline we recommend (defect 46). Lands on the
+>    **data-centre CDU** case, where plate exchangers are routinely 316.
+>
+> **Also settled since the last handoff:** skin ΔT is derived, not assumed
+> (7.45 K at the TEMA fouling allowance, and only 0.055 cycles/K — not
+> load-bearing); Mg-silicate is a **brucite** criterion, now enforced; the
+> discharge permit binds at **3.33 cycles on nitrate** before chemistry binds at
+> 4.52, and is reported-not-imposed because RCER covers Jubail and Yanbu and the
+> assay is from Riyadh.
+>
+> **Tagline:** *"The limit, computed."* — in `src/brand.py`. Chosen partly
+> because it survives finding 1, where a tagline about saving water would not.
+
+
 > **SUPERSEDED IN PART — 10 September 2026.** Four chemistry defects were found
 > and fixed (register 24-32) and defect 17 was resolved. Every annual figure in
 > this document moved, and the *narrative* moved with them: water was the
