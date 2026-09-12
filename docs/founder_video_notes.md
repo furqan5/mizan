@@ -1,4 +1,13 @@
-# One-minute founder video — notes beside the lens
+# Founder video — notes beside the lens
+
+**Two applications need this and the requirements differ slightly.** Record ONE take that works for both:
+
+| | YZi Labs EASY | Founders Inc. Blueprint II |
+|---|---|---|
+| Length | 60 s max | 30-60 s |
+| Extra ask | — | **"why you want to do Blueprint"** — add beat 5 |
+| Host | any viewable link | Loom or YouTube, unlisted is fine |
+
 
 **Not a script.** YZi say a recital flattens exactly what they're listening for. These are beats and anchor phrases. Say it the way you'd say it to a friend.
 
@@ -39,6 +48,14 @@ This is your strongest thirty seconds in the whole application. It's concrete, i
 > Fifty defects logged against my own model. Two gates still failing, both published. What I want next is one real tower, metered.
 
 Ending on what you still need beats ending on a claim. It's also true.
+
+### 5 · Why Blueprint — 10 seconds · BLUEPRINT ONLY
+
+> Everything I have is computed. No water has ever been in front of an instrument I own, and that single gap decides whether any of it is true.
+>
+> I need a bench: a loop, a heated coupon, and the cheap sensors the product actually ships. That is ten weeks of work and it is the one thing Lahore cannot give me.
+
+If you add this, tighten beats 2 and 3 — 60 seconds is hard and this pushes you over.
 
 ---
 
