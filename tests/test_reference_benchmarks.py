@@ -489,6 +489,36 @@ def test_defect_67_every_value_is_the_one_printed_in_nace_577_table_1():
     assert w.SiO2 != 18.0
 
 
+def test_the_nace_577_imbalance_is_not_explained_by_crediting_ammonium_alone():
+    """The assay prints ammonia 16 and nitrite 31 with no basis, and the engine
+    drops both. `makeup_analysis_audit.nitrogen_basis_charge_balance` scores
+    every basis pair against the unchanged ANALYSIS_TOLERANCES, on criteria
+    committed before it was first run.
+
+    Result pinned here: nitrite reported AS N fails charge balance and TDS
+    closure whatever basis ammonia takes, and nitrite as NO2- passes with
+    every ammonia basis. So the -5.25 % is consistent with the dropped
+    nitrogen, the ammonia basis is UNDETERMINED by this analysis, and the
+    diagnostic changes nothing the engine enforces."""
+    import makeup_analysis_audit as maa
+    res = maa.nitrogen_basis_charge_balance()
+    rows = {(r["ammonia"], r["nitrite"]): r for r in res["rows"]}
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    assert rows[("omitted", "omitted")]["charge_balance_pct"] == pytest.approx(
+        w.charge_balance_pct(), abs=1e-9)
+    assert rows[("omitted", "omitted")]["charge_balance_pct"] == pytest.approx(
+        -5.25, abs=0.01)
+    assert res["verdict"] == "UNDETERMINED"
+    for ka in ("as N", "as NH3", "as NH4+"):
+        assert not rows[(ka, "as N")]["consistent"], ka
+        assert rows[(ka, "as NO2-")]["consistent"], ka
+    assert not rows[("omitted", "as NO2-")]["consistent"]
+    # a diagnostic only: the analysis still fails its charge-balance check
+    assert not ch.validate_analysis(w)["charge_balance"][0]
+    assert ch.ANALYSIS_TOLERANCES["charge_balance_pct"] == 5.0
+    assert ch.ANALYSIS_TOLERANCES["tds_closure_pct"] == 10.0
+
+
 def test_the_engine_reproduces_aramcos_own_calcite_saturation_ratio():
     """External validation on a number this repository did not produce.
 

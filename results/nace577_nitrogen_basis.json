@@ -1,0 +1,182 @@
+{
+ "water": "Aramco Riyadh Refinery secondary TSE makeup (NACE Paper 577 Table 1)",
+ "nh4_fraction_at_pH": 0.9845741735991271,
+ "tolerances": {
+  "charge_balance_pct": 5.0,
+  "tds_closure_pct": 10.0,
+  "ionic_strength_max": 0.5
+ },
+ "rows": [
+  {
+   "ammonia": "omitted",
+   "nitrite": "omitted",
+   "both_included": false,
+   "cations_meq": 14.93740240045608,
+   "anions_meq": 15.74336795382025,
+   "charge_balance_pct": -5.253880812362552,
+   "ion_sum_mg_L": 1052.71103117506,
+   "tds_closure_pct": 0.2581934452438136,
+   "charge_balance_ok": false,
+   "tds_closure_ok": true,
+   "consistent": false
+  },
+  {
+   "ammonia": "omitted",
+   "nitrite": "as N",
+   "both_included": false,
+   "cations_meq": 14.93740240045608,
+   "anions_meq": 17.9565470785436,
+   "charge_balance_pct": -18.356839029104854,
+   "ion_sum_mg_L": 1154.5283368079579,
+   "tds_closure_pct": 9.95507969599599,
+   "charge_balance_ok": false,
+   "tds_closure_ok": true,
+   "consistent": false
+  },
+  {
+   "ammonia": "omitted",
+   "nitrite": "as NO2-",
+   "both_included": false,
+   "cations_meq": 14.93740240045608,
+   "anions_meq": 16.417207753841986,
+   "charge_balance_pct": -9.439156450063887,
+   "ion_sum_mg_L": 1083.71103117506,
+   "tds_closure_pct": 3.210574397624766,
+   "charge_balance_ok": false,
+   "tds_closure_ok": true,
+   "consistent": false
+  },
+  {
+   "ammonia": "as N",
+   "nitrite": "omitted",
+   "both_included": false,
+   "cations_meq": 16.062067694779348,
+   "anions_meq": 15.74336795382025,
+   "charge_balance_pct": 2.0040583281438606,
+   "ion_sum_mg_L": 1073.3155860404845,
+   "tds_closure_pct": 2.2205320038556673,
+   "charge_balance_ok": true,
+   "tds_closure_ok": true,
+   "consistent": true
+  },
+  {
+   "ammonia": "as N",
+   "nitrite": "as N",
+   "both_included": true,
+   "cations_meq": 16.062067694779348,
+   "anions_meq": 17.9565470785436,
+   "charge_balance_pct": -11.137898449938563,
+   "ion_sum_mg_L": 1175.1328916733823,
+   "tds_closure_pct": 11.917418254607842,
+   "charge_balance_ok": false,
+   "tds_closure_ok": false,
+   "consistent": false
+  },
+  {
+   "ammonia": "as N",
+   "nitrite": "as NO2-",
+   "both_included": true,
+   "cations_meq": 16.062067694779348,
+   "anions_meq": 16.417207753841986,
+   "charge_balance_pct": -2.1868718076819773,
+   "ion_sum_mg_L": 1104.3155860404845,
+   "tds_closure_pct": 5.17291295623662,
+   "charge_balance_ok": true,
+   "tds_closure_ok": true,
+   "consistent": true
+  },
+  {
+   "ammonia": "as NH3",
+   "nitrite": "omitted",
+   "both_included": false,
+   "cations_meq": 15.862373733765107,
+   "anions_meq": 15.74336795382025,
+   "charge_balance_pct": 0.7530643078792373,
+   "ion_sum_mg_L": 1069.657070749953,
+   "tds_closure_pct": 1.8721019761859938,
+   "charge_balance_ok": true,
+   "tds_closure_ok": true,
+   "consistent": true
+  },
+  {
+   "ammonia": "as NH3",
+   "nitrite": "as N",
+   "both_included": true,
+   "cations_meq": 15.862373733765107,
+   "anions_meq": 17.9565470785436,
+   "charge_balance_pct": -12.384625496484214,
+   "ion_sum_mg_L": 1171.4743763828508,
+   "tds_closure_pct": 11.56898822693817,
+   "charge_balance_ok": false,
+   "tds_closure_ok": false,
+   "consistent": false
+  },
+  {
+   "ammonia": "as NH3",
+   "nitrite": "as NO2-",
+   "both_included": true,
+   "cations_meq": 15.862373733765107,
+   "anions_meq": 16.417207753841986,
+   "charge_balance_pct": -3.4376779035372085,
+   "ion_sum_mg_L": 1100.657070749953,
+   "tds_closure_pct": 4.824482928566947,
+   "charge_balance_ok": true,
+   "tds_closure_ok": true,
+   "consistent": true
+  },
+  {
+   "ammonia": "as NH4+",
+   "nitrite": "omitted",
+   "both_included": false,
+   "cations_meq": 15.810735739938616,
+   "anions_meq": 15.74336795382025,
+   "charge_balance_pct": 0.4269985721805929,
+   "ion_sum_mg_L": 1068.71103117506,
+   "tds_closure_pct": 1.7820029690533374,
+   "charge_balance_ok": true,
+   "tds_closure_ok": true,
+   "consistent": true
+  },
+  {
+   "ammonia": "as NH4+",
+   "nitrite": "as N",
+   "both_included": true,
+   "cations_meq": 15.810735739938616,
+   "anions_meq": 17.9565470785436,
+   "charge_balance_pct": -12.70941076390366,
+   "ion_sum_mg_L": 1170.5283368079579,
+   "tds_closure_pct": 11.478889219805513,
+   "charge_balance_ok": false,
+   "tds_closure_ok": false,
+   "consistent": false
+  },
+  {
+   "ammonia": "as NH4+",
+   "nitrite": "as NO2-",
+   "both_included": true,
+   "cations_meq": 15.810735739938616,
+   "anions_meq": 16.417207753841986,
+   "charge_balance_pct": -3.763640792161661,
+   "ion_sum_mg_L": 1099.71103117506,
+   "tds_closure_pct": 4.73438392143429,
+   "charge_balance_ok": true,
+   "tds_closure_ok": true,
+   "consistent": true
+  }
+ ],
+ "verdict": "UNDETERMINED",
+ "consistent_with_both": [
+  [
+   "as N",
+   "as NO2-"
+  ],
+  [
+   "as NH3",
+   "as NO2-"
+  ],
+  [
+   "as NH4+",
+   "as NO2-"
+  ]
+ ]
+}

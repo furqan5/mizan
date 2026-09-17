@@ -25,6 +25,12 @@ is given in words.
 - `docs/incumbent_gap.md` §3.2 and any P3-variant list for Riyadh — "S150/S200 × P35000/P40000, CaCO₃ basis, within 0.5" → "no variant within 0.5 on Riyadh"
 - `docs/incumbent_gap.md:180–183` (limitations 1–2) — add that the only measured-silica water is calcite-bound, so no silica-bound result in the study rests on a measurement
 
+## Defect 68 — ammonium credited, nitrite ignored
+
+- `docs/chemistry_evidence.md:76` — "there is one obvious candidate … ammonium … The deficit closes with **11.3 mg/L as N**" → "the table also prints ammonia 16 and nitrite 31 mg/L with no basis. Counting both, the balance passes (−2.19 to −3.76 %) with nitrite as NO₂⁻ on every ammonia basis and fails with nitrite as N on every one; the ammonia basis is undetermined (defect 68)"
+- `docs/handoff_external.md:149` — "~11 mg/L as N would close it. Is that the right reading?" → "the assay also prints nitrite 31 mg/L; with nitrite as NO₂⁻ the balance closes within ±5 % on any ammonia basis, with nitrite as N it does not. Which bases did the laboratory report?"
+- `docs/chemistry_evidence.md:72–74` and anywhere the ion sum is quoted — "ions sum to 1063 mg/L … (+1.2 %)" → "1053 mg/L (+0.3 %)" (defect 67 removed 10 mg/L of silica from the sum; `results/ceiling_report.html` now prints 1053)
+
 ## Stale before this branch (defect 57's fix, merged at 709a3c5, never re-run into this artefact)
 
 `results/incumbent_gap.json` as committed (8433848) predated the brucite enthalpy fix. Re-running it at 709a3c5, before any change here, moved the no-acid regime only:
