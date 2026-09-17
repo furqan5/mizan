@@ -1,5 +1,15 @@
 # Reproducing the one-CDU research extension
 
+> **[RE-SCORED — 17 Sep 2026, branch review/cdu-side]** This experiment ran on 7–8 Sep,
+> before chemistry defects 24, 25, 27, 29, 30 and 44. Its makeup carried no silica
+> (`SI_silica_am` ≈ −27 at every optimum). It was re-run with thresholds untouched in two
+> forms: unchanged on the current engine (`results/cdu_hybrid_rescore_20260917/`), and with
+> the script's local copies of defects 25, 30 and 44 corrected by `src/cdu_hybrid_rescore.py`
+> (`results/cdu_hybrid_rescore_corrected_20260917/`). **No verdict changed.** The annual
+> figures did change: water 11.13 % → 5.63 % / 4.01 %, and the optimum moved from 6 cycles to 4–5.
+> The facility water in this study is **chilled water (4.44–8.89 °C)**, which is not
+> current direct-liquid-cooling practice. See `docs/staged/cdu-side_defects.md`, defect 66.
+
 > **[SUPERSEDED IN PART — 11 Sep 2026]** This document was written when the
 > binding mineral on this water was believed to be **gypsum**, and its
 > chemistry half reflects that: the H1b hypothesis, the 6.67 / 6.74 / 8.71 /

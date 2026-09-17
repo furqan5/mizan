@@ -1,0 +1,28 @@
+{
+  "script_sha256": "c9178d1cc5531c6d2e15cda29cbefd9ea128f3dcca515e6052ebfea239f20951",
+  "input_sha256": {
+    "src/controller.py": "a6b12a9a26c6e9fa68144031d4caf4c63c5c99f01a23b078d515674c28215ca9",
+    "src/chemistry.py": "7ef7d1e97d2593161a70e53e5a467af9ea359a9a29eb6360735e08626155efa6",
+    "src/tower.py": "3ed25512a649918efa80dcdc044dd0e7270f03f63ba49e6639c1a37d784e64ba",
+    "src/psychro.py": "769af02f854fa757af2c555d37b359b0d004f6b352737631b9789e1e24019302",
+    "src/water_activity.py": "f1059bf7bc415da3079204641b7a8682473042d0c0a2712d1bc65b4b78baf9e1",
+    "src/run_controller.py": "0c43a6c9e0ce32631f2d2fe611f25ce6bb94985e93d376d5a0612d6b9d434822",
+    "results/calibration.json": "eac4a714385cb0b0d488c470515f1c12b7ee89ca881c5443630f0f7f62d525bb",
+    "results/controller_summary.json": "1349b5fbb69c449159841d6119575bcf9bcf29d764ebfd47b48cabf397aa1374",
+    "results/annual_datacentre.json": "21c00f3812dc1aa8f2612791996a9288bb84377bf6b0dbac10794a10b83b15c3",
+    "results/tmy_hourly.npy": "57efd6ea18d4162f04d109cdc0753371dc164747135539e5a5ab1e55951a04c0"
+  },
+  "preregistration_sha256": "6187e0ca3bc2eb1cd53b48ea10822f83d9a9b7c8995b80bf892a14e3eeaa35ed",
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "repo": ".",
+  "Q_nominal_kW": 11504.60117056717,
+  "Q_IT_kW": 9000.0,
+  "tariffs": {
+    "elec_per_kwh": 0.074,
+    "water_per_m3": 3.11,
+    "water_makeup_per_m3": 2.144,
+    "water_discharge_per_m3": 0.971,
+    "acid_per_kg": 0.19,
+    "antiscalant_per_m3": 0.05
+  }
+}
