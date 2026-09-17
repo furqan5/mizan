@@ -27,6 +27,36 @@ this branch in this session, unless a row attributes it to another source by nam
 
 **Defect 57** (staged by the incumbent-gap study, brucite enthalpy): the Python fix was merged at 709a3c5. Applied here to the MATLAB twin, `matlab/+mizan/ph_sat_brucite.m`. **MATLAB ran** (`matlab.exe -batch`, R2024b): the corrected function returns **9.9520 at 25 C and 9.3338 at 45 C**, against the Python engine's 9.9503 and 9.3320 on the same water. `matlab/cases` and `results/matlab_simulink.json` were NOT regenerated and still carry the old constant.
 
+## What this branch may have moved on the CDU side (`review/cdu-side` owns those files)
+
+Nothing under `src/cdu_*.py`, `src/hybrid_supervisor.py`, `src/annual_datacentre.py`,
+`src/models/cdu_model.py`, `tests/test_cdu_controller.py` or the CDU docs was edited here.
+Three changes reach them through the modules they import:
+
+1. **Defect 54** (`controller.evaluate_operating_point` and `_cost_at_ph` now evaluate every
+   saturation index, the Davies check, the brucite criterion and the calcite corrosion floor on
+   the circulating water INCLUDING acid sulfate). `src/annual_datacentre.py:147` calls
+   `ctl.optimise`, so its per-bin optima, reported `SI_gypsum`/`SI_calcite` and the new
+   `acid_SO4_mg_l` field come from the corrected composition. On the Dhahran water the
+   Gulf-tower gates did not move at all (V5 and V7 byte-identical), because gypsum is far from
+   binding and the extra sulfate slightly relaxes calcite; a CDU condition set that runs hotter
+   or at higher cycles should be re-checked rather than assumed unchanged. `src/cdu_hybrid.py`
+   uses only `ctl.nominal_capacity`, `ctl.chiller_power_biquad`, `ctl._biquad` and the chiller
+   range constants, none of which changed.
+2. **Defect 55** (`chemistry.ph_atmospheric_equilibrium` keeps the free proton and refuses
+   negative alkalinity). Anything that resolves pH by atmospheric equilibrium moves by at most
+   **2.1e-06 pH** across every water in the engine, cycles 1-10, 20-50 C. A CDU water with
+   near-zero alkalinity would previously have received a nonsense pH and now gets the
+   CO2-saturated limit, or a `ValueError` past the equivalence point.
+3. **Defect 69** (`discharge.max_cycles_for_discharge` returns `INFEASIBLE` instead of its lower
+   bound). No CDU module imports `discharge`, but any future caller must handle the sentinel:
+   comparing it with a number raises, deliberately.
+
+The silica question runs the other way and is theirs to answer with this branch's result: the
+data-centre silica floor is computed on `rc.TSE`, whose **26.8 mg/L is assumed**, and the only
+measured Gulf TSE silica this repository holds is now **8 mg/L** (defect 67). The CDU review
+reports that at 8 mg/L there is no silica floor at 3-7 cycles.
+
 ## Answer to the question defect 67 decides
 
 **No measured Gulf TSE analysis in the repository is silica-bound.** The only one

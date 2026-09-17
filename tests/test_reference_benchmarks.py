@@ -415,9 +415,15 @@ def test_davies_validity_is_enforced_not_merely_reported():
     import pathlib as _p
     src = (_p.Path(__file__).resolve().parents[1] / "src" / "controller.py"
            ).read_text(encoding="utf-8")
-    assert src.count("conc.pitzer_required()") == 2, (
+    # DEFECT 54 renamed the water these indices are computed on: `circ` is
+    # the circulating composition INCLUDING the sulfate the acid adds, and
+    # the Davies check must be made on that same water, not on the makeup
+    # concentrated without it.
+    assert src.count("circ.pitzer_required()") == 2, (
         "both evaluate_operating_point and _cost_at_ph must reject points "
         "where the Davies equation is outside its range")
+    assert src.count("conc.pitzer_required()") == 0, (
+        "the Davies check must see the acid sulfate too (defect 54)")
     assert "davies_range" in src
 
 

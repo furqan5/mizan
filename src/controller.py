@@ -184,6 +184,66 @@ def acid_dose_for_ph(water, cycles, target_ph, T_c):
     return d_alk * 98.079 / 2.0 * 1e-3, ph_free       # kg H2SO4 per kg water
 
 
+# ---------------------------------------------------------------------------
+# DEFECT 54. The saturation state the optimiser enforces left out the sulfate
+# its own acid dose adds.
+# ---------------------------------------------------------------------------
+# Sulfuric acid destroys alkalinity and leaves one mole of sulfate per mole
+# dosed. `corrosion.acid_driven_index` has modelled that for Larson-Skold
+# since defect 46, and UFC 3-230-13 5-2.1.2.2 names the mechanism, but every
+# saturation index in this module was evaluated on
+# `makeup_water.concentrate(cycles)` -- makeup sulfate times C, and nothing
+# from the acid. The error is non-conservative: it understates SI_gypsum, in
+# the direction that scales a condenser.
+#
+# THE STEADY-STATE BALANCE, and why no flow appears in it. `acid_dose_for_ph`
+# returns kg H2SO4 per kg of CIRCULATING water, and the dose is charged
+# against blowdown + drift = makeup / C (defect 25). Sulfate leaves in that
+# same stream, so at steady state
+#
+#     s * (B + D) = n_acid * MW_SO4   with   n_acid = dose * (B + D) / MW_H2SO4
+#
+# and the flows cancel: s = dose * MW_SO4 / MW_H2SO4, on the circulating
+# basis, whatever the tower size.
+#
+# WHAT IS NOT CHANGED HERE. The alkalinity is still carried at C * a_makeup
+# rather than reduced to what the acid leaves. That omission overstates
+# calcite -- the conservative direction -- and changing it is a different
+# question (an open- versus closed-system carbonate model) that would move
+# every calcite-bound ceiling in the package. Staged defect 54 records both
+# halves; this fixes the non-conservative one. Water activity, which feeds
+# the thermal solve, is also left on the makeup basis so that pH stays out of
+# the tower solution: the acid sulfate is a few hundred mg/L against a TDS of
+# several thousand.
+MW_H2SO4_G = 98.079
+
+
+def acid_sulfate_mg_l(acid_kg_per_kg):
+    """Sulfate left in the circulating water by an acid dose, mg/L.
+
+    `acid_kg_per_kg` is what `acid_dose_for_ph` returns: kg H2SO4 per kg of
+    circulating water.
+    """
+    return (float(acid_kg_per_kg) / MW_H2SO4_G
+            * chem.SPECIES["SO4"][0] * 1.0e6)
+
+
+def circulating_with_acid(conc, acid_kg_per_kg):
+    """`conc` (already concentrated to C) plus the acid's own sulfate.
+
+    Returns a NEW water, because `conc` is shared with the cached thermal
+    solution and must not be mutated.
+    """
+    s = acid_sulfate_mg_l(acid_kg_per_kg)
+    if s <= 0.0:
+        return conc, 0.0
+    out = chem.Water(**vars(conc))
+    out.SO4 = conc.SO4 + s
+    if conc.TDS is not None:
+        out.TDS = conc.TDS + s
+    return out, s
+
+
 # --- operating point ------------------------------------------------------
 def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
                              makeup_water, tariffs, fill_c, fill_n,
@@ -229,7 +289,11 @@ def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
     T_basin = T_wo
     acid_kg_per_kg, ph_free = acid_dose_for_ph(makeup_water, cycles,
                                                target_ph, T_skin)
-    sat = chem.saturation_state_split(conc, T_skin, T_basin,
+    # DEFECT 54: every index below is evaluated on the water the acid
+    # actually leaves behind, sulfate included. `conc` is left alone: it
+    # is shared with the cached thermal solution, which pH must not enter.
+    circ, acid_so4 = circulating_with_acid(conc, acid_kg_per_kg)
+    sat = chem.saturation_state_split(circ, T_skin, T_basin,
                                       pH_hot=target_ph, pH_cold=target_ph)
     # MILESTONE 1. The limit set is injectable so a site that declares a
     # phosphate treatment programme can have calcium phosphate BIND rather
@@ -249,8 +313,8 @@ def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
     # so it walks straight at this boundary. Treated as a MODEL-VALIDITY
     # violation, not a chemistry one: the water may well be fine, but this
     # model is not entitled to an opinion about it.
-    if conc.pitzer_required():
-        violations["davies_range"] = (conc.ionic_strength()
+    if circ.pitzer_required():
+        violations["davies_range"] = (circ.ionic_strength()
                                       - chem.ANALYSIS_TOLERANCES["ionic_strength_max"])
 
     # cost per hour
@@ -273,7 +337,7 @@ def evaluate_operating_point(fan_pct, cycles, target_ph, cond,
         "m_evap_kg_s": info["m_evap"],
         "makeup_m3_h": wb["makeup"] * 3.6, "blowdown_m3_h": wb["blowdown"] * 3.6,
         "acid_kg_h": m_acid, "ph_free": ph_free,
-        "T_skin": T_skin,
+        "acid_SO4_mg_l": acid_so4, "T_skin": T_skin,
         "SI_calcite": sat["SI_calcite"], "SI_gypsum": sat["SI_gypsum"],
         "SI_silica_am": sat["SI_silica_am"],
         "violations": violations, "feasible": len(violations) == 0,
@@ -492,7 +556,11 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     T_basin = T_wo
     acid_kg_per_kg, ph_free = acid_dose_for_ph(makeup_water, cycles,
                                                target_ph, T_skin)
-    sat = chem.saturation_state_split(conc, T_skin, T_basin,
+    # DEFECT 54: every index below is evaluated on the water the acid
+    # actually leaves behind, sulfate included. `conc` is left alone: it
+    # is shared with the cached thermal solution, which pH must not enter.
+    circ, acid_so4 = circulating_with_acid(conc, acid_kg_per_kg)
+    sat = chem.saturation_state_split(circ, T_skin, T_basin,
                                       pH_hot=target_ph, pH_cold=target_ph)
     # MILESTONE 1. The limit set is injectable so a site that declares a
     # phosphate treatment programme can have calcium phosphate BIND rather
@@ -512,8 +580,8 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     # so it walks straight at this boundary. Treated as a MODEL-VALIDITY
     # violation, not a chemistry one: the water may well be fine, but this
     # model is not entitled to an opinion about it.
-    if conc.pitzer_required():
-        violations["davies_range"] = (conc.ionic_strength()
+    if circ.pitzer_required():
+        violations["davies_range"] = (circ.ionic_strength()
                                       - chem.ANALYSIS_TOLERANCES["ionic_strength_max"])
 
     # --- MAGNESIUM SILICATE, via the brucite criterion --------------------
@@ -541,8 +609,8 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     # low load, because the skin runs hotter.
     if mg_silicate_margin_k == "default":
         mg_silicate_margin_k = MG_SILICATE_BRUCITE_MARGIN_PH
-    if mg_silicate_margin_k is not None and conc.Mg > 0 and conc.SiO2 > 0:
-        ph_s = chem.ph_saturation_brucite(T_skin, conc)
+    if mg_silicate_margin_k is not None and circ.Mg > 0 and circ.SiO2 > 0:
+        ph_s = chem.ph_saturation_brucite(T_skin, circ)
         if target_ph > ph_s - mg_silicate_margin_k:
             violations["brucite_mg_silicate"] = (
                 target_ph - (ph_s - mg_silicate_margin_k))
@@ -596,7 +664,7 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     # quietly buy water by corroding the condenser.
     floor = CORROSION_FLOOR_SI if corrosion_floor_si is None else corrosion_floor_si
     if floor is not None:
-        si_bulk = chem.saturation_state(conc, T_c=T_basin,
+        si_bulk = chem.saturation_state(circ, T_c=T_basin,
                                         pH=target_ph)["SI_calcite"]
         if si_bulk < floor:
             violations["SI_calcite_corrosion_floor"] = floor - si_bulk
@@ -681,6 +749,7 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
         "m_evap_kg_s": info["m_evap"],
         "makeup_m3_h": wb["makeup"] * 3.6, "blowdown_m3_h": wb["blowdown"] * 3.6,
         "acid_kg_h": m_acid, "ph_free": ph_free, "T_skin": T_skin,
+        "acid_SO4_mg_l": acid_so4,
         "T_wi": T_wi, "Q_cond_kW": Q_cond, "T_basin": T_basin,
         "SI_calcite": sat["SI_calcite"], "SI_gypsum": sat["SI_gypsum"],
         "SI_silica_am": sat["SI_silica_am"],

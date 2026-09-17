@@ -117,14 +117,14 @@
    "rh": 0.4700675675675676,
    "load": 0.7913144003378378,
    "water_pct": -3.667112843021988,
-   "cost_pct": 1.2351270593198236,
+   "cost_pct": 1.2538807695652385,
    "energy_pct": 3.3762057031404558,
    "base_kW": 1328.92168109601,
    "opt_kW": 1284.0545515085764,
    "base_makeup_m3_h": 17.704713234982208,
    "opt_makeup_m3_h": 18.353965047842454,
    "base_cost_h": 141.73812931835923,
-   "opt_cost_h": 139.98748332977445,
+   "opt_cost_h": 139.9609021716948,
    "inside_validated_envelope": false,
    "pct_hours_above_almeria": 100.0
   },
@@ -175,10 +175,10 @@
  "input_hourly_sha256": "8ed944ffcbe746da418ed693d084de66996dfeaf6a1e81bea7eb13742faf448d",
  "unsolved_hours": 0,
  "annual_water_pct": 0.3112921605829173,
- "annual_cost_pct": 4.339320776461863,
+ "annual_cost_pct": 4.3418555245132975,
  "annual_energy_pct": 5.686708984440159,
  "annual_water_pct_ratio_of_totals": 1.3069129879860806,
- "annual_cost_pct_ratio_of_totals": 4.010170606482686,
+ "annual_cost_pct_ratio_of_totals": 4.013074119519627,
  "annual_energy_pct_ratio_of_totals": 4.86278289029429,
  "weighting_note": "annual_*_pct are hour-weighted MEANS OF RATIOS and are kept because published figures cite them. annual_*_ratio_of_totals are ratios of hour-weighted totals -- kWh saved over kWh consumed -- and are the figures to quote outside this repository. They differ because the percentage saving correlates with load.",
  "fraction_inside_validated_envelope": 0.594634703196347,
@@ -194,7 +194,7 @@
    "hours": 3551,
    "water_pct": 5.406168414975329,
    "energy_pct": 0.9508030141563457,
-   "cost_pct": 2.746896443874748
+   "cost_pct": 2.7525923004684496
   }
  },
  "envelope_warning": "The water saving is NEGATIVE inside the validated wet-bulb envelope and positive only outside it, so the annual water figure is carried entirely by extrapolated hours. The energy saving is the reverse: larger inside the envelope than outside it. Quote neither without this split.",
