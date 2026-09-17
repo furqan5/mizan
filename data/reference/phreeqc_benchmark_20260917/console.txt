@@ -1,0 +1,24 @@
+Input file: deck.pqi
+
+Output file: deck.out
+
+Database file: <phreeqc_dir>\phreeqc.dat
+
+               ____________________________________________
+              |                                            |
+              |             * PHREEQC_3.8.9 *              |
+              |                                            |
+              |      A hydrogeochemical transport model    |
+              |                                            |
+              |                    by                      |
+              |       D.L. Parkhurst and C.A.J. Appelo     |
+              |                                            |
+              |              October 13, 2025              |
+              |____________________________________________|
+
+
+Initializing...                                                                 
+Simulation 302.Initial solution 302.      -                                             
+Simulation 619.Initial solution 619.      /                                             
+
+End of Run after 0.646 Seconds.

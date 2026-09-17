@@ -2,7 +2,7 @@ Input file: deck.pqi
 
 Output file: deck.out
 
-Database file: C:\Users\Nouman\Desktop\Furqan's Docs\Startup Astra\research\phreeqc_reference_20260909\runtime\phreeqc.dat
+Database file: <phreeqc_dir>\phreeqc.dat
 
                ____________________________________________
               |                                            |
