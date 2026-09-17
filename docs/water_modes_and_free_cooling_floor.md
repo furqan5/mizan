@@ -117,6 +117,16 @@ energy over 240 days without mentioning water once.
 
 ### What it costs to enforce it
 
+> **[QUALIFIED — 17 Sep 2026, branch review/cdu-side]** The penalty below exists
+> because of the model's **42 °C cold-plate return** and its uncapped cubic pump law. At
+> the GPU OEM's published operating point (45 °C in, ~55 °C out), holding the floor at 5
+> cycles is *cheaper* than blind free cooling on all four design days. Letting cycles fall
+> to 4 also removes most of the penalty at 42 °C (pre-registered hypothesis H-B2, passed
+> 3 of 4). The model routes open tower water straight through the CDU primary; the reference
+> topology isolates the two loops. The floor itself depends on the **assumed** 26.8 mg/L
+> silica: at 18 mg/L the 5-cycle floor is 12.6 °C. `docs/staged/cdu-side_defects.md` 63–65,
+> `results/cdu_joint_policy_20260917/run.json`.
+
 `hybrid_supervisor.compare_blind_vs_bounded()` runs both policies. `blind`
 takes the coldest water the tower can make; `bounded` refuses to cool below
 the floor by slowing the fan, and pays for the warmer supply on the CDU side

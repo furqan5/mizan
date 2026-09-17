@@ -306,3 +306,31 @@ def test_the_chemical_floor_forbids_most_of_the_free_cooling_year():
             <= r6["fraction_of_year"])
     # and the floor must travel with the fraction
     assert "floor_c" in r5 and r5["floor_c"] > 30.0
+
+
+# ---------------------------------------------------------------------------
+# a caller-chosen tower state cannot launder a point below the floor
+# ---------------------------------------------------------------------------
+def test_a_caller_chosen_tower_state_below_the_floor_is_flagged(water, unit):
+    """`evaluate(tower_state=...)` exists so the joint cycles/fan study can
+    price one point of the supervisor's fan grid (docs/staged/
+    cdu_joint_policy_preregistration.md). It must not become a way to report
+    a supersaturated point as bounded. No tower solve: the state is synthetic."""
+    import hybrid_supervisor as hs
+    cycles = 5.0
+    floor = ch.temperature_floor_for_silica(water, cycles)
+    kw = dict(T_db=20.0, rh=0.6, q_it_kw=unit.q_it_kw, makeup=water,
+              cycles=cycles, tariffs={"elec_per_kwh": 0.1, "water_per_m3": 3.0,
+                                      "antiscalant_per_m3": 0.05},
+              unit=unit, m_w_pri=unit.q_it_kw / 20.0,
+              m_a_rated=unit.q_it_kw / 22.5, fill_c=1.0, fill_n=0.6)
+    cold = {"T_fws": floor - 3.0, "m_evap": 3.0, "P_fan_kW": 50.0, "T_wb": 15.0}
+    bounded = hs.evaluate(enforce_chemical_floor=True, tower_state=(50.0, cold), **kw)
+    assert bounded["floor_unreachable"]
+    assert bounded["floor_shortfall_k"] == pytest.approx(3.0, abs=1e-9)
+    assert "SI_silica_am" in bounded["violations"]
+    blind = hs.evaluate(enforce_chemical_floor=False, tower_state=(50.0, cold), **kw)
+    assert not blind["floor_unreachable"]
+    warm = dict(cold, T_fws=floor + 0.5)
+    ok = hs.evaluate(enforce_chemical_floor=True, tower_state=(50.0, warm), **kw)
+    assert not ok["floor_unreachable"] and "SI_silica_am" not in ok["violations"]
