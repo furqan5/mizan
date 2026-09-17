@@ -727,12 +727,43 @@ def ph_atmospheric_equilibrium(water, T_c, p_co2=P_CO2_ATM):
     supersaturation at high cycles and is the reason bench calculations
     disagree with operating plants.
 
+    DEFECT 55, staged by the safety branch. This returned
+
         [H+] = K1 * KH * pCO2 / [HCO3-]
+
+    with bicarbonate clamped at 1e-12, so at zero alkalinity it returned
+    **pH -0.75** -- the pH of a molar strong acid -- for water that is in
+    fact CO2-saturated rainwater. The expression is the open-system proton
+    balance with the free proton dropped, which is only valid while
+    bicarbonate carries the alkalinity.
+
+    Keeping that term costs nothing and supplies the physical limit:
+
+        A = K/h - h,        K = K1 * KH * pCO2
+        h = 2K / (A + sqrt(A^2 + 4K))
+
+    The second form is the numerically stable root. It reproduces the old
+    expression to within h^2/K -- below 1e-4 pH units anywhere above pH 7,
+    which is the whole operating band -- and tends to sqrt(K), about pH 5.6
+    at 25 C, as alkalinity goes to zero.
+
+    STILL NEGLECTED, as before: carbonate and hydroxide, both immaterial
+    below pH 9 at this pCO2. What the closure cannot represent at all is
+    EXCESS STRONG ACID, i.e. negative alkalinity past the equivalence point.
+    That is not a number to guess at, so it raises. `safety_sim
+    .ph_from_alkalinity` carries the full proton balance, including Kw, and
+    is the function an acid-overdose simulation must use.
     """
-    m_hco3 = max(water.molality()["HCO3"], 1e-12)
-    log_h = log_k1_carbonic(T_c) + log_kh_co2(T_c) + math.log10(p_co2) \
-        - math.log10(m_hco3)
-    return -log_h
+    m_hco3 = water.molality()["HCO3"]
+    if m_hco3 < 0.0:
+        raise ValueError(
+            "ph_atmospheric_equilibrium: negative alkalinity "
+            f"({m_hco3:.3e} mol/kg) is past the equivalence point, where this "
+            "closure has no meaning. Use safety_sim.ph_from_alkalinity().")
+    log_k = (log_k1_carbonic(T_c) + log_kh_co2(T_c) + math.log10(p_co2))
+    k = 10.0 ** log_k
+    h = 2.0 * k / (m_hco3 + math.sqrt(m_hco3 * m_hco3 + 4.0 * k))
+    return -math.log10(h)
 
 
 def balance_chloride(water):
