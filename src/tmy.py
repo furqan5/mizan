@@ -17,7 +17,26 @@ could not answer before, because it had no hourly Gulf weather:
      mean over five hand-picked conditions?
 
 Source: SAU_SH_Dhahran-Abdulaziz.AB.404160_TMYx.2011-2025.epw
-        Station 404160, 26.265 N 50.152 E, elevation 3 m. TMYx 2011-2025.
+        Station 404160, 26.265 N 50.152 E, elevation 25.6 m, UTC+3.
+        TMYx 2011-2025.
+
+DEFECT 61. This docstring and `tmy_dhahran.json` used to say "elevation 3 m".
+That was the EPW time-zone field (+3.0) read one column early. The LOCATION
+record is  LOCATION,city,state,country,source,WMO,lat,lon,TZ,elevation  --
+ten fields, elevation LAST. Nothing downstream used the elevation (every
+psychrometric call takes the EPW's own pressure column), so no computed
+number moved; the artefact simply recorded a wrong fact about the site.
+
+HOUR CONVENTION (defect 62, investigated). EPW hour h runs 1..24. In this
+file EPW hour h carries the station observation made at LOCAL STANDARD TIME
+(h-1):00. Measured, not assumed: against ISD-Lite 404160 for three months
+whose source year the EPW header names, dry bulb agrees within 0.5 K in
+98.6-98.9 % of hours at that alignment and in 28-30 % at h:00. So within a
+calendar day of this file, the row index t = h-1 IS the local clock hour,
+and hour 24 belongs to the same day (23:00), not to 00:00 of the next.
+`src/diurnal.py` and `scripts/generate_pitch_artifacts.py` use exactly that
+index, so neither is shifted. Anything joining these rows to real
+observations must use `epw_hour_to_local_hour`.
 
 Run:  python src/tmy.py <path-to-epw-or-zip>
 """
@@ -40,6 +59,49 @@ import psychro as ps                                            # noqa: E402
 # The wet-bulb ceiling of the validation dataset. Above this the model is
 # extrapolating, and the whole point of question 2 is to size that.
 ALMERIA_WB_MAX_C = 21.9
+
+# Dhahran is Arabia Standard Time, UTC+3, with no daylight saving.
+HOUR_CONVENTION = ("EPW hour h (1..24) holds the observation at local standard "
+                   "time (h-1):00; row index within a day = local clock hour")
+
+
+def epw_hour_to_local_hour(h):
+    """Local clock hour (0..23) of the observation an EPW hour (1..24) holds.
+
+    Verified for this TMYx file against ISD-Lite (see module docstring). An
+    EPW hour is NOT h:00 and hour 24 is NOT midnight of the next day.
+    """
+    h = np.asarray(h)
+    if np.any((h < 1) | (h > 24)):
+        raise ValueError("EPW hours run 1..24")
+    return h - 1
+
+
+def parse_location(header) -> dict:
+    """The EPW LOCATION record, by field NAME rather than by position in code
+    that reads it.
+
+        0 LOCATION, 1 city, 2 state, 3 country, 4 source, 5 WMO,
+        6 latitude, 7 longitude, 8 time zone (h from UTC), 9 elevation (m)
+
+    DEFECT 61: elevation was read from field 8, which is the time zone.
+    """
+    line = next(l for l in header if l.startswith("LOCATION"))
+    f = [x.strip() for x in line.split(",")]
+    if len(f) < 10:
+        raise ValueError(f"EPW LOCATION record has {len(f)} fields, need 10")
+    return {"station": f[1], "state": f[2], "country": f[3], "source": f[4],
+            "wmo": f[5], "latitude": float(f[6]), "longitude": float(f[7]),
+            "timezone_h": float(f[8]), "elevation_m": float(f[9])}
+
+
+def hourly_wetbulb(T_db, rh, p):
+    """Wet bulb for every hour with the package's own psychrometrics. `rh` is
+    a FRACTION, `p` in Pa. Shared by this file and the weather-source
+    sensitivity so both scenarios are built by the same code."""
+    rh = np.clip(np.asarray(rh, float), 0.001, 1.0)
+    return rh, np.array([ps.wetbulb_from_rh(float(a), float(b), float(c))
+                         for a, b, c in zip(T_db, rh, p)])
 
 
 def read_epw(path: pathlib.Path):
@@ -92,24 +154,24 @@ def main() -> int:
         return 1
 
     header, d = read_epw(src)
-    loc = next(l for l in header if l.startswith("LOCATION")).split(",")
+    loc = parse_location(header)
     month, day, hour = d[:, 0].astype(int), d[:, 1].astype(int), d[:, 2].astype(int)
     T_db, T_dp, rh_pct, p = d[:, 3], d[:, 4], d[:, 5], d[:, 6]
 
     print("=" * 76)
     print("FURQAN / MIZAN :: Dhahran TMY weather")
     print("=" * 76)
-    print(f"  station   {loc[1]}, {loc[3]}  WMO {loc[5]}")
-    print(f"  position  {loc[6]} N  {loc[7]} E   elevation {loc[8]} m")
+    print(f"  station   {loc['station']}, {loc['country']}  WMO {loc['wmo']}")
+    print(f"  position  {loc['latitude']} N  {loc['longitude']} E   "
+          f"elevation {loc['elevation_m']} m   UTC{loc['timezone_h']:+g}")
     print(f"  hours     {len(d)}")
+    print(f"  hour      {HOUR_CONVENTION}")
     print()
 
     # ---- hourly wet-bulb, from our own ASHRAE implementation -----------
     print("computing wet-bulb for every hour with the package's own "
           "psychrometrics ...")
-    rh = np.clip(rh_pct / 100.0, 0.001, 1.0)
-    T_wb = np.array([ps.wetbulb_from_rh(float(a), float(b), float(c))
-                     for a, b, c in zip(T_db, rh, p)])
+    rh, T_wb = hourly_wetbulb(T_db, rh_pct / 100.0, p)
 
     # ---- 1. cross-check against ASHRAE's own published design values ----
     ash = ashrae_design(header)
@@ -171,9 +233,11 @@ def main() -> int:
               f"{int((T_wb[k] > ALMERIA_WB_MAX_C).sum()):11d} {frac:6.1f}")
 
     out_json = {
-        "station": loc[1], "wmo": loc[5],
-        "latitude": float(loc[6]), "longitude": float(loc[7]),
-        "elevation_m": float(loc[8]),
+        "station": loc["station"], "wmo": loc["wmo"],
+        "latitude": loc["latitude"], "longitude": loc["longitude"],
+        "elevation_m": loc["elevation_m"],
+        "timezone_h": loc["timezone_h"],
+        "hour_convention": HOUR_CONVENTION,
         "n_hours": int(len(d)),
         "ashrae_design": ash,
         "our_wb_0p4_C": float(np.percentile(T_wb, 99.6)),
@@ -182,6 +246,7 @@ def main() -> int:
         "worst_design_disagreement_K": float(worst),
         "almeria_wb_max_C": ALMERIA_WB_MAX_C,
         "hours_above_almeria": int(out.sum()),
+        "hours_at_or_below_almeria": int((~out).sum()),
         "pct_year_above_almeria": float(100 * out.mean()),
         "annual_mean_wb_C": float(T_wb.mean()),
         "annual_max_wb_C": float(T_wb.max()),

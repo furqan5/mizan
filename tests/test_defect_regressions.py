@@ -818,7 +818,7 @@ def test_defect_48_the_annual_figures_are_split_by_validation_envelope():
     reporting what the extrapolation is worth, and here they point opposite
     ways.
 
-    The annual study already said 37.5 % of a Dhahran year is hotter and wetter
+    The annual study already said 40.5 % of a Dhahran year is hotter and wetter
     than the Almeria calibration data. What it did not say is that the WATER
     SAVING IS NEGATIVE inside the validated envelope and positive only outside
     it -- so the whole positive annual water figure is carried by hours the

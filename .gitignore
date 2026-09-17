@@ -84,3 +84,10 @@ output/pdf/
 /basin*
 /TowerBasin*
 /TowerSilicaDynamics*
+
+# ---------------------------------------------------------------------------
+# RAW NOAA ISD-LITE FILES -- re-downloaded and hash-verified by
+# data/weather/isd_404160/fetch.py; only derived aggregates are committed.
+data/weather/isd_404160/raw/
+# Scenario weather arrays rebuilt by src/weather_sensitivity.py --stage build
+results/weather_scenarios_local/
