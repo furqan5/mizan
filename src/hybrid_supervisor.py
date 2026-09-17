@@ -144,6 +144,17 @@ def solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, fan_pct,
 _FAN_CURVE_CACHE = {}
 _FAN_ANSWER_CACHE = {}
 
+# Heat the tower rejects per unit of IT heat when the tower state is chosen:
+# IT plus an allowance for pump work. [A] Named so a caller that prices its
+# own tower state uses the same duty the supervisor does.
+LOOP_HEAT_FACTOR = 1.03
+FAN_GRID_POINTS = 9
+
+
+def fan_grid(fan_lo=15.0, fan_hi=100.0, n=FAN_GRID_POINTS):
+    """The coarse fan grid the supervisor builds its fan -> T_fws map on."""
+    return [fan_lo + (fan_hi - fan_lo) * i / (n - 1) for i in range(n)]
+
 
 def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
                        m_a_rated, fill_c, fill_n, aw=1.0,
@@ -176,9 +187,7 @@ def fan_for_target_fws(target_c, T_db, rh, m_w_pri, q_total_kw,
     curve = _FAN_CURVE_CACHE.get(key)
     if curve is None:
         pts = []
-        n = 9
-        for i in range(n):
-            f = fan_lo + (fan_hi - fan_lo) * i / (n - 1)
+        for f in fan_grid(fan_lo, fan_hi):
             st = solve_free_cooling(T_db, rh, m_w_pri, q_total_kw, f,
                                     m_a_rated, fill_c, fill_n, aw)
             if st is not None:
@@ -302,26 +311,46 @@ def water_balance_for(state, cycles, makeup_water):
 def evaluate(T_db, rh, q_it_kw, makeup, cycles, tariffs, unit,
              m_w_pri, m_a_rated, fill_c, fill_n,
              enforce_chemical_floor=True, ph=8.25,
-             p_pump_pri_kw=None, limits=None):
+             p_pump_pri_kw=None, limits=None, tower_state=None):
     """One operating point of the coupled plant, under one policy.
 
     `enforce_chemical_floor=False` is the thermal-only economizer: it takes
     the coldest facility water the tower can make. That is the baseline this
     product exists to beat, and it is what every optimiser in the surveyed
     literature would do.
+
+    `tower_state=(fan_pct, state)` prices a tower state the CALLER chose (one
+    point of `fan_grid`, solved at `LOOP_HEAT_FACTOR * q_it_kw`) instead of
+    selecting one. It exists for the joint cycles/fan policy study
+    (`src/cdu_joint_policy.py`). The floor is still computed, and a state below
+    it is still flagged `floor_unreachable` when the floor is enforced, so a
+    caller cannot launder a supersaturated point through this door.
     """
     limits = chem.OPERATING_LIMITS if limits is None else limits
     floor = chem.temperature_floor_for_silica(makeup, cycles)
 
-    # start from the coldest the tower can make at full fan
-    q_guess = q_it_kw * 1.03
-    full = solve_free_cooling(T_db, rh, m_w_pri, q_guess, 100.0,
-                              m_a_rated, fill_c, fill_n)
-    if full is None:
-        return None
-
+    q_guess = q_it_kw * LOOP_HEAT_FACTOR
     floor_unreachable = False
-    if enforce_chemical_floor and full["T_fws"] < floor:
+    if tower_state is not None:
+        fan_pct, state = tower_state
+        if state is None:
+            return None
+        bounded_by_chemistry = bool(enforce_chemical_floor)
+        floor_unreachable = bool(enforce_chemical_floor
+                                 and state["T_fws"] < floor - 1e-6)
+        if floor_unreachable and "target_shortfall_k" not in state:
+            state = dict(state, target_shortfall_k=float(floor - state["T_fws"]))
+        full = None
+    else:
+        # start from the coldest the tower can make at full fan
+        full = solve_free_cooling(T_db, rh, m_w_pri, q_guess, 100.0,
+                                  m_a_rated, fill_c, fill_n)
+        if full is None:
+            return None
+
+    if tower_state is not None:
+        pass
+    elif enforce_chemical_floor and full["T_fws"] < floor:
         got = fan_for_target_fws(floor, T_db, rh, m_w_pri, q_guess,
                                  m_a_rated, fill_c, fill_n)
         if got is None:
