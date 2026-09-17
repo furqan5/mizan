@@ -29,7 +29,18 @@ is given in words.
 
 - `docs/chemistry_evidence.md:76` — "there is one obvious candidate … ammonium … The deficit closes with **11.3 mg/L as N**" → "the table also prints ammonia 16 and nitrite 31 mg/L with no basis. Counting both, the balance passes (−2.19 to −3.76 %) with nitrite as NO₂⁻ on every ammonia basis and fails with nitrite as N on every one; the ammonia basis is undetermined (defect 68)"
 - `docs/handoff_external.md:149` — "~11 mg/L as N would close it. Is that the right reading?" → "the assay also prints nitrite 31 mg/L; with nitrite as NO₂⁻ the balance closes within ±5 % on any ammonia basis, with nitrite as N it does not. Which bases did the laboratory report?"
-- `docs/chemistry_evidence.md:72–74` and anywhere the ion sum is quoted — "ions sum to 1063 mg/L … (+1.2 %)" → "1053 mg/L (+0.3 %)" (defect 67 removed 10 mg/L of silica from the sum; `results/ceiling_report.html` now prints 1053)
+- No document quotes the ion sum; `results/ceiling_report.html` (regenerated) now prints "ions sum to 1053 mg/L … (+0.3 %)" where it printed 1063 (+1.2 %), because defect 67 removed 10 mg/L of silica from the sum
+
+## Defect 69 — nitrate monthly average, and INFEASIBLE instead of 1.00
+
+- `HANDOFF.md:30–32` — "the discharge permit binds at **3.33 cycles on nitrate** before chemistry binds at 4.52" → "on the nitrate monthly average no cycle count complies (makeup 3 mg/L against 1); the daily maximum alone would bind at 3.33"
+- `docs/handoff_external.md:72` — "**3.33 cycles** (daily max) on **nitrate**" → "**no cycle count complies** on the nitrate monthly average; 3.33 on the daily maximum alone"
+- `docs/handoff_external.md:74` — "**the permit binds before the chemistry does**" → keep, and add that on the monthly average it admits nothing
+- `docs/deck_2026_09_12.md:87` and `:172` — "**3.33 cycles** … nitrate" → "monthly average: none; daily max: 3.33" (deck markdown: for the founder)
+- `docs/yzi_application_answers.md:52` — "bind at 3.33 cycles on nitrate" → "admit no cycle count on the nitrate monthly average (3.33 on the daily maximum alone)"
+- `docs/r3sidency_application_answers.md:65` — "nitrate permit at 3.33" → "nitrate permit infeasible on the monthly average"
+- `docs/defect_register.md:59` (defect 49's row) — "a tested discharge ceiling of **3.33**" → add "(the daily maximum; defect 69)"
+- `docs/incumbent_gap.md:190–192` — "the makeup alone already breaches it on both waters, giving a discharge ceiling of 1.0" → "… so no cycle count complies (INFEASIBLE)"
 
 ## Stale before this branch (defect 57's fix, merged at 709a3c5, never re-run into this artefact)
 

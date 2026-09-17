@@ -253,7 +253,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.2966,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -390,7 +390,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7492,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -450,7 +450,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.3377,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -587,7 +587,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7475,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -647,7 +647,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.2773,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -784,7 +784,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7499,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -844,7 +844,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.3485,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -981,7 +981,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.747,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1041,7 +1041,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.2674,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1178,7 +1178,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7503,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1337,7 +1337,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.8513,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1474,7 +1474,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7674,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1534,7 +1534,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.8521,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1671,7 +1671,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.766,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1731,7 +1731,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.8509,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1868,7 +1868,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7679,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1928,7 +1928,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.8523,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -2065,7 +2065,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7656,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -2125,7 +2125,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.8507,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -2262,7 +2262,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.7683,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false

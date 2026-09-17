@@ -896,8 +896,11 @@ def test_defect_49_the_report_carries_the_discharge_ceiling():
     # the permit binds BEFORE the chemistry on this water, which is the point
     assert mx["binding"] == "DISCHARGE"
     assert mx["discharge_cycles"] < scaling
-    assert mo["discharge_cycles"] <= mx["discharge_cycles"], (
-        "a monthly average cannot be looser than a daily maximum")
+    # DEFECT 69: on the monthly average no cycle count complies, and that
+    # must be said as INFEASIBLE, not as the search's lower bound of 1.00
+    assert dis.is_infeasible(mo["discharge_cycles"]), (
+        "a monthly average cannot be looser than a daily maximum, and here "
+        "the makeup already breaches it")
 
     # nitrate, not a scaling species -- the constraint the chemistry cannot see
     assert mx["parameter"] == "NO3"
@@ -919,3 +922,5 @@ def test_defect_49_the_report_carries_the_discharge_ceiling():
     assert d["discharge"]["applies_here"] is None, (
         "the report must not claim to know whether RCER binds a given site")
     assert "jurisdiction" in d["discharge"]
+    assert d["discharge"]["monthly_avg"]["discharge_cycles"] == "INFEASIBLE"
+    assert d["discharge"]["monthly_avg"]["discharge_feasible"] is False

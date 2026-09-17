@@ -132,6 +132,7 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
                 "cycles": b["cycles"], "binding": b["binding"],
                 "parameter": b["parameter"],
                 "discharge_cycles": b["discharge_cycles"],
+                "discharge_feasible": b["discharge_feasible"],
                 "scaling_cycles": b["scaling_cycles"],
             }
         out["discharge"]["jurisdiction"] = dis.JURISDICTION_NOTE
@@ -335,16 +336,30 @@ def render(a, client="", site=""):
     if "max" in dsc and (dsc["max"]["binding"] == "DISCHARGE"
                          or dsc["monthly_avg"]["binding"] == "DISCHARGE"):
         mx, mo = dsc["max"], dsc["monthly_avg"]
+
+        # DEFECT 69. The monthly average is the limit continuous operation
+        # answers to, so it leads. When no cycle count complies, say so: the
+        # search's lower bound is not a ceiling.
+        def _basis(d, label):
+            if not d.get("discharge_feasible", True):
+                return (f'on the {label}, <b>no cycle count complies</b>: the '
+                        f'makeup itself already carries '
+                        f'{e(str(d["parameter"]))} above the limit')
+            return (f'on the {label} the permit binds at '
+                    f'<b>{d["discharge_cycles"]:.2f} cycles</b>')
+
         chk += (
             f'<tr><td>discharge permit, if RCER-2015 applies</td>'
-            f'<td class="no">BINDS FIRST</td>'
+            f'<td class="no">'
+            f'{"INFEASIBLE" if not mo.get("discharge_feasible", True) else "BINDS FIRST"}'
+            f'</td>'
             f'<td style="font-size:.82rem;color:var(--ink3)">'
             f'The blowdown at the scaling ceiling of '
             f'{mx["scaling_cycles"]:.2f} cycles would carry '
-            f'{e(str(mx["parameter"]))} above the Royal Commission limit. On '
-            f'the daily-maximum basis the permit binds at '
-            f'<b>{mx["discharge_cycles"]:.2f} cycles</b>; on the monthly '
-            f'average, at <b>{mo["discharge_cycles"]:.2f}</b>. '
+            f'{e(str(mo["parameter"] or mx["parameter"]))} above the Royal '
+            f'Commission limit. {_basis(mo, "monthly average")[0].upper()}'
+            f'{_basis(mo, "monthly average")[1:]}; '
+            f'{_basis(mx, "daily maximum alone")}. '
             f'<b>This is reported, not imposed.</b> RCER-2015 binds Jubail '
             f'and Yanbu. If your outfall is elsewhere, or discharges to a '
             f'sewer or an irrigation system rather than to coastal water, a '
@@ -582,9 +597,13 @@ def main() -> int:
     if "max" in dsc:
         mx, mo = dsc["max"], dsc["monthly_avg"]
         if mx["binding"] == "DISCHARGE" or mo["binding"] == "DISCHARGE":
-            print(f"DISCHARGE    : {mx['discharge_cycles']:.2f} cycles on the "
-                  f"daily-max basis, {mo['discharge_cycles']:.2f} on the "
-                  f"monthly average, bound by {mx['parameter']}")
+            def _txt(d):
+                return ("INFEASIBLE (no cycle count complies)"
+                        if not d.get("discharge_feasible", True)
+                        else f"{d['discharge_cycles']:.2f} cycles")
+            print(f"DISCHARGE    : monthly average {_txt(mo)} on "
+                  f"{mo['parameter']}; daily maximum {_txt(mx)} on "
+                  f"{mx['parameter']}")
             print(f"             : IF RCER-2015 applies to this site. It binds "
                   f"Jubail and Yanbu; check before using it.")
     cr = a.get("concrete") or {}
