@@ -2,10 +2,20 @@
 MIZAN :: cooling-water hydrochemistry
 =====================================
 Ion-association speciation and mineral saturation for recirculating cooling
-water. Every equilibrium constant is taken directly from the USGS PHREEQC
+water. Every equilibrium constant is taken from the USGS PHREEQC
 `phreeqc.dat` thermodynamic database. That choice is deliberate: it makes
 this engine checkable against PHREEQC, the accepted reference
 implementation, rather than against a correlation of our own devising.
+
+Checked, not assumed (staged defect 53, 17 Sep 2026). The constants are
+from an EARLIER phreeqc.dat than PHREEQC 3.9.0 ships: 3.9.0 carries
+different analytic expressions for calcite and gypsum and dH 3.34 rather
+than 3.59 kcal for SiO2(a), so log K differs by up to 0.106 (gypsum, 55 C).
+On a pre-registered grid of 4 waters x 8 cycles x 4 temperatures,
+tests/test_phreeqc_grid.py measures 95.7 % of 416 saturation indices within
+tolerance of PHREEQC 3.9.0 and a FAILED criterion: calcite agrees at 89.1 %,
+worst -0.10 log units at 45-55 C, from Davies activity coefficients and the
+older calcite constant together.
 
 Why not the Langelier index, as the industry does
 -------------------------------------------------
@@ -212,8 +222,10 @@ ANALYSIS_TOLERANCES = {
 
 # Measured Saudi makeup silica. Al-Mutaz & Al-Anezi (2004), King Saud
 # University / Riyadh Water Treatment Project, Salbukh field. [C]
-# Recorded in HANDOFF.md as the value at which the model computes 4.4-4.9 max
-# cycles against an industry empirical band of 3.5-5.0.
+# Recorded in HANDOFF.md as the value at which the PRE-CORRECTION model
+# computed 4.4-4.9 max cycles against an industry empirical band of 3.5-5.0.
+# The corrected engine computes 5.84 on ARAMCO_FIELD_VALIDATED (40 C, pH 8,
+# silica binding) -- ABOVE that band by 0.84 cycles, not in it.
 GULF_SILICA_MG_L = 26.8
 
 
@@ -1430,10 +1442,13 @@ DISCHARGE_ROUTE_DEFAULT = "coastal_outfall"   # RCER-2015 Table 3C  [C]
 # ppm CaCO3", but the two conventions give very different answers:
 #
 #     Mg as CaCO3 : limit reached at ~2.8 cycles  -- BELOW observed practice
-#     Mg as Mg2+  : limit reached at ~5.6 cycles  -- matches observed practice
+#     Mg as Mg2+  : limit reached at ~5.6 cycles  -- ABOVE the 3.5-5.0 band
+#                   by ~0.6 cycles (the 25,000 utility limit gives 4.8,
+#                   inside it)
 #
 # Since plants demonstrably operate at 3.5-5.0 cycles on this water, the
-# Mg-as-Mg2+ convention is the one consistent with reality. Both are
+# Mg-as-Mg2+ convention is the one nearer reality: within a cycle of the
+# band rather than below it. It does not land in the band at 35,000. Both are
 # implemented; the model reports both and flags the discrepancy rather than
 # silently picking one.
 
@@ -1450,7 +1465,8 @@ MG_TO_CACO3 = 100.0869 / 24.305            # 4.118
 def mg_silica_product(water, mg_basis="Mg"):
     """Empirical magnesium-silica product [ppm^2].
 
-    mg_basis "Mg"    -> magnesium as ppm Mg2+ (matches observed practice)
+    mg_basis "Mg"    -> magnesium as ppm Mg2+ (nearer observed practice:
+                        ~5.6 cycles at 35,000 against a 3.5-5.0 band)
     mg_basis "CaCO3" -> magnesium hardness as ppm CaCO3 (as literally worded
                         in several sources, but see the unit note above)
     """
@@ -1476,6 +1492,10 @@ def max_cycles_mg_silicate(makeup, limit=35_000.0, mg_basis="Mg"):
     return math.sqrt(limit / p1)
 
 
+BRUCITE_DH_PROTON_KCAL = -27.1        # wateq4f.dat, proton form
+BRUCITE_DH_HYDROXIDE_KCAL = BRUCITE_DH_PROTON_KCAL + 2 * 13.362
+
+
 def ph_saturation_brucite(T_c, water):
     """Saturation pH for Mg(OH)2 (brucite) at temperature T_c.
 
@@ -1486,7 +1506,9 @@ def ph_saturation_brucite(T_c, water):
     deposition cannot occur while bulk pH stays below the saturation pH
     evaluated at the hottest surface in the system.
 
-    Mg(OH)2 = Mg+2 + 2 OH-,  phreeqc.dat log_k -11.18, delta_h -27.1 kcal.
+    Mg(OH)2 = Mg+2 + 2 OH-,  log_k -11.18 at 25 C (wateq4f.dat writes it in
+    proton form: Mg(OH)2 + 2H+ = Mg+2 + 2H2O, log_k 16.84, delta_h -27.1
+    kcal; phreeqc.dat has no Brucite phase).
     """
     # This function takes (T_c, water) -- reversed from every other function
     # in this module, which take (water, T_c). Five call sites use it
@@ -1497,7 +1519,14 @@ def ph_saturation_brucite(T_c, water):
         raise TypeError(
             "ph_saturation_brucite takes (T_c, water) -- note the order is "
             "reversed from the rest of this module, which takes (water, T_c)")
-    log_k = _vant_hoff(-11.18, -27.1, T_c)
+    # STAGED (defect 57 on the incumbent branch; confirmed by PHREEQC on this
+    # branch, docs/staged/phreeqc_brucite_supplement_preregistration.md).
+    # This was _vant_hoff(-11.18, -27.1, T_c): a HYDROXIDE-form log K with the
+    # PROTON-form enthalpy. Converting the reaction to hydroxide form adds
+    # 2 x (H2O = H+ + OH-, dH +13.362 kcal), so its enthalpy is -0.376 kcal.
+    # The old pairing made saturation pH fall 0.32/0.62/0.91 pH units too
+    # fast at 35/45/55 C against PHREEQC + wateq4f.dat.
+    log_k = _vant_hoff(-11.18, BRUCITE_DH_HYDROXIDE_KCAL, T_c)
     m = water.molality()
     if m["Mg"] <= 0:
         return float("inf")

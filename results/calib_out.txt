@@ -6,24 +6,30 @@ PRE-REGISTERED THRESHOLDS (declared before fitting):
    V2_evap_MAPE_pct           8.0
    train ['Exp2']   holdout ['Exp1', 'Exp3']
 ==========================================================================
-train n=115   holdout n=50 (never seen during fit)
+rows: 165 concatenated, 147 distinct (18 duplicates removed); 1 holdout row(s) removed because they are also training rows
+train n=115   holdout n=32 (never seen during fit)
 
 identified fill law   Me = 1.2401 * (m_w/m_a)^(-0.5014)
-   fitted on 114/115 training points, log-space R2 = 0.3719   [3.3s]
+   fitted on 114/115 training points, log-space R2 = 0.3719   [1.2s]
 
 --- TRAIN  (n=115, converged 100.0%)
     Tout  MAE 0.454 K   RMSE 0.620   bias -0.055   p95 1.417
     Q     MAPE 7.48 %
     evap  MAPE 7.80 %  (bias -0.83 %)
 
---- HOLDOUT  (n=50, converged 100.0%)
-    Tout  MAE 0.542 K   RMSE 0.662   bias +0.453   p95 1.366
-    Q     MAPE 5.94 %
-    evap  MAPE 9.90 %  (bias -9.44 %)
+--- HOLDOUT  (n=32, converged 100.0%)
+    Tout  MAE 0.600 K   RMSE 0.720   bias +0.488   p95 1.435
+    Q     MAPE 6.27 %
+    evap  MAPE 10.80 %  (bias -10.09 %)
 
 VERDICT on the untouched holdout, vs thresholds fixed in advance:
-   V1 thermal  Tout MAE   0.542 <= 1.00 K   PASS
-   V1 thermal  Q MAPE      5.94 <= 6.00 %   PASS
-   V2 water    evap MAPE   9.90 <= 8.00 %   FAIL
+   V1 thermal  Tout MAE   0.600 <= 1.00 K   PASS
+   V1 thermal  Q MAPE      6.27 <= 6.00 %   FAIL
+   V2 water    evap MAPE  10.80 <= 8.00 %   FAIL
 
-written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\calibration.json
+DIAGNOSTIC ONLY -- leave-one-campaign-out (cannot change a verdict):
+   hold out Exp1: train n=114 holdout n= 33  Tout MAE 0.584 K  Q MAPE 6.11 %  evap MAPE 10.55 %
+   hold out Exp2: train n= 32 holdout n=115  Tout MAE 0.516 K  Q MAPE 8.46 %  evap MAPE 7.81 %
+   hold out Exp3: train n=130 holdout n= 17  Tout MAE 0.389 K  Q MAPE 4.93 %  evap MAPE 7.77 %
+
+written -> C:\Users\Nouman\mizan-wt\validation\results\calibration.json

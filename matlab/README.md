@@ -70,7 +70,7 @@ Inside `+mizan/`:
 
 ## 4. Why you can trust it
 
-This MATLAB model is a second implementation of a physics model that was validated against a published experimental dataset (a cooling-tower pilot plant at Plataforma Solar de Almería, 165 measured operating points, freely available and MD5-verified).
+This MATLAB model is a second implementation of a physics model that was validated against a published experimental dataset (a cooling-tower pilot plant at Plataforma Solar de Almería, 147 distinct measured operating points, published as 165 rows, freely available and MD5-verified).
 
 A second implementation is worth nothing unless it agrees with the first. So:
 

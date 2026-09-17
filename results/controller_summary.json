@@ -29,7 +29,7 @@
       "skin_SI_violations_allowed": 0
     },
     "water_pct": 4.3797846233251,
-    "cost_pct": 3.9122144397707475,
+    "cost_pct": 3.912382274180426,
     "violations": 0,
     "energy_pct": 2.9642750641758613,
     "energy_pct_status": "REPORTED DIAGNOSTIC, NOT A PRE-REGISTERED GATE. Electrical power reduction was always inside the objective function -- cost = elec x P_total + water + acid + antiscalant -- but was never reported on its own. It is surfaced here because it is computed after the fact; registering a threshold for it now would be scoring a criterion chosen once the answer was known. Same status as the hours-weighted annual figures in results/annual_dhahran.json.",
@@ -48,7 +48,7 @@
       "skin_SI_violations_allowed": 0
     },
     "water_pct": 15.014272613356377,
-    "cost_pct": 8.535842531791236,
+    "cost_pct": 8.535967263464238,
     "violations": 0,
     "energy_pct": 2.9453945297547968,
     "energy_pct_status": "REPORTED DIAGNOSTIC, NOT A PRE-REGISTERED GATE. Electrical power reduction was always inside the objective function -- cost = elec x P_total + water + acid + antiscalant -- but was never reported on its own. It is surfaced here because it is computed after the fact; registering a threshold for it now would be scoring a criterion chosen once the answer was known. Same status as the hours-weighted annual figures in results/annual_dhahran.json.",

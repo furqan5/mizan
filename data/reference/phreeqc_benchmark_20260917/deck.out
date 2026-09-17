@@ -1,0 +1,30 @@
+   Input file: deck.pqi
+  Output file: deck.out
+Database file: <phreeqc_dir>\phreeqc.dat
+
+------------------
+Reading data base.
+------------------
+
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	GAS_BINARY_PARAMETERS
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	MEAN_GAMMAS
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Mizan chemistry engine benchmark, pre-registered in docs/staged/phreeqc_benchmark_preregistration.md
+	PRINT
+	 reset false
+-------------------------------
+End of Run after 0.646 Seconds.
+-------------------------------
+

@@ -1,0 +1,30 @@
+   Input file: deck_b2.pqi
+  Output file: deck_b2.out
+Database file: C:\Users\Nouman\AppData\Local\Temp\claude\C--Users-Nouman-Desktop-Furqan-s-Docs-Startup\d52b77a2-60ee-437a-b89b-07512fb2ed94\scratchpad\dbs\llnl.dat
+
+------------------
+Reading data base.
+------------------
+
+	LLNL_AQUEOUS_MODEL_PARAMETERS
+	NAMED_EXPRESSIONS
+	SOLUTION_MASTER_SPECIES
+	SOLUTION_SPECIES
+	PHASES
+	EXCHANGE_MASTER_SPECIES
+	EXCHANGE_SPECIES
+	SURFACE_MASTER_SPECIES
+	SURFACE_SPECIES
+	RATES
+	END
+------------------------------------
+Reading input data for simulation 1.
+------------------------------------
+
+	TITLE Mizan brucite supplement, run B2, llnl.dat constants
+	PRINT
+	 reset false
+-------------------------------
+End of Run after 0.114 Seconds.
+-------------------------------
+

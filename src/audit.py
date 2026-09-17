@@ -545,8 +545,12 @@ def main():
 
     # --- 5. no document may quote a superseded headline number -----------
     stale = superseded_from_register()
+    # README.md is the front page of a PUBLIC repository and was outside this
+    # scan, so its gate table said "V2 ... 7.11 % | PASS" -- a number this
+    # very list declares superseded -- while calibration.json held a FAIL.
+    # Staged defect 52. It is in scope now, with section 6b below.
     SCANNED = sorted(list(DOCS.glob("*.md")) + list(DOCS.glob("*.txt"))
-                     + [ROOT / "HANDOFF.md"])
+                     + [ROOT / "HANDOFF.md", ROOT / "README.md"])
     # A superseded number may appear ONLY where the surrounding paragraph
     # says so. The label is often a sentence or two above the figure, so the
     # whole paragraph is the unit of context, not the line.
@@ -717,8 +721,49 @@ def main():
 
     # --- 6. a document must not claim a pass the artefacts do not support -
     poc = (DOCS / "poc_report.md").read_text(encoding="utf-8")
-    check(("9.90 % | **FAIL**" in poc) or ("9.90 %" in poc and "FAIL" in poc),
-          "the PoC report does not record the V2 failure")
+    # Read from the artefact. This was the literal "9.90 %": when the
+    # de-duplicated re-score (staged defect 51) moved V2 to 10.80 % it would
+    # have gone on demanding the superseded figure -- defect 12 again.
+    # NB `v2` is rebound to a Path in section 4c, so the verdict is recomputed.
+    _v2 = f"{ho['evap_MAPE_pct']:.2f} %"
+    _v2_pass = ho["evap_MAPE_pct"] <= 8.00
+    check(_v2_pass or (_v2 in poc and "FAIL" in poc),
+          "the PoC report does not record the V2 failure",
+          f"artefact says {_v2}")
+
+    # --- 6b. the README gate table must match the artefacts ---------------
+    # STAGED DEFECT 52. Section 6 checked only poc_report.md, and section 5
+    # never read README.md, so the public front page carried a PASS for a
+    # gate the artefact failed and nothing noticed.
+    _readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    _gates = {
+        "V1 outlet water temperature MAE": (ho["Tout_MAE_K"], 3, v1_t),
+        "V1 heat rejection MAPE": (ho["Q_MAPE_pct"], 2, v1_q),
+        "V2 evaporation": (ho["evap_MAPE_pct"], 2, _v2_pass),
+        "V5 total operating cost reduction": (sm["cost_pct"], 2, v5_c),
+        "V5 makeup water reduction": (sm["water_pct"], 2, v5_w),
+        "V5 saturation violations": (sm["violations"], 0, v5_s),
+    }
+    _seen = set()
+    for _line in _readme.splitlines():
+        _cells = [c.strip() for c in _line.strip().strip("|").split("|")]
+        if not _line.lstrip().startswith("|") or len(_cells) < 4:
+            continue
+        for _label, (_val, _nd, _ok) in _gates.items():
+            if not _cells[0].replace("*", "").startswith(_label):
+                continue
+            _seen.add(_label)
+            _want = f"{_val:.{_nd}f}"
+            check(re.search(r"(?<![\d.])" + re.escape(_want) + r"(?![\d])",
+                            _cells[2]) is not None,
+                  f"README.md gate row '{_label}' quotes {_cells[2]!r}",
+                  f"artefact says {_want}")
+            check(("PASS" in _cells[3].upper()) == _ok
+                  and ("FAIL" in _cells[3].upper()) == (not _ok),
+                  f"README.md gate row '{_label}' says {_cells[3]!r}",
+                  f"artefact verdict {'PASS' if _ok else 'FAIL'}")
+    check(_seen == set(_gates), "README.md gate table is missing rows",
+          ", ".join(sorted(set(_gates) - _seen)))
     # READ THE FIGURES FROM THE ARTEFACT. These were the literals "14.83" and
     # "8.55" -- the values as of the day the check was written. When defect 11
     # was fixed and the controller re-ran, the artefact moved to 10.02 and 6.37

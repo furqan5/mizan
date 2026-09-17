@@ -1,0 +1,173 @@
+{
+  "n_gated": 416,
+  "share_within": 0.9567307692307693,
+  "share_by_mineral": {
+    "calcite": 0.890625,
+    "gypsum": 0.96875,
+    "silica_am": 1.0,
+    "hydroxyapatite": 1.0
+  },
+  "criterion": ">= 95 % overall and >= 90 % for every mineral",
+  "verdict": "FAIL",
+  "share_by_temperature": {
+    "25.0": 1.0,
+    "35.0": 1.0,
+    "45.0": 0.9423076923076923,
+    "55.0": 0.8846153846153846
+  },
+  "share_by_composition": {
+    "ARAMCO_FIELD_VALIDATED": 0.9609375,
+    "DOE_SYN_MWW_NF_COC4": 0.9270833333333334,
+    "DOE_SYN_MWW_NF_COC4_TABLE_2_3_2": 0.9375,
+    "DOE_SYN_MWW_COC4": 1.0
+  },
+  "share_by_I_band": {
+    "I<=0.1": 0.896551724137931,
+    "0.1<I<=0.5": 1.0
+  },
+  "hydroxyapatite_share_within_UNSCALED_tolerance": 0.3984375,
+  "max_abs_dSI_by_mineral": {
+    "calcite": 0.0979003082511889,
+    "gypsum": 0.06012173520117137,
+    "silica_am": 0.036638290626229114,
+    "hydroxyapatite": 0.19838880071691634
+  },
+  "max_abs_dSI_same_K_by_mineral": {
+    "calcite": 0.0940209305055344,
+    "gypsum": 0.12353074926938223,
+    "silica_am": 0.023071559742571246,
+    "hydroxyapatite": 0.19838880071691634
+  },
+  "max_abs_dSI_C4_equals_HCO3_mapping_by_mineral": {
+    "calcite": 0.07295555612363014,
+    "gypsum": 0.06997479408654039,
+    "hydroxyapatite": 0.29252856940498617
+  },
+  "reference_pct_charge_error_range": [
+    -17.294343713994778,
+    0.18003374275164702
+  ],
+  "worst_ten_by_dSI_over_tolerance": [
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4",
+      "cycles": 4,
+      "T_C": 55.0,
+      "I": 0.09865030424771179,
+      "mineral": "calcite",
+      "engine_SI": 1.0194047961550474,
+      "ref_SI": 1.0996425646556163,
+      "dSI": -0.08023776850056885,
+      "dSI_same_K": -0.04695750708369317,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4",
+      "cycles": 3,
+      "T_C": 55.0,
+      "I": 0.07516244136348935,
+      "mineral": "calcite",
+      "engine_SI": 0.8323673576899155,
+      "ref_SI": 0.9044541092967286,
+      "dSI": -0.0720867516068131,
+      "dSI_same_K": -0.03880649018993765,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4_TABLE_2_3_2",
+      "cycles": 4,
+      "T_C": 55.0,
+      "I": 0.09427434073449757,
+      "mineral": "calcite",
+      "engine_SI": 0.43359187638889196,
+      "ref_SI": 0.5053020807263906,
+      "dSI": -0.07171020433749864,
+      "dSI_same_K": -0.03842994292062407,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4",
+      "cycles": 4,
+      "T_C": 45.0,
+      "I": 0.09970112976251631,
+      "mineral": "calcite",
+      "engine_SI": 0.9076985468584766,
+      "ref_SI": 0.9772883953518151,
+      "dSI": -0.06958984849333849,
+      "dSI_same_K": -0.0581429905539288,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "ARAMCO_FIELD_VALIDATED",
+      "cycles": 3,
+      "T_C": 55.0,
+      "I": 0.07935045542521509,
+      "mineral": "calcite",
+      "engine_SI": 0.9046467705929766,
+      "ref_SI": 0.9694298912576446,
+      "dSI": -0.06478312066466796,
+      "dSI_same_K": -0.031502859247792614,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4_TABLE_2_3_2",
+      "cycles": 3,
+      "T_C": 55.0,
+      "I": 0.0718040850115464,
+      "mineral": "calcite",
+      "engine_SI": 0.24514362868021955,
+      "ref_SI": 0.30968017776881135,
+      "dSI": -0.0645365490885918,
+      "dSI_same_K": -0.03125628767171662,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4_TABLE_2_3_2",
+      "cycles": 4,
+      "T_C": 45.0,
+      "I": 0.09528958220246087,
+      "mineral": "calcite",
+      "engine_SI": 0.3206833577085231,
+      "ref_SI": 0.38229211605976016,
+      "dSI": -0.06160875835123708,
+      "dSI_same_K": -0.05016190041182789,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4",
+      "cycles": 3,
+      "T_C": 45.0,
+      "I": 0.07597398189848387,
+      "mineral": "calcite",
+      "engine_SI": 0.7193569212740254,
+      "ref_SI": 0.7808275297807757,
+      "dSI": -0.061470608506750346,
+      "dSI_same_K": -0.050023750567341096,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "DOE_SYN_MWW_NF_COC4",
+      "cycles": 2,
+      "T_C": 55.0,
+      "I": 0.051189499336747914,
+      "mineral": "calcite",
+      "engine_SI": 0.5655767491742036,
+      "ref_SI": 0.6267650128854887,
+      "dSI": -0.06118826371128505,
+      "dSI_same_K": -0.02790800229441004,
+      "tolerance": 0.05
+    },
+    {
+      "composition": "ARAMCO_FIELD_VALIDATED",
+      "cycles": 1,
+      "T_C": 55.0,
+      "I": 0.027603482253839594,
+      "mineral": "gypsum",
+      "engine_SI": -1.2205181612384184,
+      "ref_SI": -1.160396426037247,
+      "dSI": -0.06012173520117137,
+      "dSI_same_K": 0.045585828594593814,
+      "tolerance": 0.05
+    }
+  ],
+  "preregistration": "docs/staged/phreeqc_benchmark_preregistration.md"
+}

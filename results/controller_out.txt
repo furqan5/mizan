@@ -1,5 +1,5 @@
 using validated fill law Me = 1.2401 (m_w/m_a)^(-0.5014)
-holdout accuracy: Tout MAE 0.542 K, evap MAPE 9.90 %
+holdout accuracy: Tout MAE 0.600 K, evap MAPE 10.80 %
 
 ==============================================================================
 GATE V3 -- saturation limit, bulk vs condenser skin temperature
@@ -108,5 +108,9 @@ V7          3.0c     15.01     PASS     8.54     PASS     0
   Threshold is 15 % in BOTH rows. Only the incumbent baseline differs, and V5 remains the pre-registered gate of record.
   Arithmetic headroom from cycles alone: 3->5 = 16.67 %, 3->6 = 20.00 %, 4->5 = 6.25 %.
 
-written -> C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\v3_skin_vs_bulk.csv, C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\v5_controller.csv, C:\Users\Nouman\Desktop\Furqan's Docs\Startup\mizan\results\controller_summary.json
+written -> C:\Users\Nouman\mizan-wt\validation\results\v3_skin_vs_bulk.csv, C:\Users\Nouman\mizan-wt\validation\results\v5_controller.csv, C:\Users\Nouman\mizan-wt\validation\results\controller_summary.json
+
+real	7m45.309s
+user	0m0.016s
+sys	0m0.015s
 EXIT=0

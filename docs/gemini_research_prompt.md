@@ -18,7 +18,7 @@ A validated physics model already exists: Poppe/Rögener heat-and-mass transfer 
 - ChemTreat US 11,780,742 B2 (2023) — skin-temperature saturation index driving antiscalant dose. US + PCT only; no Gulf family member found.
 - Nalco 3D TRASAR benchmark — raised cycles 2.5–3.5 → 4–5, ~30% blowdown reduction, at Umm Al-Qura University, Saudi Arabia (12,000 TR).
 - Industry rule of thumb: maintain cycles of concentration 3.5–5.0.
-- Zenodo 10806201 — Plataforma Solar de Almería wet cooling tower dataset, 165 steady-state points.
+- Zenodo 10806201 — Plataforma Solar de Almería wet cooling tower dataset, 165 published rows, 147 distinct steady-state points.
 
 **Key result I am trying to stress-test:** with realistic Saudi silica (20–60 mg/L) in the makeup, my model computes a maximum safe cycles of concentration of **2.2–6.5**, centring on **4.4–4.9 at Salbukh-measured silica**. That coincides with the industry's empirical 3.5–5.0 band. I want to know whether this coincidence is real or whether I am fooling myself.
 

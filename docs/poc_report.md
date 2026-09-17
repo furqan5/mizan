@@ -22,7 +22,7 @@ Claimed maturity: **TRL 3** (analytical and computational studies validated agai
 
 **Claimed.** A first-principles model of a counterflow wet cooling tower, coupled to an ion-specific water-chemistry model, predicts **measured outlet water temperature** and **measured heat rejection** on experimental data the model was never fitted to, within thresholds fixed before the fit was run.
 
-**Explicitly not claimed, on the same data.** The water-consumption gate is **failed**. The model predicts measured water consumption to 9.90 % against a threshold of 8.00 %, and section 4 sets out why, including the fact that an earlier revision of this document reported a pass that turned out to rest on a drift constant a hundred times too large. The thermal claim and the water claim are separated here because the evidence separates them.
+**Explicitly not claimed, on the same data.** The water-consumption gate is **failed**. The model predicts measured water consumption to 10.80 % against a threshold of 8.00 %, and section 4 sets out why, including the fact that an earlier revision of this document reported a pass that turned out to rest on a drift constant a hundred times too large. The thermal claim and the water claim are separated here because the evidence separates them.
 
 **Not claimed.** No closed-loop control on physical hardware. No field data from an operating plant. No validated scaling-kinetics model. These are TRL 4 objectives and are the subject of the laboratory programme in section 9.
 
@@ -36,7 +36,7 @@ Claimed maturity: **TRL 3** (analytical and computational studies validated agai
 | Authors | Palenzuela, Roca & Serrano Rodríguez |
 | Source | Zenodo record 10806201, CC BY 4.0 |
 | Integrity | MD5 `ac94e0076a9217b58e032a2545bf9fc4`, matches the published record |
-| Size | 165 steady-state operating points across three campaigns, Oct 2019 – Oct 2023 |
+| Size | 165 rows across three campaign files, Oct 2019 – Oct 2023, of which 147 are distinct operating points: the published Exp3 file repeats 17 Exp1 rows, and one Exp1 row is also in Exp2 (staged defect 51) |
 | Duty range | 48 – 207 kW; ambient 9 – 40.5 °C; RH 10 – 87 % |
 | Channels used | inlet/outlet water temperature, water flow, ambient temperature and RH, fan speed, **measured water consumption** |
 
@@ -46,7 +46,7 @@ The measured water-consumption channel is why this dataset was chosen over the a
 
 Governing physics is the Poppe and Rögener heat-and-mass-transfer formulation in the form given by Kloppers and Kröger (2005), integrated over water temperature with both the unsaturated and the supersaturated (fogged) air branches. Moist-air properties follow the ASHRAE Handbook of Fundamentals formulation, implemented in house so that every constant is auditable and the whole core can run on an edge controller with no third-party runtime.
 
-Aqueous speciation uses equilibrium constants taken directly from the USGS PHREEQC `phreeqc.dat` database, so the implementation is checkable against the accepted reference rather than against a correlation of our own.
+Aqueous speciation uses equilibrium constants from the USGS PHREEQC `phreeqc.dat` database (an earlier release than PHREEQC 3.9.0 ships), so the implementation is checkable against the accepted reference rather than against a correlation of our own. Checked on a pre-registered grid of 416 saturation indices: 95.7 % within tolerance of PHREEQC 3.9.0, and the registered criterion FAILS because calcite agrees at only 89.1 % (staged defect 53).
 
 **Identification.** The fill characteristic is identified the way cooling-tower practice identifies it (CTI ATC-105), not by black-box search. For each measured point the Poppe equations are integrated from the *measured* outlet temperature to the measured inlet temperature, giving the Merkel number the duty actually demanded from measurements alone. Regressing log(Me) on log(m_w/m_a) over the training campaign then gives the fill law in closed form.
 
@@ -60,16 +60,16 @@ The exponent -0.501 sits in the normal range for counterflow fill, which is an i
 
 | Gate | Quantity | Threshold | Holdout result | Verdict |
 |---|---|---|---|---|
-| V1 | Outlet water temperature MAE | ≤ 1.00 K | 0.542 K | **PASS** |
-| V1 | Heat rejection MAPE | ≤ 6.00 % | 5.94 % | **PASS** |
-| V2 | Evaporation vs measured water loss MAPE | ≤ 8.00 % | 9.90 % | **FAIL** |
+| V1 | Outlet water temperature MAE | ≤ 1.00 K | 0.600 K | **PASS** |
+| V1 | Heat rejection MAPE | ≤ 6.00 % | 6.27 % | **FAIL** |
+| V2 | Evaporation vs measured water loss MAPE | ≤ 8.00 % | 10.80 % | **FAIL** |
 
-Holdout n = 50, 100 % solver convergence, RMSE 0.662 K, bias +0.453 K, 95th percentile absolute error 1.366 K.  
+Holdout n = 32, 100 % solver convergence, RMSE 0.720 K, bias +0.488 K, 95th percentile absolute error 1.435 K.  
 Training set for comparison: MAE 0.454 K, heat rejection MAPE 7.48 %, evaporation MAPE 7.80 %.
 
 ### Why gate V2 fails, and why the earlier pass was not real
 
-V2 asks whether predicted water consumption matches the measured water-consumption channel, and on the untouched holdout it does not: 9.90 % against a threshold of 8.00 %. An earlier revision of this document reported 7.11 % and a pass. That pass was an artefact and is withdrawn here.
+V2 asks whether predicted water consumption matches the measured water-consumption channel, and on the untouched holdout it does not: 10.80 % against a threshold of 8.00 %. An earlier revision of this document reported 7.11 % and a pass. That pass was an artefact and is withdrawn here.
 
 The cause was the drift term. Predicted consumption is evaporation plus drift, and the drift constant was 0.0005 used as a FRACTION of circulating flow -- the modern eliminator rating of 0.0005 **per cent** with its percent sign dropped, and so a hundred times too much water. On this rig that inflated the prediction by roughly five per cent, which is most of the distance between the 7.11 % previously reported and the threshold. Correcting the constant to a defensible 0.001 % removes the inflation and exposes a real shortfall.
 
@@ -349,7 +349,7 @@ External review identified a real gap: magnesium silicate forms on the HOT surfa
 
 **First, a correction we made and are reporting.** Magnesium silicate was initially modelled as sepiolite, using PHREEQC constants. On real water that returned saturation indices of +1.56 to +3.50 — which would forbid operation everywhere, and is plainly false since plants run 4–5 cycles on this water daily. Crystalline magnesium silicates are thermodynamic end-states whose crystallisation is kinetically inhibited over the few seconds a parcel of water spends crossing a condenser. Sepiolite was the wrong phase, and using it would have made the controller reject operating points that are demonstrably safe.
 
-**What industry actually uses** is an empirical magnesium-silica product, and it validates against observed practice:
+**What industry actually uses** is an empirical magnesium-silica product. Against observed practice it is close, not exact:
 
 | Published limit | Max cycles on Aramco water + 26.8 mg/L SiO₂ |
 |---|---|
@@ -358,9 +358,9 @@ External review identified a real gap: magnesium silicate forms on the HOT surfa
 | utility | 4.77 |
 | assurance | 4.27 |
 
-Industry operates 3.5–5.0 cycles. The standard (35,000) and utility (25,000) limits **bracket that**, which is the consistency check the sepiolite formulation failed.
+Industry operates 3.5–5.0 cycles. The utility limit (25,000) falls **inside** that band and the standard limit (35,000) sits **above** it; neither brackets it. Landing within a cycle of practice, rather than forbidding operation outright, is the consistency check the sepiolite formulation failed.
 
-A second unit ambiguity appeared here, of exactly the kind that produced the fan-correlation defect in section 4. Sources word the magnesium term as "hardness as ppm CaCO₃", but that convention gives 2.78 cycles — *below* what plants demonstrably run. As ppm Mg²⁺ it gives 5.64, which matches. Both are implemented; the model defaults to the convention consistent with reality and documents the discrepancy.
+A second unit ambiguity appeared here, of exactly the kind that produced the fan-correlation defect in section 4. Sources word the magnesium term as "hardness as ppm CaCO₃", but that convention gives 2.78 cycles — *below* what plants demonstrably run. As ppm Mg²⁺ it gives 5.64, above the 3.5–5.0 band but within a cycle of it. Both are implemented; the model defaults to the convention nearer reality and documents the discrepancy.
 
 ### The deposition criterion
 

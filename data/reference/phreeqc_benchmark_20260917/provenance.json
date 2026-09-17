@@ -1,0 +1,11 @@
+{
+  "phreeqc_version": "3.9.0-17591",
+  "phreeqc_banner": "the executable prints 'PHREEQC_3.8.9, October 13, 2025'; it is the binary installed by phreeqc-3.9.0-17591-x64.msi, identified by hash",
+  "phreeqc_exe_sha256": "5147679081f53abd4a40d1ba07b3cf7ee5078df9d3510c6378ff5d45db6437c8",
+  "phreeqc_dat_sha256": "5745f0be5f5f585e72c647895b9b182388ab1f018db3d654529ce2461de499f1",
+  "command": "phreeqc.exe deck.pqi deck.out <path>/phreeqc.dat (cwd = this directory)",
+  "returncode": 0,
+  "deck_sha256": "6482439d742ccbd52e6f73d350c0cb99ce76d5f1827749aaf943cc445eb22e50",
+  "run": "2 (run 1 was an execution error, see execution_error_run1/)",
+  "preregistration": "docs/staged/phreeqc_benchmark_preregistration.md"
+}

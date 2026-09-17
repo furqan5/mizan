@@ -385,18 +385,22 @@ def test_the_field_analysis_closes_where_the_published_table_cannot():
         f"{mx.TDS:.0f} -- this is what proves the columns are marginals")
 
 
-def test_the_validated_ceiling_lands_on_observed_industry_practice():
-    """The strongest validation in the package, re-checked after defects 24-27.
+def test_the_validated_ceiling_sits_above_observed_industry_practice():
+    """Re-checked after defects 24-27, and stated as measured.
 
-    HANDOFF records that at realistic Saudi silica the model computes 4.4-4.9
-    max cycles against an industry empirical band of 3.5-5.0. A
-    first-principles limit landing on observed practice is worth more than any
-    gate. The corrected engine gives ~5.8, still adjacent to that band."""
+    HANDOFF records that the PRE-correction engine computed 4.4-4.9 max
+    cycles at realistic Saudi silica, inside an industry empirical band of
+    3.5-5.0. The corrected engine computes 5.84 -- ABOVE that band by 0.84
+    cycles. It does not land in it, and documents must not say it does. A
+    scaling ceiling above operating practice is the expected direction (see
+    scaling_ceiling_caveat), so this is not a contradiction; it is also not
+    the confirmation it was once quoted as."""
     mc = ch.max_cycles(ch.ARAMCO_FIELD_VALIDATED, 40.0,
                        limits=ch.OPERATING_LIMITS, pH=8.0)
-    assert 3.5 <= mc <= 6.5, (
-        f"computed ceiling {mc:.2f} cycles; observed Gulf practice is 3.5-5.0 "
-        "and the pre-correction engine gave 4.4-4.9")
+    assert mc == pytest.approx(5.84, abs=0.05), (
+        f"computed ceiling {mc:.2f} cycles moved; re-check every document that "
+        "compares it with the observed Gulf band of 3.5-5.0")
+    assert mc > 5.0, "the ceiling is above the 3.5-5.0 practice band, not in it"
     assert ch.binding_mineral(ch.ARAMCO_FIELD_VALIDATED, min(mc, 29.9), 40.0,
                               limits=ch.OPERATING_LIMITS,
                               pH=8.0) == "SI_silica_am"

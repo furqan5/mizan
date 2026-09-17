@@ -91,3 +91,6 @@ output/pdf/
 data/weather/isd_404160/raw/
 # Scenario weather arrays rebuilt by src/weather_sensitivity.py --stage build
 results/weather_scenarios_local/
+# A zero-byte file named `cd` at the root, committed by accident in a63a6d6
+# (almost certainly a shell redirect typo). It carries no content.
+/cd

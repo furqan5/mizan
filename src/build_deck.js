@@ -218,7 +218,7 @@ function v6Slide() {
     x: 8.45, y: 5.62, w: 4.3, h: 0.85, isTextBox: true, margin: 0,
     fontFace: "Calibri", fontSize: 11.5, italic: true, color: MUTE, lineSpacing: 17,
   });
-  s.addNotes("Sepiolite was our first proxy and it was wrong — kinetically inhibited, returned indices forbidding operation everywhere. Corrected to the empirical Mg x SiO2 product, which brackets observed practice.");
+  s.addNotes("Sepiolite was our first proxy and it was wrong — kinetically inhibited, returned indices forbidding operation everywhere. Corrected to the empirical Mg x SiO2 product, which lands within a cycle of observed practice: utility limit inside the 3.5-5.0 band, standard limit above it.");
 }
 
 // 6 - the silica ceiling moves

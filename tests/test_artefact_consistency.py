@@ -497,3 +497,50 @@ def test_no_constraint_is_computed_without_being_applied():
         + "\n\nThis is the defect-11/26/31/37/43/45/49 shape. Either wire it "
           "in, or move it out of _CONSTRAINT_FUNCTIONS with a comment saying "
           "why it is diagnostic rather than binding.")
+
+
+def test_the_readme_gate_table_matches_the_artefacts():
+    """STAGED DEFECT 52. README.md is the front page of a public repository.
+
+    Its gate table said "V2 evaporation vs measured water loss | <= 8.00 % |
+    7.11 % | PASS" while results/calibration.json held a FAIL, and three more
+    rows were stale. Nothing caught it: `src/audit.py` section 5 scanned
+    docs/ and HANDOFF.md but not README.md, section 6 checked claims only in
+    poc_report.md, and this file compared no README row with any artefact.
+    """
+    cal = json.loads((ROOT / "results" / "calibration.json").read_text())
+    ctrl = json.loads((ROOT / "results" / "controller_summary.json").read_text())
+    ho, sm, crit = cal["HOLDOUT"], ctrl["summary"], ctrl["criteria"]
+    th = cal["thresholds"]
+    gates = {
+        "V1 outlet water temperature MAE":
+            (ho["Tout_MAE_K"], 3, ho["Tout_MAE_K"] <= th["V1_Tout_MAE_K"]),
+        "V1 heat rejection MAPE":
+            (ho["Q_MAPE_pct"], 2, ho["Q_MAPE_pct"] <= th["V1_Q_MAPE_pct"]),
+        "V2 evaporation":
+            (ho["evap_MAPE_pct"], 2, ho["evap_MAPE_pct"] <= th["V2_evap_MAPE_pct"]),
+        "V5 total operating cost reduction":
+            (sm["cost_pct"], 2, sm["cost_pct"] >= crit["total_cost_reduction_pct_min"]),
+        "V5 makeup water reduction":
+            (sm["water_pct"], 2, sm["water_pct"] >= crit["makeup_water_reduction_pct_min"]),
+        "V5 saturation violations":
+            (sm["violations"], 0, sm["violations"] <= crit["skin_SI_violations_allowed"]),
+    }
+    seen = {}
+    for line in (ROOT / "README.md").read_text(encoding="utf-8").splitlines():
+        if not line.lstrip().startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        for label in gates:
+            if len(cells) >= 4 and cells[0].replace("*", "").startswith(label):
+                seen[label] = cells
+    assert set(seen) == set(gates), f"README gate rows missing: {set(gates) - set(seen)}"
+    for label, (value, nd, passed) in gates.items():
+        cells = seen[label]
+        want = f"{value:.{nd}f}"
+        assert re.search(r"(?<![\d.])" + re.escape(want) + r"(?!\d)", cells[2]), (
+            f"README '{label}' quotes {cells[2]!r}; the artefact says {want}")
+        verdict = cells[3].upper()
+        assert ("PASS" in verdict) == passed and ("FAIL" in verdict) == (not passed), (
+            f"README '{label}' says {cells[3]!r}; the artefact says "
+            f"{'PASS' if passed else 'FAIL'}")

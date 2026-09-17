@@ -14,8 +14,10 @@ propagates the one the calibration data already measured.
 
 WHAT THE CALIBRATION ACTUALLY SHOWS
 
-Scoring the evaporation model against 165 points across three campaigns and
-regressing the relative error on fan speed, campaign by campaign:
+Scoring the evaporation model against 165 rows across three campaign files
+(147 distinct: the published Exp3 file repeats Exp1 rows 0-16, staged
+defect 51, so the Exp3 row below is a subset of Exp1, not an independent
+campaign; these constants predate that finding) and regressing the relative error on fan speed, campaign by campaign:
 
     campaign   n     offset a      slope k        residual sd
     Exp1      33     -0.52 %      -0.2002 %/fan%     6.27 pp

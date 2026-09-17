@@ -1,0 +1,22 @@
+Input file: deck_b2.pqi
+
+Output file: deck_b2.out
+
+Database file: <db_dir>\llnl.dat
+
+               ____________________________________________
+              |                                            |
+              |             * PHREEQC_3.8.9 *              |
+              |                                            |
+              |      A hydrogeochemical transport model    |
+              |                                            |
+              |                    by                      |
+              |       D.L. Parkhurst and C.A.J. Appelo     |
+              |                                            |
+              |              October 13, 2025              |
+              |____________________________________________|
+
+
+Initializing...                                                                 
+
+End of Run after 0.114 Seconds.

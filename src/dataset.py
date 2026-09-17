@@ -45,10 +45,61 @@ def load_campaign(name):
     return df
 
 
-def load_all():
-    """Load the three campaigns, tagged, as one frame."""
-    return pd.concat([load_campaign(n) for n in ("Exp1", "Exp2", "Exp3")],
-                     ignore_index=True)
+CAMPAIGNS = ("Exp1", "Exp2", "Exp3")
+
+# Every variable the netCDF files carry. A duplicate is equal in ALL of them.
+MEASURED_CHANNELS = ("Tin", "Tout", "Tamb", "HR", "q", "w_fan", "q_w_lost")
+
+
+def load_all(deduplicate=True):
+    """Load the three campaigns as one frame, one row per distinct measurement.
+
+    DEFECT 51 (staged, 17 Sep 2026). The published files load as 165 rows but
+    only 147 are distinct: all 17 rows of Exp3.nc are copies of Exp1 rows
+    0-16, and Exp1 row 16 is also Exp2 row 113. The dataset README describes
+    Exp3 as a different full-factorial campaign; the file does not contain
+    it. Concatenating the files counted 18 measurements twice and put one
+    training row in the holdout.
+
+    With `deduplicate` (the default) each distinct measurement appears once.
+    `campaign` is the first campaign it appears in (load order Exp1, Exp2,
+    Exp3) and `campaigns` is the '+'-joined list of EVERY campaign it appears
+    in, so a split can refuse to hold out a row it trained on. Use
+    `split_holdout` for that rather than filtering on `campaign`.
+    `deduplicate=False` returns the raw concatenation, for inspection only.
+    """
+    raw = pd.concat([load_campaign(n) for n in CAMPAIGNS], ignore_index=True)
+    if not deduplicate:
+        return raw
+    cols = [c for c in MEASURED_CHANNELS if c in raw.columns]
+    membership = {}
+    for key, name in zip(raw[cols].itertuples(index=False, name=None),
+                         raw["campaign"]):
+        membership.setdefault(key, [])
+        if name not in membership[key]:
+            membership[key].append(name)
+    out = raw.drop_duplicates(subset=cols, keep="first").reset_index(drop=True)
+    out["campaigns"] = ["+".join(membership[k]) for k in
+                        out[cols].itertuples(index=False, name=None)]
+    return out
+
+
+def in_campaigns(df, names):
+    """Boolean mask: rows that appear in ANY of `names` (membership, not label)."""
+    names = set(names)
+    col = df["campaigns"] if "campaigns" in df else df["campaign"]
+    return col.map(lambda s: bool(names & set(str(s).split("+"))))
+
+
+def split_holdout(df, train_campaigns, test_campaigns):
+    """Campaign-wise split that cannot leak.
+
+    train   = every row appearing in a training campaign
+    holdout = every row appearing in a test campaign AND in no training one
+    """
+    tr = in_campaigns(df, train_campaigns)
+    te = in_campaigns(df, test_campaigns) & ~tr
+    return df[tr].reset_index(drop=True), df[te].reset_index(drop=True)
 
 
 def derive(df):
@@ -68,7 +119,8 @@ if __name__ == "__main__":
         d = load_campaign(n)
         print(f"--- {n}: {len(d)} rows, cols={list(d.columns)}")
     print()
+    print("concatenated rows:", len(load_all(deduplicate=False)))
     a = derive(load_all())
-    print("combined rows:", len(a))
+    print("distinct rows:", len(a))
     print(a.describe().T.to_string(float_format=lambda x: f"{x:9.3f}"))
     print("\nnull counts:\n", a.isna().sum().to_string())
