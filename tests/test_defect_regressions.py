@@ -660,7 +660,18 @@ def test_defect_45_the_brucite_criterion_is_enforced_by_the_optimiser():
     assert ctl.MG_SILICATE_BRUCITE_MARGIN_PH == 0.0, (
         "a non-zero margin is a number this package invented; it must come "
         "from site coupon evidence and be passed in")
-    assert any(ph > ch.ph_saturation_brucite(45.0, w.concentrate(cy))
+    # DEFECT 57 (the incumbent branch's number), confirmed against PHREEQC +
+    # wateq4f.dat on 17 Sep 2026. The old enthalpy put saturation pH at 45 C
+    # about 0.62 too low, and that alone is why this probe used to find
+    # excluded points at 45 C. Corrected, nothing on the optimiser's pH grid
+    # (7.0-9.0) is excluded at 45 C on 3-6 cycles -- pinned as the finding --
+    # and the criterion first binds inside that grid at the hot end of the
+    # 38-48 C skin band: 48 C, 6 cycles, pH 9.0 against pH_sat 8.97.
+    assert all(ph <= ch.ph_saturation_brucite(45.0, w.concentrate(cy))
+               for cy in (3.0, 4.0, 5.0, 6.0)
+               for ph in (7.5, 8.0, 8.25, 8.5, 9.0)), (
+        "brucite now excludes a grid point at 45 C; re-check defect 57")
+    assert any(ph > ch.ph_saturation_brucite(48.0, w.concentrate(cy))
                for cy in (3.0, 4.0, 5.0, 6.0)
                for ph in (7.5, 8.0, 8.25, 8.5, 9.0)), (
         "the criterion no longer excludes any operating point, so enforcing "
