@@ -76,7 +76,9 @@ SUBSIDIARY = {
     # adjective, which is the only reason the line is allowed to exist:
     #
     #   chemistry-aware    chemistry.py -- ion association, Davies activity
-    #                      coefficients, benchmarked against PHREEQC 3.9.0
+    #                      coefficients; 95.7 % of 416 indices within tolerance
+    #                      of PHREEQC 3.9.0, calcite failing the registered
+    #                      bar (staged defect 53)
     #   metallurgy-safe    corrosion.py -- Larson-Skold plus chloride pitting.
     #                      316 stainless caps this water at 1.85 cycles, below
     #                      the 3.0 operators run and the 4.52 the scaling

@@ -167,7 +167,7 @@ findable, and it is rare enough to filter hard.
 
 **Element 5 is the one that protects us.** A brilliant thesis with no public
 validation data is useless to a team with no capital and no site access. It was
-the existence of the Plataforma Solar de Almería dataset — 165 published
+the existence of the Plataforma Solar de Almería dataset — 147 distinct published
 experiments under an open licence, with a measured water-consumption channel —
 that made the whole Mizan evidence package possible on a desk. Without it we
 would have had opinions instead of a validated model. Do not relax this.

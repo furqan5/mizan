@@ -11,7 +11,7 @@ prior-art sweep in `prior_art_datacenter.md`.
 
 | | Mizan (this repo) | NeuroThermal (the concept doc) |
 |---|---|---|
-| physics core | validated against 165 PSA Almería points | proposed |
+| physics core | validated against 147 distinct PSA Almería points (165 rows as published) | proposed |
 | PINN surrogate | **built and gated**: 0.022 K MAE, 101,802x speed-up, 0 of 5,000 extrapolation violations | proposed |
 | chiller model | named machine, York YT 1758 kW, envelope enforced, 1,840 of 6,307 points rejected | proposed |
 | chemistry | measured whitespace, three literature sweeps | none |

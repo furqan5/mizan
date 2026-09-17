@@ -29,7 +29,7 @@ so the **maximum** water saving available by raising cycles from a baseline `C�
 
 **Why plants don't just raise cycles:** they don't know where the limit is. The industry uses the **Langelier Saturation Index (LSI)**, which is a calcium-carbonate-only index. Real limits come from whichever mineral saturates first, and on recycled water that is usually **not** calcium carbonate.
 
-**What Mizan computes instead:** full aqueous speciation — ion association, Davies activity coefficients, free vs total ions — benchmarked against **PHREEQC 3.9.0**, giving saturation indices for calcite, gypsum, amorphous silica, tricalcium phosphate, hydroxyapatite and brucite.
+**What Mizan computes instead:** full aqueous speciation — ion association, Davies activity coefficients, free vs total ions — compared with **PHREEQC 3.9.0** (95.7 % of 416 saturation indices (4 waters x 8 cycles x 4 temperatures) within a pre-registered tolerance of PHREEQC 3.9.0; the registered criterion FAILS because calcite agrees at only 89.1 %, worst -0.10 log units at 45-55 C), giving saturation indices for calcite, gypsum, amorphous silica, tricalcium phosphate, hydroxyapatite and brucite.
 
 **The insight that organises the product — minerals bind at different places in the loop:**
 
@@ -106,8 +106,8 @@ So the skid buys only cheap instruments — toroidal conductivity, pH/ORP, Pt100
 ## 4. What is validated, and what is not
 
 **Validated:**
-- Chemistry engine against PHREEQC 3.9.0
-- Tower thermal model against 165 experimental points (Almeria, Spain)
+- Chemistry engine against PHREEQC 3.9.0 on 416 saturation indices: 95.7 % within a pre-registered tolerance, criterion failed on calcite (89.1 %)
+- Tower thermal model against 147 distinct experimental points (Almeria, Spain; 165 rows as published)
 - Chiller model against EnergyPlus `Chiller:Electric:EIR` (York YT, 1758 kW)
 - Dynamic basin and silica behaviour independently reimplemented in **OpenModelica**, agreeing with the Python to better than half a percentage point
 - Operating-cycles baseline: **five independent operators**, all 2–4 cycles

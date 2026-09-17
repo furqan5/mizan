@@ -486,7 +486,8 @@ the index alone but which inhibitor programme is dosed.</p></div>
 <footer>
 <p>Computed by first-principles aqueous speciation &mdash; ion association with
 Davies activity coefficients, per-mineral evaluation at the temperature each
-mineral actually binds at. Benchmarked against PHREEQC 3.9.0 and against the
+mineral actually binds at. Compared with PHREEQC 3.9.0 on 416 saturation indices (95.7 % within
+tolerance; calcite fails the pre-registered bar) and with the
 US DOE pilot study DE-NT0006550.</p>
 <p style="margin-top:8px">This is a diagnostic. It writes no setpoint and
 controls nothing. Figures depend on the analysis supplied; where a species is

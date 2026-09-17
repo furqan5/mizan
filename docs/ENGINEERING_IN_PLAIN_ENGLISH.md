@@ -229,7 +229,8 @@ That is called a **pre-registered holdout**, and it is what separates a real
 validation from a demonstration. If you tune the model until it passes, you have
 proved nothing — you have just described your own data back to yourself.
 
-The data is a published set of 165 experiments on a real cooling tower at a
+The data is a published set of 147 distinct experiments (the files list 165
+rows, but 18 repeat other rows and are now removed) on a real cooling tower at a
 research facility in Spain, released under an open licence. We check its
 fingerprint (an MD5 hash) so we can prove we used the published version
 unmodified. Anyone can download it and re-run our whole package in four

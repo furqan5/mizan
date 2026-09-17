@@ -131,8 +131,10 @@ def main():
     A("| Source | Zenodo record 10806201, CC BY 4.0 |")
     A("| Integrity | MD5 `ac94e0076a9217b58e032a2545bf9fc4`, matches the "
       "published record |")
-    A("| Size | 165 steady-state operating points across three campaigns, "
-      "Oct 2019 – Oct 2023 |")
+    A("| Size | 165 rows across three campaign files, Oct 2019 – Oct 2023, "
+      "of which 147 are distinct operating points: the published Exp3 file "
+      "repeats 17 Exp1 rows, and one Exp1 row is also in Exp2 (staged "
+      "defect 51) |")
     A("| Duty range | 48 – 207 kW; ambient 9 – 40.5 °C; RH 10 – 87 % |")
     A("| Channels used | inlet/outlet water temperature, water flow, "
       "ambient temperature and RH, fan speed, **measured water "
@@ -154,10 +156,13 @@ def main():
       "house so that every constant is auditable and the whole core can run "
       "on an edge controller with no third-party runtime.")
     A("")
-    A("Aqueous speciation uses equilibrium constants taken directly from "
-      "the USGS PHREEQC `phreeqc.dat` database, so the implementation is "
-      "checkable against the accepted reference rather than against a "
-      "correlation of our own.")
+    A("Aqueous speciation uses equilibrium constants from the USGS PHREEQC "
+      "`phreeqc.dat` database (an earlier release than PHREEQC 3.9.0 ships), "
+      "so the implementation is checkable against the accepted reference "
+      "rather than against a correlation of our own. Checked on a "
+      "pre-registered grid of 416 saturation indices: 95.7 % within "
+      "tolerance of PHREEQC 3.9.0, and the registered criterion FAILS "
+      "because calcite agrees at only 89.1 % (staged defect 53).")
     A("")
     A("**Identification.** The fill characteristic is identified the way "
       "cooling-tower practice identifies it (CTI ATC-105), not by "
@@ -881,24 +886,27 @@ def main():
           "controller reject operating points that are demonstrably safe.")
         A("")
         A("**What industry actually uses** is an empirical magnesium-silica "
-          "product, and it validates against observed practice:")
+          "product. Against observed practice it is close, not exact:")
         A("")
         A("| Published limit | Max cycles on Aramco water + 26.8 mg/L SiO₂ |")
         A("|---|---|")
         for k, v in v6["product_limits_cycles"].items():
             A(f"| {k} | {v:.2f} |")
         A("")
-        A("Industry operates 3.5–5.0 cycles. The standard (35,000) and "
-          "utility (25,000) limits **bracket that**, which is the "
+        A("Industry operates 3.5–5.0 cycles. The utility limit (25,000) "
+          "falls **inside** that band and the standard limit (35,000) sits "
+          "**above** it; neither brackets it. Landing within a cycle of "
+          "practice, rather than forbidding operation outright, is the "
           "consistency check the sepiolite formulation failed.")
         A("")
         A("A second unit ambiguity appeared here, of exactly the kind that "
           "produced the fan-correlation defect in section 4. Sources word "
           "the magnesium term as \"hardness as ppm CaCO₃\", but that "
           "convention gives 2.78 cycles — *below* what plants "
-          "demonstrably run. As ppm Mg²⁺ it gives 5.64, which "
-          "matches. Both are implemented; the model defaults to the "
-          "convention consistent with reality and documents the "
+          "demonstrably run. As ppm Mg²⁺ it gives 5.64, above the "
+          "3.5–5.0 band but within a cycle of it. Both are implemented; "
+          "the model defaults to the convention nearer reality and "
+          "documents the "
           "discrepancy.")
         A("")
         A("### The deposition criterion")

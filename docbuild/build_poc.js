@@ -46,7 +46,7 @@ A(table(null, [
   ['Product', 'Mizan · *The balance between energy and water*'],
   ['Scope', 'Supervisory control of cooling-tower and condenser-water loops in Gulf district cooling'],
   ['Maturity claimed', 'TRL 3 — analytical and computational studies validated against measured experimental data'],
-  ['Validation', '165 published experimental points; 50 held out; thresholds fixed before fitting; scored once'],
+  ['Validation', '147 distinct published experimental points (165 rows as published, 18 repeated); 32 held out; thresholds fixed before fitting; re-scored once after that data defect, thresholds unchanged'],
   ['Reproducibility', 'Four commands against a public, MD5-verified dataset'],
   ['Date', '30 August 2026'],
 ], widths([1, 3.4])));
@@ -85,7 +85,7 @@ A(table(
     ['Authors', 'Palenzuela, Roca and Serrano Rodríguez'],
     ['Source', 'Zenodo record 10806201, CC BY 4.0'],
     ['Integrity', 'MD5 `ac94e0076a9217b58e032a2545bf9fc4`, matching the published record'],
-    ['Size', '165 steady-state operating points across three campaigns, October 2019 to October 2023'],
+    ['Size', '165 rows across three campaign files, October 2019 to October 2023, of which 147 are distinct operating points (the published Exp3 file repeats 17 Exp1 rows)'],
     ['Range', 'Duty 48–207 kW; ambient 9–40.5 °C; relative humidity 10–87 %'],
     ['Channels used', 'Inlet and outlet water temperature, water flow, ambient temperature and humidity, fan speed, and **measured water consumption**'],
   ],
@@ -99,7 +99,7 @@ A(h1('3. Method'));
 
 A(p('The governing physics is the Poppe and Rögener heat-and-mass-transfer formulation in the form given by Kloppers and Kröger (2005), integrated over water temperature with both the unsaturated and the supersaturated — fogged — air branches. Moist-air properties follow the ASHRAE Handbook of Fundamentals formulation, implemented in house so that every constant is auditable and so that the whole core can run on an edge controller with no third-party scientific runtime.'));
 
-A(p('Aqueous speciation uses equilibrium constants taken directly from the USGS PHREEQC `phreeqc.dat` database, so the implementation can be checked against the accepted reference rather than against a correlation of our own.'));
+A(p('Aqueous speciation uses equilibrium constants from the USGS PHREEQC `phreeqc.dat` database (an earlier release than PHREEQC 3.9.0 ships), so the implementation can be checked against the accepted reference rather than against a correlation of our own. Checked on 416 saturation indices: 95.7 % within tolerance of PHREEQC 3.9.0, and the pre-registered criterion fails because calcite agrees at only 89.1 %.'));
 
 A(h2('Identification'));
 A(p('The fill characteristic is identified the way cooling-tower practice identifies it, following CTI ATC-105, and not by black-box search. For each measured point the Poppe equations are integrated from the *measured* outlet temperature to the measured inlet temperature, which gives the Merkel number the duty actually demanded, from measurements alone. Regressing log(Me) on log(m_w/m_a) over the training campaign then yields the fill law in closed form.'));
@@ -451,7 +451,7 @@ A(p('External review identified a real gap: magnesium silicate forms on the hot 
 A(h2('First, a correction we made and are reporting'));
 A(p('Magnesium silicate was initially modelled as sepiolite, using PHREEQC constants. On real water that returned saturation indices of +1.56 to +3.50, which would forbid operation everywhere and is plainly false, since plants run four to five cycles on this water daily. Crystalline magnesium silicates are thermodynamic end-states whose crystallisation is kinetically inhibited over the few seconds a parcel of water spends crossing a condenser. Sepiolite was the wrong phase, and using it would have made the controller reject operating points that are demonstrably safe.'));
 
-A(p('What industry actually uses is an empirical magnesium-silica product, and it validates against observed practice.'));
+A(p('What industry actually uses is an empirical magnesium-silica product. Against observed practice it is close, not exact: the utility limit falls inside the 3.5–5.0 band and the standard limit sits above it.'));
 A(table(
   ['Published limit', 'Maximum cycles on Aramco water with 26.8 mg/L silica'],
   [['Permissive', '6.03'], ['Standard', '5.64'], ['Utility', '4.77'], ['Assurance', '4.27']],
