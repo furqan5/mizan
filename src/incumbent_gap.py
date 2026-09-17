@@ -78,7 +78,7 @@ PROVENANCE = {
         "phosphate": "measured, 8.0 mg/L"},
     "ARAMCO_RIYADH_REFINERY_TSE": {
         "source": "AlMajnouni & Jaffer, NACE Paper 577, Table 1",
-        "silica": "measured, 18.0 mg/L",
+        "silica": "measured, 8.0 mg/L (printed Table 1; defect 67)",
         "phosphate": "measured, 1.0 mg/L total"},
 }
 

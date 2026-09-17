@@ -35,8 +35,9 @@ same answer -- and all four regions now run. Measured end to end: about
 WHAT IS STILL WEAK, and must not be quoted as if it were not:
 
   * silica in the makeup is ASSUMED at 26.8 mg/L, imported from Riyadh
-    brackish groundwater. We now hold a MEASURED Gulf TSE silica -- 18.0
-    mg/L, NACE Paper 577 Table 1 -- and the Cycle Ceiling Report runs on it.
+    brackish groundwater. We now hold a MEASURED Gulf TSE silica -- 8.0
+    mg/L as printed in NACE Paper 577 Table 1 (18.0 until defect 67, a
+    text-layer misread) -- and the Cycle Ceiling Report runs on it.
     This script does not, because switching the package default would move
     every pinned gate figure at once. Until that is done deliberately, the
     silica-driven results here are a SENSITIVITY, not a site prediction.

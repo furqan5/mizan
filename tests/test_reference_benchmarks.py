@@ -446,8 +446,47 @@ def test_the_measured_saudi_tse_analysis_is_self_consistent():
     ions = sum(getattr(w, s) for s in ch.SPECIES)
     assert abs(100.0 * (ions - w.TDS) / w.TDS) < 5.0, (
         f"ion sum {ions:.0f} vs TDS {w.TDS:.0f}")
-    assert w.SiO2 == 18.0, "the measured silica, not the imported 26.8"
+    assert w.SiO2 == 8.0, ("the silica PRINTED in Table 1 (defect 67: the "
+                           "text layer's 18 was a table rule read as a 1)")
     assert w.PO4 == 1.0
+
+
+# Typed here from the printed page, NOT copied from src/chemistry.py, so a
+# transcription change on either side fails this test.
+_NACE577_PRINTED = {
+    "alkalinity_as_CaCO3": 140.0, "ammonia": 16.0, "chloride": 216.0,
+    "sulfate": 326.0, "silica_as_SiO2": 8.0, "orthophosphate": 0.6,
+    "total_phosphate": 1.0, "nitrite": 31.0, "nitrate": 3.0,
+    "calcium": 80.0, "magnesium": 11.0, "sodium": 222.0, "potassium": 15.0,
+    "iron": 0.2, "aluminum": 0.12, "copper": 0.2,
+    "conductivity_uS_cm": 1630.0, "TDS": 1050.0, "pH": 7.44,
+    "total_hardness_as_CaCO3": 246.0,
+}
+
+
+def test_defect_67_every_value_is_the_one_printed_in_nace_577_table_1():
+    """DEFECT 67. The engine carried SiO2 = 18 from the PDF text layer, which
+    reads the silica row as "SiO, 18 I Aluminum" because the table rule was
+    OCR'd as a 1. The printed page (577/9) shows 8. Every row is pinned to the
+    page, and every value the Water object carries is pinned to the row."""
+    assert ch.NACE577_TABLE1_PRINTED == _NACE577_PRINTED
+    t, w = _NACE577_PRINTED, ch.ARAMCO_RIYADH_REFINERY_TSE
+    carried = {"Ca": "calcium", "Mg": "magnesium", "Na": "sodium",
+               "K": "potassium", "SO4": "sulfate", "Cl": "chloride",
+               "NO3": "nitrate", "SiO2": "silica_as_SiO2",
+               "PO4": "total_phosphate", "pH": "pH", "TDS": "TDS"}
+    for attr, row in carried.items():
+        assert getattr(w, attr) == t[row], (attr, getattr(w, attr), t[row])
+    # alkalinity is printed as CaCO3 and carried as HCO3
+    assert w.HCO3 == pytest.approx(t["alkalinity_as_CaCO3"] * 61.017 / 50.04,
+                                   rel=1e-12)
+    # the printed hardness closes on the printed Ca and Mg (as CaCO3), which
+    # would catch a misread of either
+    hardness = (t["calcium"] * 100.087 / 40.078
+                + t["magnesium"] * 100.087 / 24.305)
+    assert abs(hardness - t["total_hardness_as_CaCO3"]) < 0.01 * 246.0
+    # the defect itself, stated as the value that must never come back
+    assert w.SiO2 != 18.0
 
 
 def test_the_engine_reproduces_aramcos_own_calcite_saturation_ratio():
@@ -514,8 +553,8 @@ def test_the_typical_cycles_baseline_is_now_five_independent_sources():
     water saving available against a baseline of C cycles is 1/C, so a LOWER
     real baseline means MORE headroom, not less. Holding the gate at 3.0 when
     a fifth operator runs at 2.1 makes the gate harder to pass, and WCTI is
-    the site with the highest makeup silica of the five (32 ppm against our
-    18) -- exactly where the silica thesis predicts cycles should be lowest.
+    the site with the highest makeup silica of the five (32 ppm against the
+    measured Riyadh TSE's 8) -- exactly where the silica thesis predicts cycles should be lowest.
 
     A source that disagrees in the conservative direction is evidence. One
     that disagreed in the flattering direction would need explaining before it

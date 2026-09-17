@@ -518,7 +518,7 @@ def main() -> int:
     ap.add_argument("--programme", default=None)
     ap.add_argument("--assumed-water", action="store_true",
                     help="run on rc.TSE with the imported 26.8 mg/L silica "
-                         "instead of the measured 18 mg/L analysis")
+                         "instead of the measured 8 mg/L analysis")
     args = ap.parse_args()
 
     import run_controller as rc
@@ -526,7 +526,8 @@ def main() -> int:
     # on `rc.TSE`, whose silica of 26.8 mg/L is imported from Riyadh BRACKISH
     # GROUNDWATER -- a different water. A measured Saudi TSE make-up analysis
     # now exists (AlMajnouni & Jaffer, NACE Paper 577, Table 1: Riyadh
-    # Refinery, SiO2 18 mg/L, PO4 1.0, ion sum closing to +1.2 % of TDS), and
+    # Refinery, SiO2 8 mg/L as printed -- 18 until defect 67 --, PO4 1.0, ion
+    # sum closing to within a few per cent of TDS), and
     # a worked example about a cited water is worth more than one about a
     # plausible one. `--assumed-water` restores the old behaviour for the
     # sensitivity study that needs it.

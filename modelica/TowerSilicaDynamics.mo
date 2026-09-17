@@ -30,9 +30,12 @@ model TowerSilicaDynamics
    the setpoint margin a real supervisory controller must carry, and nothing
    in the steady-state engine computes it.
 
-   Makeup silica is 18 mg/L -- MEASURED, from Table 1 of AlMajnouni & Jaffer,
-   NACE Paper 577, Riyadh Refinery secondary treated sewage effluent. Not the
-   26.8 mg/L previously imported from brackish groundwater.
+   Makeup silica is 8 mg/L -- MEASURED, as PRINTED in Table 1 of AlMajnouni &
+   Jaffer, NACE Paper 577, Riyadh Refinery secondary treated sewage effluent.
+   It read 18 until 17 Sep 2026 (defect 67): the PDF text layer turned a
+   table rule into a leading 1. results/silica_res.csv was produced at 18
+   and has NOT been re-run at 8. Not the 26.8 mg/L imported from brackish
+   groundwater either.
   "
 
   constant Real pi = 3.141592653589793;
@@ -43,7 +46,7 @@ model TowerSilicaDynamics
   parameter Real D(unit="kg/s") = 0.00478 "Drift, 1e-5 of 478 kg/s";
 
   // --- makeup chemistry ----------------------------------------------------
-  parameter Real c_m(unit="mg/kg") = 18.0
+  parameter Real c_m(unit="mg/kg") = 8.0
     "Makeup silica as SiO2 [C: NACE 577 Table 1, measured]";
 
   // --- diurnal basin temperature ------------------------------------------
@@ -64,7 +67,7 @@ model TowerSilicaDynamics
   Real T_basin(unit="degC") "Basin temperature";
   Real S_sat(unit="mg/kg") "Amorphous silica solubility at T_basin";
   Real S_sat_mean(unit="mg/kg") "Solubility at the mean temperature";
-  Real c(unit="mg/kg", start = 18.0 * 5.0, fixed = true) "Basin silica";
+  Real c(unit="mg/kg", start = 8.0 * 5.0, fixed = true) "Basin silica";
   Real SR "Saturation ratio, c/S_sat -- the quantity that must stay <= 1";
   Real cycles "c/c_m, what a conductivity controller reads";
   Real B(unit="kg/s") "Blowdown";

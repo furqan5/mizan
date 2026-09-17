@@ -496,7 +496,7 @@ def typical_cycles_evidence():
     textbook and most vendor literature quote as normal.
 
     The fifth, WCTI, is the lowest of the five AND has the highest makeup
-    silica (32 ppm, against our 18), which is the direction the silica thesis
+    silica (32 ppm, against the measured Riyadh TSE's 8), which is the direction the silica thesis
     predicts. Found 11 Sep 2026 in the Wayback PDF index; see
     docs/chemistry_evidence.md S4.3.
     """
