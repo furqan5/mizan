@@ -162,6 +162,12 @@ class InterlockConfig:
     blowdown_fail_min_cmd_kg_s: float = 0.1
     blowdown_fail_s: float = 120.0
     failsafe_cycles: float = FAILSAFE_CYCLES_DEFAULT
+    # NOT pre-registered; added after the incident run, default OFF so the
+    # registered fail-safe is what the matrix tests. On loss of makeup a
+    # blowdown valve can only throw away inventory that cannot be replaced:
+    # the simulation found the registered fail-safe empties the basin sooner.
+    # See docs/staged/safety-interlocks_defects.md, staged defect 56.
+    hold_blowdown_on_makeup_loss: bool = False
 
     @property
     def makeup_proving_kg_s(self):
@@ -217,6 +223,7 @@ class Command:
     blowdown_basis: str           # "conductivity" | "flow_ratio"
     tripped: bool
     causes: tuple
+    blowdown_hold: bool = False   # close the bleed regardless of basis
 
 
 @dataclass
@@ -545,11 +552,13 @@ class SafetyLayer:
         untrusted_cond = bool({COND_CELL_FAULT, SENSOR_RANGE, SENSOR_STALE,
                                SENSOR_FROZEN} & self.latched)
         cycles = min(req.cycles, c.failsafe_cycles) if tripped else req.cycles
+        hold = (c.hold_blowdown_on_makeup_loss
+                and MAKEUP_NOT_PROVEN in self.active)
         self.would_be = Command(
             fan_pct=req.fan_pct, cycles=cycles, acid_kg_s=acid,
             acid_isolation_open=isolation_open,
             blowdown_basis="flow_ratio" if untrusted_cond else "conductivity",
-            tripped=tripped, causes=causes)
+            tripped=tripped, causes=causes, blowdown_hold=hold)
 
         if self.mode == "active":
             out = self.would_be

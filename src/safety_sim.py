@@ -158,6 +158,7 @@ class Scenario:
     hours: float = 8.0
     seed: int = 20260917
     reset_at_s: float = None       # optional operator reset attempt
+    hold_blowdown_on_makeup_loss: bool = False   # not pre-registered
 
     @property
     def fault(self):
@@ -170,8 +171,9 @@ def run(sc):
     rng = random.Random(sc.seed)
     ss = steady_state()
     kc = _carbonate_constants(T_BASIN_C)
-    cfg = safety.config_for_site(MAKEUP, CYCLES0, ss["makeup"], ss["acid_kg_s"],
-                                 BASIN_KG, DRIFT_KG_S, T_BASIN_C)
+    cfg = safety.config_for_site(
+        MAKEUP, CYCLES0, ss["makeup"], ss["acid_kg_s"], BASIN_KG, DRIFT_KG_S,
+        T_BASIN_C, hold_blowdown_on_makeup_loss=sc.hold_blowdown_on_makeup_loss)
     layer = safety.SafetyLayer(cfg, MAKEUP, mode=sc.mode,
                                initial_cycles=CYCLES0,
                                initial_alkalinity_eq_kg=ss["alkalinity"],
@@ -289,6 +291,8 @@ def run(sc):
         B_ff = max(EVAP_KG_S / (C_sp - 1.0) - DRIFT_KG_S, 0.0)
         if fault == "cond_step_blowdown_closed" and t >= tf - 600.0:
             B_cmd = 0.0                      # operator has the bleed closed
+        elif cmd.blowdown_hold:
+            B_cmd = 0.0
         elif cmd.blowdown_basis == "flow_ratio":
             B_cmd = B_ff
         else:

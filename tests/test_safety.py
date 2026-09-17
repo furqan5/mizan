@@ -460,3 +460,24 @@ def test_F4a_measured_alarm_then_trip_later_than_registered():
     assert 0.0 < late < 1800.0, late
     fc = r["final_command"]
     assert fc["basis"] == "flow_ratio" and fc["cycles"] == 3.0 and fc["acid_kg_s"] == 0.0
+
+
+# ---------------------------------------------------------------------------
+# Staged defect 56. NOT a pre-registered row: found by the incident run.
+# ---------------------------------------------------------------------------
+def test_registered_failsafe_empties_the_basin_sooner_on_makeup_loss():
+    """Blowdown to 3.0 cycles on ANY trip opens the bleed on the one trip where
+    no makeup can replace what it throws away."""
+    shadow = _run("S1", mode="shadow")
+    active = _run("F1")
+    assert active["low_level_after_fault_s"] < shadow["low_level_after_fault_s"]
+
+
+def test_holding_blowdown_on_makeup_loss_keeps_the_inventory_longer():
+    held = sim.run(sim.Scenario("F1", hold_blowdown_on_makeup_loss=True))
+    shadow = _run("S1", mode="shadow")
+    assert held["acid_stop_after_fault_s"] <= 60.0 + SCAN
+    assert held["ph_min_after_fault"] > 6.5
+    ll = held["low_level_after_fault_s"]
+    assert ll is None or ll > shadow["low_level_after_fault_s"]
+    assert not _first(held, "TRIP", safety.BLOWDOWN_VALVE_FAILED) or         _first(held, "TRIP", safety.BLOWDOWN_VALVE_FAILED)["t_s"] > TF + ll
