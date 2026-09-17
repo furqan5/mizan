@@ -1076,3 +1076,26 @@ def chiller_power_biquad(Q_evap_kw, T_cw_supply_c, T_chw_supply_c=7.0,
 # warranties.
 TUBE_VELOCITY_MIN_DESIGN = 0.9      # m/s [C - TEMA / HEI]
 TUBE_VELOCITY_MIN_ABSOLUTE = 0.5    # m/s at deep part load [C]
+
+
+# ===========================================================================
+# OPTIONAL SAFETY-INTERLOCK HOOK -- disabled by default
+# ===========================================================================
+# Kept apart from the optimiser on purpose. `optimise()` above does not know
+# this exists and its behaviour is unchanged. `supervise()` calls it and, ONLY
+# when a `safety.SafetyLayer` is passed, runs the requested setpoints through
+# that layer and attaches the command it would issue. With no layer it returns
+# exactly what `optimise()` returns; tests/test_safety.py holds that
+# byte-for-byte. See docs/safety_interlocks.md: the layer is a software
+# specification plus a simulation, not a certified safety function.
+def supervise(*args, safety_layer=None, frame=None, heartbeat=0, **kwargs):
+    best, n_eval = optimise(*args, **kwargs)
+    if safety_layer is None or best is None:
+        return best, n_eval
+    import safety
+    req = safety.Request(fan_pct=best["fan_pct"], cycles=best["cycles"],
+                         acid_kg_s=best["acid_kg_h"] / 3600.0,
+                         heartbeat=heartbeat)
+    guarded = dict(best)
+    guarded["safety_command"] = safety_layer.scan(frame, req)
+    return guarded, n_eval
