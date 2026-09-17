@@ -156,7 +156,7 @@
    "strict_panel": false,
    "extended_panel": true,
    "source": "AlMajnouni & Jaffer, NACE Paper 577, Table 1",
-   "silica": "measured, 18.0 mg/L",
+   "silica": "measured, 8.0 mg/L (printed Table 1; defect 67)",
    "phosphate": "measured, 1.0 mg/L total"
   },
   {
@@ -253,7 +253,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.2966,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -375,22 +375,22 @@
      },
      "no_acid": {
       "M": {
-       "cycles": 1.188,
-       "binding": "brucite_mg_silicate",
+       "cycles": 2.0343,
+       "binding": "SI_calcite",
        "scaling_cycles": 2.0343,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.188,
+       "brucite_cycles": 3.3651,
        "davies_cycles": 16.2632,
        "davies_binds": false,
-       "ph_free_at_skin": 8.6867,
+       "ph_free_at_skin": 8.9203,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 4.421,
+       "phosphate_screen": "PHOSPHATE UNCONTROLLABLE: above the published stressed limit, where more chemical does not help.",
+       "SI_tcp": 5.232,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.162,
+       "SI_calcite_bulk_basin": 1.7492,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -414,13 +414,13 @@
        "P1": 2.9588,
        "P2": 1.1433,
        "P3": 2.1024,
-       "M": 1.188
+       "M": 2.0343
       },
       "gap": {
-       "P0": 1.812,
-       "P1": 1.7707,
-       "P2": -0.0447,
-       "P3": 0.9144
+       "P0": 0.9657,
+       "P1": 0.9245,
+       "P2": -0.891,
+       "P3": 0.0681
       },
       "at_bound": {
        "P0": false,
@@ -450,7 +450,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.3377,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -572,22 +572,22 @@
      },
      "no_acid": {
       "M": {
-       "cycles": 1.0,
-       "binding": "brucite_mg_silicate",
-       "scaling_cycles": 1.974,
+       "cycles": 1.9741,
+       "binding": "SI_calcite",
+       "scaling_cycles": 1.9741,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.0,
+       "brucite_cycles": 3.025,
        "davies_cycles": 16.2632,
        "davies_binds": false,
-       "ph_free_at_skin": 8.6314,
+       "ph_free_at_skin": 8.9224,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 4.2299,
+       "phosphate_screen": "PHOSPHATE UNCONTROLLABLE: above the published stressed limit, where more chemical does not help.",
+       "SI_tcp": 5.2562,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.013,
+       "SI_calcite_bulk_basin": 1.7475,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -611,13 +611,13 @@
        "P1": 2.8573,
        "P2": 1.1034,
        "P3": 2.1024,
-       "M": 1.0
+       "M": 1.9741
       },
       "gap": {
-       "P0": 2.0,
-       "P1": 1.8573,
-       "P2": 0.1034,
-       "P3": 1.1024
+       "P0": 1.0259,
+       "P1": 0.8833,
+       "P2": -0.8707,
+       "P3": 0.1283
       },
       "at_bound": {
        "P0": false,
@@ -647,7 +647,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.2773,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -769,22 +769,22 @@
      },
      "no_acid": {
       "M": {
-       "cycles": 1.296,
-       "binding": "brucite_mg_silicate",
+       "cycles": 2.0629,
+       "binding": "SI_calcite",
        "scaling_cycles": 2.0629,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.296,
+       "brucite_cycles": 3.5365,
        "davies_cycles": 16.2632,
        "davies_binds": false,
-       "ph_free_at_skin": 8.7175,
+       "ph_free_at_skin": 8.9193,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 4.526,
+       "phosphate_screen": "PHOSPHATE UNCONTROLLABLE: above the published stressed limit, where more chemical does not help.",
+       "SI_tcp": 5.2204,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.2436,
+       "SI_calcite_bulk_basin": 1.7499,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -808,13 +808,13 @@
        "P1": 3.0071,
        "P2": 1.1624,
        "P3": 2.1024,
-       "M": 1.296
+       "M": 2.0629
       },
       "gap": {
-       "P0": 1.704,
-       "P1": 1.711,
-       "P2": -0.1336,
-       "P3": 0.8064
+       "P0": 0.9371,
+       "P1": 0.9442,
+       "P2": -0.9005,
+       "P3": 0.0395
       },
       "at_bound": {
        "P0": false,
@@ -844,7 +844,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.3485,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -966,22 +966,22 @@
      },
      "no_acid": {
       "M": {
-       "cycles": 1.0,
-       "binding": "brucite_mg_silicate",
+       "cycles": 1.9584,
+       "binding": "SI_calcite",
        "scaling_cycles": 1.9584,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.0,
+       "brucite_cycles": 2.9412,
        "davies_cycles": 16.2632,
        "davies_binds": false,
-       "ph_free_at_skin": 8.6355,
+       "ph_free_at_skin": 8.923,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 4.2516,
+       "phosphate_screen": "PHOSPHATE UNCONTROLLABLE: above the published stressed limit, where more chemical does not help.",
+       "SI_tcp": 5.2625,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.0215,
+       "SI_calcite_bulk_basin": 1.747,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1005,13 +1005,13 @@
        "P1": 2.831,
        "P2": 1.0931,
        "P3": 2.1024,
-       "M": 1.0
+       "M": 1.9584
       },
       "gap": {
-       "P0": 2.0,
-       "P1": 1.831,
-       "P2": 0.0931,
-       "P3": 1.1024
+       "P0": 1.0416,
+       "P1": 0.8727,
+       "P2": -0.8653,
+       "P3": 0.144
       },
       "at_bound": {
        "P0": false,
@@ -1041,7 +1041,7 @@
        "phosphate_flagged": true,
        "SI_calcite_bulk_basin": 1.2674,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1163,22 +1163,22 @@
      },
      "no_acid": {
       "M": {
-       "cycles": 1.3553,
-       "binding": "brucite_mg_silicate",
+       "cycles": 2.0775,
+       "binding": "SI_calcite",
        "scaling_cycles": 2.0775,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.3553,
+       "brucite_cycles": 3.627,
        "davies_cycles": 16.2632,
        "davies_binds": false,
-       "ph_free_at_skin": 8.7334,
+       "ph_free_at_skin": 8.9189,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 4.5792,
+       "phosphate_screen": "PHOSPHATE UNCONTROLLABLE: above the published stressed limit, where more chemical does not help.",
+       "SI_tcp": 5.2144,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.2855,
+       "SI_calcite_bulk_basin": 1.7503,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1202,13 +1202,13 @@
        "P1": 3.0319,
        "P2": 1.1722,
        "P3": 2.1024,
-       "M": 1.3553
+       "M": 2.0775
       },
       "gap": {
-       "P0": 1.6447,
-       "P1": 1.6767,
-       "P2": -0.183,
-       "P3": 0.7471
+       "P0": 0.9225,
+       "P1": 0.9544,
+       "P2": -0.9053,
+       "P3": 0.0249
       },
       "at_bound": {
        "P0": false,
@@ -1237,10 +1237,10 @@
      "P3": -2.41
     },
     "median_gap_no_acid": {
-     "P0": 1.812,
-     "P1": 1.7707,
-     "P2": -0.0447,
-     "P3": 0.9144
+     "P0": 0.9657,
+     "P1": 0.9245,
+     "P2": -0.891,
+     "P3": 0.0681
     },
     "median_cycles_acid": {
      "P0": 3.0,
@@ -1254,7 +1254,7 @@
      "P1": 2.9588,
      "P2": 1.1433,
      "P3": 2.1024,
-     "M": 1.188
+     "M": 2.0343
     },
     "any_gap_at_bound_acid": {
      "P0": false,
@@ -1322,35 +1322,35 @@
      "condition": "Dhahran summer peak",
      "acid": {
       "M": {
-       "cycles": 6.7186,
-       "binding": "SI_silica_am",
-       "scaling_cycles": 6.7186,
-       "scaling_binding": "SI_silica_am",
+       "cycles": 8.9099,
+       "binding": "SI_calcite",
+       "scaling_cycles": 8.9099,
+       "scaling_binding": "SI_calcite",
        "brucite_cycles": 30.0,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 9.6502,
+       "ph_free_at_skin": 9.7728,
        "acid_unphysical": false,
        "silica_index_valid": true,
        "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 3.4987,
+       "SI_tcp": 3.8505,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.6697,
+       "SI_calcite_bulk_basin": 1.8513,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
        }
       },
       "P3_detail": {
-       "cycles": 4.9527,
+       "cycles": 7.429,
        "binding": "MgxSiO2",
        "row": "pH>7.5",
        "parts": {
         "LSI": 11.4084,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1360,14 +1360,14 @@
        "P0": 3.0,
        "P1": 11.4084,
        "P2": 1.6412,
-       "P3": 4.9527,
-       "M": 6.7186
+       "P3": 7.429,
+       "M": 8.9099
       },
       "gap": {
-       "P0": -3.7186,
-       "P1": 4.6898,
-       "P2": -5.0774,
-       "P3": -1.7659
+       "P0": -5.9099,
+       "P1": 2.4985,
+       "P2": -7.2688,
+       "P3": -1.4809
       },
       "at_bound": {
        "P0": false,
@@ -1379,19 +1379,19 @@
       "money": {
        "P0": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 65972.2315
+        "under_cycling_value_usd_yr": 75802.3627
        },
        "P1": {
         "direction": "over",
-        "break_even_usd_yr": 15987.8476
+        "break_even_usd_yr": 6157.7163
        },
        "P2": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 280990.8054
+        "under_cycling_value_usd_yr": 290820.9367
        },
        "P3": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 15851.8707
+        "under_cycling_value_usd_yr": 5908.89
        }
       },
       "M_programme_standard": 5.2042,
@@ -1411,70 +1411,70 @@
        "6.0": 1.6412
       },
       "P3_sweep": {
-       "S100_P20000_CaCO3": 4.9527,
-       "S100_P20000_Mg": 5.5556,
-       "S100_P25000_CaCO3": 5.5373,
-       "S100_P25000_Mg": 5.5556,
-       "S100_P35000_CaCO3": 5.5556,
-       "S100_P35000_Mg": 5.5556,
-       "S100_P40000_CaCO3": 5.5556,
-       "S100_P40000_Mg": 5.5556,
-       "S150_P20000_CaCO3": 4.9527,
-       "S150_P20000_Mg": 8.3333,
-       "S150_P25000_CaCO3": 5.5373,
-       "S150_P25000_Mg": 8.3333,
-       "S150_P35000_CaCO3": 6.5518,
-       "S150_P35000_Mg": 8.3333,
-       "S150_P40000_CaCO3": 7.0042,
-       "S150_P40000_Mg": 8.3333,
-       "S200_P20000_CaCO3": 4.9527,
-       "S200_P20000_Mg": 10.0504,
-       "S200_P25000_CaCO3": 5.5373,
-       "S200_P25000_Mg": 11.1111,
-       "S200_P35000_CaCO3": 6.5518,
-       "S200_P35000_Mg": 11.1111,
-       "S200_P40000_CaCO3": 7.0042,
-       "S200_P40000_Mg": 11.1111
+       "S100_P20000_CaCO3": 7.429,
+       "S100_P20000_Mg": 11.4084,
+       "S100_P25000_CaCO3": 8.3059,
+       "S100_P25000_Mg": 11.4084,
+       "S100_P35000_CaCO3": 9.8277,
+       "S100_P35000_Mg": 11.4084,
+       "S100_P40000_CaCO3": 10.5063,
+       "S100_P40000_Mg": 11.4084,
+       "S150_P20000_CaCO3": 7.429,
+       "S150_P20000_Mg": 11.4084,
+       "S150_P25000_CaCO3": 8.3059,
+       "S150_P25000_Mg": 11.4084,
+       "S150_P35000_CaCO3": 9.8277,
+       "S150_P35000_Mg": 11.4084,
+       "S150_P40000_CaCO3": 10.5063,
+       "S150_P40000_Mg": 11.4084,
+       "S200_P20000_CaCO3": 7.429,
+       "S200_P20000_Mg": 11.4084,
+       "S200_P25000_CaCO3": 8.3059,
+       "S200_P25000_Mg": 11.4084,
+       "S200_P35000_CaCO3": 9.8277,
+       "S200_P35000_Mg": 11.4084,
+       "S200_P40000_CaCO3": 10.5063,
+       "S200_P40000_Mg": 11.4084
       },
       "pH_sweep": {
        "7.5": {
-        "M": 6.7186,
-        "M_binding": "SI_silica_am",
+        "M": 14.0749,
+        "M_binding": "SI_calcite",
         "P1": 16.4104,
-        "P3": 7.0042
+        "P3": 10.5063
        },
        "8.0": {
         "M": 6.5784,
         "M_binding": "SI_calcite",
         "P1": 8.9527,
-        "P3": 4.9527
+        "P3": 7.429
        },
        "8.25": {
-        "M": 4.5283,
+        "M": 4.5286,
         "M_binding": "SI_calcite",
         "P1": 6.6127,
-        "P3": 4.9527
+        "P3": 6.6127
        }
       }
      },
      "no_acid": {
       "M": {
-       "cycles": 1.2989,
-       "binding": "brucite_mg_silicate",
-       "scaling_cycles": 1.5635,
+       "cycles": 1.5633,
+       "binding": "SI_calcite",
+       "scaling_cycles": 1.5633,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.2989,
+       "brucite_cycles": 3.6662,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 8.9365,
+       "ph_free_at_skin": 9.017,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "supersaturated but within the range a standard programme holds",
-       "SI_tcp": 2.9689,
-       "phosphate_flagged": false,
-       "SI_calcite_bulk_basin": 1.5712,
+       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
+       "SI_tcp": 3.2314,
+       "phosphate_flagged": true,
+       "SI_calcite_bulk_basin": 1.7673,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1486,8 +1486,8 @@
        "row": "pH>7.5",
        "parts": {
         "LSI": 2.3032,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1498,13 +1498,13 @@
        "P1": 2.3032,
        "P2": 1.0,
        "P3": 2.3032,
-       "M": 1.2989
+       "M": 1.5633
       },
       "gap": {
-       "P0": 1.7011,
-       "P1": 1.0043,
-       "P2": -0.2989,
-       "P3": 1.0043
+       "P0": 1.4367,
+       "P1": 0.7399,
+       "P2": -0.5633,
+       "P3": 0.7399
       },
       "at_bound": {
        "P0": false,
@@ -1519,35 +1519,35 @@
      "condition": "Dhahran summer humid",
      "acid": {
       "M": {
-       "cycles": 6.9387,
-       "binding": "SI_silica_am",
-       "scaling_cycles": 6.9387,
-       "scaling_binding": "SI_silica_am",
+       "cycles": 8.6645,
+       "binding": "SI_calcite",
+       "scaling_cycles": 8.6645,
+       "scaling_binding": "SI_calcite",
        "brucite_cycles": 30.0,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 9.6794,
+       "ph_free_at_skin": 9.7759,
        "acid_unphysical": false,
        "silica_index_valid": true,
        "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 3.6137,
+       "SI_tcp": 3.8896,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.7094,
+       "SI_calcite_bulk_basin": 1.8521,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
        }
       },
       "P3_detail": {
-       "cycles": 4.9527,
+       "cycles": 7.429,
        "binding": "MgxSiO2",
        "row": "pH>7.5",
        "parts": {
         "LSI": 10.999,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1557,14 +1557,14 @@
        "P0": 3.0,
        "P1": 10.999,
        "P2": 1.5822,
-       "P3": 4.9527,
-       "M": 6.9387
+       "P3": 7.429,
+       "M": 8.6645
       },
       "gap": {
-       "P0": -3.9387,
-       "P1": 4.0603,
-       "P2": -5.3564,
-       "P3": -1.986
+       "P0": -5.6645,
+       "P1": 2.3345,
+       "P2": -7.0823,
+       "P3": -1.2355
       },
       "at_bound": {
        "P0": false,
@@ -1576,19 +1576,19 @@
       "money": {
        "P0": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 58991.0356
+        "under_cycling_value_usd_yr": 65736.1412
        },
        "P1": {
         "direction": "over",
-        "break_even_usd_yr": 12163.9026
+        "break_even_usd_yr": 5418.797
        },
        "P2": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 275584.9566
+        "under_cycling_value_usd_yr": 282330.0622
        },
        "P3": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 15050.326
+        "under_cycling_value_usd_yr": 4460.2696
        }
       },
       "M_programme_standard": 4.8974,
@@ -1608,70 +1608,70 @@
        "6.0": 1.5822
       },
       "P3_sweep": {
-       "S100_P20000_CaCO3": 4.9527,
-       "S100_P20000_Mg": 5.5556,
-       "S100_P25000_CaCO3": 5.5373,
-       "S100_P25000_Mg": 5.5556,
-       "S100_P35000_CaCO3": 5.5556,
-       "S100_P35000_Mg": 5.5556,
-       "S100_P40000_CaCO3": 5.5556,
-       "S100_P40000_Mg": 5.5556,
-       "S150_P20000_CaCO3": 4.9527,
-       "S150_P20000_Mg": 8.3333,
-       "S150_P25000_CaCO3": 5.5373,
-       "S150_P25000_Mg": 8.3333,
-       "S150_P35000_CaCO3": 6.5518,
-       "S150_P35000_Mg": 8.3333,
-       "S150_P40000_CaCO3": 7.0042,
-       "S150_P40000_Mg": 8.3333,
-       "S200_P20000_CaCO3": 4.9527,
-       "S200_P20000_Mg": 10.0504,
-       "S200_P25000_CaCO3": 5.5373,
+       "S100_P20000_CaCO3": 7.429,
+       "S100_P20000_Mg": 10.999,
+       "S100_P25000_CaCO3": 8.3059,
+       "S100_P25000_Mg": 10.999,
+       "S100_P35000_CaCO3": 9.8277,
+       "S100_P35000_Mg": 10.999,
+       "S100_P40000_CaCO3": 10.5063,
+       "S100_P40000_Mg": 10.999,
+       "S150_P20000_CaCO3": 7.429,
+       "S150_P20000_Mg": 10.999,
+       "S150_P25000_CaCO3": 8.3059,
+       "S150_P25000_Mg": 10.999,
+       "S150_P35000_CaCO3": 9.8277,
+       "S150_P35000_Mg": 10.999,
+       "S150_P40000_CaCO3": 10.5063,
+       "S150_P40000_Mg": 10.999,
+       "S200_P20000_CaCO3": 7.429,
+       "S200_P20000_Mg": 10.999,
+       "S200_P25000_CaCO3": 8.3059,
        "S200_P25000_Mg": 10.999,
-       "S200_P35000_CaCO3": 6.5518,
+       "S200_P35000_CaCO3": 9.8277,
        "S200_P35000_Mg": 10.999,
-       "S200_P40000_CaCO3": 7.0042,
+       "S200_P40000_CaCO3": 10.5063,
        "S200_P40000_Mg": 10.999
       },
       "pH_sweep": {
        "7.5": {
-        "M": 6.9387,
-        "M_binding": "SI_silica_am",
+        "M": 13.6952,
+        "M_binding": "SI_calcite",
         "P1": 15.8215,
-        "P3": 7.0042
+        "P3": 10.5063
        },
        "8.0": {
         "M": 6.3964,
         "M_binding": "SI_calcite",
         "P1": 8.6316,
-        "P3": 4.9527
+        "P3": 7.429
        },
        "8.25": {
-        "M": 4.4038,
+        "M": 4.4041,
         "M_binding": "SI_calcite",
         "P1": 6.3754,
-        "P3": 4.9527
+        "P3": 6.3754
        }
       }
      },
      "no_acid": {
       "M": {
-       "cycles": 1.0801,
-       "binding": "brucite_mg_silicate",
-       "scaling_cycles": 1.5191,
+       "cycles": 1.5192,
+       "binding": "SI_calcite",
+       "scaling_cycles": 1.5192,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.0801,
+       "brucite_cycles": 3.2951,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 8.8716,
+       "ph_free_at_skin": 9.0198,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "supersaturated but within the range a standard programme holds",
-       "SI_tcp": 2.7612,
-       "phosphate_flagged": false,
-       "SI_calcite_bulk_basin": 1.4022,
+       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
+       "SI_tcp": 3.257,
+       "phosphate_flagged": true,
+       "SI_calcite_bulk_basin": 1.766,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1683,8 +1683,8 @@
        "row": "pH>7.5",
        "parts": {
         "LSI": 2.2242,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1695,13 +1695,13 @@
        "P1": 2.2242,
        "P2": 1.0,
        "P3": 2.2242,
-       "M": 1.0801
+       "M": 1.5192
       },
       "gap": {
-       "P0": 1.9199,
-       "P1": 1.1441,
-       "P2": -0.0801,
-       "P3": 1.1441
+       "P0": 1.4808,
+       "P1": 0.7051,
+       "P2": -0.5192,
+       "P3": 0.7051
       },
       "at_bound": {
        "P0": false,
@@ -1716,35 +1716,35 @@
      "condition": "Dhahran shoulder",
      "acid": {
       "M": {
-       "cycles": 6.6177,
-       "binding": "SI_silica_am",
-       "scaling_cycles": 6.6177,
-       "scaling_binding": "SI_silica_am",
+       "cycles": 9.027,
+       "binding": "SI_calcite",
+       "scaling_cycles": 9.027,
+       "scaling_binding": "SI_calcite",
        "brucite_cycles": 30.0,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 9.6366,
+       "ph_free_at_skin": 9.7715,
        "acid_unphysical": false,
        "silica_index_valid": true,
        "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 3.4446,
+       "SI_tcp": 3.832,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.651,
+       "SI_calcite_bulk_basin": 1.8509,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
        }
       },
       "P3_detail": {
-       "cycles": 4.9527,
+       "cycles": 7.429,
        "binding": "MgxSiO2",
        "row": "pH>7.5",
        "parts": {
         "LSI": 11.605,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1754,14 +1754,14 @@
        "P0": 3.0,
        "P1": 11.605,
        "P2": 1.6695,
-       "P3": 4.9527,
-       "M": 6.6177
+       "P3": 7.429,
+       "M": 9.027
       },
       "gap": {
-       "P0": -3.6177,
-       "P1": 4.9872,
-       "P2": -4.9483,
-       "P3": -1.665
+       "P0": -6.027,
+       "P1": 2.578,
+       "P2": -7.3575,
+       "P3": -1.5979
       },
       "at_bound": {
        "P0": false,
@@ -1773,22 +1773,22 @@
       "money": {
        "P0": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 53462.7724
+        "under_cycling_value_usd_yr": 62333.7494
        },
        "P1": {
         "direction": "over",
-        "break_even_usd_yr": 13899.3795
+        "break_even_usd_yr": 5028.4025
        },
        "P2": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 218458.7463
+        "under_cycling_value_usd_yr": 227329.7232
        },
        "P3": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 12450.1873
+        "under_cycling_value_usd_yr": 5141.1842
        }
       },
-      "M_programme_standard": 5.3544,
+      "M_programme_standard": 5.3546,
       "P1_lsi_sweep": {
        "0.5": 1.0281,
        "1.0": 1.8844,
@@ -1805,70 +1805,70 @@
        "6.0": 1.6695
       },
       "P3_sweep": {
-       "S100_P20000_CaCO3": 4.9527,
-       "S100_P20000_Mg": 5.5556,
-       "S100_P25000_CaCO3": 5.5373,
-       "S100_P25000_Mg": 5.5556,
-       "S100_P35000_CaCO3": 5.5556,
-       "S100_P35000_Mg": 5.5556,
-       "S100_P40000_CaCO3": 5.5556,
-       "S100_P40000_Mg": 5.5556,
-       "S150_P20000_CaCO3": 4.9527,
-       "S150_P20000_Mg": 8.3333,
-       "S150_P25000_CaCO3": 5.5373,
-       "S150_P25000_Mg": 8.3333,
-       "S150_P35000_CaCO3": 6.5518,
-       "S150_P35000_Mg": 8.3333,
-       "S150_P40000_CaCO3": 7.0042,
-       "S150_P40000_Mg": 8.3333,
-       "S200_P20000_CaCO3": 4.9527,
-       "S200_P20000_Mg": 10.0504,
-       "S200_P25000_CaCO3": 5.5373,
-       "S200_P25000_Mg": 11.1111,
-       "S200_P35000_CaCO3": 6.5518,
-       "S200_P35000_Mg": 11.1111,
-       "S200_P40000_CaCO3": 7.0042,
-       "S200_P40000_Mg": 11.1111
+       "S100_P20000_CaCO3": 7.429,
+       "S100_P20000_Mg": 11.605,
+       "S100_P25000_CaCO3": 8.3059,
+       "S100_P25000_Mg": 11.605,
+       "S100_P35000_CaCO3": 9.8277,
+       "S100_P35000_Mg": 11.605,
+       "S100_P40000_CaCO3": 10.5063,
+       "S100_P40000_Mg": 11.605,
+       "S150_P20000_CaCO3": 7.429,
+       "S150_P20000_Mg": 11.605,
+       "S150_P25000_CaCO3": 8.3059,
+       "S150_P25000_Mg": 11.605,
+       "S150_P35000_CaCO3": 9.8277,
+       "S150_P35000_Mg": 11.605,
+       "S150_P40000_CaCO3": 10.5063,
+       "S150_P40000_Mg": 11.605,
+       "S200_P20000_CaCO3": 7.429,
+       "S200_P20000_Mg": 11.605,
+       "S200_P25000_CaCO3": 8.3059,
+       "S200_P25000_Mg": 11.605,
+       "S200_P35000_CaCO3": 9.8277,
+       "S200_P35000_Mg": 11.605,
+       "S200_P40000_CaCO3": 10.5063,
+       "S200_P40000_Mg": 11.605
       },
       "pH_sweep": {
        "7.5": {
-        "M": 6.6176,
-        "M_binding": "SI_silica_am",
+        "M": 14.2559,
+        "M_binding": "SI_calcite",
         "P1": 16.6932,
-        "P3": 7.0042
+        "P3": 10.5063
        },
        "8.0": {
-        "M": 6.6176,
-        "M_binding": "SI_silica_am",
+        "M": 6.6652,
+        "M_binding": "SI_calcite",
         "P1": 9.1069,
-        "P3": 4.9527
+        "P3": 7.429
        },
        "8.25": {
-        "M": 4.5877,
+        "M": 4.588,
         "M_binding": "SI_calcite",
         "P1": 6.7267,
-        "P3": 4.9527
+        "P3": 6.7267
        }
       }
      },
      "no_acid": {
       "M": {
-       "cycles": 1.4166,
-       "binding": "brucite_mg_silicate",
+       "cycles": 1.5844,
+       "binding": "SI_calcite",
        "scaling_cycles": 1.5844,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.4166,
+       "brucite_cycles": 3.8535,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 8.9672,
+       "ph_free_at_skin": 9.0158,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "supersaturated but within the range a standard programme holds",
-       "SI_tcp": 3.0626,
-       "phosphate_flagged": false,
-       "SI_calcite_bulk_basin": 1.6499,
+       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
+       "SI_tcp": 3.2193,
+       "phosphate_flagged": true,
+       "SI_calcite_bulk_basin": 1.7679,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -1880,8 +1880,8 @@
        "row": "pH>7.5",
        "parts": {
         "LSI": 2.3408,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1892,13 +1892,13 @@
        "P1": 2.3408,
        "P2": 1.0,
        "P3": 2.3408,
-       "M": 1.4166
+       "M": 1.5844
       },
       "gap": {
-       "P0": 1.5834,
-       "P1": 0.9242,
-       "P2": -0.4166,
-       "P3": 0.9242
+       "P0": 1.4156,
+       "P1": 0.7564,
+       "P2": -0.5844,
+       "P3": 0.7564
       },
       "at_bound": {
        "P0": false,
@@ -1913,35 +1913,35 @@
      "condition": "Doha summer humid",
      "acid": {
       "M": {
-       "cycles": 6.9975,
-       "binding": "SI_silica_am",
-       "scaling_cycles": 6.9975,
-       "scaling_binding": "SI_silica_am",
+       "cycles": 8.601,
+       "binding": "SI_calcite",
+       "scaling_cycles": 8.601,
+       "scaling_binding": "SI_calcite",
        "brucite_cycles": 30.0,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 9.6872,
+       "ph_free_at_skin": 9.7768,
        "acid_unphysical": false,
        "silica_index_valid": true,
        "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 3.6438,
+       "SI_tcp": 3.8999,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.7198,
+       "SI_calcite_bulk_basin": 1.8523,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
        }
       },
       "P3_detail": {
-       "cycles": 4.9527,
+       "cycles": 7.429,
        "binding": "MgxSiO2",
        "row": "pH>7.5",
        "parts": {
         "LSI": 10.8937,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -1951,14 +1951,14 @@
        "P0": 3.0,
        "P1": 10.8937,
        "P2": 1.5671,
-       "P3": 4.9527,
-       "M": 6.9975
+       "P3": 7.429,
+       "M": 8.601
       },
       "gap": {
-       "P0": -3.9975,
-       "P1": 3.8961,
-       "P2": -5.4305,
-       "P3": -2.0448
+       "P0": -5.601,
+       "P1": 2.2927,
+       "P2": -7.034,
+       "P3": -1.172
       },
       "at_bound": {
        "P0": false,
@@ -1970,19 +1970,19 @@
       "money": {
        "P0": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 61612.3804
+        "under_cycling_value_usd_yr": 68115.1115
        },
        "P1": {
         "direction": "over",
-        "break_even_usd_yr": 12138.9846
+        "break_even_usd_yr": 5636.2535
        },
        "P2": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 295197.094
+        "under_cycling_value_usd_yr": 301699.8251
        },
        "P3": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 15946.7472
+        "under_cycling_value_usd_yr": 4433.8122
        }
       },
       "M_programme_standard": 4.8199,
@@ -2002,70 +2002,70 @@
        "6.0": 1.5671
       },
       "P3_sweep": {
-       "S100_P20000_CaCO3": 4.9527,
-       "S100_P20000_Mg": 5.5556,
-       "S100_P25000_CaCO3": 5.5373,
-       "S100_P25000_Mg": 5.5556,
-       "S100_P35000_CaCO3": 5.5556,
-       "S100_P35000_Mg": 5.5556,
-       "S100_P40000_CaCO3": 5.5556,
-       "S100_P40000_Mg": 5.5556,
-       "S150_P20000_CaCO3": 4.9527,
-       "S150_P20000_Mg": 8.3333,
-       "S150_P25000_CaCO3": 5.5373,
-       "S150_P25000_Mg": 8.3333,
-       "S150_P35000_CaCO3": 6.5518,
-       "S150_P35000_Mg": 8.3333,
-       "S150_P40000_CaCO3": 7.0042,
-       "S150_P40000_Mg": 8.3333,
-       "S200_P20000_CaCO3": 4.9527,
-       "S200_P20000_Mg": 10.0504,
-       "S200_P25000_CaCO3": 5.5373,
+       "S100_P20000_CaCO3": 7.429,
+       "S100_P20000_Mg": 10.8937,
+       "S100_P25000_CaCO3": 8.3059,
+       "S100_P25000_Mg": 10.8937,
+       "S100_P35000_CaCO3": 9.8277,
+       "S100_P35000_Mg": 10.8937,
+       "S100_P40000_CaCO3": 10.5063,
+       "S100_P40000_Mg": 10.8937,
+       "S150_P20000_CaCO3": 7.429,
+       "S150_P20000_Mg": 10.8937,
+       "S150_P25000_CaCO3": 8.3059,
+       "S150_P25000_Mg": 10.8937,
+       "S150_P35000_CaCO3": 9.8277,
+       "S150_P35000_Mg": 10.8937,
+       "S150_P40000_CaCO3": 10.5063,
+       "S150_P40000_Mg": 10.8937,
+       "S200_P20000_CaCO3": 7.429,
+       "S200_P20000_Mg": 10.8937,
+       "S200_P25000_CaCO3": 8.3059,
        "S200_P25000_Mg": 10.8937,
-       "S200_P35000_CaCO3": 6.5518,
+       "S200_P35000_CaCO3": 9.8277,
        "S200_P35000_Mg": 10.8937,
-       "S200_P40000_CaCO3": 7.0042,
+       "S200_P40000_CaCO3": 10.5063,
        "S200_P40000_Mg": 10.8937
       },
       "pH_sweep": {
        "7.5": {
-        "M": 6.9975,
-        "M_binding": "SI_silica_am",
+        "M": 13.5969,
+        "M_binding": "SI_calcite",
         "P1": 15.67,
-        "P3": 7.0042
+        "P3": 10.5063
        },
        "8.0": {
         "M": 6.3493,
         "M_binding": "SI_calcite",
         "P1": 8.5489,
-        "P3": 4.9527
+        "P3": 7.429
        },
        "8.25": {
-        "M": 4.3716,
+        "M": 4.3718,
         "M_binding": "SI_calcite",
         "P1": 6.3144,
-        "P3": 4.9527
+        "P3": 6.3144
        }
       }
      },
      "no_acid": {
       "M": {
-       "cycles": 1.0291,
-       "binding": "brucite_mg_silicate",
-       "scaling_cycles": 1.5076,
+       "cycles": 1.5078,
+       "binding": "SI_calcite",
+       "scaling_cycles": 1.5078,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.0291,
+       "brucite_cycles": 3.2036,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 8.8547,
+       "ph_free_at_skin": 9.0206,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "supersaturated but within the range a standard programme holds",
-       "SI_tcp": 2.7048,
-       "phosphate_flagged": false,
-       "SI_calcite_bulk_basin": 1.3575,
+       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
+       "SI_tcp": 3.2637,
+       "phosphate_flagged": true,
+       "SI_calcite_bulk_basin": 1.7658,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -2077,8 +2077,8 @@
        "row": "pH>7.5",
        "parts": {
         "LSI": 2.2038,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -2089,13 +2089,13 @@
        "P1": 2.2038,
        "P2": 1.0,
        "P3": 2.2038,
-       "M": 1.0291
+       "M": 1.5078
       },
       "gap": {
-       "P0": 1.9709,
-       "P1": 1.1747,
-       "P2": -0.0291,
-       "P3": 1.1747
+       "P0": 1.4922,
+       "P1": 0.696,
+       "P2": -0.5078,
+       "P3": 0.696
       },
       "at_bound": {
        "P0": false,
@@ -2110,35 +2110,35 @@
      "condition": "Gulf winter",
      "acid": {
       "M": {
-       "cycles": 6.5666,
-       "binding": "SI_silica_am",
-       "scaling_cycles": 6.5666,
-       "scaling_binding": "SI_silica_am",
+       "cycles": 9.0871,
+       "binding": "SI_calcite",
+       "scaling_cycles": 9.0871,
+       "scaling_binding": "SI_calcite",
        "brucite_cycles": 30.0,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 9.6298,
+       "ph_free_at_skin": 9.7708,
        "acid_unphysical": false,
        "silica_index_valid": true,
        "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
-       "SI_tcp": 3.4169,
+       "SI_tcp": 3.8226,
        "phosphate_flagged": true,
-       "SI_calcite_bulk_basin": 1.6415,
+       "SI_calcite_bulk_basin": 1.8507,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
        }
       },
       "P3_detail": {
-       "cycles": 4.9527,
+       "cycles": 7.429,
        "binding": "MgxSiO2",
        "row": "pH>7.5",
        "parts": {
         "LSI": 11.7064,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -2148,14 +2148,14 @@
        "P0": 3.0,
        "P1": 11.7064,
        "P2": 1.6841,
-       "P3": 4.9527,
-       "M": 6.5666
+       "P3": 7.429,
+       "M": 9.0871
       },
       "gap": {
-       "P0": -3.5666,
-       "P1": 5.1398,
-       "P2": -4.8825,
-       "P3": -1.6139
+       "P0": -6.0871,
+       "P1": 2.6193,
+       "P2": -7.4031,
+       "P3": -1.6581
       },
       "at_bound": {
        "P0": false,
@@ -2167,22 +2167,22 @@
       "money": {
        "P0": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 46339.0076
+        "under_cycling_value_usd_yr": 54437.7
        },
        "P1": {
         "direction": "over",
-        "break_even_usd_yr": 12474.4465
+        "break_even_usd_yr": 4375.7541
        },
        "P2": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 185466.5896
+        "under_cycling_value_usd_yr": 193565.282
        },
        "P3": {
         "direction": "under",
-        "under_cycling_value_usd_yr": 10609.8654
+        "under_cycling_value_usd_yr": 4612.9622
        }
       },
-      "M_programme_standard": 5.4332,
+      "M_programme_standard": 5.433,
       "P1_lsi_sweep": {
        "0.5": 1.0371,
        "1.0": 1.9009,
@@ -2199,70 +2199,70 @@
        "6.0": 1.6841
       },
       "P3_sweep": {
-       "S100_P20000_CaCO3": 4.9527,
-       "S100_P20000_Mg": 5.5556,
-       "S100_P25000_CaCO3": 5.5373,
-       "S100_P25000_Mg": 5.5556,
-       "S100_P35000_CaCO3": 5.5556,
-       "S100_P35000_Mg": 5.5556,
-       "S100_P40000_CaCO3": 5.5556,
-       "S100_P40000_Mg": 5.5556,
-       "S150_P20000_CaCO3": 4.9527,
-       "S150_P20000_Mg": 8.3333,
-       "S150_P25000_CaCO3": 5.5373,
-       "S150_P25000_Mg": 8.3333,
-       "S150_P35000_CaCO3": 6.5518,
-       "S150_P35000_Mg": 8.3333,
-       "S150_P40000_CaCO3": 7.0042,
-       "S150_P40000_Mg": 8.3333,
-       "S200_P20000_CaCO3": 4.9527,
-       "S200_P20000_Mg": 10.0504,
-       "S200_P25000_CaCO3": 5.5373,
-       "S200_P25000_Mg": 11.1111,
-       "S200_P35000_CaCO3": 6.5518,
-       "S200_P35000_Mg": 11.1111,
-       "S200_P40000_CaCO3": 7.0042,
-       "S200_P40000_Mg": 11.1111
+       "S100_P20000_CaCO3": 7.429,
+       "S100_P20000_Mg": 11.7064,
+       "S100_P25000_CaCO3": 8.3059,
+       "S100_P25000_Mg": 11.7064,
+       "S100_P35000_CaCO3": 9.8277,
+       "S100_P35000_Mg": 11.7064,
+       "S100_P40000_CaCO3": 10.5063,
+       "S100_P40000_Mg": 11.7064,
+       "S150_P20000_CaCO3": 7.429,
+       "S150_P20000_Mg": 11.7064,
+       "S150_P25000_CaCO3": 8.3059,
+       "S150_P25000_Mg": 11.7064,
+       "S150_P35000_CaCO3": 9.8277,
+       "S150_P35000_Mg": 11.7064,
+       "S150_P40000_CaCO3": 10.5063,
+       "S150_P40000_Mg": 11.7064,
+       "S200_P20000_CaCO3": 7.429,
+       "S200_P20000_Mg": 11.7064,
+       "S200_P25000_CaCO3": 8.3059,
+       "S200_P25000_Mg": 11.7064,
+       "S200_P35000_CaCO3": 9.8277,
+       "S200_P35000_Mg": 11.7064,
+       "S200_P40000_CaCO3": 10.5063,
+       "S200_P40000_Mg": 11.7064
       },
       "pH_sweep": {
        "7.5": {
-        "M": 6.5666,
-        "M_binding": "SI_silica_am",
+        "M": 14.3489,
+        "M_binding": "SI_calcite",
         "P1": 16.839,
-        "P3": 7.0042
+        "P3": 10.5063
        },
        "8.0": {
-        "M": 6.5666,
-        "M_binding": "SI_silica_am",
+        "M": 6.7099,
+        "M_binding": "SI_calcite",
         "P1": 9.1868,
-        "P3": 4.9527
+        "P3": 7.429
        },
        "8.25": {
-        "M": 4.6183,
+        "M": 4.6185,
         "M_binding": "SI_calcite",
         "P1": 6.7855,
-        "P3": 4.9527
+        "P3": 6.7855
        }
       }
      },
      "no_acid": {
       "M": {
-       "cycles": 1.4805,
-       "binding": "brucite_mg_silicate",
+       "cycles": 1.5953,
+       "binding": "SI_calcite",
        "scaling_cycles": 1.5953,
        "scaling_binding": "SI_calcite",
-       "brucite_cycles": 1.4805,
+       "brucite_cycles": 3.9524,
        "davies_cycles": 23.598,
        "davies_binds": false,
-       "ph_free_at_skin": 8.9828,
+       "ph_free_at_skin": 9.0152,
        "acid_unphysical": false,
        "silica_index_valid": true,
-       "phosphate_screen": "supersaturated but within the range a standard programme holds",
-       "SI_tcp": 3.1093,
-       "phosphate_flagged": false,
-       "SI_calcite_bulk_basin": 1.6898,
+       "phosphate_screen": "PHOSPHATE PROGRAMME REQUIRED: above the published typical inhibited limit, below the stressed limit. The ceiling here is set by the inhibitor, not by the water. Site data needed.",
+       "SI_tcp": 3.2131,
+       "phosphate_flagged": true,
+       "SI_calcite_bulk_basin": 1.7683,
        "discharge": {
-        "cycles": 1.0,
+        "cycles": "INFEASIBLE",
         "parameter": "NO3",
         "would_bind": true,
         "imposed": false
@@ -2274,8 +2274,8 @@
        "row": "pH>7.5",
        "parts": {
         "LSI": 2.3601,
-        "SiO2": 5.5556,
-        "MgxSiO2": 4.9527
+        "SiO2": 12.5,
+        "MgxSiO2": 7.429
        },
        "s_max": 100.0,
        "pi_max": 20000.0,
@@ -2286,13 +2286,13 @@
        "P1": 2.3601,
        "P2": 1.0,
        "P3": 2.3601,
-       "M": 1.4805
+       "M": 1.5953
       },
       "gap": {
-       "P0": 1.5195,
-       "P1": 0.8796,
-       "P2": -0.4805,
-       "P3": 0.8796
+       "P0": 1.4047,
+       "P1": 0.7648,
+       "P2": -0.5953,
+       "P3": 0.7648
       },
       "at_bound": {
        "P0": false,
@@ -2305,40 +2305,40 @@
     }
    ],
    "summary": {
-    "class": "silica-bound",
+    "class": "calcite-bound",
     "M_binding_by_condition": [
-     "SI_silica_am",
-     "SI_silica_am",
-     "SI_silica_am",
-     "SI_silica_am",
-     "SI_silica_am"
+     "SI_calcite",
+     "SI_calcite",
+     "SI_calcite",
+     "SI_calcite",
+     "SI_calcite"
     ],
     "phosphate_flagged": true,
     "median_gap_acid": {
-     "P0": -3.7186,
-     "P1": 4.6898,
-     "P2": -5.0774,
-     "P3": -1.7659
+     "P0": -5.9099,
+     "P1": 2.4985,
+     "P2": -7.2688,
+     "P3": -1.4809
     },
     "median_gap_no_acid": {
-     "P0": 1.7011,
-     "P1": 1.0043,
-     "P2": -0.2989,
-     "P3": 1.0043
+     "P0": 1.4367,
+     "P1": 0.7399,
+     "P2": -0.5633,
+     "P3": 0.7399
     },
     "median_cycles_acid": {
      "P0": 3.0,
      "P1": 11.4084,
      "P2": 1.6412,
-     "P3": 4.9527,
-     "M": 6.7186
+     "P3": 7.429,
+     "M": 8.9099
     },
     "median_cycles_no_acid": {
      "P0": 3.0,
      "P1": 2.3032,
      "P2": 1.0,
      "P3": 2.3032,
-     "M": 1.2989
+     "M": 1.5633
     },
     "any_gap_at_bound_acid": {
      "P0": false,
@@ -2346,20 +2346,15 @@
      "P2": false,
      "P3": false
     },
-    "P3_variants_within_0_5": [
-     "S150_P35000_CaCO3",
-     "S150_P40000_CaCO3",
-     "S200_P35000_CaCO3",
-     "S200_P40000_CaCO3"
-    ],
+    "P3_variants_within_0_5": [],
     "money_median": {
      "P0": {
       "conditions_under": 5,
       "conditions_over": 0,
-      "under_value_median_usd_yr": 58991.0356,
+      "under_value_median_usd_yr": 65736.1412,
       "under_value_range_usd_yr": [
-       46339.0076,
-       65972.2315
+       54437.7,
+       75802.3627
       ],
       "break_even_median_usd_yr": null,
       "break_even_range_usd_yr": null
@@ -2369,19 +2364,19 @@
       "conditions_over": 5,
       "under_value_median_usd_yr": null,
       "under_value_range_usd_yr": null,
-      "break_even_median_usd_yr": 12474.4465,
+      "break_even_median_usd_yr": 5418.797,
       "break_even_range_usd_yr": [
-       12138.9846,
-       15987.8476
+       4375.7541,
+       6157.7163
       ]
      },
      "P2": {
       "conditions_under": 5,
       "conditions_over": 0,
-      "under_value_median_usd_yr": 275584.9566,
+      "under_value_median_usd_yr": 282330.0622,
       "under_value_range_usd_yr": [
-       185466.5896,
-       295197.094
+       193565.282,
+       301699.8251
       ],
       "break_even_median_usd_yr": null,
       "break_even_range_usd_yr": null
@@ -2389,10 +2384,10 @@
      "P3": {
       "conditions_under": 5,
       "conditions_over": 0,
-      "under_value_median_usd_yr": 15050.326,
+      "under_value_median_usd_yr": 4612.9622,
       "under_value_range_usd_yr": [
-       10609.8654,
-       15946.7472
+       4433.8122,
+       5908.89
       ],
       "break_even_median_usd_yr": null,
       "break_even_range_usd_yr": null
@@ -2526,16 +2521,13 @@
   "H2": {
    "verdict": "HOLDS",
    "silica_bound_waters": [
-    "ARAMCO_FIELD_VALIDATED",
-    "ARAMCO_RIYADH_REFINERY_TSE"
+    "ARAMCO_FIELD_VALIDATED"
    ],
    "per_water": {
-    "ARAMCO_FIELD_VALIDATED": true,
-    "ARAMCO_RIYADH_REFINERY_TSE": true
+    "ARAMCO_FIELD_VALIDATED": true
    },
    "min_gap": {
-    "ARAMCO_FIELD_VALIDATED": 7.6627,
-    "ARAMCO_RIYADH_REFINERY_TSE": 3.8961
+    "ARAMCO_FIELD_VALIDATED": 7.6627
    }
   },
   "H3": {

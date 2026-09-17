@@ -84,8 +84,10 @@ SUBSIDIARY = {
     #                      the 3.0 operators run and the 4.52 the scaling
     #                      chemistry allows
     #   permit-compliant   discharge.py -- RCER-2015 tables. On this water the
-    #                      permit binds at 3.33 cycles on NITRATE, before the
-    #                      chemistry binds at 4.52
+    #                      nitrate MONTHLY AVERAGE admits no cycle count at
+    #                      all (makeup 3 mg/L against 1); the daily maximum
+    #                      alone would bind at 3.33, before the chemistry at
+    #                      4.52 (defect 69)
     #
     # HONEST TENSE. "Runs" is the target, not the present. It runs no plant
     # today; it runs a validated model of one. Say "built to run" until a

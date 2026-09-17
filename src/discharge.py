@@ -70,13 +70,27 @@ N_PER_NO3 = 14.007 / 62.004        # nitrogen as N, from NO3
 # ---------------------------------------------------------------------------
 # RCER-2015 Table 3C -- direct discharge to coastal waters (variance stream)
 # ---------------------------------------------------------------------------
-# Transcribed from RCER-2015 Volume I, Table 3C, pp. 63-64. Only the
+# Transcribed from RCER-2015 Volume I, Table 3C, pp. 63-64 (PDF pp. 77-78).
+# Re-verified 17 Sep 2026 against the page and the text layer of the local
+# copy (SHA-256 2c4db4fe...53f499f8e4): "Nitrate | mg/l | 10 | 1".
+#
+# BASIS. The table writes "Ammonia, Total as N" and "Phosphorus, total as
+# P" and writes plain "Nitrate". Nitrate is therefore read as the ion, NO3.
+# Read as N instead, 1 mg/L would be 4.43 mg/L as NO3. The NACE 577 assay
+# does not state its nitrate basis either. Both readings are reported by
+# tests/test_discharge.py; the literal one is carried.
+#
+# Only the
 # parameters this model can actually compute from a water analysis are
 # carried; the metals, organics and biological limits are real and are listed
 # in NOT_MODELLED below so their absence is declared rather than silent.
 #
 # Two columns: an absolute maximum and a monthly average. The monthly average
-# is the operative one for continuous operation.
+# is the operative one for continuous operation. DEFECT 69: the package's
+# headline permit ceiling (3.33 cycles on nitrate) was the MAXIMUM column.
+# On the monthly average, makeup at 3 mg/L NO3 already exceeds 1 mg/L, so no
+# cycle count complies, and the search used to return its lower bound, 1.00,
+# as if one cycle did.
 RCER_TABLE_3C = {
     "P_as_P":  {"max": 2.0,  "monthly_avg": 1.0,  "unit": "mg/L"},
     "NO3":     {"max": 10.0, "monthly_avg": 1.0,  "unit": "mg/L"},
@@ -141,15 +155,28 @@ def blowdown_quality(makeup, cycles):
     }
 
 
+# Returned in place of a cycle count when no cycle count in the search range
+# complies. A string, deliberately: arithmetic or a comparison on it raises,
+# so no caller can take it for a ceiling.
+INFEASIBLE = "INFEASIBLE"
+
+
+def is_infeasible(cycles):
+    return isinstance(cycles, str) and cycles == INFEASIBLE
+
+
 def max_cycles_for_discharge(makeup, table=None, basis="monthly_avg",
                              lo=1.0, hi=30.0):
     """Highest cycles at which the blowdown still meets every limit we can
     compute. Returns (cycles, binding_parameter).
 
-    Returns `lo` and the offending parameter when the MAKEUP ALONE already
-    breaches, which is not a hypothetical: treated sewage effluent carrying
+    Returns (INFEASIBLE, offending parameter) when the blowdown breaches a
+    limit already at `lo` -- with the default lo = 1, when the MAKEUP ALONE
+    breaches. That is not a hypothetical: treated sewage effluent carrying
     8 mg/L of phosphate is at 2.6 mg/L as P before it is concentrated at all,
-    against a Table 3C monthly average of 1.0.
+    against a Table 3C monthly average of 1.0. DEFECT 69: this used to
+    return `lo` itself, which reads as "complies at one cycle" when nothing
+    complies.
     """
     table = RCER_TABLE_3C if table is None else table
 
@@ -166,7 +193,7 @@ def max_cycles_for_discharge(makeup, table=None, basis="monthly_avg",
         return max(out) if out else (-math.inf, None)
 
     if worst(lo)[0] > 0:
-        return float(lo), worst(lo)[1]
+        return INFEASIBLE, worst(lo)[1]
     if worst(hi)[0] <= 0:
         return float(hi), None
 
@@ -191,12 +218,17 @@ def binding_ceiling(makeup, T_hot, T_cold, pH=8.25, table=None,
     chem_c, chem_m = ss.ceiling_with(makeup, T_hot, T_cold, limits=limits,
                                      pH=pH)
     disc_c, disc_p = max_cycles_for_discharge(makeup, table, basis)
+    common = {"scaling_cycles": chem_c, "scaling_mineral": chem_m,
+              "discharge_cycles": disc_c, "basis": basis,
+              "discharge_feasible": not is_infeasible(disc_c),
+              "jurisdiction": JURISDICTION_NOTE, "caveat": NOT_MODELLED}
+    if is_infeasible(disc_c):
+        # No cycle count complies on this route and basis. There is no
+        # ceiling to report, and the lower bound of the search is not one.
+        return {"cycles": INFEASIBLE, "binding": "DISCHARGE",
+                "parameter": disc_p, **common}
     if disc_c < chem_c:
         return {"cycles": disc_c, "binding": "DISCHARGE",
-                "parameter": disc_p, "scaling_cycles": chem_c,
-                "scaling_mineral": chem_m, "discharge_cycles": disc_c,
-                "jurisdiction": JURISDICTION_NOTE, "caveat": NOT_MODELLED}
+                "parameter": disc_p, **common}
     return {"cycles": chem_c, "binding": "SCALING",
-            "parameter": chem_m, "scaling_cycles": chem_c,
-            "scaling_mineral": chem_m, "discharge_cycles": disc_c,
-            "jurisdiction": JURISDICTION_NOTE, "caveat": NOT_MODELLED}
+            "parameter": chem_m, **common}

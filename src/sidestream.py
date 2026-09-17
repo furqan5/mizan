@@ -496,7 +496,7 @@ def typical_cycles_evidence():
     textbook and most vendor literature quote as normal.
 
     The fifth, WCTI, is the lowest of the five AND has the highest makeup
-    silica (32 ppm, against our 18), which is the direction the silica thesis
+    silica (32 ppm, against the measured Riyadh TSE's 8), which is the direction the silica thesis
     predicts. Found 11 Sep 2026 in the Wayback PDF index; see
     docs/chemistry_evidence.md S4.3.
     """
@@ -531,6 +531,13 @@ def charge_closure_bracket(water, T_hot, T_cold, pH=None, limits=None):
     inside the range a secondary effluent carries. So the most likely reading
     is not that the assay is wrong but that it is INCOMPLETE, in a way this
     model cannot represent.
+
+    CORRECTION, 17 Sep 2026. Ammonium alone is not the whole reading. The
+    same table prints nitrite 31 mg/L, an anion, with no basis stated for
+    either species. `makeup_analysis_audit.nitrogen_basis_charge_balance`
+    scores every basis pair: with nitrite as NO2- the balance passes on
+    every ammonia basis; with nitrite as N it fails on all of them. The
+    ammonia basis is undetermined by the analysis.
 
     That is an explanation, not a licence. This function does not add the
     missing ion. It closes the balance BOTH WAYS -- once by adding sodium,

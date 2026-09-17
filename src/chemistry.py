@@ -727,12 +727,43 @@ def ph_atmospheric_equilibrium(water, T_c, p_co2=P_CO2_ATM):
     supersaturation at high cycles and is the reason bench calculations
     disagree with operating plants.
 
+    DEFECT 55, staged by the safety branch. This returned
+
         [H+] = K1 * KH * pCO2 / [HCO3-]
+
+    with bicarbonate clamped at 1e-12, so at zero alkalinity it returned
+    **pH -0.75** -- the pH of a molar strong acid -- for water that is in
+    fact CO2-saturated rainwater. The expression is the open-system proton
+    balance with the free proton dropped, which is only valid while
+    bicarbonate carries the alkalinity.
+
+    Keeping that term costs nothing and supplies the physical limit:
+
+        A = K/h - h,        K = K1 * KH * pCO2
+        h = 2K / (A + sqrt(A^2 + 4K))
+
+    The second form is the numerically stable root. It reproduces the old
+    expression to within h^2/K -- below 1e-4 pH units anywhere above pH 7,
+    which is the whole operating band -- and tends to sqrt(K), about pH 5.6
+    at 25 C, as alkalinity goes to zero.
+
+    STILL NEGLECTED, as before: carbonate and hydroxide, both immaterial
+    below pH 9 at this pCO2. What the closure cannot represent at all is
+    EXCESS STRONG ACID, i.e. negative alkalinity past the equivalence point.
+    That is not a number to guess at, so it raises. `safety_sim
+    .ph_from_alkalinity` carries the full proton balance, including Kw, and
+    is the function an acid-overdose simulation must use.
     """
-    m_hco3 = max(water.molality()["HCO3"], 1e-12)
-    log_h = log_k1_carbonic(T_c) + log_kh_co2(T_c) + math.log10(p_co2) \
-        - math.log10(m_hco3)
-    return -log_h
+    m_hco3 = water.molality()["HCO3"]
+    if m_hco3 < 0.0:
+        raise ValueError(
+            "ph_atmospheric_equilibrium: negative alkalinity "
+            f"({m_hco3:.3e} mol/kg) is past the equivalence point, where this "
+            "closure has no meaning. Use safety_sim.ph_from_alkalinity().")
+    log_k = (log_k1_carbonic(T_c) + log_kh_co2(T_c) + math.log10(p_co2))
+    k = 10.0 ** log_k
+    h = 2.0 * k / (m_hco3 + math.sqrt(m_hco3 * m_hco3 + 4.0 * k))
+    return -math.log10(h)
 
 
 def balance_chloride(water):
@@ -1722,12 +1753,21 @@ DOE_SYN_MWW_COC4 = Water(
 # circulating water, it is the operator's own laboratory, and it reports
 # SILICA AND PHOSPHATE alongside the full major-ion set.
 #
-#   SiO2 = 18 mg/L, MEASURED.
+#   SiO2 = 8 mg/L, MEASURED, as printed.
 #
-# Every silica-dependent result in this package until now rested on 26.8 mg/L
-# imported from Al-Mutaz & Al-Anezi's Riyadh BRACKISH GROUNDWATER -- a
-# different water entirely. That import is now superseded for any question
-# about Saudi TSE.
+# DEFECT 67 (17 Sep 2026). Until then this constant carried SiO2 = 18. The
+# printed table (paper page 577/9, rendered at high resolution and read by
+# eye) shows "Silica as SiO2 | 8". The PDF's text layer reads that row as
+# "Silica as SiO, 18 I Aluminum ] 0.12. 1": the vertical table rule was OCR'd
+# as a leading "1", and the same artefact turns Iron's printed 0.2 into
+# "0.21 1". 18 came from the text layer, not from the page. Every printed
+# value is pinned in NACE577_TABLE1_PRINTED below and by
+# tests/test_reference_benchmarks.py.
+#
+# The 26.8 mg/L the Dhahran water carries is imported from Al-Mutaz &
+# Al-Anezi's Riyadh BRACKISH GROUNDWATER -- a different water entirely -- and
+# remains an assumption. This assay is the only MEASURED Gulf TSE silica the
+# package holds, and at 8 mg/L it is below that assumption by a factor of 3.
 #
 # WHAT DOES NOT TRANSFER. This is Riyadh Refinery and the NACE paper is from
 # the 1990s. Badruzzaman et al. (2022) is Dhahran, twenty-odd years later, and
@@ -1738,16 +1778,32 @@ DOE_SYN_MWW_COC4 = Water(
 #
 # WHAT THE MODEL CANNOT HOLD. The analysis carries ammonia 16 mg/L and
 # nitrite 31 mg/L. `SPECIES` has neither, so they are dropped, and the charge
-# balance below is computed without them. Including ammonium as NH4+ would
-# move it from -5.25 % to roughly -2 %. The omission is recorded rather than
-# patched, because inventing a species to improve a balance is how defect 17
-# started.
+# balance below is computed without them. The paper states no reporting basis
+# for either (as N, or as the ion), and ammonium cannot be credited while
+# nitrite is ignored: `makeup_analysis_audit.nitrogen_basis_charge_balance()`
+# reports the balance under every combination. The omission is recorded
+# rather than patched, because inventing a species to improve a balance is
+# how defect 17 started.
+#
+# The full printed Table 1, row for row, as it appears on page 577/9. Units
+# mg/L unless named. Rows the engine does not carry are kept here so nothing
+# in the analysis is silently lost.
+NACE577_TABLE1_PRINTED = {
+    "alkalinity_as_CaCO3": 140.0, "ammonia": 16.0, "chloride": 216.0,
+    "sulfate": 326.0, "silica_as_SiO2": 8.0, "orthophosphate": 0.6,
+    "total_phosphate": 1.0, "nitrite": 31.0, "nitrate": 3.0,
+    "calcium": 80.0, "magnesium": 11.0, "sodium": 222.0, "potassium": 15.0,
+    "iron": 0.2, "aluminum": 0.12, "copper": 0.2,
+    "conductivity_uS_cm": 1630.0, "TDS": 1050.0, "pH": 7.44,
+    "total_hardness_as_CaCO3": 246.0,
+}
+
 ARAMCO_RIYADH_REFINERY_TSE = Water(
     name="Aramco Riyadh Refinery secondary TSE makeup (NACE Paper 577 Table 1)",
     Ca=80.0, Mg=11.0, Na=222.0, K=15.0,
     HCO3=140.0 * 61.017 / 50.04,   # alkalinity 140 as CaCO3, converted
     SO4=326.0, Cl=216.0, NO3=3.0,
-    SiO2=18.0,                     # MEASURED, not assumed
+    SiO2=8.0,                      # MEASURED, as printed (defect 67: not 18)
     PO4=1.0,                       # total phosphate; orthophosphate 0.6
     pH=7.44, TDS=1050.0,
 )

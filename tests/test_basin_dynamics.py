@@ -92,6 +92,8 @@ def test_drift_keeps_the_steady_state_just_below_the_setpoint():
 # ===========================================================================
 
 SILICA_CSV = RESULTS / "silica_res.csv"
+# C_M is the makeup silica results/silica_res.csv was PRODUCED at. The .mo
+# parameter is now 8.0 (defect 67); the stored run has not been redone.
 T_MEAN, T_AMP, C_M = 30.0, 5.0, 18.0
 
 

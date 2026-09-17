@@ -9,26 +9,26 @@ panel: strict ['ARAMCO_FIELD_VALIDATED'] | extended ['ARAMCO_FIELD_VALIDATED', '
 ARAMCO_FIELD_VALIDATED  [silica-bound; phosphate flagged True]
   M binding by condition: ['SI_silica_am', 'SI_silica_am', 'SI_silica_am', 'SI_silica_am', 'SI_silica_am']
   acid     median cycles P0 3.00  P1 12.95  P2 1.86  P3 2.10  M 4.51 | gap P0 -1.51  P1 +8.43  P2 -2.65  P3 -2.41
-  no_acid  median cycles P0 3.00  P1 2.96  P2 1.14  P3 2.10  M 1.19 | gap P0 +1.81  P1 +1.77  P2 -0.04  P3 +0.91
-   Dhahran summer peak    acid: M 4.51 (SI_silica_am) P1 12.95 P2 1.86 P3 2.10 [MgxSiO2]  disc 1.0  M_std 1.26  pH sweep 7.5:M4.51/P118.62/P32.97 8.0:M4.51/P110.16/P32.10 8.25:M4.51/P17.50/P32.10
-   Dhahran summer humid   acid: M 4.66 (SI_silica_am) P1 12.48 P2 1.80 P3 2.10 [MgxSiO2]  disc 1.0  M_std 1.19  pH sweep 7.5:M4.66/P117.95/P32.97 8.0:M4.66/P19.80/P32.10 8.25:M4.66/P17.23/P32.10
-   Dhahran shoulder       acid: M 4.44 (SI_silica_am) P1 13.17 P2 1.89 P3 2.10 [MgxSiO2]  disc 1.0  M_std 1.29  pH sweep 7.5:M4.44/P118.94/P32.97 8.0:M4.44/P110.33/P32.10 8.25:M4.44/P17.63/P32.10
-   Doha summer humid      acid: M 4.70 (SI_silica_am) P1 12.36 P2 1.78 P3 2.10 [MgxSiO2]  disc 1.0  M_std 1.17  pH sweep 7.5:M4.70/P117.78/P32.97 8.0:M4.70/P19.70/P32.10 8.25:M4.70/P17.17/P32.10
-   Gulf winter            acid: M 4.41 (SI_silica_am) P1 13.28 P2 1.91 P3 2.10 [MgxSiO2]  disc 1.0  M_std 1.31  pH sweep 7.5:M4.41/P119.11/P32.97 8.0:M4.41/P110.43/P32.10 8.25:M4.41/P17.70/P32.10
+  no_acid  median cycles P0 3.00  P1 2.96  P2 1.14  P3 2.10  M 2.03 | gap P0 +0.97  P1 +0.92  P2 -0.89  P3 +0.07
+   Dhahran summer peak    acid: M 4.51 (SI_silica_am) P1 12.95 P2 1.86 P3 2.10 [MgxSiO2]  disc INFEASIBLE  M_std 1.26  pH sweep 7.5:M4.51/P118.62/P32.97 8.0:M4.51/P110.16/P32.10 8.25:M4.51/P17.50/P32.10
+   Dhahran summer humid   acid: M 4.66 (SI_silica_am) P1 12.48 P2 1.80 P3 2.10 [MgxSiO2]  disc INFEASIBLE  M_std 1.19  pH sweep 7.5:M4.66/P117.95/P32.97 8.0:M4.66/P19.80/P32.10 8.25:M4.66/P17.23/P32.10
+   Dhahran shoulder       acid: M 4.44 (SI_silica_am) P1 13.17 P2 1.89 P3 2.10 [MgxSiO2]  disc INFEASIBLE  M_std 1.29  pH sweep 7.5:M4.44/P118.94/P32.97 8.0:M4.44/P110.33/P32.10 8.25:M4.44/P17.63/P32.10
+   Doha summer humid      acid: M 4.70 (SI_silica_am) P1 12.36 P2 1.78 P3 2.10 [MgxSiO2]  disc INFEASIBLE  M_std 1.17  pH sweep 7.5:M4.70/P117.78/P32.97 8.0:M4.70/P19.70/P32.10 8.25:M4.70/P17.17/P32.10
+   Gulf winter            acid: M 4.41 (SI_silica_am) P1 13.28 P2 1.91 P3 2.10 [MgxSiO2]  disc INFEASIBLE  M_std 1.31  pH sweep 7.5:M4.41/P119.11/P32.97 8.0:M4.41/P110.43/P32.10 8.25:M4.41/P17.70/P32.10
   P3 variants within 0.5: ['S150_P20000_Mg', 'S150_P25000_Mg', 'S200_P20000_Mg', 'S200_P25000_Mg']
   money: {"P0": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 40344.0824, "under_value_range_usd_yr": [29909.0614, 43684.6469], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}, "P1": {"conditions_under": 0, "conditions_over": 5, "under_value_median_usd_yr": null, "under_value_range_usd_yr": null, "break_even_median_usd_yr": 33699.0486, "break_even_range_usd_yr": [30639.7603, 40784.8012]}, "P2": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 175084.3269, "under_value_range_usd_yr": [116382.4805, 187644.0483], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}, "P3": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 112766.2679, "under_value_range_usd_yr": [88797.1083, 126292.0079], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}}
 
-ARAMCO_RIYADH_REFINERY_TSE  [silica-bound; phosphate flagged True]
-  M binding by condition: ['SI_silica_am', 'SI_silica_am', 'SI_silica_am', 'SI_silica_am', 'SI_silica_am']
-  acid     median cycles P0 3.00  P1 11.41  P2 1.64  P3 4.95  M 6.72 | gap P0 -3.72  P1 +4.69  P2 -5.08  P3 -1.77
-  no_acid  median cycles P0 3.00  P1 2.30  P2 1.00  P3 2.30  M 1.30 | gap P0 +1.70  P1 +1.00  P2 -0.30  P3 +1.00
-   Dhahran summer peak    acid: M 6.72 (SI_silica_am) P1 11.41 P2 1.64 P3 4.95 [MgxSiO2]  disc 1.0  M_std 5.20  pH sweep 7.5:M6.72/P116.41/P37.00 8.0:M6.58/P18.95/P34.95 8.25:M4.53/P16.61/P34.95
-   Dhahran summer humid   acid: M 6.94 (SI_silica_am) P1 11.00 P2 1.58 P3 4.95 [MgxSiO2]  disc 1.0  M_std 4.90  pH sweep 7.5:M6.94/P115.82/P37.00 8.0:M6.40/P18.63/P34.95 8.25:M4.40/P16.38/P34.95
-   Dhahran shoulder       acid: M 6.62 (SI_silica_am) P1 11.60 P2 1.67 P3 4.95 [MgxSiO2]  disc 1.0  M_std 5.35  pH sweep 7.5:M6.62/P116.69/P37.00 8.0:M6.62/P19.11/P34.95 8.25:M4.59/P16.73/P34.95
-   Doha summer humid      acid: M 7.00 (SI_silica_am) P1 10.89 P2 1.57 P3 4.95 [MgxSiO2]  disc 1.0  M_std 4.82  pH sweep 7.5:M7.00/P115.67/P37.00 8.0:M6.35/P18.55/P34.95 8.25:M4.37/P16.31/P34.95
-   Gulf winter            acid: M 6.57 (SI_silica_am) P1 11.71 P2 1.68 P3 4.95 [MgxSiO2]  disc 1.0  M_std 5.43  pH sweep 7.5:M6.57/P116.84/P37.00 8.0:M6.57/P19.19/P34.95 8.25:M4.62/P16.79/P34.95
-  P3 variants within 0.5: ['S150_P35000_CaCO3', 'S150_P40000_CaCO3', 'S200_P35000_CaCO3', 'S200_P40000_CaCO3']
-  money: {"P0": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 58991.0356, "under_value_range_usd_yr": [46339.0076, 65972.2315], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}, "P1": {"conditions_under": 0, "conditions_over": 5, "under_value_median_usd_yr": null, "under_value_range_usd_yr": null, "break_even_median_usd_yr": 12474.4465, "break_even_range_usd_yr": [12138.9846, 15987.8476]}, "P2": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 275584.9566, "under_value_range_usd_yr": [185466.5896, 295197.094], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}, "P3": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 15050.326, "under_value_range_usd_yr": [10609.8654, 15946.7472], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}}
+ARAMCO_RIYADH_REFINERY_TSE  [calcite-bound; phosphate flagged True]
+  M binding by condition: ['SI_calcite', 'SI_calcite', 'SI_calcite', 'SI_calcite', 'SI_calcite']
+  acid     median cycles P0 3.00  P1 11.41  P2 1.64  P3 7.43  M 8.91 | gap P0 -5.91  P1 +2.50  P2 -7.27  P3 -1.48
+  no_acid  median cycles P0 3.00  P1 2.30  P2 1.00  P3 2.30  M 1.56 | gap P0 +1.44  P1 +0.74  P2 -0.56  P3 +0.74
+   Dhahran summer peak    acid: M 8.91 (SI_calcite) P1 11.41 P2 1.64 P3 7.43 [MgxSiO2]  disc INFEASIBLE  M_std 5.20  pH sweep 7.5:M14.07/P116.41/P310.51 8.0:M6.58/P18.95/P37.43 8.25:M4.53/P16.61/P36.61
+   Dhahran summer humid   acid: M 8.66 (SI_calcite) P1 11.00 P2 1.58 P3 7.43 [MgxSiO2]  disc INFEASIBLE  M_std 4.90  pH sweep 7.5:M13.70/P115.82/P310.51 8.0:M6.40/P18.63/P37.43 8.25:M4.40/P16.38/P36.38
+   Dhahran shoulder       acid: M 9.03 (SI_calcite) P1 11.60 P2 1.67 P3 7.43 [MgxSiO2]  disc INFEASIBLE  M_std 5.35  pH sweep 7.5:M14.26/P116.69/P310.51 8.0:M6.67/P19.11/P37.43 8.25:M4.59/P16.73/P36.73
+   Doha summer humid      acid: M 8.60 (SI_calcite) P1 10.89 P2 1.57 P3 7.43 [MgxSiO2]  disc INFEASIBLE  M_std 4.82  pH sweep 7.5:M13.60/P115.67/P310.51 8.0:M6.35/P18.55/P37.43 8.25:M4.37/P16.31/P36.31
+   Gulf winter            acid: M 9.09 (SI_calcite) P1 11.71 P2 1.68 P3 7.43 [MgxSiO2]  disc INFEASIBLE  M_std 5.43  pH sweep 7.5:M14.35/P116.84/P310.51 8.0:M6.71/P19.19/P37.43 8.25:M4.62/P16.79/P36.79
+  P3 variants within 0.5: []
+  money: {"P0": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 65736.1412, "under_value_range_usd_yr": [54437.7, 75802.3627], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}, "P1": {"conditions_under": 0, "conditions_over": 5, "under_value_median_usd_yr": null, "under_value_range_usd_yr": null, "break_even_median_usd_yr": 5418.797, "break_even_range_usd_yr": [4375.7541, 6157.7163]}, "P2": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 282330.0622, "under_value_range_usd_yr": [193565.282, 301699.8251], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}, "P3": {"conditions_under": 5, "conditions_over": 0, "under_value_median_usd_yr": 4612.9622, "under_value_range_usd_yr": [4433.8122, 5908.89], "break_even_median_usd_yr": null, "break_even_range_usd_yr": null}}
 
 H4 Aramco reclaimed (Badruzzaman 2022, average) (Na-balanced)
     {'condition': 'Dhahran summer peak', 'P1': 10.0, 'M': 10.0, 'calcite_only': 10.0, 'bulk_only': 10.0}
@@ -45,5 +45,5 @@ H4b Aramco TSE, Water Technology 2021 field analysis + assumed Gulf silica (Na-b
     {'condition': 'Gulf winter', 'P1': 10.0, 'M': 3.0, 'calcite_only': 10.0, 'bulk_only': 5.0}
 
 VERDICTS (strict panel): {"H1": {"share": 1.0, "n_waters": 1, "verdict": "HOLDS"}, "H2": {"verdict": "HOLDS", "silica_bound_waters": ["ARAMCO_FIELD_VALIDATED"], "per_water": {"ARAMCO_FIELD_VALIDATED": true}, "min_gap": {"ARAMCO_FIELD_VALIDATED": 7.6627}}, "H3": {"share": 0.0, "n_waters": 1, "verdict": "FAILS"}, "H4": {"verdict": "HOLDS"}, "H4b": {"verdict": "FAILS"}}
-VERDICTS (extended panel): {"H1": {"share": 1.0, "n_waters": 2, "verdict": "HOLDS"}, "H2": {"verdict": "HOLDS", "silica_bound_waters": ["ARAMCO_FIELD_VALIDATED", "ARAMCO_RIYADH_REFINERY_TSE"], "per_water": {"ARAMCO_FIELD_VALIDATED": true, "ARAMCO_RIYADH_REFINERY_TSE": true}, "min_gap": {"ARAMCO_FIELD_VALIDATED": 7.6627, "ARAMCO_RIYADH_REFINERY_TSE": 3.8961}}, "H3": {"share": 0.0, "n_waters": 2, "verdict": "FAILS"}, "H4": {"verdict": "HOLDS"}, "H4b": {"verdict": "FAILS"}}
-written -> C:\Users\Nouman\mizan-wt\incumbent\results\incumbent_gap.json
+VERDICTS (extended panel): {"H1": {"share": 1.0, "n_waters": 2, "verdict": "HOLDS"}, "H2": {"verdict": "HOLDS", "silica_bound_waters": ["ARAMCO_FIELD_VALIDATED"], "per_water": {"ARAMCO_FIELD_VALIDATED": true}, "min_gap": {"ARAMCO_FIELD_VALIDATED": 7.6627}}, "H3": {"share": 0.0, "n_waters": 2, "verdict": "FAILS"}, "H4": {"verdict": "HOLDS"}, "H4b": {"verdict": "FAILS"}}
+written -> C:\Users\Nouman\mizan-wt\fixround\results\incumbent_gap.json

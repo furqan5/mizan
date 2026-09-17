@@ -24,8 +24,9 @@ an open carbonate system at atmospheric pCO2 using the engine's own constants:
 
 In the bicarbonate region this IS `chemistry.ph_atmospheric_equilibrium`
 (tests/test_safety.py holds the agreement). Beyond it, it carries the excess
-strong acid that the engine's closure cannot: at zero alkalinity the engine
-returns pH -0.75, this returns the pH of CO2-saturated water. Kw is from
+strong acid that the engine's closure cannot: past the equivalence point the
+engine raises (defect 55 -- it used to return pH -0.75 at zero alkalinity,
+and now returns CO2-saturated water there, as this does). Kw is from
 phreeqc.dat (log_k -14.000, delta_h 13.362 kcal/mol), the one constant the
 engine did not already carry. Activity coefficients are ignored, as in the
 engine. Open system = CO2 stripped as fast as acid releases it = the HIGHEST pH

@@ -415,9 +415,15 @@ def test_davies_validity_is_enforced_not_merely_reported():
     import pathlib as _p
     src = (_p.Path(__file__).resolve().parents[1] / "src" / "controller.py"
            ).read_text(encoding="utf-8")
-    assert src.count("conc.pitzer_required()") == 2, (
+    # DEFECT 54 renamed the water these indices are computed on: `circ` is
+    # the circulating composition INCLUDING the sulfate the acid adds, and
+    # the Davies check must be made on that same water, not on the makeup
+    # concentrated without it.
+    assert src.count("circ.pitzer_required()") == 2, (
         "both evaluate_operating_point and _cost_at_ph must reject points "
         "where the Davies equation is outside its range")
+    assert src.count("conc.pitzer_required()") == 0, (
+        "the Davies check must see the acid sulfate too (defect 54)")
     assert "davies_range" in src
 
 
@@ -446,8 +452,77 @@ def test_the_measured_saudi_tse_analysis_is_self_consistent():
     ions = sum(getattr(w, s) for s in ch.SPECIES)
     assert abs(100.0 * (ions - w.TDS) / w.TDS) < 5.0, (
         f"ion sum {ions:.0f} vs TDS {w.TDS:.0f}")
-    assert w.SiO2 == 18.0, "the measured silica, not the imported 26.8"
+    assert w.SiO2 == 8.0, ("the silica PRINTED in Table 1 (defect 67: the "
+                           "text layer's 18 was a table rule read as a 1)")
     assert w.PO4 == 1.0
+
+
+# Typed here from the printed page, NOT copied from src/chemistry.py, so a
+# transcription change on either side fails this test.
+_NACE577_PRINTED = {
+    "alkalinity_as_CaCO3": 140.0, "ammonia": 16.0, "chloride": 216.0,
+    "sulfate": 326.0, "silica_as_SiO2": 8.0, "orthophosphate": 0.6,
+    "total_phosphate": 1.0, "nitrite": 31.0, "nitrate": 3.0,
+    "calcium": 80.0, "magnesium": 11.0, "sodium": 222.0, "potassium": 15.0,
+    "iron": 0.2, "aluminum": 0.12, "copper": 0.2,
+    "conductivity_uS_cm": 1630.0, "TDS": 1050.0, "pH": 7.44,
+    "total_hardness_as_CaCO3": 246.0,
+}
+
+
+def test_defect_67_every_value_is_the_one_printed_in_nace_577_table_1():
+    """DEFECT 67. The engine carried SiO2 = 18 from the PDF text layer, which
+    reads the silica row as "SiO, 18 I Aluminum" because the table rule was
+    OCR'd as a 1. The printed page (577/9) shows 8. Every row is pinned to the
+    page, and every value the Water object carries is pinned to the row."""
+    assert ch.NACE577_TABLE1_PRINTED == _NACE577_PRINTED
+    t, w = _NACE577_PRINTED, ch.ARAMCO_RIYADH_REFINERY_TSE
+    carried = {"Ca": "calcium", "Mg": "magnesium", "Na": "sodium",
+               "K": "potassium", "SO4": "sulfate", "Cl": "chloride",
+               "NO3": "nitrate", "SiO2": "silica_as_SiO2",
+               "PO4": "total_phosphate", "pH": "pH", "TDS": "TDS"}
+    for attr, row in carried.items():
+        assert getattr(w, attr) == t[row], (attr, getattr(w, attr), t[row])
+    # alkalinity is printed as CaCO3 and carried as HCO3
+    assert w.HCO3 == pytest.approx(t["alkalinity_as_CaCO3"] * 61.017 / 50.04,
+                                   rel=1e-12)
+    # the printed hardness closes on the printed Ca and Mg (as CaCO3), which
+    # would catch a misread of either
+    hardness = (t["calcium"] * 100.087 / 40.078
+                + t["magnesium"] * 100.087 / 24.305)
+    assert abs(hardness - t["total_hardness_as_CaCO3"]) < 0.01 * 246.0
+    # the defect itself, stated as the value that must never come back
+    assert w.SiO2 != 18.0
+
+
+def test_the_nace_577_imbalance_is_not_explained_by_crediting_ammonium_alone():
+    """The assay prints ammonia 16 and nitrite 31 with no basis, and the engine
+    drops both. `makeup_analysis_audit.nitrogen_basis_charge_balance` scores
+    every basis pair against the unchanged ANALYSIS_TOLERANCES, on criteria
+    committed before it was first run.
+
+    Result pinned here: nitrite reported AS N fails charge balance and TDS
+    closure whatever basis ammonia takes, and nitrite as NO2- passes with
+    every ammonia basis. So the -5.25 % is consistent with the dropped
+    nitrogen, the ammonia basis is UNDETERMINED by this analysis, and the
+    diagnostic changes nothing the engine enforces."""
+    import makeup_analysis_audit as maa
+    res = maa.nitrogen_basis_charge_balance()
+    rows = {(r["ammonia"], r["nitrite"]): r for r in res["rows"]}
+    w = ch.ARAMCO_RIYADH_REFINERY_TSE
+    assert rows[("omitted", "omitted")]["charge_balance_pct"] == pytest.approx(
+        w.charge_balance_pct(), abs=1e-9)
+    assert rows[("omitted", "omitted")]["charge_balance_pct"] == pytest.approx(
+        -5.25, abs=0.01)
+    assert res["verdict"] == "UNDETERMINED"
+    for ka in ("as N", "as NH3", "as NH4+"):
+        assert not rows[(ka, "as N")]["consistent"], ka
+        assert rows[(ka, "as NO2-")]["consistent"], ka
+    assert not rows[("omitted", "as NO2-")]["consistent"]
+    # a diagnostic only: the analysis still fails its charge-balance check
+    assert not ch.validate_analysis(w)["charge_balance"][0]
+    assert ch.ANALYSIS_TOLERANCES["charge_balance_pct"] == 5.0
+    assert ch.ANALYSIS_TOLERANCES["tds_closure_pct"] == 10.0
 
 
 def test_the_engine_reproduces_aramcos_own_calcite_saturation_ratio():
@@ -514,8 +589,8 @@ def test_the_typical_cycles_baseline_is_now_five_independent_sources():
     water saving available against a baseline of C cycles is 1/C, so a LOWER
     real baseline means MORE headroom, not less. Holding the gate at 3.0 when
     a fifth operator runs at 2.1 makes the gate harder to pass, and WCTI is
-    the site with the highest makeup silica of the five (32 ppm against our
-    18) -- exactly where the silica thesis predicts cycles should be lowest.
+    the site with the highest makeup silica of the five (32 ppm against the
+    measured Riyadh TSE's 8) -- exactly where the silica thesis predicts cycles should be lowest.
 
     A source that disagrees in the conservative direction is evidence. One
     that disagreed in the flattering direction would need explaining before it

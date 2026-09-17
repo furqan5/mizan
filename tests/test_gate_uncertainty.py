@@ -18,12 +18,16 @@ def test_the_offset_is_large_and_the_slope_is_small_and_that_is_the_point():
     """
     a_sd, a_lo, a_hi = gu.offset_spread()
     k_sd, k_lo, k_hi = gu.slope_spread()
-    assert a_sd == pytest.approx(9.71, abs=0.05)
-    assert k_sd == pytest.approx(0.232, abs=0.005)
+    # DEFECT 70: the duplicate Exp3 file was being resampled as a third
+    # campaign. On the two real ones the spreads are 4.79 pp and 0.083
+    # %/fan%, where three gave 9.71 and 0.232.
+    assert len(gu.CAMPAIGN_FITS) == 2 and "Exp3" not in gu.CAMPAIGN_FITS
+    assert a_sd == pytest.approx(4.79, abs=0.05)
+    assert k_sd == pytest.approx(0.083, abs=0.005)
     assert a_sd > 30 * k_sd, "the cancelling term must be the larger one"
-    # and the slope's sign is not consistent between campaigns, which is why
-    # it cannot be corrected for, only propagated
-    assert k_lo < 0 < k_hi
+    # and the slope keeps its sign on both real campaigns: the claim that
+    # it did not was a property of the repeated file
+    assert k_lo < 0 and k_hi < 0
 
 
 def test_v5_fails_decidably():
@@ -53,14 +57,20 @@ def test_v7_passes_but_is_not_decidable_and_must_say_so():
     assert abs(v["margin_in_sigma"]) < 0.01, v["margin_in_sigma"]
 
 
-def test_twenty_percent_is_inside_the_error_bar_of_what_is_already_computed():
-    """The question that kept being asked, answered by the instrument rather
-    than by the optimiser: you cannot distinguish 15 % from 20 % here."""
+def test_twenty_percent_against_the_error_bar_of_what_is_already_computed():
+    """DEFECT 70 moved this one, and in the flattering direction, so it is
+    pinned rather than left implicit. With the duplicate Exp3 file counted
+    as a campaign, 20 % sat INSIDE the one-sigma bar on V7. On the two real
+    campaigns the bar is 13.0 to 17.0 % and 20 % is outside it -- a smaller
+    interval on a weaker basis, not new information."""
     d = gu.fan_movement_from_gate()
     iv = gu.water_saving_interval(15.01, d)
-    assert iv["low"] < 20.0 < iv["high"], (
-        f"20 % must sit inside {iv['low']:.1f}-{iv['high']:.1f} for the "
-        f"conclusion in src/gate_uncertainty.py to hold")
+    assert iv["low"] == pytest.approx(13.0, abs=0.2)
+    assert iv["high"] == pytest.approx(17.0, abs=0.2)
+    assert not (iv["low"] < 20.0 < iv["high"])
+    assert len(gu.CAMPAIGN_FITS) == 2, (
+        "the narrower bar comes from REMOVING a duplicate campaign, not "
+        "from a better instrument")
 
 
 def test_a_gate_that_does_not_move_the_fan_carries_none_of_this():

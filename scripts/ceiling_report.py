@@ -132,6 +132,7 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
                 "cycles": b["cycles"], "binding": b["binding"],
                 "parameter": b["parameter"],
                 "discharge_cycles": b["discharge_cycles"],
+                "discharge_feasible": b["discharge_feasible"],
                 "scaling_cycles": b["scaling_cycles"],
             }
         out["discharge"]["jurisdiction"] = dis.JURISDICTION_NOTE
@@ -335,16 +336,30 @@ def render(a, client="", site=""):
     if "max" in dsc and (dsc["max"]["binding"] == "DISCHARGE"
                          or dsc["monthly_avg"]["binding"] == "DISCHARGE"):
         mx, mo = dsc["max"], dsc["monthly_avg"]
+
+        # DEFECT 69. The monthly average is the limit continuous operation
+        # answers to, so it leads. When no cycle count complies, say so: the
+        # search's lower bound is not a ceiling.
+        def _basis(d, label):
+            if not d.get("discharge_feasible", True):
+                return (f'on the {label}, <b>no cycle count complies</b>: the '
+                        f'makeup itself already carries '
+                        f'{e(str(d["parameter"]))} above the limit')
+            return (f'on the {label} the permit binds at '
+                    f'<b>{d["discharge_cycles"]:.2f} cycles</b>')
+
         chk += (
             f'<tr><td>discharge permit, if RCER-2015 applies</td>'
-            f'<td class="no">BINDS FIRST</td>'
+            f'<td class="no">'
+            f'{"INFEASIBLE" if not mo.get("discharge_feasible", True) else "BINDS FIRST"}'
+            f'</td>'
             f'<td style="font-size:.82rem;color:var(--ink3)">'
             f'The blowdown at the scaling ceiling of '
             f'{mx["scaling_cycles"]:.2f} cycles would carry '
-            f'{e(str(mx["parameter"]))} above the Royal Commission limit. On '
-            f'the daily-maximum basis the permit binds at '
-            f'<b>{mx["discharge_cycles"]:.2f} cycles</b>; on the monthly '
-            f'average, at <b>{mo["discharge_cycles"]:.2f}</b>. '
+            f'{e(str(mo["parameter"] or mx["parameter"]))} above the Royal '
+            f'Commission limit. {_basis(mo, "monthly average")[0].upper()}'
+            f'{_basis(mo, "monthly average")[1:]}; '
+            f'{_basis(mx, "daily maximum alone")}. '
             f'<b>This is reported, not imposed.</b> RCER-2015 binds Jubail '
             f'and Yanbu. If your outfall is elsewhere, or discharges to a '
             f'sewer or an irrigation system rather than to coastal water, a '
@@ -361,8 +376,9 @@ def render(a, client="", site=""):
             f'The published cations do not account for the published anions, '
             f'by {abs(cc["cation_deficit_meq_kg"]):.2f} meq/kg. On a SECONDARY '
             f'effluent the likely missing species is ammonium '
-            f'({cc["closes_with_NH4_mg_l_as_N"]:.0f} mg/L as N would close it), '
-            f'which this model does not carry. Closing the balance with sodium '
+            f'({cc["closes_with_NH4_mg_l_as_N"]:.0f} mg/L as N would close it on '
+            f'its own), but any nitrite the analysis reports pulls the other '
+            f'way, and this model carries neither. Closing the balance with sodium '
             f'instead gives {cc["ceiling_Na_closure"]:.2f} cycles and closing it '
             f'by removing chloride gives {cc["ceiling_Cl_closure"]:.2f} — a spread '
             f'of {cc["spread_pct"]:.1f} %. The ceiling is set by '
@@ -518,7 +534,7 @@ def main() -> int:
     ap.add_argument("--programme", default=None)
     ap.add_argument("--assumed-water", action="store_true",
                     help="run on rc.TSE with the imported 26.8 mg/L silica "
-                         "instead of the measured 18 mg/L analysis")
+                         "instead of the measured 8 mg/L analysis")
     args = ap.parse_args()
 
     import run_controller as rc
@@ -526,7 +542,8 @@ def main() -> int:
     # on `rc.TSE`, whose silica of 26.8 mg/L is imported from Riyadh BRACKISH
     # GROUNDWATER -- a different water. A measured Saudi TSE make-up analysis
     # now exists (AlMajnouni & Jaffer, NACE Paper 577, Table 1: Riyadh
-    # Refinery, SiO2 18 mg/L, PO4 1.0, ion sum closing to +1.2 % of TDS), and
+    # Refinery, SiO2 8 mg/L as printed -- 18 until defect 67 --, PO4 1.0, ion
+    # sum closing to within a few per cent of TDS), and
     # a worked example about a cited water is worth more than one about a
     # plausible one. `--assumed-water` restores the old behaviour for the
     # sensitivity study that needs it.
@@ -580,9 +597,13 @@ def main() -> int:
     if "max" in dsc:
         mx, mo = dsc["max"], dsc["monthly_avg"]
         if mx["binding"] == "DISCHARGE" or mo["binding"] == "DISCHARGE":
-            print(f"DISCHARGE    : {mx['discharge_cycles']:.2f} cycles on the "
-                  f"daily-max basis, {mo['discharge_cycles']:.2f} on the "
-                  f"monthly average, bound by {mx['parameter']}")
+            def _txt(d):
+                return ("INFEASIBLE (no cycle count complies)"
+                        if not d.get("discharge_feasible", True)
+                        else f"{d['discharge_cycles']:.2f} cycles")
+            print(f"DISCHARGE    : monthly average {_txt(mo)} on "
+                  f"{mo['parameter']}; daily maximum {_txt(mx)} on "
+                  f"{mx['parameter']}")
             print(f"             : IF RCER-2015 applies to this site. It binds "
                   f"Jubail and Yanbu; check before using it.")
     cr = a.get("concrete") or {}

@@ -60,7 +60,10 @@ def test_titration_curve_is_the_engines_closure_in_the_bicarbonate_region(ph):
     K, K2, Kw = sim._carbonate_constants(sim.T_BASIN_C)
     h = 10.0 ** -ph
     hco3 = K / h                                  # mol/kg bicarbonate at this pH
-    w = chem.Water(HCO3=hco3 * 61017.0)
+    # DEFECT 55: the engine's closure now keeps the free proton, so the
+    # alkalinity at this pH is K/h - h, not K/h. The difference is 1.7 % of
+    # the alkalinity at pH 6.5 and 2e-5 of it at pH 8.5.
+    w = chem.Water(HCO3=(K / h - h) * 61017.0)
     engine = chem.ph_atmospheric_equilibrium(w, sim.T_BASIN_C)
     assert engine == pytest.approx(ph, abs=1e-9)
     ours = sim.ph_from_alkalinity(sim.alkalinity_at_ph(ph))
@@ -70,13 +73,23 @@ def test_titration_curve_is_the_engines_closure_in_the_bicarbonate_region(ph):
 
 
 def test_the_engines_closure_cannot_represent_excess_acid():
-    """Staged defect 55. At zero alkalinity the engine returns a negative pH;
-    the proton balance returns CO2-saturated water. A safety simulation cannot
-    use the engine closure past the equivalence point."""
+    """Staged defect 55, now fixed. At zero alkalinity the engine
+    used to return pH -0.75; it now returns CO2-saturated water, the same
+    limit the proton balance gives. Past the equivalence point it has no
+    answer at all and says so, which is what a safety simulation needs: it
+    must use `ph_from_alkalinity` there."""
     import dataclasses
     w = dataclasses.replace(chem.ARAMCO_FIELD_VALIDATED, HCO3=0.0)
-    assert chem.ph_atmospheric_equilibrium(w, 30.0) < 0.0
+    engine_at_zero = chem.ph_atmospheric_equilibrium(w, 30.0)
+    assert 5.4 < engine_at_zero < 5.8
     assert 5.4 < sim.ph_from_alkalinity(0.0) < 5.8
+    # the two agree at zero alkalinity to the Kw term the engine omits
+    assert engine_at_zero == pytest.approx(sim.ph_from_alkalinity(0.0),
+                                           abs=0.01)
+    with pytest.raises(ValueError):
+        chem.ph_atmospheric_equilibrium(
+            dataclasses.replace(chem.ARAMCO_FIELD_VALIDATED, HCO3=-1.0),
+            30.0)
     assert sim.ph_from_alkalinity(-1e-3) == pytest.approx(3.0, abs=0.01)
 
 

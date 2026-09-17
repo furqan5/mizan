@@ -308,7 +308,11 @@ def gate_v5(fill_c, fill_n, baseline_cycles=4.0, label="V5"):
                "base_kW", "opt_kW", "energy_saving_pct",
                "water_saving_pct", "cost_saving_pct", "base_feasible_at_skin"]]
     print(show.to_string(index=False, float_format=lambda x: f"{x:8.2f}"))
-    df.to_csv(RESULTS / "v5_controller.csv", index=False)
+    # The V7 gate is this same function with one input changed, so a
+    # hardcoded filename here made every full run overwrite the V5 table
+    # with V7 rows (3-cycle baseline), and the PoC report then printed
+    # V7 numbers under the V5 heading. Staged by fix/validation-integrity.
+    df.to_csv(RESULTS / f"{label.lower()}_controller.csv", index=False)
 
     w = float(df["water_saving_pct"].mean())
     c = float(df["cost_saving_pct"].mean())

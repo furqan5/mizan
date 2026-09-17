@@ -89,6 +89,16 @@ GATES = {
     # P3 physical admissibility in the EXTRAPOLATION band, 24-31 C wet-bulb,
     # where the training data does not reach. Zero tolerated violations.
     # This is the gate that matters and the reason for doing this at all.
+    #
+    # DEFECT 72, OPEN: `gulf_envelope(extrapolation=True)` samples dry bulb
+    # and humidity, not wet bulb, and nothing filters the result to the band
+    # named here. Of the 5,000 points the gate is scored on, **2,596 (51.9 %)
+    # lie outside 24-31 C wet bulb** -- 437 below and 2,159 above, spanning
+    # 19.64 to 41.88 C. Reproduced 18 Sep 2026 from the sampler alone, which
+    # needs no checkpoint. The gate is therefore scored on a wider band than
+    # it claims: harder in the part above 31 C, and 437 points inside the
+    # measured envelope rather than outside it. Changing the sampler changes
+    # what a pre-registered gate measures, so it is staged, not edited.
     "P3_extrap_violations_max": 0,
 
     # P4 the speed that justifies the exercise.
@@ -283,6 +293,35 @@ def main():
     mae = float(np.abs(T_hat.numpy() - yte).mean())
     emape = float(np.mean(np.abs(e_hat.numpy() - ete) / np.maximum(ete, 1e-9)) * 100)
 
+    # --- P2 against the experimental holdout ------------------------------
+    # DEFECT 71. P2 is pre-registered above and the runner never computed it:
+    # `results/pinn.json` carried P1, P3 and P4 and no P2 at all, so a gate
+    # fixed before training was never scored. An independent audit
+    # reconstructed the checkpoint and measured 0.627 K against the 0.600 K
+    # ceiling -- a FAIL -- on the INHERITED 50-row holdout, i.e. before
+    # defect 51 de-duplicated the Almeria files. The holdout is 32 distinct
+    # rows now, so this scores the gate on the de-duplicated split, which is
+    # the only holdout the package still has.
+    #
+    # The surrogate is fed exactly what the core is fed, including the fan
+    # mapping of `tower.air_mass_flow_from_fan` (see defect 73 on its units).
+    import calibrate
+    import dataset as ds
+    hold = ds.split_holdout(ds.derive(ds.load_all()),
+                            calibrate.TRAIN_CAMPAIGNS,
+                            calibrate.TEST_CAMPAIGNS)[1]
+    Xh = np.stack([hold["Tamb"].to_numpy(), hold["rh"].to_numpy(),
+                   hold["m_w"].to_numpy(),
+                   np.asarray(tw.air_mass_flow_from_fan(
+                       hold["w_fan"].to_numpy()), dtype=float),
+                   hold["Tin"].to_numpy()], axis=1)
+    wb_h = torch.tensor([ps.wetbulb_from_rh(r[0], r[1]) for r in Xh],
+                        dtype=torch.float32)
+    with torch.no_grad():
+        T_h, _e_h = predict(norm(Xh), wb_h)
+    p2_mae = float(np.abs(T_h.numpy() - hold["Tout"].to_numpy()).mean())
+    p2_n = int(len(hold))
+
     # --- P3 admissibility in the extrapolation band ----------------------
     Xv = gulf_envelope(5000, np.random.default_rng(99), extrapolation=True)
     wb_v_t = torch.tensor([ps.wetbulb_from_rh(r[0], r[1]) for r in Xv],
@@ -326,6 +365,9 @@ def main():
         ("P1 surrogate fidelity, evaporation MAPE", emape, "%",
          GATES["P1_core_evap_MAPE_pct_max"],
          emape <= GATES["P1_core_evap_MAPE_pct_max"]),
+        ("P2 holdout Tout MAE vs measurement", p2_mae, "K",
+         GATES["P2_holdout_Tout_MAE_K_max"],
+         p2_mae <= GATES["P2_holdout_Tout_MAE_K_max"]),
         ("P3 admissibility violations, Gulf band", violations, "of 5000",
          GATES["P3_extrap_violations_max"],
          violations <= GATES["P3_extrap_violations_max"]),
@@ -345,6 +387,8 @@ def main():
         "results": {
             "P1_core_Tout_MAE_K": mae,
             "P1_core_evap_MAPE_pct": emape,
+            "P2_holdout_Tout_MAE_K": p2_mae,
+            "P2_holdout_n_rows": p2_n,
             "P3_extrap_violations": violations,
             "P3_breakdown": {"below_wetbulb": v_wb, "dT_dma_positive": v_ma,
                              "dT_dTwi_negative": v_twi,
