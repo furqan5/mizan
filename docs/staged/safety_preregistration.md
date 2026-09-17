@@ -143,3 +143,15 @@ instant the named signal first crosses its threshold as the layer sees it.
 Tests in `tests/test_safety.py` assert every row. F8 is the only row whose
 acceptance lets the basin fall below the trip setpoint, because it is the row
 where every software layer has already been defeated.
+
+---
+
+## Results, appended 17 September 2026, after the run
+
+Nothing above this line was edited after the simulation ran.
+
+- **Incident, A1:** acid stopped 0 s after the trip (bound 61 s). **PASS.**
+- **Incident, A2:** minimum basin pH 8.000 (trip setpoint 6.5). **PASS.**
+- **Without interlocks:** pH below 6.5 at 51.5 min, below 5.5 at 52.6 min, below 4.0 at 58.4 min, low-level pump trip at 101.1 min, pH 1.82 by 08:00. **P1 held.**
+- **Matrix:** F0, F1, F2, F4b, F5, F6, F7, F8 and S1 **PASS**. **F3 FAILS** (149 s against 61 s). **F4a FAILS** (768 s against 601 s). Both fail for the same reason: the registered bound counts from the first threshold crossing, while the setpoint needs a continuous dwell that noise resets. Recorded in `docs/staged/safety-interlocks_defects.md`. The rows were not rewritten.
+- **Not predicted:** the registered fail-safe reaches low level sooner than no interlocks at all (90.8 against 101.1 min). Staged defect 56.
