@@ -7,57 +7,50 @@ verdict. V5 is an unweighted mean over five conditions; it scored
 
  bin  hours   T_wb C   T_db C     RH   load  energy %   water %   cost %  in envlp
 ----------------------------------------------------------------------------
-   0   1095      9.7     14.7   0.54   0.50      6.55      0.27     4.73       yes
-   1   1095     14.2     19.6   0.58   0.57     11.64     -1.56     7.88       yes
-   2   1095     16.9     23.4   0.55   0.64     12.48     -3.84     7.85       yes
-   3   1095     19.3     27.2   0.51   0.70      6.81     -4.47     3.48       yes
-   4   1095     21.4     30.3   0.49   0.75      6.97     -4.95     3.46       yes
-   5   1095     23.6     33.7   0.47   0.80     -2.33      7.91     1.47        NO
-   6   1095     25.8     36.9   0.45   0.85     -0.02      6.26     2.58        NO
-   7   1095     28.5     37.4   0.55   0.86      0.93     10.39     4.43        NO
+   0   1042      9.6     14.5   0.54   0.49      6.55      0.26     4.73       yes
+   1   1042     14.0     19.3   0.58   0.57     11.65     -1.59     7.87       yes
+   2   1042     16.6     22.9   0.56   0.63     12.42     -3.62     7.87       yes
+   3   1042     18.9     26.5   0.52   0.69      6.75     -4.26     3.50       yes
+   4   1041     20.9     29.8   0.48   0.74      6.97     -4.99     3.45       yes
+   5   1184     23.2     33.0   0.47   0.79      3.38     -3.67     1.24        NO
+   6   1184     25.6     36.6   0.45   0.85     -1.26      8.05     2.30        NO
+   7   1183     28.4     37.3   0.55   0.86      0.94     10.42     4.45        NO
 ----------------------------------------------------------------------------
-ANNUAL   8760                                      5.38      1.25     4.48
+ANNUAL   8760                                      5.69      0.31     4.34
 
 WHAT THIS IS, AND WHAT IT RESTS ON
-   hours-weighted annual total-power reduction  : 5.38 %
-   hours-weighted annual makeup water reduction : 1.25 %
-   hours-weighted annual cost reduction         : 4.48 %
+   hours-weighted annual total-power reduction  : 5.69 %
+   hours-weighted annual makeup water reduction : 0.31 %
+   hours-weighted annual cost reduction         : 4.34 %
 
    Those three are means of ratios. As RATIOS OF ANNUAL TOTALS,
    which is what a plant actually banks over a year:
-   annual electrical energy reduction           : 4.52 %   (-0.85 pts)
-   annual makeup water reduction                : 2.37 %   (+1.12 pts)
-   annual operating cost reduction              : 4.17 %   (-0.32 pts)
-   The energy and water corrections have OPPOSITE signs, because
-   the energy saving is biggest when the plant draws least power
-   and the water saving is biggest when it evaporates most.
+   annual electrical energy reduction           : 4.86 %   (-0.82 pts)
+   annual makeup water reduction                : 1.31 %   (+1.00 pts)
+   annual operating cost reduction              : 4.01 %   (-0.33 pts)
+   The energy and water corrections have OPPOSITE signs.
    for comparison, the five-condition unweighted mean the V5 gate
    scores                                        : 4.38 % water
 
-   fraction of the weighted year INSIDE the validated wet-bulb
-   envelope (<= 21.9 C)                        : 62.5 %
-   fraction resting on EXTRAPOLATION            : 37.5 %
+   fraction of the year INSIDE the validated wet-bulb envelope
+   (<= 21.9 C), counted hour by hour           : 59.5 %
+   fraction resting on EXTRAPOLATION            : 40.5 %   (3551 h)
 
-
-   AND WHAT THE EXTRAPOLATION IS ACTUALLY WORTH -- defect 48.
-   Reporting the extrapolated FRACTION is not the same as reporting
-   what it CARRIES, and here they point opposite ways:
+   AND WHAT THE EXTRAPOLATION IS ACTUALLY WORTH -- defects 48 and 60.
 
                                    hours   water %  energy %   cost %
-   whole year                       8760      2.37      4.52     4.17
-   inside the validated envelope    5475     -3.31      8.84     5.32
-   EXTRAPOLATED (wb > 21.9 C)       3285      8.23     -0.39     2.90
+   whole year                       8760      1.31      4.86     4.01
+   inside the validated envelope    5209     -3.22      8.82     5.32
+   EXTRAPOLATED (wb > 21.9 C)       3551      5.41      0.95     2.75
 
-   THE WATER SAVING IS NEGATIVE WHERE THE MODEL HAS BEEN VALIDATED.
-   Every positive water hour is an hour hotter and wetter than any
-   data we hold. The ENERGY saving is the opposite -- it is earned
-   inside the envelope and vanishes outside it. So the two halves of
-   the product are validated to opposite degrees, and the water
-   claim is the one that cannot be defended from this dataset.
+   The water saving is NEGATIVE inside the validated wet-bulb envelope and positive only outside it, so the annual water figure is carried entirely by extrapolated hours.
+   The energy saving is the reverse: larger inside the envelope than outside it.
+   Quote neither without this split.
 
-   That second number is the honest caveat on the first. Roughly
-   two fifths of a Dhahran year is hotter and wetter than anything
-   the model was validated against, and no amount of weighting
-   changes that. It is what the KFUPM wind tunnel is for.
+   Roughly two fifths of this TMYx year is hotter and wetter than
+   anything the model was validated against, and no amount of
+   weighting changes that. It is what the KFUPM wind tunnel is for.
+   How much of that fraction is the TMYx file's humidity rather than
+   Dhahran's is docs/weather_source_sensitivity.md.
 
 written -> results/annual_dhahran.json
