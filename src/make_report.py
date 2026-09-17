@@ -411,8 +411,11 @@ def main():
           f"is an hours-weighted mean of ratios, which is the right object for "
           f"comparing against the gate and the wrong one for a customer.")
         A("")
+        # DEFECT 60. This was typed as 62.5 %, a BIN count (5 of 8 bins).
+        # Counted hour by hour the TMYx year is 59.5 % inside; read it.
         A("The same calculation carries its own caveat: only "
-          "**62.5 %** of the weighted year lies inside the wet-bulb "
+          f"**{100 * _annual['fraction_inside_validated_envelope']:.1f} %** "
+          "of the year, counted hour by hour, lies inside the wet-bulb "
           "envelope the model was validated in. The rest rests on "
           "extrapolation, and no weighting scheme fixes that.")
         A("")

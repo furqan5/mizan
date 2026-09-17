@@ -470,7 +470,9 @@ def fig_seasonal_handoff(mode):
     Once electrical power is reported separately from cost, the hours-weighted
     year shows something the five-condition gate could never show: the energy
     saving and the water saving are ANTI-CORRELATED across the year
-    (Pearson r = -0.66 over eight equal-hour wet-bulb bins).
+    (Pearson r across the eight wet-bulb bins; the value is computed at
+    build time and printed in the footnote -- it was -0.66 on the old
+    equal-hour bins, which defect 60 replaced).
 
     In the cool half the controller spends fan power to buy compressor power,
     and the water result is modest. In the hot half it slows the fan, banks
@@ -523,9 +525,9 @@ def fig_seasonal_handoff(mode):
             % (c.min(), c.max()),
             fontsize=base - 2.0, color=GREEN, weight="bold", ha="left")
 
-    foot = ("Eight equal-hour wet-bulb bins of a Dhahran TMYx year "
-            "(2011-2025, station 404160); the controller is run at each bin "
-            "centroid and weighted by the hours in that bin."
+    foot = ("Eight wet-bulb bins of a Dhahran TMYx year (2011-2025, station "
+            "404160), cut at the 21.9 C validation edge; the controller is run "
+            "at each bin centroid and weighted by the hours in that bin."
             "\nPearson correlation between the energy and water reductions "
             "across the bins: r = %+.3f.   Hours-weighted annual means: "
             "%.2f %% power, %.2f %% water, %.2f %% cost."
