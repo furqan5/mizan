@@ -1,0 +1,59 @@
+MIZAN: one-CDU extension and falsification study (7 Sep 2026).
+
+PRE-REGISTRATION, recorded before the first model execution.
+Original H1-H4 remain hypotheses, not retrospective success criteria.
+
+H1a (original): increasing condenser inlet water at fixed IT duty must increase
+GPU inlet WATER temperature. Test matched states at fixed FWS and CDU approach;
+strict positive change >1e-6 K is required for every pair. A regulated evaporator
+is expected to refute this assertion; report FAIL, do not replace its verdict.
+H1b: increasing cycles at fixed temperatures/pH must increase skin gypsum SI;
+all adjacent tested pairs must increase >1e-8 SI, otherwise FAIL.
+H2-cycles: at least one thermally feasible state becomes chemistry-infeasible
+at the next cycles count while both condenser-temperature slack >0.1 K and PLR
+slack >0.01 remain. This tests a cycles constraint, not an IT-temperature claim.
+H2-temperature (the hybrid kill test): for at least one weather/cycles group,
+chemistry must reduce the maximum feasible FWS temperature by >=0.1 K, compared
+with the same grid without chemistry. No feasible chemistry state is reported
+as exclusion, not an arbitrarily large temperature loss. Zero qualifying groups
+means FAIL in this sampled domain, not proof outside it.
+H3: actual chip-optimum shortfall requires a measured chip-to-water map for the
+same part/workload. If absent, return NOT_IDENTIFIABLE and null, never subtract
+water from chip temperature and label that a delivery shortfall. Report the
+required chip-to-water rise separately, as an algebraic diagnostic.
+H4: reaching the ITD-optimal point requires the H3 map. If absent return
+NOT_IDENTIFIABLE. Price the independent 7 C -> allowed FWS optimisation as a
+conditional engineering estimate, never as ITD savings. Report both annual
+mean-of-ratios and ratio-of-totals; never omit unsolved hours from an annual total.
+
+Study inputs [A]: fixed IT duty = 0.90 * reference plant load, all captured by
+liquid; one equivalent aggregate CDU, approach = 5 K (sensitivity 3/5/7 K),
+equal FWS/TCS capacity rates derived for 5 K loop rise, no heat leak or pump heat.
+The approach abstraction is local, not a rated CDU selection or hydraulic model.
+FWS grid = native chilled-water lower limit, 7 C, native upper limit. ECWT grid
+= 9 equally spaced points over native bounds plus 32 C baseline setpoint.
+Cycles = integers 2..10, pH = 7..9 by 0.25 plus baseline 7.8. Fan admissible
+range =30..100%, located by 10%-point brackets then continuous Brent root.
+Nameplate is selected ONCE at design reference load, FWS7, ECWT upper limit.
+Skin rise = 8 K, inherited scenario; 3 K is a cheap chemistry-only sensitivity.
+Chemistry/price coefficients come from the repository, never duplicated.
+
+Numerical acceptance [J]: root xtol1e-7 fan percentage points; residual Me
+relative/absolute tolerance 1e-6 * max(1, Me_fill); energy balance error <=1e-7
+of duty; water balance <=1e-9 kg/s; independent tower forward replay <=1e-3 K
+at one selected point per weather bin. No accepted point may violate any
+chiller fitted range (T_FWS, T_ECWT, PLR) or require a curve clamp. Raw PLR is
+used through the source's upper bound. Coefficient/reference normalisation
+follows legacy MIZAN; legacy files and their historical gates remain unchanged.
+Fault injection: negative CDU approach/flow, reversed heat balance, each
+envelope edge, nonfinite input, solver residual, water balance, stale source hash,
+ITD extrapolation and wrong temperature boundary must all be rejected.
+
+The direct inverse tower solve uses the SAME Poppe integrator and fill law:
+Qcond=Qit+Pchiller, Twi=ECWT+Qcond/(m*cp), and solves
+Me_Poppe(ECWT,Twi,fan)-Me_fill(fan)=0. This is an algebraic reparameterisation
+of the converged duty fixed point, not a shortened iteration or surrogate.
+No semiconductor, DVFS, transient CDU or flow-allocation model is introduced.
+
+Run: python src/cdu_hybrid.py --repo <MIZAN-root> --output <new-results-directory>
+     python src/cdu_hybrid.py --repo <MIZAN-root> --self-test

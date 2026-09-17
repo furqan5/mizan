@@ -1,0 +1,16 @@
+{
+  "wrapper": "src/cdu_hybrid_rescore.py",
+  "wrapper_sha256": "411bdf46ed91543257395e226033fa966e294c86b454e705f36604752959306a",
+  "registered_script_sha256": "c9178d1cc5531c6d2e15cda29cbefd9ea128f3dcca515e6052ebfea239f20951",
+  "patched_function": "chemistry_at",
+  "patch_source": "def corrected_chemistry_at(r, ph, water, skin_rise=None):\n    ctl, chem, TAR = ch.ctl, ch.chem, ch.TAR\n    skin_rise = float(ctl.SKIN_DELTA_K_DEFAULT) if skin_rise is None else skin_rise\n    conc = water.concentrate(r['cycles'])\n    skin = r['T_cw_return_C'] + skin_rise\n    sat = chem.saturation_state_split(conc, skin, r['T_ecwt_C'], pH_hot=ph, pH_cold=ph)\n    violations = {k: float(sat[k] - v) for k, v in chem.OPERATING_LIMITS.items() if sat[k] > v}\n    bulk = chem.saturation_state(conc, r['T_ecwt_C'], pH=ph)\n    if ctl.CORROSION_FLOOR_SI is not None and bulk['SI_calcite'] < ctl.CORROSION_FLOOR_SI:\n        violations['corrosion_floor'] = float(ctl.CORROSION_FLOOR_SI - bulk['SI_calcite'])\n    acid, _ = ctl.acid_dose_for_ph(water, r['cycles'], ph, skin)\n    # defect 25: the alkalinity balance leaves on blowdown + drift\n    acid_h = acid * ((r['blowdown_m3_h'] + r['drift_m3_h']) / 3.6) * 3600\n    # defect 30: split tariff, blowdown carries the discharge fee\n    wb = {'makeup': r['makeup_m3_h'] / 3.6, 'blowdown': r['blowdown_m3_h'] / 3.6}\n    cost = (TAR['elec_per_kwh'] * r['P_total_kW'] + ctl._water_cost_per_h(wb, TAR)\n            + TAR['acid_per_kg'] * acid_h + TAR['antiscalant_per_m3'] * r['makeup_m3_h'])\n    out = dict(r, ph=float(ph), chemistry_ok=not violations, violations=violations,\n               SI_calcite=float(sat['SI_calcite']), SI_gypsum=float(sat['SI_gypsum']),\n               SI_gypsum_basin=float(bulk['SI_gypsum']), SI_silica_am=float(sat['SI_silica_am']),\n               bulk_SI_calcite=float(bulk['SI_calcite']), acid_kg_h=float(acid_h),\n               cost_per_h=float(cost), ionic_strength=float(conc.ionic_strength()),\n               assumed_skin_rise_K=float(skin_rise))\n    return out\n",
+  "corrects": [
+    "defect 25 acid on blowdown+drift",
+    "defect 30 split water tariff",
+    "defect 44 derived skin rise"
+  ],
+  "not_corrected": [
+    "staged defect 54 acid sulfate absent from gypsum index (H1b depends on gypsum)"
+  ],
+  "preregistration": "docs/staged/cdu_joint_policy_preregistration.md section 7"
+}

@@ -1,0 +1,195 @@
+[Gulf_Dhahran] deck path B0/B1 done 243s
+[Pakistan_Balloki] deck path B0/B1 done 278s
+[Gulf_Dhahran] hour 0 284s
+[Gulf_Dhahran] hour 1 284s
+[Gulf_Dhahran] hour 2 284s
+[Pakistan_Balloki] hour 0 286s
+[Pakistan_Balloki] hour 1 314s
+[USA_NorthernVirginia] deck path B0/B1 done 331s
+[Pakistan_Balloki] hour 2 332s
+[Gulf_Dhahran] hour 3 340s
+[Gulf_Dhahran] hour 4 340s
+[Gulf_Dhahran] hour 5 340s
+[USA_NorthernVirginia] hour 0 349s
+[Gulf_Dhahran] hour 6 349s
+[USA_NorthernVirginia] hour 1 360s
+[Pakistan_Balloki] hour 3 372s
+[USA_NorthernVirginia] hour 2 383s
+[Gulf_Dhahran] hour 7 390s
+[Gulf_Dhahran] hour 8 400s
+[Pakistan_Balloki] hour 4 409s
+[USA_NorthernVirginia] hour 3 411s
+[USA_NorthernVirginia] hour 4 429s
+[Pakistan_Balloki] hour 5 436s
+[Pakistan_Balloki] hour 6 437s
+[Pakistan_Balloki] hour 7 437s
+[Pakistan_Balloki] hour 8 437s
+[Pakistan_Balloki] hour 9 437s
+[Pakistan_Balloki] hour 10 438s
+[Gulf_Dhahran] hour 9 447s
+[Pakistan_Balloki] hour 11 448s
+[USA_NorthernVirginia] hour 5 450s
+[USA_NorthernVirginia] hour 6 450s
+[USA_NorthernVirginia] hour 7 450s
+[USA_NorthernVirginia] hour 8 451s
+[USA_NorthernVirginia] hour 9 451s
+[USA_NorthernVirginia] hour 10 451s
+[Pakistan_Balloki] hour 12 468s
+[Gulf_Dhahran] hour 10 469s
+[Pakistan_Balloki] hour 13 475s
+[USA_NorthernVirginia] hour 11 486s
+[Gulf_Dhahran] hour 11 488s
+[Gulf_Dhahran] hour 12 492s
+[Gulf_Dhahran] hour 13 505s
+[Pakistan_Balloki] hour 14 508s
+[USA_NorthernVirginia] hour 12 508s
+[Gulf_Dhahran] hour 14 518s
+[Pakistan_Balloki] hour 15 522s
+[Europe_Frankfurt] deck path B0/B1 done 524s
+[USA_NorthernVirginia] hour 13 532s
+[Pakistan_Balloki] hour 16 536s
+[Gulf_Dhahran] hour 15 546s
+[USA_NorthernVirginia] hour 14 555s
+[Europe_Frankfurt] hour 0 563s
+[Europe_Frankfurt] hour 1 568s
+[Europe_Frankfurt] hour 2 573s
+[USA_NorthernVirginia] hour 15 576s
+[Europe_Frankfurt] hour 3 578s
+[Gulf_Dhahran] hour 16 583s
+[Gulf_Dhahran] hour 17 588s
+[USA_NorthernVirginia] hour 16 591s
+[Europe_Frankfurt] hour 4 604s
+[Pakistan_Balloki] hour 17 611s
+[Pakistan_Balloki] hour 18 612s
+[USA_NorthernVirginia] hour 17 623s
+[USA_NorthernVirginia] hour 18 623s
+[Europe_Frankfurt] hour 5 628s
+[Europe_Frankfurt] hour 6 628s
+[Europe_Frankfurt] hour 7 628s
+[Europe_Frankfurt] hour 8 629s
+[Europe_Frankfurt] hour 9 629s
+[Europe_Frankfurt] hour 10 629s
+[USA_NorthernVirginia] hour 19 633s
+[USA_NorthernVirginia] hour 20 633s
+[Europe_Frankfurt] hour 11 635s
+[Europe_Frankfurt] hour 12 636s
+[Gulf_Dhahran] hour 18 639s
+[USA_NorthernVirginia] hour 21 642s
+[Pakistan_Balloki] hour 19 642s
+[USA_NorthernVirginia] hour 22 643s
+[Pakistan_Balloki] hour 20 643s
+[USA_NorthernVirginia] hour 23 643s
+[Pakistan_Balloki] hour 21 643s
+[Pakistan_Balloki] hour 22 643s
+[Pakistan_Balloki] hour 23 644s
+[Gulf_Dhahran] hour 19 659s
+[Europe_Frankfurt] hour 13 668s
+[Europe_Frankfurt] hour 14 668s
+[USA_NorthernVirginia] done 681s
+[Europe_Frankfurt] hour 15 687s
+[Pakistan_Balloki] done 688s
+[Gulf_Dhahran] hour 20 699s
+[Europe_Frankfurt] hour 16 700s
+[Europe_Frankfurt] hour 17 713s
+[Gulf_Dhahran] hour 21 714s
+[Gulf_Dhahran] hour 22 714s
+[Gulf_Dhahran] hour 23 714s
+[Europe_Frankfurt] hour 18 723s
+[Europe_Frankfurt] hour 19 732s
+[Europe_Frankfurt] hour 20 732s
+[Europe_Frankfurt] hour 21 732s
+[Europe_Frankfurt] hour 22 733s
+[Europe_Frankfurt] hour 23 733s
+[Europe_Frankfurt] done 771s
+[Gulf_Dhahran] done 774s
+
+H-B2: {'regions_supporting': 3, 'status': 'PASS', 'rule': 'delta2 <= 0.5*delta1 in >= 3 of 4 regions; delta1 <= 0 counts against'}
+load shape: {'depends_on_load_shape': True, 'any_region_moved_3h_or_more': True, 'count_range': [12, 24], 'nlr_fraction': 0.9462442583159482}
+
+region                        policy      dCost $/yr  water %     m3/d sil h unr h inf h  PUE mh  PUE rt maxflow  cycles
+Gulf_Dhahran base             B0                   0     0.00      422    12     0     0   3.537   3.537   11.38  {'5.0': 24}
+Gulf_Dhahran base             B1             106,579    -0.77      419     0     0     0   3.556   3.556   11.38  {'5.0': 24}
+Gulf_Dhahran base             B2          21,705,498     5.71      447     0     0     0   7.253   7.253   18.10  {'2.0': 1, '4.0': 12, '5.0': 11}
+Gulf_Dhahran base             B1f         21,783,675    -0.88      419     0     0     1   7.271   7.271   18.10  {'5.0': 24}
+Gulf_Dhahran OEM55            B0                   0     0.00      422    12     0     0   1.047   1.047    1.00  {'5.0': 24}
+Gulf_Dhahran OEM55            B1             -17,618    -0.77      419     0     0     0   1.045   1.045    1.00  {'5.0': 24}
+Gulf_Dhahran OEM55            B2             -95,367    -7.80      389     0     0     0   1.036   1.036    1.00  {'5.0': 24}
+   load: {'L0_flat_1.00': (12, None), 'L1_NLR_flat': (12, 0), 'L2_PowerData_median': (12, 0), 'L3_PowerData_max': (12, 0)} WUE bound violations: 1
+   staleness: {'PUE_blind': (3.537, 3.537), 'PUE_bounded': (3.556, 3.556), 'WUE_blind': (1.956, 1.956), 'WUE_bounded': (1.94, 1.94), 'cost_delta_per_year_usd': (106579.064, 106579.064), 'hours_blind_materially_violating': (12, 12), 'hours_bounded_materially_violating': (0, 0), 'hours_floor_unreachable': (0, 0), 'max_silica_SR_blind': (1.028, 1.028), 'max_silica_SR_bounded': (1.0, 1.0), 'solved_hours': (24, 24), 'chemical_floor_c': (31.761, 31.761), 'max_secondary_flow_ratio': (11.375, 11.375)}
+USA_NorthernVirginia base     B0                   0     0.00      901    24     0     0   1.049   1.049    1.39  {'5.0': 24}
+USA_NorthernVirginia base     B1           1,601,383    -7.13      837     0     0     0   1.159   1.159    1.97  {'5.0': 24}
+USA_NorthernVirginia base     B2              30,234     4.68      943     0     0     0   1.047   1.047    1.39  {'4.0': 24}
+USA_NorthernVirginia base     B1f          1,601,383    -7.13      837     0     0     0   1.159   1.159    1.97  {'5.0': 24}
+USA_NorthernVirginia OEM55    B0                   0     0.00      901    24     0     0   1.040   1.040    1.00  {'5.0': 24}
+USA_NorthernVirginia OEM55    B1            -113,430    -7.13      837     0     0     0   1.036   1.036    1.00  {'5.0': 24}
+USA_NorthernVirginia OEM55    B2            -131,317    -9.08      819     0     0     0   1.035   1.035    1.00  {'5.0': 24}
+   load: {'L0_flat_1.00': (24, None), 'L1_NLR_flat': (24, 0), 'L2_PowerData_median': (24, 0), 'L3_PowerData_max': (24, 0)} WUE bound violations: 0
+   staleness: {'PUE_blind': (1.049, 1.049), 'PUE_bounded': (1.159, 1.159), 'WUE_blind': (1.877, 1.877), 'WUE_bounded': (1.743, 1.743), 'cost_delta_per_year_usd': (1601382.883, 1601382.883), 'hours_blind_materially_violating': (24, 24), 'hours_bounded_materially_violating': (0, 0), 'hours_floor_unreachable': (0, 0), 'max_silica_SR_blind': (1.178, 1.178), 'max_silica_SR_bounded': (1.0, 1.0), 'solved_hours': (24, 24), 'chemical_floor_c': (31.761, 31.761), 'max_secondary_flow_ratio': (1.965, 1.965)}
+Europe_Frankfurt base         B0                   0     0.00      759    20     0     0   1.040   1.040    1.00  {'5.0': 20}
+Europe_Frankfurt base         B1           9,769,622    -0.63      754     8     8     0   1.350   1.350    4.95  {'5.0': 20}
+Europe_Frankfurt base         B2             -93,515     4.19      791     0     0     0   1.036   1.036    1.00  {'4.0': 20}
+Europe_Frankfurt base         B1f          9,769,622    -0.63      754     8     8     8   1.350   1.350    4.95  {'5.0': 20}
+Europe_Frankfurt OEM55        B0                   0     0.00      759    20     0     0   1.040   1.040    1.00  {'5.0': 20}
+Europe_Frankfurt OEM55        B1            -170,339    -0.63      754     8     8     0   1.035   1.035    1.00  {'5.0': 20}
+Europe_Frankfurt OEM55        B2            -142,919     1.72      772     0     0     0   1.035   1.035    1.00  {'4.0': 8, '5.0': 12}
+   load: {'L0_flat_1.00': (20, None), 'L1_NLR_flat': (24, 4), 'L2_PowerData_median': (24, 4), 'L3_PowerData_max': (24, 4)} WUE bound violations: 0
+   staleness: {'PUE_blind': (1.041, 1.041), 'PUE_bounded': (1.35, 1.35), 'WUE_blind': (1.581, 1.581), 'WUE_bounded': (1.571, 1.571), 'cost_delta_per_year_usd': (9769621.906, 9769621.906), 'hours_blind_materially_violating': (20, 20), 'hours_bounded_materially_violating': (8, 8), 'hours_floor_unreachable': (8, 8), 'max_silica_SR_blind': (1.314, 1.314), 'max_silica_SR_bounded': (1.121, 1.121), 'solved_hours': (20, 20), 'chemical_floor_c': (31.761, 31.761), 'max_secondary_flow_ratio': (4.945, 4.945)}
+Pakistan_Balloki base         B0                   0     0.00      398    21     0     0   1.083   1.083    1.99  {'5.0': 24}
+Pakistan_Balloki base         B1             533,603    -7.43      368     0     0     0   1.162   1.162    1.99  {'5.0': 24}
+Pakistan_Balloki base         B2             -21,483     3.69      412     0     0     0   1.080   1.080    1.99  {'4.0': 21, '5.0': 3}
+Pakistan_Balloki base         B1f            533,603    -7.43      368     0     0     0   1.162   1.162    1.99  {'5.0': 24}
+Pakistan_Balloki OEM55        B0                   0     0.00      398    21     0     0   1.049   1.049    1.00  {'5.0': 24}
+Pakistan_Balloki OEM55        B1             -66,499    -7.43      368     0     0     0   1.039   1.039    1.00  {'5.0': 24}
+Pakistan_Balloki OEM55        B2             -92,709   -12.99      346     0     0     0   1.035   1.035    1.00  {'4.0': 3, '5.0': 21}
+   load: {'L0_flat_1.00': (21, None), 'L1_NLR_flat': (21, 0), 'L2_PowerData_median': (21, 0), 'L3_PowerData_max': (21, 0)} WUE bound violations: 6
+   staleness: {'PUE_blind': (1.083, 1.083), 'PUE_bounded': (1.162, 1.162), 'WUE_blind': (2.071, 2.071), 'WUE_bounded': (1.917, 1.917), 'cost_delta_per_year_usd': (533603.241, 533603.241), 'hours_blind_materially_violating': (21, 21), 'hours_bounded_materially_violating': (0, 0), 'hours_floor_unreachable': (0, 0), 'max_silica_SR_blind': (1.165, 1.165), 'max_silica_SR_bounded': (1.0, 1.0), 'solved_hours': (24, 24), 'chemical_floor_c': (31.761, 31.761), 'max_secondary_flow_ratio': (1.993, 1.993)}
+
+materials: {
+ "alfa_laval_fhe_316": {
+  "wall_T_used_c": 111.86483104057022,
+  "table_row_c": null,
+  "pH": 8.25,
+  "limit_mg_l": null
+ },
+ "ARAMCO_RIYADH_REFINERY_TSE": {
+  "Cl_mg_l": 216.0,
+  "janikowski_304_max_cycles": 0.6944444444444444,
+  "janikowski_316_max_cycles": 1.8518518518518519,
+  "alfa_laval_fhe_316_max_cycles": null,
+  "silica_floor_5cy_c": 12.566284668918655,
+  "silica_floor_4cy_c": 2.8267145270946323,
+  "duplex_2205": "no cited criterion held; not derived",
+  "titanium": "no cited criterion held; not derived",
+  "copper_nickel": "no cited criterion held (corrosion.py records none); not derived"
+ },
+ "run_controller.TSE": {
+  "Cl_mg_l": 528.0,
+  "janikowski_304_max_cycles": 0.2840909090909091,
+  "janikowski_316_max_cycles": 0.7575757575757576,
+  "alfa_laval_fhe_316_max_cycles": null,
+  "silica_floor_5cy_c": 31.7605486042767,
+  "silica_floor_4cy_c": 20.69376613936644,
+  "duplex_2205": "no cited criterion held; not derived",
+  "titanium": "no cited criterion held; not derived",
+  "copper_nickel": "no cited criterion held (corrosion.py records none); not derived"
+ }
+}
+temperatures: {
+ "cdu_hybrid_T_fws_range_c": [
+  4.44,
+  8.89
+ ],
+ "cdu_hybrid_T_gpu_inlet_water_range_c": [
+  9.440000000000001,
+  13.89
+ ],
+ "cdu_hybrid_states_with_chiller": 909,
+ "cdu_hybrid_states": 909,
+ "supervisor_nominal_flow_T_fws_max_c_at_42C_return": 27.0,
+ "supervisor_nominal_flow_T_fws_max_c_at_55C_return": 40.0,
+ "model_return_limit_c": 42.0,
+ "model_cdu_approach_k": 5.0,
+ "deschutes_approach_k": 3.0,
+ "model_heat_to_liquid": 1.0
+}
+exit 0

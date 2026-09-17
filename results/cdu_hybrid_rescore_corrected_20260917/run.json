@@ -1,0 +1,2907 @@
+{
+  "script_sha256": "c9178d1cc5531c6d2e15cda29cbefd9ea128f3dcca515e6052ebfea239f20951",
+  "input_sha256": {
+    "src/controller.py": "a6b12a9a26c6e9fa68144031d4caf4c63c5c99f01a23b078d515674c28215ca9",
+    "src/chemistry.py": "7ef7d1e97d2593161a70e53e5a467af9ea359a9a29eb6360735e08626155efa6",
+    "src/tower.py": "3ed25512a649918efa80dcdc044dd0e7270f03f63ba49e6639c1a37d784e64ba",
+    "src/psychro.py": "769af02f854fa757af2c555d37b359b0d004f6b352737631b9789e1e24019302",
+    "src/water_activity.py": "f1059bf7bc415da3079204641b7a8682473042d0c0a2712d1bc65b4b78baf9e1",
+    "src/run_controller.py": "0c43a6c9e0ce32631f2d2fe611f25ce6bb94985e93d376d5a0612d6b9d434822",
+    "results/calibration.json": "eac4a714385cb0b0d488c470515f1c12b7ee89ca881c5443630f0f7f62d525bb",
+    "results/controller_summary.json": "1349b5fbb69c449159841d6119575bcf9bcf29d764ebfd47b48cabf397aa1374",
+    "results/annual_datacentre.json": "21c00f3812dc1aa8f2612791996a9288bb84377bf6b0dbac10794a10b83b15c3",
+    "results/tmy_hourly.npy": "57efd6ea18d4162f04d109cdc0753371dc164747135539e5a5ab1e55951a04c0"
+  },
+  "preregistration_sha256": "6187e0ca3bc2eb1cd53b48ea10822f83d9a9b7c8995b80bf892a14e3eeaa35ed",
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "repo": ".",
+  "Q_nominal_kW": 11504.60117056717,
+  "Q_IT_kW": 9000.0,
+  "tariffs": {
+    "elec_per_kwh": 0.074,
+    "water_per_m3": 3.11,
+    "water_makeup_per_m3": 2.144,
+    "water_discharge_per_m3": 0.971,
+    "acid_per_kg": 0.19,
+    "antiscalant_per_m3": 0.05
+  },
+  "verdicts": {
+    "H1a": {
+      "status": "FAIL",
+      "pairs": 1610,
+      "min_change_K": 0.0,
+      "max_change_K": 0.0
+    },
+    "H1b": {
+      "status": "PASS",
+      "pairs": 794,
+      "minimum_SI_increase": 0.024731374971712405
+    },
+    "H2_cycles": {
+      "status": "PASS",
+      "weather_bins_with_witness": 8
+    },
+    "H2_temperature": {
+      "status": "FAIL",
+      "weather_bins_with_witness": 0
+    },
+    "H3": {
+      "status": "NOT_IDENTIFIABLE",
+      "actual_chip_optimum_shortfall_K": null,
+      "reason": "No measured chip-to-water map; CPU paper is not a GPU water response"
+    },
+    "H4": {
+      "status": "NOT_IDENTIFIABLE",
+      "annual_ITD_cost_USD": null,
+      "reason": "H3 map is absent; independent FWS economics are reported separately"
+    }
+  },
+  "bins": [
+    {
+      "bin": 0,
+      "hours": 1095,
+      "T_db_C": 14.677716894977168,
+      "rh": 0.5431232876712329,
+      "T_wb_C": 9.74361251327274,
+      "hours_above_validation": 0,
+      "baseline": {
+        "P_chiller_kW": 1437.2126688468547,
+        "cop": 6.2621212539276705,
+        "plr_raw": 0.7868444987395271,
+        "capacity_kW": 11438.092297038875,
+        "T_ecwt_C": 30.14,
+        "T_cw_return_C": 35.35623816229774,
+        "T_skin_C": 43.35623816229774,
+        "T_wb_actual_C": 9.900273289129945,
+        "cycles": 4.0,
+        "fan_pct": 31.6839226952886,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 3.4987226789979258,
+        "P_total_kW": 1440.7113915258526,
+        "Q_cond_kW": 10437.212668846854,
+        "makeup_m3_h": 16.59810158080537,
+        "blowdown_m3_h": 4.132317395201342,
+        "evaporation_m3_h": 12.448576185604027,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -5.098810262893494e-12,
+        "Me_fill": 0.6373439371935182,
+        "forward_replay_error_K": 3.3250092457137725e-08,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 0,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3511392853854298,
+        "SI_gypsum": -0.47156294696611667,
+        "SI_gypsum_basin": -0.45215594445578944,
+        "SI_silica_am": -0.08316114138969644,
+        "bulk_SI_calcite": 1.1989250434187477,
+        "acid_kg_h": 1.3443469361601792,
+        "cost_per_h": 147.29678394981102,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1192.1913811352376,
+        "cop": 7.549123523632549,
+        "plr_raw": 0.7221863156601026,
+        "capacity_kW": 12462.158039887112,
+        "T_ecwt_C": 22.85,
+        "T_cw_return_C": 27.943783113034304,
+        "T_skin_C": 35.9437831130343,
+        "T_wb_actual_C": 9.900273289129945,
+        "cycles": 4.0,
+        "fan_pct": 60.130590841422396,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 23.91547983315362,
+        "P_total_kW": 1216.1068609683912,
+        "Q_cond_kW": 10192.191381135237,
+        "makeup_m3_h": 15.599306539378743,
+        "blowdown_m3_h": 3.882618634844686,
+        "evaporation_m3_h": 11.699479904534059,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.0963896457383271e-11,
+        "Me_fill": 0.878802234568802,
+        "forward_replay_error_K": 5.024226368277596e-09,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 0,
+        "ph": 8.5,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.945844727577052,
+        "SI_gypsum": -0.47653673588753964,
+        "SI_gypsum_basin": -0.44336841983554987,
+        "SI_silica_am": -0.019450199351845665,
+        "bulk_SI_calcite": 1.793449263073632,
+        "acid_kg_h": 1.0097438453079604,
+        "cost_per_h": 128.17866028410063,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1126.9759444331564,
+        "cop": 7.985973475704308,
+        "plr_raw": 0.717591070763475,
+        "capacity_kW": 12541.962082143144,
+        "T_ecwt_C": 22.85,
+        "T_cw_return_C": 27.911190191869473,
+        "T_skin_C": 35.91119019186947,
+        "T_wb_actual_C": 9.900273289129945,
+        "cycles": 4.0,
+        "fan_pct": 59.76834704402105,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 23.485857450085355,
+        "P_total_kW": 1150.4618018832418,
+        "Q_cond_kW": 10126.975944433156,
+        "makeup_m3_h": 15.498533654875537,
+        "blowdown_m3_h": 3.857425413718884,
+        "evaporation_m3_h": 11.623900241156653,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -6.192990564812817e-11,
+        "Me_fill": 0.8761437566901425,
+        "forward_replay_error_K": 4.994436864080853e-09,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 0,
+        "ph": 8.5,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9454672259490886,
+        "SI_gypsum": -0.47647056658031683,
+        "SI_gypsum_basin": -0.44336841983554987,
+        "SI_silica_am": -0.019450199351845665,
+        "bulk_SI_calcite": 1.793449263073632,
+        "acid_kg_h": 1.00303817472362,
+        "cost_per_h": 123.07409350807536,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 124,
+      "chemically_feasible_ph_candidates": 323,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 3.0,
+          "cycles_after": 4.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 20.42,
+          "violations": {
+            "SI_calcite": 0.37697431191491315,
+            "SI_silica_am": 0.0024899303283665297
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 22.85,
+          "violations": {
+            "SI_calcite": 0.5438811158654602,
+            "SI_silica_am": 0.07745981365621057
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.568686196813645,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6170414910932278,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 3.0,
+          "cycles_after": 4.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 20.42,
+          "violations": {
+            "SI_calcite": 0.37652980762751387,
+            "SI_silica_am": 0.0024899303283665297
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 22.85,
+          "violations": {
+            "SI_calcite": 0.5434389832057471,
+            "SI_silica_am": 0.07745981365621057
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.5682336982848559,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5925859760530967,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6165520214064726,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 3.0,
+          "cycles_after": 4.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 20.42,
+          "violations": {
+            "SI_calcite": 0.3761972718101587,
+            "SI_silica_am": 0.0024899303283665297
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 22.85,
+          "violations": {
+            "SI_calcite": 0.5431083298473789,
+            "SI_silica_am": 0.07745981365621057
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.5678968669548992,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6161986166091662,
+            "SI_silica_am": 0.013748871618359804
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 4.994436864080853e-09
+    },
+    {
+      "bin": 1,
+      "hours": 1095,
+      "T_db_C": 19.5551598173516,
+      "rh": 0.5820182648401826,
+      "T_wb_C": 14.190059043616854,
+      "hours_above_validation": 0,
+      "baseline": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 14.52228790040471,
+        "cycles": 4.0,
+        "fan_pct": 31.771649228273198,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 3.5278650388641606,
+        "P_total_kW": 1509.822636738796,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 17.26120143849355,
+        "blowdown_m3_h": 4.298092359623388,
+        "evaporation_m3_h": 12.945901078870163,
+        "drift_m3_h": 0.017208,
+        "tower_residual": 1.0923234539106375e-09,
+        "Me_fill": 0.6382281343145442,
+        "forward_replay_error_K": 2.8161721843389387e-09,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 1,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3729979132018997,
+        "SI_gypsum": -0.47318524897291603,
+        "SI_gypsum_basin": -0.45598704952992186,
+        "SI_silica_am": -0.09892918379855908,
+        "bulk_SI_calcite": 1.2220245667250937,
+        "acid_kg_h": 1.400316483597934,
+        "cost_per_h": 154.0374588878037,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1192.1913811352376,
+        "cop": 7.549123523632549,
+        "plr_raw": 0.7221863156601026,
+        "capacity_kW": 12462.158039887112,
+        "T_ecwt_C": 22.85,
+        "T_cw_return_C": 27.943783113034304,
+        "T_skin_C": 35.9437831130343,
+        "T_wb_actual_C": 14.52228790040471,
+        "cycles": 4.0,
+        "fan_pct": 84.58622655624457,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 66.57200527153978,
+        "P_total_kW": 1258.7633864067775,
+        "Q_cond_kW": 10192.191381135237,
+        "makeup_m3_h": 16.783997863219092,
+        "blowdown_m3_h": 4.178791465804773,
+        "evaporation_m3_h": 12.587998397414319,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -5.609956943430916e-12,
+        "Me_fill": 1.042798617846394,
+        "forward_replay_error_K": 9.89001662787814e-08,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 1,
+        "ph": 8.5,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.945844727577052,
+        "SI_gypsum": -0.47653673588753964,
+        "SI_gypsum_basin": -0.44336841983554987,
+        "SI_silica_am": -0.019450199351845665,
+        "bulk_SI_calcite": 1.793449263073632,
+        "acid_kg_h": 1.0864289703689858,
+        "cost_per_h": 134.23660992367076,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1126.9759444331564,
+        "cop": 7.985973475704308,
+        "plr_raw": 0.717591070763475,
+        "capacity_kW": 12541.962082143144,
+        "T_ecwt_C": 22.85,
+        "T_cw_return_C": 27.911190191869473,
+        "T_skin_C": 35.91119019186947,
+        "T_wb_actual_C": 14.52228790040471,
+        "cycles": 4.0,
+        "fan_pct": 84.08885963058667,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 65.40456682786973,
+        "P_total_kW": 1192.3805112610262,
+        "Q_cond_kW": 10126.975944433156,
+        "makeup_m3_h": 16.677927082857718,
+        "blowdown_m3_h": 4.15227377071443,
+        "evaporation_m3_h": 12.508445312143289,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -7.966360904276826e-11,
+        "Me_fill": 1.0397196977579202,
+        "forward_replay_error_K": 1.53804482039277e-07,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 1,
+        "ph": 8.5,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9454672259490886,
+        "SI_gypsum": -0.47647056658031683,
+        "SI_gypsum_basin": -0.44336841983554987,
+        "SI_silica_am": -0.019450199351845665,
+        "bulk_SI_calcite": 1.793449263073632,
+        "acid_kg_h": 1.0793664685885134,
+        "cost_per_h": 129.0644673135013,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 154,
+      "chemically_feasible_ph_candidates": 432,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 22.85,
+          "violations": {
+            "SI_calcite": 0.5438811158654602,
+            "SI_silica_am": 0.07745981365621057
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.568686196813645,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.593052967001988,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6170414910932278,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7478915659533278,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 22.85,
+          "violations": {
+            "SI_calcite": 0.5434389832057471,
+            "SI_silica_am": 0.07745981365621057
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.5682336982848559,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5925859760530967,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6165520214064726,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.747387505813518,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7527775946446704,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 22.85,
+          "violations": {
+            "SI_calcite": 0.5431083298473789,
+            "SI_silica_am": 0.07745981365621057
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.5678968669548992,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5922420830334421,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7470320988635581,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 1.53804482039277e-07
+    },
+    {
+      "bin": 2,
+      "hours": 1095,
+      "T_db_C": 23.382739726027395,
+      "rh": 0.5542648401826484,
+      "T_wb_C": 16.911031394251047,
+      "hours_above_validation": 0,
+      "baseline": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 17.390314631821017,
+        "cycles": 4.0,
+        "fan_pct": 35.57170520159433,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 4.9511574633220645,
+        "P_total_kW": 1511.245929163254,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 17.72694227726651,
+        "blowdown_m3_h": 4.414527569316627,
+        "evaporation_m3_h": 13.295206707949884,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -9.074851980983567e-12,
+        "Me_fill": 0.6754248036005938,
+        "forward_replay_error_K": 1.552500350499031e-09,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 2,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3729979132018997,
+        "SI_gypsum": -0.47318524897291603,
+        "SI_gypsum_basin": -0.45598704952992186,
+        "SI_silica_am": -0.09892918379855908,
+        "bulk_SI_calcite": 1.2220245667250937,
+        "acid_kg_h": 1.438099750072311,
+        "cost_per_h": 155.28485533672372,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1270.0271174380257,
+        "cop": 7.086462860852401,
+        "plr_raw": 0.7333840146290439,
+        "capacity_kW": 12271.879152632375,
+        "T_ecwt_C": 25.28,
+        "T_cw_return_C": 30.41268332049151,
+        "T_skin_C": 38.41268332049151,
+        "T_wb_actual_C": 17.390314631821017,
+        "cycles": 4.0,
+        "fan_pct": 77.68767942689655,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 51.576175173987615,
+        "P_total_kW": 1321.6032926120133,
+        "Q_cond_kW": 10270.027117438025,
+        "makeup_m3_h": 17.81910982321583,
+        "blowdown_m3_h": 4.437569455803957,
+        "evaporation_m3_h": 13.36433236741187,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -5.578981721043874e-12,
+        "Me_fill": 0.9992520305444215,
+        "forward_replay_error_K": 1.6267723168539305e-08,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 2,
+        "ph": 8.5,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9742060685227907,
+        "SI_gypsum": -0.4812619984056399,
+        "SI_gypsum_basin": -0.4510418551855606,
+        "SI_silica_am": -0.04103302906139161,
+        "bulk_SI_calcite": 1.8241900573597434,
+        "acid_kg_h": 1.1692961492695548,
+        "cost_per_h": 141.42481681537134,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1202.2720397209125,
+        "cop": 7.485826587208333,
+        "plr_raw": 0.7219954191388945,
+        "capacity_kW": 12465.453050566539,
+        "T_ecwt_C": 25.28,
+        "T_cw_return_C": 30.378821155056063,
+        "T_skin_C": 38.37882115505606,
+        "T_wb_actual_C": 17.390314631821017,
+        "cycles": 4.0,
+        "fan_pct": 77.23052057244966,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 50.6710112645652,
+        "P_total_kW": 1252.9430509854776,
+        "Q_cond_kW": 10202.272039720912,
+        "makeup_m3_h": 17.703870014162526,
+        "blowdown_m3_h": 4.408759503540631,
+        "evaporation_m3_h": 13.277902510621894,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.0625944568687373e-11,
+        "Me_fill": 0.9962993854826682,
+        "forward_replay_error_K": 2.9061020256904158e-09,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 2,
+        "ph": 8.5,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9738201159497306,
+        "SI_gypsum": -0.4812009906286532,
+        "SI_gypsum_basin": -0.4510418551855606,
+        "SI_silica_am": -0.04103302906139161,
+        "bulk_SI_calcite": 1.8241900573597434,
+        "acid_kg_h": 1.1615186489294034,
+        "cost_per_h": 136.06167060523242,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 135,
+      "chemically_feasible_ph_candidates": 393,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.568686196813645,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.593052967001988,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6170414910932278,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7478915659533278,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.5682336982848559,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5925859760530967,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6165520214064726,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.747387505813518,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7527775946446704,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 25.28,
+          "violations": {
+            "SI_calcite": 0.5678968669548992,
+            "SI_silica_am": 0.05587698394666463
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5922420830334421,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6161986166091662,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7470320988635581,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 2.9061020256904158e-09
+    },
+    {
+      "bin": 3,
+      "hours": 1095,
+      "T_db_C": 27.178538812785387,
+      "rh": 0.512730593607306,
+      "T_wb_C": 19.281351697376795,
+      "hours_above_validation": 0,
+      "baseline": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 19.900451334550137,
+        "cycles": 4.0,
+        "fan_pct": 40.28162426315107,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 7.189746989308806,
+        "P_total_kW": 1513.4845186892408,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 18.453301329897585,
+        "blowdown_m3_h": 4.596117332474396,
+        "evaporation_m3_h": 13.83997599742319,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.6376899836245684e-12,
+        "Me_fill": 0.7188754469705265,
+        "forward_replay_error_K": 3.3720048975283134e-09,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 3,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3729979132018997,
+        "SI_gypsum": -0.47318524897291603,
+        "SI_gypsum_basin": -0.45598704952992186,
+        "SI_silica_am": -0.09892918379855908,
+        "bulk_SI_calcite": 1.2220245667250937,
+        "acid_kg_h": 1.4970256920488414,
+        "cost_per_h": 157.23166231212107,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1351.5344290524913,
+        "cop": 6.659097842079801,
+        "plr_raw": 0.7543675425867816,
+        "capacity_kW": 11930.5239050163,
+        "T_ecwt_C": 27.71,
+        "T_cw_return_C": 32.88341848253518,
+        "T_skin_C": 40.88341848253518,
+        "T_wb_actual_C": 19.900451334550137,
+        "cycles": 4.0,
+        "fan_pct": 68.7834516724292,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 35.796831066760376,
+        "P_total_kW": 1387.3312601192517,
+        "Q_cond_kW": 10351.534429052492,
+        "makeup_m3_h": 18.800333103174456,
+        "blowdown_m3_h": 4.682875275793614,
+        "evaporation_m3_h": 14.100249827380841,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -3.824163208321352e-12,
+        "Me_fill": 0.940084804347556,
+        "forward_replay_error_K": 1.8124395140262095e-07,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 3,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.7629452295292278,
+        "SI_gypsum": -0.47658328891496815,
+        "SI_gypsum_basin": -0.4519257959017011,
+        "SI_silica_am": -0.062267216371189704,
+        "bulk_SI_calcite": 1.6117926647638123,
+        "acid_kg_h": 1.3974488380978005,
+        "cost_per_h": 148.72303124922357,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1281.1162032123168,
+        "cop": 7.025123854833057,
+        "plr_raw": 0.7354222362140307,
+        "capacity_kW": 12237.867658628587,
+        "T_ecwt_C": 27.71,
+        "T_cw_return_C": 32.84822534729849,
+        "T_skin_C": 40.84822534729849,
+        "T_wb_actual_C": 19.900451334550137,
+        "cycles": 4.0,
+        "fan_pct": 68.37759242588369,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 35.16690116276356,
+        "P_total_kW": 1316.2831043750803,
+        "Q_cond_kW": 10281.116203212317,
+        "makeup_m3_h": 18.675755349913775,
+        "blowdown_m3_h": 4.651730837478444,
+        "evaporation_m3_h": 14.006816512435332,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.3378520513640524e-11,
+        "Me_fill": 0.9372994435100775,
+        "forward_replay_error_K": 1.0572147957077505e-07,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 3,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.7625404180378466,
+        "SI_gypsum": -0.4765355682825838,
+        "SI_gypsum_basin": -0.4519257959017011,
+        "SI_silica_am": -0.062267216371189704,
+        "bulk_SI_calcite": 1.6117926647638123,
+        "acid_kg_h": 1.3880575500727403,
+        "cost_per_h": 143.16011853917217,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 119,
+      "chemically_feasible_ph_candidates": 346,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.593052967001988,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6170414910932278,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7478915659533278,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5925859760530967,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6165520214064726,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.747387505813518,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5922420830334421,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6161986166091662,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7470320988635581,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 1.0572147957077505e-07
+    },
+    {
+      "bin": 4,
+      "hours": 1095,
+      "T_db_C": 30.329863013698628,
+      "rh": 0.4856803652968037,
+      "T_wb_C": 21.38024297333679,
+      "hours_above_validation": 266,
+      "baseline": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 22.005481824514693,
+        "cycles": 4.0,
+        "fan_pct": 45.90665156617388,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 10.641908843609292,
+        "P_total_kW": 1516.9366805435413,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 19.19851387218988,
+        "blowdown_m3_h": 4.78242046804747,
+        "evaporation_m3_h": 14.398885404142412,
+        "drift_m3_h": 0.017208,
+        "tower_residual": 4.39648317751562e-14,
+        "Me_fill": 0.7675688472714502,
+        "forward_replay_error_K": 1.1059483995268238e-08,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 4,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3729979132018997,
+        "SI_gypsum": -0.47318524897291603,
+        "SI_gypsum_basin": -0.45598704952992186,
+        "SI_silica_am": -0.09892918379855908,
+        "bulk_SI_calcite": 1.2220245667250937,
+        "acid_kg_h": 1.5574811250309673,
+        "cost_per_h": 159.31450548403663,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1351.5344290524913,
+        "cop": 6.659097842079801,
+        "plr_raw": 0.7543675425867816,
+        "capacity_kW": 11930.5239050163,
+        "T_ecwt_C": 27.71,
+        "T_cw_return_C": 32.88341848253518,
+        "T_skin_C": 40.88341848253518,
+        "T_wb_actual_C": 22.005481824514693,
+        "cycles": 4.0,
+        "fan_pct": 87.31494875671105,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 73.22485081549144,
+        "P_total_kW": 1424.7592798679827,
+        "Q_cond_kW": 10351.534429052492,
+        "makeup_m3_h": 20.203065214607822,
+        "blowdown_m3_h": 5.0335583036519544,
+        "evaporation_m3_h": 15.152298910955865,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -7.209788321915767e-13,
+        "Me_fill": 1.0595323013096147,
+        "forward_replay_error_K": 1.5909051853668643e-11,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 4,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.7629452295292278,
+        "SI_gypsum": -0.47658328891496815,
+        "SI_gypsum_basin": -0.4519257959017011,
+        "SI_silica_am": -0.062267216371189704,
+        "bulk_SI_calcite": 1.6117926647638123,
+        "acid_kg_h": 1.5017154140423534,
+        "cost_per_h": 154.93062283259437,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1281.1162032123168,
+        "cop": 7.025123854833057,
+        "plr_raw": 0.7354222362140307,
+        "capacity_kW": 12237.867658628587,
+        "T_ecwt_C": 27.71,
+        "T_cw_return_C": 32.84822534729849,
+        "T_skin_C": 40.84822534729849,
+        "T_wb_actual_C": 22.005481824514693,
+        "cycles": 4.0,
+        "fan_pct": 86.81346489261223,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 71.9704064652511,
+        "P_total_kW": 1353.0866096775678,
+        "Q_cond_kW": 10281.116203212317,
+        "makeup_m3_h": 20.072804189752794,
+        "blowdown_m3_h": 5.0009930474381985,
+        "evaporation_m3_h": 15.054603142314596,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.2518874825673265e-12,
+        "Me_fill": 1.056476758126417,
+        "forward_replay_error_K": 3.120952385415876e-10,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 4,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.7625404180378466,
+        "SI_gypsum": -0.4765355682825838,
+        "SI_gypsum_basin": -0.4519257959017011,
+        "SI_silica_am": -0.062267216371189704,
+        "bulk_SI_calcite": 1.6117926647638123,
+        "acid_kg_h": 1.491891861115365,
+        "cost_per_h": 149.30756521113207,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 135,
+      "chemically_feasible_ph_candidates": 408,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.593052967001988,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6170414910932278,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7478915659533278,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5925859760530967,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6165520214064726,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.747387505813518,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7527775946446704,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 27.71,
+          "violations": {
+            "SI_calcite": 0.5922420830334421,
+            "SI_silica_am": 0.034642796636866535
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6161986166091662,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7470320988635581,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 3.120952385415876e-10
+    },
+    {
+      "bin": 5,
+      "hours": 1095,
+      "T_db_C": 33.72054794520548,
+      "rh": 0.4662465753424657,
+      "T_wb_C": 23.621992827216012,
+      "hours_above_validation": 1095,
+      "baseline": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 24.37813272284232,
+        "cycles": 4.0,
+        "fan_pct": 55.600855250480535,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 18.907630256172187,
+        "P_total_kW": 1525.2024019561043,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 20.22640147345306,
+        "blowdown_m3_h": 5.039392368363265,
+        "evaporation_m3_h": 15.169801105089794,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.3322676295501878e-15,
+        "Me_fill": 0.8449608711856849,
+        "forward_replay_error_K": 6.866684998385608e-11,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 5,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3729979132018997,
+        "SI_gypsum": -0.47318524897291603,
+        "SI_gypsum_basin": -0.45598704952992186,
+        "SI_silica_am": -0.09892918379855908,
+        "bulk_SI_calcite": 1.2220245667250937,
+        "acid_kg_h": 1.640868597013357,
+        "cost_per_h": 162.446717600621,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 24.37813272284232,
+        "cycles": 5.0,
+        "fan_pct": 55.66357151334159,
+        "aw": 0.9975709299767891,
+        "P_fan_kW": 18.971684341767077,
+        "P_total_kW": 1525.266456041699,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 18.96195410904944,
+        "blowdown_m3_h": 3.775182821809888,
+        "evaporation_m3_h": 15.169563287239551,
+        "drift_m3_h": 0.017208,
+        "tower_residual": 3.3306690738754696e-16,
+        "Me_fill": 0.8454386159187239,
+        "forward_replay_error_K": 6.825473519711522e-11,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 5,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9580939266225794,
+        "SI_gypsum": -0.3656747559502245,
+        "SI_gypsum_basin": -0.34395381198720365,
+        "SI_silica_am": -0.0020191707905028444,
+        "bulk_SI_calcite": 1.8117245351740845,
+        "acid_kg_h": 1.460642510000205,
+        "cost_per_h": 158.41546965921762,
+        "ionic_strength": 0.1537215551439825,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1429.77275572956,
+        "cop": 6.294706598607436,
+        "plr_raw": 0.7848410624898426,
+        "capacity_kW": 11467.289914021894,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.21251989383298,
+        "T_skin_C": 45.21251989383298,
+        "T_wb_actual_C": 24.37813272284232,
+        "cycles": 5.0,
+        "fan_pct": 55.32960049925202,
+        "aw": 0.9975709299767891,
+        "P_fan_kW": 18.63224938938614,
+        "P_total_kW": 1448.405005118946,
+        "Q_cond_kW": 10429.77275572956,
+        "makeup_m3_h": 18.828384063820064,
+        "blowdown_m3_h": 3.748468812764013,
+        "evaporation_m3_h": 15.062707251056052,
+        "drift_m3_h": 0.017208,
+        "tower_residual": 9.992007221626409e-16,
+        "Me_fill": 0.8428914716861029,
+        "forward_replay_error_K": 5.944400527368998e-11,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 5,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9576688795871666,
+        "SI_gypsum": -0.3656313552706978,
+        "SI_gypsum_basin": -0.34395381198720365,
+        "SI_silica_am": -0.0020191707905028444,
+        "bulk_SI_calcite": 1.8117245351740845,
+        "acid_kg_h": 1.450242144395446,
+        "cost_per_h": 152.40675423945223,
+        "ionic_strength": 0.1537215551439825,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 107,
+      "chemically_feasible_ph_candidates": 339,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6170414910932278,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7478915659533278,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6165520214064726,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.747387505813518,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7527775946446704,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 4.0,
+          "cycles_after": 5.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 30.14,
+          "violations": {
+            "SI_calcite": 0.6161986166091662,
+            "SI_silica_am": 0.013748871618359804
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7470320988635581,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 5.944400527368998e-11
+    },
+    {
+      "bin": 6,
+      "hours": 1095,
+      "T_db_C": 36.864292237442925,
+      "rh": 0.4549954337899544,
+      "T_wb_C": 25.824286229405196,
+      "hours_above_validation": 1095,
+      "baseline": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 26.677870473761516,
+        "cycles": 4.0,
+        "fan_pct": 72.13906044172462,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 41.29563324095209,
+        "P_total_kW": 1547.5904049408841,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 21.617257920968786,
+        "blowdown_m3_h": 5.387106480242196,
+        "evaporation_m3_h": 16.21294344072659,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.1625700402362327e-11,
+        "Me_fill": 0.9628069411310441,
+        "forward_replay_error_K": 2.4809160237282413e-07,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 6,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3729979132018997,
+        "SI_gypsum": -0.47318524897291603,
+        "SI_gypsum_basin": -0.45598704952992186,
+        "SI_silica_am": -0.09892918379855908,
+        "bulk_SI_calcite": 1.2220245667250937,
+        "acid_kg_h": 1.753701948545388,
+        "cost_per_h": 167.51403760676973,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1506.294771699932,
+        "cop": 5.974926136033143,
+        "plr_raw": 0.821235829587446,
+        "capacity_kW": 10959.093205323516,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.25076353920317,
+        "T_skin_C": 45.25076353920317,
+        "T_wb_actual_C": 26.677870473761516,
+        "cycles": 5.0,
+        "fan_pct": 72.24451594208756,
+        "aw": 0.9975709299767891,
+        "P_fan_kW": 41.47700048452379,
+        "P_total_kW": 1547.7717721844558,
+        "Q_cond_kW": 10506.294771699932,
+        "makeup_m3_h": 20.267390457595685,
+        "blowdown_m3_h": 4.036270091519137,
+        "evaporation_m3_h": 16.213912366076546,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -1.47191148158754e-11,
+        "Me_fill": 0.9635123850032877,
+        "forward_replay_error_K": 2.487126735672973e-07,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 6,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9580939266225794,
+        "SI_gypsum": -0.3656747559502245,
+        "SI_gypsum_basin": -0.34395381198720365,
+        "SI_silica_am": -0.0020191707905028444,
+        "bulk_SI_calcite": 1.8117245351740845,
+        "acid_kg_h": 1.5612004911987831,
+        "cost_per_h": 163.2176121578075,
+        "ionic_strength": 0.1537215551439825,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1429.77275572956,
+        "cop": 6.294706598607436,
+        "plr_raw": 0.7848410624898426,
+        "capacity_kW": 11467.289914021894,
+        "T_ecwt_C": 32.0,
+        "T_cw_return_C": 37.21251989383298,
+        "T_skin_C": 45.21251989383298,
+        "T_wb_actual_C": 26.677870473761516,
+        "cycles": 5.0,
+        "fan_pct": 71.82565245998491,
+        "aw": 0.9975709299767891,
+        "P_fan_kW": 40.759741827641,
+        "P_total_kW": 1470.532497557201,
+        "Q_cond_kW": 10429.77275572956,
+        "makeup_m3_h": 20.12858112223662,
+        "blowdown_m3_h": 4.008508224447324,
+        "evaporation_m3_h": 16.102864897789296,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -5.305866856986086e-12,
+        "Me_fill": 0.960707360224655,
+        "forward_replay_error_K": 2.4159523803746197e-07,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 6,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9576688795871666,
+        "SI_gypsum": -0.3656313552706978,
+        "SI_gypsum_basin": -0.34395381198720365,
+        "SI_silica_am": -0.0020191707905028444,
+        "bulk_SI_calcite": 1.8117245351740845,
+        "acid_kg_h": 1.550388846509834,
+        "cost_per_h": 157.16834716819525,
+        "ionic_strength": 0.1537215551439825,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 81,
+      "chemically_feasible_ph_candidates": 270,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7478915659533278,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.747387505813518,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7527775946446704,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.0,
+          "violations": {
+            "SI_calcite": 0.7470320988635581,
+            "SI_silica_am": 0.07716207525712226
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 2.4159523803746197e-07
+    },
+    {
+      "bin": 7,
+      "hours": 1095,
+      "T_db_C": 37.360182648401825,
+      "rh": 0.5480182648401826,
+      "T_wb_C": 28.48361172475365,
+      "hours_above_validation": 1095,
+      "baseline": {
+        "P_chiller_kW": 1528.215878730048,
+        "cop": 5.889220315835893,
+        "plr_raw": 0.8337514188546606,
+        "capacity_kW": 10794.584328700108,
+        "T_ecwt_C": 32.57,
+        "T_cw_return_C": 37.83171911888505,
+        "T_skin_C": 45.83171911888505,
+        "T_wb_actual_C": 29.152523240316988,
+        "cycles": 4.0,
+        "fan_pct": 96.65308696646436,
+        "aw": 0.9980562714916853,
+        "P_fan_kW": 99.32072320608334,
+        "P_total_kW": 1627.5366019361313,
+        "Q_cond_kW": 10528.215878730049,
+        "makeup_m3_h": 21.973220976162242,
+        "blowdown_m3_h": 5.47609724404056,
+        "evaporation_m3_h": 16.479915732121682,
+        "drift_m3_h": 0.017208,
+        "tower_residual": -7.72715225139109e-14,
+        "Me_fill": 1.1149090953358982,
+        "forward_replay_error_K": 5.692719184935413e-09,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 7,
+        "ph": 7.8,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.3796616413472922,
+        "SI_gypsum": -0.4736200725028654,
+        "SI_gypsum_basin": -0.45709055126157505,
+        "SI_silica_am": -0.10372291778989284,
+        "bulk_SI_calcite": 1.2290457558297643,
+        "acid_kg_h": 1.7834532853217677,
+        "cost_per_h": 174.3031019131482,
+        "ionic_strength": 0.12297724411518599,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "fixed_fws_optimum": {
+        "P_chiller_kW": 1626.8557865531916,
+        "cop": 5.532143705907848,
+        "plr_raw": 0.9,
+        "capacity_kW": 10000.0,
+        "T_ecwt_C": 35.0,
+        "T_cw_return_C": 40.31101669169856,
+        "T_skin_C": 48.31101669169856,
+        "T_wb_actual_C": 29.152523240316988,
+        "cycles": 5.0,
+        "fan_pct": 57.08748397622648,
+        "aw": 0.9975709299767891,
+        "P_fan_kW": 20.46517172976275,
+        "P_total_kW": 1647.3209582829543,
+        "Q_cond_kW": 10626.855786553191,
+        "makeup_m3_h": 19.474817134664068,
+        "blowdown_m3_h": 3.877755426932813,
+        "evaporation_m3_h": 15.579853707731253,
+        "drift_m3_h": 0.017208,
+        "tower_residual": 4.0231984410610266e-10,
+        "Me_fill": 0.8562140197400501,
+        "forward_replay_error_K": 9.356213581668271e-10,
+        "T_fws_C": 7.0,
+        "T_fws_return_C": 12.0,
+        "T_gpu_inlet_water_C": 12.0,
+        "T_tcs_return_C": 17.0,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 7,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.991858593724408,
+        "SI_gypsum": -0.36874047264895005,
+        "SI_gypsum_basin": -0.3504503873170277,
+        "SI_silica_am": -0.02705039030646894,
+        "bulk_SI_calcite": 1.8473350880034856,
+        "acid_kg_h": 1.5092370493262812,
+        "cost_per_h": 168.68155526531532,
+        "ionic_strength": 0.1537215551439825,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "coupled_optimum": {
+        "P_chiller_kW": 1543.2166422351818,
+        "cop": 5.831974431642,
+        "plr_raw": 0.8451772941607456,
+        "capacity_kW": 10648.653320646681,
+        "T_ecwt_C": 35.0,
+        "T_cw_return_C": 40.26921609700955,
+        "T_skin_C": 48.26921609700955,
+        "T_wb_actual_C": 29.152523240316988,
+        "cycles": 5.0,
+        "fan_pct": 56.73933288272463,
+        "aw": 0.9975709299767891,
+        "P_fan_kW": 20.0930266781694,
+        "P_total_kW": 1563.3096689133513,
+        "Q_cond_kW": 10543.216642235182,
+        "makeup_m3_h": 19.32693443796872,
+        "blowdown_m3_h": 3.848178887593744,
+        "evaporation_m3_h": 15.461547550374977,
+        "drift_m3_h": 0.017208,
+        "tower_residual": 8.066314283183829e-11,
+        "Me_fill": 0.8535918929655673,
+        "forward_replay_error_K": 5.953566528660303e-10,
+        "T_fws_C": 8.89,
+        "T_fws_return_C": 13.89,
+        "T_gpu_inlet_water_C": 13.89,
+        "T_tcs_return_C": 18.89,
+        "approach_K": 5.0,
+        "Q_cdu_kW": 9000.0,
+        "capacity_rate_kW_K": 1800.0,
+        "bin": 7,
+        "ph": 8.25,
+        "chemistry_ok": true,
+        "violations": {},
+        "SI_calcite": 1.9914005525683596,
+        "SI_gypsum": -0.36870396032688557,
+        "SI_gypsum_basin": -0.3504503873170277,
+        "SI_silica_am": -0.02705039030646894,
+        "bulk_SI_calcite": 1.8473350880034856,
+        "acid_kg_h": 1.4976552918379429,
+        "cost_per_h": 162.1093458617941,
+        "ionic_strength": 0.1537215551439825,
+        "assumed_skin_rise_K": 7.453927964762711
+      },
+      "thermally_feasible_candidates": 54,
+      "chemically_feasible_ph_candidates": 180,
+      "H2_cycles_witnesses": [
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 4.44,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7532919617371361,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 7.0,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7527775946446704,
+            "SI_silica_am": 0.0723683412657885
+          }
+        },
+        {
+          "cycles_before": 5.0,
+          "cycles_after": 6.0,
+          "T_fws_C": 8.89,
+          "T_ecwt_C": 32.57,
+          "violations": {
+            "SI_calcite": 0.7524182367982828,
+            "SI_silica_am": 0.0723683412657885
+          }
+        }
+      ],
+      "H2_temperature_witnesses": [],
+      "by_cycles": [
+        {
+          "cycles": 2,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 3,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 4,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 5,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": 8.89,
+          "temperature_loss_K": 0.0,
+          "excluded_by_chemistry": false,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": 13.89
+        },
+        {
+          "cycles": 6,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 7,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 8,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 9,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        },
+        {
+          "cycles": 10,
+          "max_thermal_FWS_C": 8.89,
+          "max_chemical_FWS_C": null,
+          "temperature_loss_K": null,
+          "excluded_by_chemistry": true,
+          "actual_chip_optimum_shortfall_K": null,
+          "gpu_water_at_max_fws_C": null
+        }
+      ],
+      "forward_replay_error_K": 5.953566528660303e-10
+    }
+  ],
+  "annual": {
+    "coupled_vs_baseline": {
+      "energy": {
+        "mean_of_ratios_pct": 12.006895303792309,
+        "ratio_of_totals_pct": 11.852570784704724,
+        "base_annual_total": 13350820.969215717,
+        "opt_annual_total": 11768405.463500222,
+        "annual_difference": 1582415.505715494
+      },
+      "water": {
+        "mean_of_ratios_pct": 3.7770093503639917,
+        "ratio_of_totals_pct": 4.013036703530397,
+        "base_annual_total": 167595.16025181452,
+        "opt_annual_total": 160869.5049575686,
+        "annual_difference": 6725.655294245904
+      },
+      "cost": {
+        "mean_of_ratios_pct": 9.952427196393202,
+        "ratio_of_totals_pct": 9.791287703056902,
+        "base_annual_total": 1398784.8897846835,
+        "opt_annual_total": 1261825.8368789777,
+        "annual_difference": 136959.05290570576
+      }
+    },
+    "FWS_increment_only": {
+      "energy": {
+        "mean_of_ratios_pct": 5.143501505529769,
+        "ratio_of_totals_pct": 5.1330651910412,
+        "base_annual_total": 12405170.976799462,
+        "opt_annual_total": 11768405.463500222,
+        "annual_difference": 636765.5132992389
+      },
+      "water": {
+        "mean_of_ratios_pct": 0.6725941989455051,
+        "ratio_of_totals_pct": 0.6741832891311779,
+        "base_annual_total": 161961.42179817113,
+        "opt_annual_total": 160869.5049575686,
+        "annual_difference": 1091.9168406025306
+      },
+      "cost": {
+        "mean_of_ratios_pct": 3.7991198671722866,
+        "ratio_of_totals_pct": 3.7949321918700285,
+        "base_annual_total": 1311600.1741150948,
+        "opt_annual_total": 1261825.8368789777,
+        "annual_difference": 49774.33723611708
+      }
+    }
+  },
+  "rejected_candidates": {
+    "discontinuous_tower_bracket": 98,
+    "no_fan_root_in_admissible_range": 586,
+    "below_wetbulb": 567
+  },
+  "fault_injections": [
+    {
+      "name": "negative CDU approach",
+      "pass_": true
+    },
+    {
+      "name": "zero CDU flow",
+      "pass_": true
+    },
+    {
+      "name": "nonfinite input",
+      "pass_": true
+    },
+    {
+      "name": "reversed heat transfer",
+      "pass_": true
+    },
+    {
+      "name": "FWS lower",
+      "pass_": true
+    },
+    {
+      "name": "ECWT lower",
+      "pass_": true
+    },
+    {
+      "name": "FWS upper",
+      "pass_": true
+    },
+    {
+      "name": "ECWT upper",
+      "pass_": true
+    },
+    {
+      "name": "PLR range 0.01",
+      "pass_": true
+    },
+    {
+      "name": "PLR range 10",
+      "pass_": true
+    },
+    {
+      "name": "tower nonconvergence",
+      "pass_": true
+    },
+    {
+      "name": "spurious inverse root",
+      "pass_": true
+    },
+    {
+      "name": "mass balance",
+      "pass_": true
+    },
+    {
+      "name": "wrong W-class boundary",
+      "pass_": true
+    },
+    {
+      "name": "stale file hash",
+      "pass_": true
+    },
+    {
+      "name": "lookup extrapolation",
+      "pass_": true
+    }
+  ],
+  "elapsed_seconds": 477.53226494789124,
+  "limits": {
+    "FWS_C": [
+      4.44,
+      8.89
+    ],
+    "ECWT_C": [
+      15.56,
+      35.0
+    ],
+    "PLR": [
+      0.2,
+      1.06
+    ]
+  },
+  "grids": {
+    "FWS_C": [
+      4.44,
+      7.0,
+      8.89
+    ],
+    "ECWT_C": [
+      15.56,
+      17.990000000000002,
+      20.42,
+      22.85,
+      25.28,
+      27.71,
+      30.14,
+      32.0,
+      32.57,
+      35.0
+    ],
+    "cycles": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "pH": [
+      7.0,
+      7.25,
+      7.5,
+      7.75,
+      7.8,
+      8.0,
+      8.25,
+      8.5,
+      8.75,
+      9.0
+    ]
+  },
+  "confidence": "Engineering scenario, inherited makeup defect17, no site validation; grid maximum only",
+  "external_full_text_C": "UNAVAILABLE_UNSCORED"
+}

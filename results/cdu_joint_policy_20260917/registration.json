@@ -1,0 +1,19 @@
+{
+  "inputs_sha256": {
+    "src/cdu_joint_policy.py": "70cdf96c15c7277516bd8d369c7d3a70608c7084c2359fbf5b41698a462e198b",
+    "src/hybrid_supervisor.py": "49c32b34aedf2987fd9ad33a214e7407bbf315b6dbbb9b02c120744ba6e7908d",
+    "src/models/cdu_model.py": "bf9aa7ff52e108efb44e30f398881d21ce8a91d5a07dc3bf5d8ff44b27e90590",
+    "src/chemistry.py": "7ef7d1e97d2593161a70e53e5a467af9ea359a9a29eb6360735e08626155efa6",
+    "src/controller.py": "a6b12a9a26c6e9fa68144031d4caf4c63c5c99f01a23b078d515674c28215ca9",
+    "src/tower.py": "3ed25512a649918efa80dcdc044dd0e7270f03f63ba49e6639c1a37d784e64ba",
+    "src/corrosion.py": "d71897ef6cecc0f43042b3b9843626368946f2bb213d277abca61cc1ff8fef94",
+    "scripts/generate_pitch_artifacts.py": "f3e415d99133c93d69a92c832120363f3c7c6827bfd8b46e2d2b6a00be26bf97",
+    "results/calibration.json": "eac4a714385cb0b0d488c470515f1c12b7ee89ca881c5443630f0f7f62d525bb",
+    "results/tmy_hourly.npy": "57efd6ea18d4162f04d109cdc0753371dc164747135539e5a5ab1e55951a04c0",
+    "results/pitch_artifacts.json": "85956f4617582550c58525f85343b0aec7b769284c2e74607c44a2e5c384fc5f",
+    "docs/staged/cdu_joint_policy_preregistration.md": "a9bf473c7e567be0a9d80db44d82edb91ab9ed14d20d8a201f16a99a27737e2d"
+  },
+  "nlr_csv_sha256": "c0ca5518748dba3f6072d77dc2d2d70c802f0ebe9c8f3aa8ce3cc002f3f7c232",
+  "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+  "started": "2026-09-17 19:21:02"
+}
