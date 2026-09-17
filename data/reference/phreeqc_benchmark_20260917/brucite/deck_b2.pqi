@@ -1,0 +1,40 @@
+TITLE Mizan brucite supplement, run B2, llnl.dat constants
+PRINT
+ -reset false
+SELECTED_OUTPUT 1
+ -file selected_b2.tsv
+ -reset false
+ -high_precision true
+USER_PUNCH 1
+ -headings id T_C lk_brucite lk_oh
+ -start
+ 10 PUNCH CELL_NO, TC, LK_PHASE("Brucite"), LK_SPECIES("OH-")
+ -end
+SOLUTION 1
+ temp 25
+ pH 7.0
+ units mol/kgw
+ Mg 0.001
+ Cl 0.002
+END
+SOLUTION 2
+ temp 35
+ pH 7.0
+ units mol/kgw
+ Mg 0.001
+ Cl 0.002
+END
+SOLUTION 3
+ temp 45
+ pH 7.0
+ units mol/kgw
+ Mg 0.001
+ Cl 0.002
+END
+SOLUTION 4
+ temp 55
+ pH 7.0
+ units mol/kgw
+ Mg 0.001
+ Cl 0.002
+END
