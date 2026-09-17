@@ -3,7 +3,9 @@
  "wmo": "404160",
  "latitude": 26.265,
  "longitude": 50.152,
- "elevation_m": 3.0,
+ "elevation_m": 25.6,
+ "timezone_h": 3.0,
+ "hour_convention": "EPW hour h (1..24) holds the observation at local standard time (h-1):00; row index within a day = local clock hour",
  "n_hours": 8760,
  "ashrae_design": {
   "cooling_month": 7,
@@ -26,6 +28,7 @@
  "worst_design_disagreement_K": 0.20000000000000284,
  "almeria_wb_max_C": 21.9,
  "hours_above_almeria": 3551,
+ "hours_at_or_below_almeria": 5209,
  "pct_year_above_almeria": 40.5365296803653,
  "annual_mean_wb_C": 19.929523550403633,
  "annual_max_wb_C": 34.63052873531292,
