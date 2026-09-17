@@ -867,6 +867,129 @@ def test_defect_48_the_annual_figures_are_split_by_validation_envelope():
 
 
 # ---------------------------------------------------------------------------
+# Defects 71 and 72 -- the PINN's pre-registered gates
+# ---------------------------------------------------------------------------
+def test_defect_72_the_p3_sampler_does_not_enforce_its_own_wet_bulb_band():
+    """The P3 gate is described as admissibility in a 24-31 C wet-bulb band.
+    The sampler draws dry bulb and relative humidity and never filters on wet
+    bulb, so half the points the gate is scored on are outside the band it
+    names. Reproduced here from the sampler alone -- it needs no checkpoint,
+    no training and no torch."""
+    import numpy as _np
+    import pinn
+    import psychro as ps
+    Xv = pinn.gulf_envelope(5000, _np.random.default_rng(99),
+                            extrapolation=True)
+    wb = _np.array([ps.wetbulb_from_rh(r[0], r[1]) for r in Xv])
+    below, above = int((wb < 24.0).sum()), int((wb > 31.0).sum())
+    assert (below, above) == (437, 2159), (below, above)
+    assert below + above == 2596
+    assert 19.6 < wb.min() < 19.7 and 41.8 < wb.max() < 41.9
+
+
+def test_the_pinn_holdout_is_the_de_duplicated_one():
+    """Whatever the surrogate is scored against, it must be the holdout that
+    survived defect 51: 32 distinct rows, not the inherited 50. The audit that
+    found P2 failing at 0.627 K used the 50-row split."""
+    import calibrate
+    import dataset as ds
+    tr, te = ds.split_holdout(ds.derive(ds.load_all()),
+                              calibrate.TRAIN_CAMPAIGNS,
+                              calibrate.TEST_CAMPAIGNS)
+    assert (len(tr), len(te)) == (115, 32)
+
+
+def test_the_pinn_runner_scores_every_gate_it_registers():
+    """DEFECT 71, source side: P2 is declared in GATES and was computed
+    nowhere, so the runner could not have reported it."""
+    src = (pathlib.Path(__file__).resolve().parents[1] / "src" / "pinn.py"
+           ).read_text(encoding="utf-8")
+    assert "P2_holdout_Tout_MAE_K" in src
+    assert src.count("p2_mae") >= 3, "P2 must be computed, printed and written"
+
+
+@pytest.mark.xfail(strict=True, reason=(
+    "DEFECT 71, open: results/pinn.json was written by a run that never "
+    "scored P2, and the checkpoint is gitignored, so it cannot be rescored "
+    "without retraining. Re-run src/pinn.py to close this."))
+def test_defect_71_the_pinn_artefact_reports_every_pre_registered_gate():
+    import json
+    art = json.loads((pathlib.Path(__file__).resolve().parents[1] / "results"
+                      / "pinn.json").read_text(encoding="utf-8"))
+    missing = [g for g in art["gates"]
+               if not any(k.startswith(g.split("_")[0] + "_")
+                          for k in art["results"])]
+    assert not missing, f"gates declared and never scored: {missing}"
+
+
+# ---------------------------------------------------------------------------
+# Defect 54 -- the optimiser's own acid adds sulfate, and no index saw it.
+# ---------------------------------------------------------------------------
+def test_defect_54_every_index_sees_the_sulfate_the_acid_dose_adds():
+    """Sulfuric acid leaves one mole of sulfate per mole dosed, and every
+    saturation index was evaluated on makeup sulfate x C alone. The error is
+    non-conservative: SI_gypsum too LOW, the direction that scales a
+    condenser.
+
+    The steady-state balance carries no flow: the dose is per kg of
+    circulating water and is charged against blowdown + drift (defect 25),
+    and the sulfate leaves in that same stream, so the two cancel.
+    """
+    import controller as ctl
+    mk = ch.ARAMCO_FIELD_VALIDATED
+    dose, _ph_free = ctl.acid_dose_for_ph(mk, 5.0, 8.0, 30.0)
+
+    # one mole of SO4 per mole of H2SO4
+    s = ctl.acid_sulfate_mg_l(dose)
+    assert s / ch.SPECIES["SO4"][0] == pytest.approx(dose * 1.0e6 / 98.079,
+                                                     rel=1e-12)
+    assert s == pytest.approx(386.5, abs=0.1)        # staged defect 54
+    assert ctl.acid_sulfate_mg_l(
+        ctl.acid_dose_for_ph(mk, 6.0, 8.0, 30.0)[0]) == pytest.approx(
+            469.1, abs=0.1)
+    assert ctl.acid_sulfate_mg_l(0.0) == 0.0
+
+    conc = mk.concentrate(5.0)
+    circ, s2 = ctl.circulating_with_acid(conc, dose)
+    assert s2 == s
+    assert circ.SO4 == pytest.approx(conc.SO4 + s)
+    assert circ.TDS == pytest.approx(conc.TDS + s)
+    assert conc.SO4 == mk.SO4 * 5.0, "the source water must not be mutated"
+
+    # the size and the SIGN of what was missing
+    a = ch.saturation_state(conc, 30.0, pH=8.0)["SI_gypsum"]
+    b = ch.saturation_state(circ, 30.0, pH=8.0)["SI_gypsum"]
+    assert b - a == pytest.approx(0.0815, abs=0.001)
+    assert b > a, "the omission was non-conservative"
+
+
+def test_defect_54_the_optimisers_indices_are_computed_on_the_acid_water():
+    """Wiring, not arithmetic: the value `evaluate_operating_point` reports
+    must be the one computed WITH the acid sulfate."""
+    import json
+    import controller as ctl
+    import run_controller as rc
+    root = pathlib.Path(__file__).resolve().parent.parent
+    cal = json.loads((root / "results" / "calibration.json").read_text())
+    cond = dict(rc.PLANT)
+    cond.update({"T_db": 45.0, "rh": 0.20, "T_wi": 38.0})
+    r = ctl.evaluate_operating_point(70.0, 5.0, 8.0, cond, rc.TSE, rc.TARIFFS,
+                                     cal["fill_c"], cal["fill_n"])
+    assert r is not None
+    dose, _ = ctl.acid_dose_for_ph(rc.TSE, 5.0, 8.0, r["T_skin"])
+    assert r["acid_SO4_mg_l"] == pytest.approx(ctl.acid_sulfate_mg_l(dose))
+    assert r["acid_SO4_mg_l"] > 300.0
+    circ, _ = ctl.circulating_with_acid(rc.TSE.concentrate(5.0), dose)
+    want = ch.saturation_state_split(circ, r["T_skin"], r["T_wo"],
+                                     pH_hot=8.0, pH_cold=8.0)
+    assert r["SI_gypsum"] == pytest.approx(want["SI_gypsum"], abs=1e-12)
+    assert r["SI_calcite"] == pytest.approx(want["SI_calcite"], abs=1e-12)
+    without = ch.saturation_state_split(rc.TSE.concentrate(5.0), r["T_skin"],
+                                        r["T_wo"], pH_hot=8.0, pH_cold=8.0)
+    assert r["SI_gypsum"] > without["SI_gypsum"]
+
+
+# ---------------------------------------------------------------------------
 # Defect 49 -- the discharge ceiling, computed and tested and never applied.
 # ---------------------------------------------------------------------------
 def test_defect_49_the_report_carries_the_discharge_ceiling():

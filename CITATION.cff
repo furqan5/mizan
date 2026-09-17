@@ -37,8 +37,8 @@ abstract: >-
   three fail; the failures are reported as failures and no threshold
   was moved. Includes
   an independent MATLAB and Simulink re-implementation agreeing
-  with the Python core to 1.4e-5 K, and a register of ten defects
-  found in the authors' own work.
+  with the Python core to 1.4e-5 K, and a register of the defects
+  found in the authors' own work, each with the result it moved.
 keywords:
   - cooling tower
   - district cooling
@@ -49,5 +49,8 @@ keywords:
   - process control
   - reproducible research
 license-url: 'https://github.com/furqan5/mizan/blob/main/LICENSE'
-version: 1.0.0
-date-released: '2026-08-30'
+# The release NUMBER is the authors' decision, not this branch's; the date
+# is the last day source or results changed. Authors are kept identical to
+# LICENSE.
+version: 1.1.0
+date-released: '2026-09-18'
