@@ -14,7 +14,8 @@ so the V7 margin is meaningless -- and so is any attempt to distinguish a
 WHERE THE ERROR COMES FROM, MEASURED RATHER THAN ASSUMED.
 
 Gate V2 scores the evaporation model against the pilot-plant dataset and
-FAILS at 9.90 % MAPE against an 8 % threshold, with a -9.44 % bias. Makeup
+FAILS on MAPE against an 8 % threshold, with a large negative bias
+(results/calibration.json carries both; they moved with defect 51). Makeup
 water is computed from evaporation, so every water number in this package
 inherits that error.
 
@@ -23,21 +24,24 @@ Decomposing the residual per campaign as  rel_error[%] = a + k * fan[%]:
     campaign   n     a         k (%/fan%)   residual sd
     Exp1      33   -0.52      -0.2002        6.27 pp
     Exp2     115   +9.06      -0.3660       11.63 pp
-    Exp3      17  -14.59      +0.1873        3.18 pp
+    (Exp3, 17 rows, was a duplicate of Exp1 rows 0-16 -- defect 70)
 
-The OFFSET a varies hugely between campaigns (-14.6 to +9.1) and CANCELS in
+The OFFSET a varies between the campaigns (-0.5 to +9.1) and CANCELS in
 a ratio: a water saving is (M_base - M_opt)/M_base, and a common
 multiplicative error on both terms divides out. One tower is one campaign, so
 within a deployment the offset is common.
 
 The SLOPE k does NOT cancel, because the baseline and the optimised case run
-at DIFFERENT FAN SPEEDS. Its sign is not even consistent between campaigns
-(-0.366 to +0.187), so it cannot be corrected -- only propagated.
+at DIFFERENT FAN SPEEDS. It varies by a factor of 1.8 between the two
+campaigns (-0.366 to -0.200), so it cannot be corrected -- only propagated.
+Until defect 70 the duplicate Exp3 file was resampled as a third campaign,
+and it carried the only positive slope: 'the sign is not even consistent'
+was a property of a repeated file, not of two towers.
 
 That is the whole error model, and it is deliberately the smallest one that
-is defensible: no assumed distributions beyond resampling the three measured
-slopes, no claim that the offset cancels perfectly, no claim that three
-campaigns characterise a population.
+is defensible: no assumed distributions beyond resampling the two measured
+slopes, no claim that the offset cancels perfectly, and emphatically no
+claim that two campaigns characterise a population.
 
 Run:  python scripts/gate_uncertainty.py
 Writes: results/gate_uncertainty.json
@@ -60,10 +64,13 @@ RESULTS = ROOT / "results"
 # speed, in percentage points of error per percentage point of fan. From
 # src/dataset.py + src/calibrate.py on the pilot dataset; reproduced by
 # tests/test_gate_uncertainty.py so they cannot drift silently.
-CAMPAIGN_SLOPES = {"Exp1": -0.2002, "Exp2": -0.3660, "Exp3": +0.1873}
+# DEFECT 70: the Exp3 entry (+0.1873) was dropped. Its file repeats Exp1
+# rows 0-16 (defect 51), so it was one campaign counted twice, with the
+# subset's own fit. Both real campaigns have a NEGATIVE slope.
+CAMPAIGN_SLOPES = {"Exp1": -0.2002, "Exp2": -0.3660}
 
 # Residual scatter about each campaign's own fit, in percentage points.
-CAMPAIGN_RESID_SD = {"Exp1": 6.27, "Exp2": 11.63, "Exp3": 3.18}
+CAMPAIGN_RESID_SD = {"Exp1": 6.27, "Exp2": 11.63}
 
 N_SAMPLES = 20_000
 SEED = 20260911
@@ -155,7 +162,9 @@ def main() -> int:
     print()
     print("  READ THIS BEFORE QUOTING EITHER NUMBER.")
     print("  The interval is wide because the instrument is wide: gate V2")
-    print("  fails at 9.90 % evaporation MAPE against an 8 % threshold, and")
+    print("  fails on evaporation MAPE against its 8 % threshold (the")
+    print("  figure is in results/calibration.json and moved when defect")
+    print("  51 de-duplicated the dataset), and")
     print("  the best achievable IN-SAMPLE on this dataset is 7.57 %, so V2")
     print("  is not passable under an honest train/test protocol. Until a")
     print("  better evaporation dataset exists this interval cannot narrow,")
