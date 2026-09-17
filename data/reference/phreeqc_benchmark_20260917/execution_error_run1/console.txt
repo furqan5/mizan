@@ -1,0 +1,55 @@
+Input file: deck.pqi
+
+Output file: deck.out
+
+Database file: C:\Users\Nouman\Desktop\Furqan's Docs\Startup Astra\research\phreeqc_reference_20260909\runtime\phreeqc.dat
+
+               ____________________________________________
+              |                                            |
+              |             * PHREEQC_3.8.9 *              |
+              |                                            |
+              |      A hydrogeochemical transport model    |
+              |                                            |
+              |                    by                      |
+              |       D.L. Parkhurst and C.A.J. Appelo     |
+              |                                            |
+              |              October 13, 2025              |
+              |____________________________________________|
+
+
+Initializing...                                                                 
+Simulation 326.Initial solution 326.      -                                             
+WARNING: Maximum iterations exceeded, 100
+
+
+WARNING: Maximum iterations exceeded, 100
+
+WARNING: The program has failed to converge to a numerical solution.
+
+The following equations were not satisfied:
+ERROR:           Alkalinity has not converged. Total: 8.000000e-04	Calculated: 8.196644e-04	Residual: -1.966435e-05
+
+ERROR: Is non-carbonate alkalinity greater than total alkalinity?
+
+ERROR:                   Ca has not converged. Total: 8.000000e-03	Calculated: 8.058003e-03	Residual: -5.800292e-05
+
+ERROR:                   Cl has not converged. Total: 2.240000e-02	Calculated: 2.240000e-02	Residual: 1.520579e-09
+
+ERROR:                    K has not converged. Total: 9.600000e-04	Calculated: 9.600044e-04	Residual: -4.376422e-09
+
+ERROR:                   Mg has not converged. Total: 3.200000e-03	Calculated: 3.200252e-03	Residual: -2.524997e-07
+
+ERROR:                 N(5) has not converged. Total: 2.400000e-03	Calculated: 2.400000e-03	Residual: 1.695697e-10
+
+ERROR:                   Na has not converged. Total: 1.720000e-02	Calculated: 1.720008e-02	Residual: -8.269948e-08
+
+ERROR:                    P has not converged. Total: 9.600000e-04	Calculated: 9.644290e-04	Residual: -4.429016e-06
+
+ERROR:                 S(6) has not converged. Total: 7.000000e-03	Calculated: 7.010389e-03	Residual: -1.038862e-05
+
+ERROR:                   Mu Ionic strength has not converged. 	Residual: -9.362696e-05
+
+ERROR:               A(H2O) Activity of water has not converged. 	Residual: 1.212896e-06
+
+ERROR: Model failed to converge for initial solution  497.
+Stopping.

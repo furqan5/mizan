@@ -209,3 +209,32 @@ reference is blamed.
 
 Every "validated against PHREEQC" style claim in the repository is replaced by
 the measured statement, whatever the verdict.
+
+---
+
+## Addendum, 17 September 2026 -- execution error in run 1, before any result was read
+
+Run 1 of the committed deck stopped at solution 497 of 896 with PHREEQC's
+*"Alkalinity has not converged ... Is non-carbonate alkalinity greater than
+total alkalinity?"*. Solution 497 is the **Alkalinity diagnostic block**
+(section 3) for `DOE_SYN_MWW_NF_COC4_TABLE_2_3_2` at 2 cycles, 45 °C: that
+recipe carries 0.48 mM phosphate against 0.40 mM bicarbonate, so phosphate
+alkalinity alone exceeds the alkalinity given. This is the reason section 3
+gives for not using Alkalinity as the mapping, arriving as a hard error.
+
+Per section 1 this is an execution error, not a result. What was done:
+
+* the partial `selected.tsv` and `deck.out` of run 1 were **deleted without
+  being parsed, scored or opened**; its console log and provenance are kept in
+  `data/reference/phreeqc_benchmark_20260917/execution_error_run1/`;
+* the Alkalinity diagnostic blocks are removed from the deck. The mapping
+  diagnostic becomes the f = 1.00 block already in the deck (C(4) = the
+  engine's HCO3 molality, i.e. total inorganic carbon), which cannot fail
+  this way;
+* **nothing gated changes**: grid, compositions, C(4) bracket, minerals,
+  tolerances and pass criterion are exactly as registered above.
+
+Also recorded: the registered executable (SHA-256 as in section 1, installed
+by `phreeqc-3.9.0-17591-x64.msi`) prints the banner *PHREEQC_3.8.9, October
+13, 2025*. The binary and database are identified by hash; the version label
+is reported as both strings.

@@ -108,12 +108,21 @@ def _solution(sid, p, *, c4=None, alk=None):
 
 
 def blocks(pts):
-    """(solution id, point, kind) -- kind is a C(4) multiplier or 'alk'."""
+    """(solution id, point, C(4) multiplier).
+
+    The registered deck also carried an `Alkalinity` block per point as a
+    diagnostic. Run 1 stopped at solution 497 with "Is non-carbonate
+    alkalinity greater than total alkalinity?" -- the DOE Table 2.3.2 recipe
+    carries more phosphate (0.48 mM) than bicarbonate (0.40 mM), so an
+    alkalinity input cannot be satisfied there. That is the pre-registered
+    reason Alkalinity was not the primary mapping. The diagnostic is replaced
+    by the f = 1.00 block already in the deck (C(4) = the engine's HCO3), and
+    recorded in the pre-registration addendum and execution_error_run1/.
+    """
     out, sid = [], 1
     for p in pts:
         for f in C4_MULTIPLIERS:
             out.append((sid, p["point"], f)); sid += 1
-        out.append((sid, p["point"], "alk")); sid += 1
     return out
 
 
@@ -135,10 +144,7 @@ def deck(pts):
     body = []
     for sid, pid, kind in blocks(pts):
         p = byid[pid]
-        if kind == "alk":
-            body.append(_solution(sid, p, alk=p["molality"]["HCO3"]))
-        else:
-            body.append(_solution(sid, p, c4=kind * p["molality"]["HCO3"]))
+        body.append(_solution(sid, p, c4=kind * p["molality"]["HCO3"]))
     return head + "".join(body)
 
 
@@ -164,11 +170,16 @@ def cmd_run(a):
     cmd = [str(exe), "deck.pqi", "deck.out", str(dat)]
     r = subprocess.run(cmd, cwd=OUT, capture_output=True, text=True, timeout=1800)
     (OUT / "console.txt").write_text(r.stdout + r.stderr, encoding="utf-8")
-    prov = {"phreeqc_version": PHREEQC_VERSION, "phreeqc_exe_sha256": EXE_SHA256,
+    prov = {"phreeqc_version": PHREEQC_VERSION,
+            "phreeqc_banner": "the executable prints 'PHREEQC_3.8.9, October 13, "
+                              "2025'; it is the binary installed by "
+                              "phreeqc-3.9.0-17591-x64.msi, identified by hash",
+            "phreeqc_exe_sha256": EXE_SHA256,
             "phreeqc_dat_sha256": DAT_SHA256,
             "command": "phreeqc.exe deck.pqi deck.out <path>/phreeqc.dat "
                        "(cwd = this directory)",
             "returncode": r.returncode, "deck_sha256": sha256(OUT / "deck.pqi"),
+            "run": "2 (run 1 was an execution error, see execution_error_run1/)",
             "preregistration": "docs/staged/phreeqc_benchmark_preregistration.md"}
     (OUT / "provenance.json").write_text(json.dumps(prov, indent=2), encoding="utf-8")
     print(json.dumps(prov, indent=2))
@@ -207,7 +218,7 @@ def reference(pts, rows):
                 raise ValueError(f"total {col} did not round-trip at solution {sid}")
         if not (_close(r["pH"], p["pH"], ab=1e-6) and _close(r["T_C"], p["T_C"], ab=1e-6)):
             raise ValueError(f"pH or temperature changed at solution {sid}")
-        if kind != "alk" and not _close(r["C4"], kind * m["HCO3"]):
+        if not _close(r["C4"], kind * m["HCO3"]):
             raise ValueError(f"C(4) did not round-trip at solution {sid}")
         per.setdefault(pid, {})[kind] = r
     out = []
@@ -223,7 +234,7 @@ def reference(pts, rows):
                 rec["bracketed"], rec["bracket"] = True, [f0, f1]
                 break
         for col in ("si_calcite", "si_gypsum", "si_hap", "pct_err"):
-            rec["alk_" + col] = blk["alk"][col]
+            rec["c4eq_" + col] = blk[1.00][col]
         out.append(rec)
     return out
 
@@ -285,7 +296,7 @@ def compare(pts=None, ref=None):
                            dSI_same_K=st[key] - (r[col] + r["lk_" + col[3:]] - lk(p["T_C"])),
                            ref_pct_charge_error=r["pct_err"])
                 if mineral != "silica_am":
-                    row["dSI_alkalinity_mapping"] = st[key] - r["alk_" + col]
+                    row["dSI_C4_equals_HCO3_mapping"] = st[key] - r["c4eq_" + col]
             else:
                 d = None
                 row.update(ref_SI=None, dSI=None)
@@ -344,9 +355,9 @@ def cmd_score(_a):
         "max_abs_dSI_same_K_by_mineral": {m: max(abs(r["dSI_same_K"]) for r in g
                                                  if r["mineral"] == m and r["dSI"] is not None)
                                           for m in MINERALS if any(r["mineral"] == m for r in g)},
-        "max_abs_dSI_alkalinity_mapping_by_mineral": {
-            m: max(abs(r["dSI_alkalinity_mapping"]) for r in g
-                   if r["mineral"] == m and r.get("dSI_alkalinity_mapping") is not None)
+        "max_abs_dSI_C4_equals_HCO3_mapping_by_mineral": {
+            m: max(abs(r["dSI_C4_equals_HCO3_mapping"]) for r in g
+                   if r["mineral"] == m and r.get("dSI_C4_equals_HCO3_mapping") is not None)
             for m in ("calcite", "gypsum", "hydroxyapatite")},
         "reference_pct_charge_error_range": [min(r["ref_pct_charge_error"] for r in g),
                                              max(r["ref_pct_charge_error"] for r in g)],

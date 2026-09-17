@@ -1,0 +1,9 @@
+{
+  "phreeqc_version": "3.9.0-17591",
+  "phreeqc_exe_sha256": "5147679081f53abd4a40d1ba07b3cf7ee5078df9d3510c6378ff5d45db6437c8",
+  "phreeqc_dat_sha256": "5745f0be5f5f585e72c647895b9b182388ab1f018db3d654529ce2461de499f1",
+  "command": "phreeqc.exe deck.pqi deck.out <path>/phreeqc.dat (cwd = this directory)",
+  "returncode": 1,
+  "deck_sha256": "cd58bbf80b79dabab9086be8824f98648299c02841f9f858eff57c2a16a5a49b",
+  "preregistration": "docs/staged/phreeqc_benchmark_preregistration.md"
+}
