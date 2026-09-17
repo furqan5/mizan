@@ -128,8 +128,9 @@ def holdout_mae(df, f, coeffs, intercept, builder):
 def main():
     meta = json.loads((RESULTS / "calibration.json").read_text())
     all_df = ds.derive(ds.load_all())
-    train = all_df[all_df.campaign.isin(meta["train_campaigns"])].reset_index(drop=True)
-    test = all_df[all_df.campaign.isin(meta["test_campaigns"])].reset_index(drop=True)
+    # DEFECT 51 (staged): the same leak-free split calibrate.py scores on.
+    train, test = ds.split_holdout(all_df, meta["train_campaigns"],
+                                   meta["test_campaigns"])
 
     print("Fill-law model selection", flush=True)
     print(f"fit on {meta['train_campaigns']} (n={len(train)}), scored on "

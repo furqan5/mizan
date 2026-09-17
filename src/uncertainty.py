@@ -125,7 +125,8 @@ def main():
     cal = json.loads((RESULTS / "calibration.json").read_text())
     c, n = cal["fill_c"], cal["fill_n"]
     all_df = ds.derive(ds.load_all())
-    test = all_df[all_df.campaign.isin(cal["test_campaigns"])].reset_index(drop=True)
+    # DEFECT 51 (staged): the same leak-free holdout calibrate.py scores on.
+    _, test = ds.split_holdout(all_df, cal["train_campaigns"], cal["test_campaigns"])
 
     print("Monte Carlo measurement-uncertainty propagation", flush=True)
     print(f"holdout campaigns {cal['test_campaigns']}, n={len(test)}, "

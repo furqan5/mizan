@@ -10,6 +10,11 @@ experiment. That is a harder and more honest test than a random row-wise
 split, because it measures transfer across campaigns rather than
 interpolation within one.
 
+DEFECT 51 (staged, 17 Sep 2026): as published, Exp3.nc is a copy of Exp1
+rows 0-16, so the holdout is in practice Exp1 alone. Rows are de-duplicated
+on load and a row that appears in Exp2 is never held out: 115 train,
+32 holdout. See docs/staged/almeria_dedup_preregistration.md.
+
 Method
 ------
 The fill characteristic is identified the way cooling-tower practice
@@ -137,9 +142,24 @@ def main():
     print(f"   train {TRAIN_CAMPAIGNS}   holdout {TEST_CAMPAIGNS}", flush=True)
     print("=" * 74, flush=True)
 
+    # DEFECT 51 (staged). The files concatenate to 165 rows of which 147 are
+    # distinct; Exp3 is a copy of Exp1 rows 0-16 and one Exp1 row is also in
+    # Exp2. `load_all` now de-duplicates and `split_holdout` refuses to hold
+    # out a row the fill law was trained on. Pre-registered in
+    # docs/staged/almeria_dedup_preregistration.md before this was re-run.
+    n_concat = len(ds.load_all(deduplicate=False))
     all_df = ds.derive(ds.load_all())
-    train = all_df[all_df.campaign.isin(TRAIN_CAMPAIGNS)].reset_index(drop=True)
-    test = all_df[all_df.campaign.isin(TEST_CAMPAIGNS)].reset_index(drop=True)
+    train, test = ds.split_holdout(all_df, TRAIN_CAMPAIGNS, TEST_CAMPAIGNS)
+    n_test_any = int(ds.in_campaigns(all_df, TEST_CAMPAIGNS).sum())
+    data = {"rows_concatenated": n_concat, "rows_distinct": len(all_df),
+            "duplicate_rows_removed": n_concat - len(all_df),
+            "holdout_rows_removed_because_in_training": n_test_any - len(test),
+            "duplicate_definition": "equal in all of " + ", ".join(ds.MEASURED_CHANNELS),
+            "preregistration": "docs/staged/almeria_dedup_preregistration.md"}
+    print(f"rows: {n_concat} concatenated, {len(all_df)} distinct "
+          f"({n_concat - len(all_df)} duplicates removed); "
+          f"{data['holdout_rows_removed_because_in_training']} holdout row(s) "
+          f"removed because they are also training rows", flush=True)
     print(f"train n={len(train)}   holdout n={len(test)} (never seen during fit)\n",
           flush=True)
 
@@ -179,6 +199,33 @@ def main():
     print(f"   V2 water    evap MAPE {m['evap_MAPE_pct']:6.2f} <= 8.00 %   "
           f"{'PASS' if v2 else 'FAIL'}", flush=True)
     out["verdict"] = {"V1_Tout": bool(v1a), "V1_Q": bool(v1b), "V2_evap": bool(v2)}
+    out["data"] = data
+
+    # Leave-one-campaign-out. A DIAGNOSTIC: pre-registered as unable to change
+    # any verdict above, and computed only after the verdict is fixed.
+    print("\nDIAGNOSTIC ONLY -- leave-one-campaign-out (cannot change a verdict):",
+          flush=True)
+    loco = {}
+    for k in ds.CAMPAIGNS:
+        held = ds.in_campaigns(all_df, [k])
+        f_tr = all_df[~held].reset_index(drop=True)
+        f_te = all_df[held].reset_index(drop=True)
+        if len(f_te) == 0:
+            loco[k] = {"computable": False, "reason": "empty holdout"}
+            continue
+        Me_k, LG_k, _, ok_k = demanded_merkel(f_tr)
+        if ok_k.sum() < 5:
+            loco[k] = {"computable": False, "reason": "fewer than 5 converged "
+                       "training points", "n_train": len(f_tr)}
+            continue
+        ck, nk, r2k = fit_fill_law(Me_k, LG_k, ok_k)
+        mk = metrics(f_te, *predict(f_te, ck, nk))
+        loco[k] = {"computable": True, "n_train": len(f_tr), "fill_c": ck,
+                   "fill_n": nk, "fit_r2": r2k, **mk}
+        print(f"   hold out {k}: train n={len(f_tr):3d} holdout n={len(f_te):3d}  "
+              f"Tout MAE {mk['Tout_MAE_K']:.3f} K  Q MAPE {mk['Q_MAPE_pct']:.2f} %  "
+              f"evap MAPE {mk['evap_MAPE_pct']:.2f} %", flush=True)
+    out["diagnostic_leave_one_campaign_out_NOT_A_GATE"] = loco
 
     (RESULTS / "calibration.json").write_text(json.dumps(out, indent=2), encoding="utf8")
     print(f"\nwritten -> {RESULTS / 'calibration.json'}", flush=True)

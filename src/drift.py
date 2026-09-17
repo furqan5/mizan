@@ -48,6 +48,11 @@ CAMPAIGNS = ["Exp1", "Exp2", "Exp3"]
 
 def fit_and_score(train_df, test_df):
     """Fit the fill law on train_df, score forward prediction on test_df."""
+    # DEFECT 51 (staged): with rows de-duplicated on load, Exp3 has no rows of
+    # its own (the published Exp3.nc is a copy of Exp1 rows 0-16), so its
+    # campaign frame is empty and is skipped rather than scored.
+    if len(train_df) == 0 or len(test_df) == 0:
+        return None
     Me, LG, _, ok = cal.demanded_merkel(train_df)
     if ok.sum() < 5:
         return None
