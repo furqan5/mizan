@@ -442,6 +442,8 @@ _CONSTRAINT_FUNCTIONS = {
     "chloride_pitting_check": ("controller.py",),         # defect 46
     "charge_closure_bracket": ("ceiling_report.py",),     # defect 39
     "silica_index_valid_at_ph": ("chemistry.py",),        # defect 38
+    # robustness_gaps section 10: reported, binds only on a declared basin
+    "concrete_sulfate_constraint": ("ceiling_report.py",),
 }
 
 
