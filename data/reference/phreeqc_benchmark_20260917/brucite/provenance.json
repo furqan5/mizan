@@ -1,0 +1,19 @@
+{
+  "phreeqc_exe_sha256": "5147679081f53abd4a40d1ba07b3cf7ee5078df9d3510c6378ff5d45db6437c8",
+  "wateq4f_dat_sha256": "8bec1e1ed3fc686444bd00ba386883b1ff6d4349f9346049a6bd359c981e9945",
+  "llnl_dat_sha256": "b6e397c0294866dddc6aa0afb710a272051b5969716dffed5cbcc1aa6e03b744",
+  "database_source": "phreeqcx64.cab of phreeqc-3.9.0-17591-x64.msi (its phreeqc.dat matches the registered hash)",
+  "preregistration": "docs/staged/phreeqc_brucite_supplement_preregistration.md",
+  "runs": {
+    "b1": {
+      "command": "phreeqc.exe deck_b1.pqi deck_b1.out <db_dir>/wateq4f.dat",
+      "returncode": 0,
+      "deck_sha256": "70a176e5df3ac7f6b8e98f1200ca4745af0479eb5e2d8aba16944198551d5562"
+    },
+    "b2": {
+      "command": "phreeqc.exe deck_b2.pqi deck_b2.out <db_dir>/llnl.dat",
+      "returncode": 0,
+      "deck_sha256": "fb1796a70a9119726c115571de437e711c3b322b278d6c0489c9b05f4eac8a9e"
+    }
+  }
+}

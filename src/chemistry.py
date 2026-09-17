@@ -1492,6 +1492,10 @@ def max_cycles_mg_silicate(makeup, limit=35_000.0, mg_basis="Mg"):
     return math.sqrt(limit / p1)
 
 
+BRUCITE_DH_PROTON_KCAL = -27.1        # wateq4f.dat, proton form
+BRUCITE_DH_HYDROXIDE_KCAL = BRUCITE_DH_PROTON_KCAL + 2 * 13.362
+
+
 def ph_saturation_brucite(T_c, water):
     """Saturation pH for Mg(OH)2 (brucite) at temperature T_c.
 
@@ -1502,7 +1506,9 @@ def ph_saturation_brucite(T_c, water):
     deposition cannot occur while bulk pH stays below the saturation pH
     evaluated at the hottest surface in the system.
 
-    Mg(OH)2 = Mg+2 + 2 OH-,  phreeqc.dat log_k -11.18, delta_h -27.1 kcal.
+    Mg(OH)2 = Mg+2 + 2 OH-,  log_k -11.18 at 25 C (wateq4f.dat writes it in
+    proton form: Mg(OH)2 + 2H+ = Mg+2 + 2H2O, log_k 16.84, delta_h -27.1
+    kcal; phreeqc.dat has no Brucite phase).
     """
     # This function takes (T_c, water) -- reversed from every other function
     # in this module, which take (water, T_c). Five call sites use it
@@ -1513,7 +1519,14 @@ def ph_saturation_brucite(T_c, water):
         raise TypeError(
             "ph_saturation_brucite takes (T_c, water) -- note the order is "
             "reversed from the rest of this module, which takes (water, T_c)")
-    log_k = _vant_hoff(-11.18, -27.1, T_c)
+    # STAGED (defect 57 on the incumbent branch; confirmed by PHREEQC on this
+    # branch, docs/staged/phreeqc_brucite_supplement_preregistration.md).
+    # This was _vant_hoff(-11.18, -27.1, T_c): a HYDROXIDE-form log K with the
+    # PROTON-form enthalpy. Converting the reaction to hydroxide form adds
+    # 2 x (H2O = H+ + OH-, dH +13.362 kcal), so its enthalpy is -0.376 kcal.
+    # The old pairing made saturation pH fall 0.32/0.62/0.91 pH units too
+    # fast at 35/45/55 C against PHREEQC + wateq4f.dat.
+    log_k = _vant_hoff(-11.18, BRUCITE_DH_HYDROXIDE_KCAL, T_c)
     m = water.molality()
     if m["Mg"] <= 0:
         return float("inf")

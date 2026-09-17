@@ -2,33 +2,33 @@
   "rows": [
     {
       "skin_T_C": 30.0,
-      "pH_s": 9.414165732705914,
+      "pH_s": 9.575709771821103,
       "verdict": "safe across the whole band"
     },
     {
       "skin_T_C": 34.0,
-      "pH_s": 9.163374389716116,
+      "pH_s": 9.450366855364773,
       "verdict": "safe across the whole band"
     },
     {
       "skin_T_C": 38.0,
-      "pH_s": 8.91915369998905,
-      "verdict": "deposits above pH 8.92 -- band straddles the limit"
+      "pH_s": 9.328369178665572,
+      "verdict": "safe across the whole band"
     },
     {
       "skin_T_C": 42.0,
-      "pH_s": 8.681256533490792,
-      "verdict": "deposits above pH 8.68 -- band straddles the limit"
+      "pH_s": 9.209592426101977,
+      "verdict": "safe across the whole band"
     },
     {
       "skin_T_C": 46.0,
-      "pH_s": 8.449448319347844,
-      "verdict": "DEPOSITING across the whole band"
+      "pH_s": 9.093918684137538,
+      "verdict": "safe across the whole band"
     },
     {
       "skin_T_C": 50.0,
-      "pH_s": 8.22350628370926,
-      "verdict": "DEPOSITING across the whole band"
+      "pH_s": 8.981236060249088,
+      "verdict": "deposits above pH 8.98 -- band straddles the limit"
     }
   ],
   "gulf_ph_band": [

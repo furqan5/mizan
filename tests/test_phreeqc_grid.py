@@ -108,3 +108,36 @@ def test_the_benchmark_result_has_not_drifted(rows):
         "disagreement has spread beyond I <= 0.1 at 45-55 C")
     worst = max(abs(r["dSI"]) for r in rows if r["mineral"] in ("calcite", "gypsum"))
     assert worst == pytest.approx(0.0979, abs=0.002)
+
+
+# ---------------------------------------------------------------------------
+# Supplement: brucite saturation pH against PHREEQC + wateq4f.dat
+# ---------------------------------------------------------------------------
+# docs/staged/phreeqc_brucite_supplement_preregistration.md. The engine paired
+# a hydroxide-form log K with the proton-form enthalpy (defect 57 as staged by
+# the incumbent branch). PHREEQC confirmed it: 0 of 96 temperature shifts
+# within 0.05 pH, median -0.62 at 45 C. Fixed, and re-scored against the SAME
+# stored run: 96 of 96.
+import phreeqc_brucite_benchmark as brucite  # noqa: E402
+
+
+def test_brucite_enthalpy_is_the_hydroxide_form():
+    assert ch_mod().BRUCITE_DH_HYDROXIDE_KCAL == pytest.approx(-27.1 + 2 * 13.362)
+
+
+def ch_mod():
+    return bench.ch
+
+
+def test_brucite_temperature_dependence_matches_phreeqc():
+    v = brucite.verdict(brucite.compare())
+    assert v["n_gated"] == 96
+    assert v["verdict"] == "PASS", v
+    assert all(abs(d) < 0.02 for d in v["median_D_by_T"].values())
+
+
+def test_the_brucite_check_is_not_vacuous(monkeypatch):
+    """With the old proton-form enthalpy restored the same stored run fails."""
+    monkeypatch.setattr(bench.ch, "BRUCITE_DH_HYDROXIDE_KCAL", -27.1)
+    v = brucite.verdict(brucite.compare())
+    assert v["share_within"] == 0.0 and v["confirms_suspected_defect"]
