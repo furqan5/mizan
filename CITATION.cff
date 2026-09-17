@@ -31,9 +31,11 @@ abstract: >-
   it is least soluble: calcite, gypsum and magnesium silicate at
   the hot condenser tube skin, amorphous silica at the cold tower
   basin. Six acceptance criteria were fixed and printed before
-  fitting and scored once on a campaign-wise holdout of published
-  experimental data. Four pass and two fail; both failures are
-  reported as failures and neither threshold was moved. Includes
+  fitting and scored on a campaign-wise holdout of published
+  experimental data, re-scored once with thresholds unchanged after
+  duplicated rows were found in the published data. Three pass and
+  three fail; the failures are reported as failures and no threshold
+  was moved. Includes
   an independent MATLAB and Simulink re-implementation agreeing
   with the Python core to 1.4e-5 K, and a register of ten defects
   found in the authors' own work.
