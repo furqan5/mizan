@@ -1,0 +1,8688 @@
+{
+ "incident_without_interlocks": {
+  "cross_after_fault_s": {
+   "6.5": 3089.0,
+   "5.5": 3159.0,
+   "4.0": 3501.0
+  },
+  "low_level_after_fault_s": 6068.0,
+  "ph_min_after_fault": 1.8240630470585975,
+  "delivered_acid_kg": 11.933496443035866
+ },
+ "incident_with_interlocks": {
+  "acid_stop_after_fault_s": 0.0,
+  "ph_min_after_fault": 8.0,
+  "low_level_after_fault_s": 5450.0,
+  "delivered_acid_kg": 2.9584099372702113
+ },
+ "steady": {
+  "makeup": 5.25,
+  "blowdown": 1.04522,
+  "drift": 0.00478,
+  "acid_kg_s": 0.0004143431284692126,
+  "alkalinity": 0.0005645150510214616,
+  "acid_so4_mg_kg": 386.4892287582805
+ },
+ "trajectory_without_interlocks": [
+  {
+   "t_s": 0.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0452,
+   "tripped": false
+  },
+  {
+   "t_s": 60.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0547,
+   "tripped": false
+  },
+  {
+   "t_s": 120.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.055,
+   "tripped": false
+  },
+  {
+   "t_s": 180.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0548,
+   "tripped": false
+  },
+  {
+   "t_s": 240.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.045,
+   "tripped": false
+  },
+  {
+   "t_s": 300.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0432,
+   "tripped": false
+  },
+  {
+   "t_s": 360.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0404,
+   "tripped": false
+  },
+  {
+   "t_s": 420.0,
+   "pH": 8.0,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0488,
+   "tripped": false
+  },
+  {
+   "t_s": 480.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0498,
+   "tripped": false
+  },
+  {
+   "t_s": 540.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0365,
+   "tripped": false
+  },
+  {
+   "t_s": 600.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0359,
+   "tripped": false
+  },
+  {
+   "t_s": 660.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0482,
+   "tripped": false
+  },
+  {
+   "t_s": 720.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.043,
+   "tripped": false
+  },
+  {
+   "t_s": 780.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0531,
+   "tripped": false
+  },
+  {
+   "t_s": 840.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.039,
+   "tripped": false
+  },
+  {
+   "t_s": 900.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0407,
+   "tripped": false
+  },
+  {
+   "t_s": 960.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0408,
+   "tripped": false
+  },
+  {
+   "t_s": 1020.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0551,
+   "tripped": false
+  },
+  {
+   "t_s": 1080.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0409,
+   "tripped": false
+  },
+  {
+   "t_s": 1140.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0417,
+   "tripped": false
+  },
+  {
+   "t_s": 1200.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0387,
+   "tripped": false
+  },
+  {
+   "t_s": 1260.0,
+   "pH": 7.9999,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0476,
+   "tripped": false
+  },
+  {
+   "t_s": 1320.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.046,
+   "tripped": false
+  },
+  {
+   "t_s": 1380.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.051,
+   "tripped": false
+  },
+  {
+   "t_s": 1440.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0361,
+   "tripped": false
+  },
+  {
+   "t_s": 1500.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0529,
+   "tripped": false
+  },
+  {
+   "t_s": 1560.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0439,
+   "tripped": false
+  },
+  {
+   "t_s": 1620.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0433,
+   "tripped": false
+  },
+  {
+   "t_s": 1680.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0478,
+   "tripped": false
+  },
+  {
+   "t_s": 1740.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0497,
+   "tripped": false
+  },
+  {
+   "t_s": 1800.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0446,
+   "tripped": false
+  },
+  {
+   "t_s": 1860.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0426,
+   "tripped": false
+  },
+  {
+   "t_s": 1920.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0525,
+   "tripped": false
+  },
+  {
+   "t_s": 1980.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0447,
+   "tripped": false
+  },
+  {
+   "t_s": 2040.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0547,
+   "tripped": false
+  },
+  {
+   "t_s": 2100.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0361,
+   "tripped": false
+  },
+  {
+   "t_s": 2160.0,
+   "pH": 7.9998,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.041,
+   "tripped": false
+  },
+  {
+   "t_s": 2220.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0476,
+   "tripped": false
+  },
+  {
+   "t_s": 2280.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0519,
+   "tripped": false
+  },
+  {
+   "t_s": 2340.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0496,
+   "tripped": false
+  },
+  {
+   "t_s": 2400.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0401,
+   "tripped": false
+  },
+  {
+   "t_s": 2460.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.043,
+   "tripped": false
+  },
+  {
+   "t_s": 2520.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0454,
+   "tripped": false
+  },
+  {
+   "t_s": 2580.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.043,
+   "tripped": false
+  },
+  {
+   "t_s": 2640.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0537,
+   "tripped": false
+  },
+  {
+   "t_s": 2700.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0352,
+   "tripped": false
+  },
+  {
+   "t_s": 2760.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0455,
+   "tripped": false
+  },
+  {
+   "t_s": 2820.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0378,
+   "tripped": false
+  },
+  {
+   "t_s": 2880.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0497,
+   "tripped": false
+  },
+  {
+   "t_s": 2940.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0355,
+   "tripped": false
+  },
+  {
+   "t_s": 3000.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0391,
+   "tripped": false
+  },
+  {
+   "t_s": 3060.0,
+   "pH": 7.9997,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0404,
+   "tripped": false
+  },
+  {
+   "t_s": 3120.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0359,
+   "tripped": false
+  },
+  {
+   "t_s": 3180.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0531,
+   "tripped": false
+  },
+  {
+   "t_s": 3240.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0369,
+   "tripped": false
+  },
+  {
+   "t_s": 3300.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0412,
+   "tripped": false
+  },
+  {
+   "t_s": 3360.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0499,
+   "tripped": false
+  },
+  {
+   "t_s": 3420.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0506,
+   "tripped": false
+  },
+  {
+   "t_s": 3480.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0488,
+   "tripped": false
+  },
+  {
+   "t_s": 3540.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0545,
+   "tripped": false
+  },
+  {
+   "t_s": 3600.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0378,
+   "tripped": false
+  },
+  {
+   "t_s": 3660.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0357,
+   "tripped": false
+  },
+  {
+   "t_s": 3720.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0494,
+   "tripped": false
+  },
+  {
+   "t_s": 3780.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0521,
+   "tripped": false
+  },
+  {
+   "t_s": 3840.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.05,
+   "tripped": false
+  },
+  {
+   "t_s": 3900.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0509,
+   "tripped": false
+  },
+  {
+   "t_s": 3960.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0435,
+   "tripped": false
+  },
+  {
+   "t_s": 4020.0,
+   "pH": 7.9996,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0518,
+   "tripped": false
+  },
+  {
+   "t_s": 4080.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0428,
+   "tripped": false
+  },
+  {
+   "t_s": 4140.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0547,
+   "tripped": false
+  },
+  {
+   "t_s": 4200.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0497,
+   "tripped": false
+  },
+  {
+   "t_s": 4260.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.048,
+   "tripped": false
+  },
+  {
+   "t_s": 4320.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0523,
+   "tripped": false
+  },
+  {
+   "t_s": 4380.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0536,
+   "tripped": false
+  },
+  {
+   "t_s": 4440.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0442,
+   "tripped": false
+  },
+  {
+   "t_s": 4500.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0393,
+   "tripped": false
+  },
+  {
+   "t_s": 4560.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0457,
+   "tripped": false
+  },
+  {
+   "t_s": 4620.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0382,
+   "tripped": false
+  },
+  {
+   "t_s": 4680.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0468,
+   "tripped": false
+  },
+  {
+   "t_s": 4740.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0348,
+   "tripped": false
+  },
+  {
+   "t_s": 4800.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.044,
+   "tripped": false
+  },
+  {
+   "t_s": 4860.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0464,
+   "tripped": false
+  },
+  {
+   "t_s": 4920.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0357,
+   "tripped": false
+  },
+  {
+   "t_s": 4980.0,
+   "pH": 7.9995,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0455,
+   "tripped": false
+  },
+  {
+   "t_s": 5040.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0481,
+   "tripped": false
+  },
+  {
+   "t_s": 5100.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0424,
+   "tripped": false
+  },
+  {
+   "t_s": 5160.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0422,
+   "tripped": false
+  },
+  {
+   "t_s": 5220.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0489,
+   "tripped": false
+  },
+  {
+   "t_s": 5280.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.046,
+   "tripped": false
+  },
+  {
+   "t_s": 5340.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0369,
+   "tripped": false
+  },
+  {
+   "t_s": 5400.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0424,
+   "tripped": false
+  },
+  {
+   "t_s": 5460.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0352,
+   "tripped": false
+  },
+  {
+   "t_s": 5520.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0412,
+   "tripped": false
+  },
+  {
+   "t_s": 5580.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0484,
+   "tripped": false
+  },
+  {
+   "t_s": 5640.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0545,
+   "tripped": false
+  },
+  {
+   "t_s": 5700.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0461,
+   "tripped": false
+  },
+  {
+   "t_s": 5760.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0408,
+   "tripped": false
+  },
+  {
+   "t_s": 5820.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0372,
+   "tripped": false
+  },
+  {
+   "t_s": 5880.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.053,
+   "tripped": false
+  },
+  {
+   "t_s": 5940.0,
+   "pH": 7.9994,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0547,
+   "tripped": false
+  },
+  {
+   "t_s": 6000.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0551,
+   "tripped": false
+  },
+  {
+   "t_s": 6060.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0372,
+   "tripped": false
+  },
+  {
+   "t_s": 6120.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.04,
+   "tripped": false
+  },
+  {
+   "t_s": 6180.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0545,
+   "tripped": false
+  },
+  {
+   "t_s": 6240.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0477,
+   "tripped": false
+  },
+  {
+   "t_s": 6300.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0423,
+   "tripped": false
+  },
+  {
+   "t_s": 6360.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0437,
+   "tripped": false
+  },
+  {
+   "t_s": 6420.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0509,
+   "tripped": false
+  },
+  {
+   "t_s": 6480.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0459,
+   "tripped": false
+  },
+  {
+   "t_s": 6540.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.039,
+   "tripped": false
+  },
+  {
+   "t_s": 6600.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.047,
+   "tripped": false
+  },
+  {
+   "t_s": 6660.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0434,
+   "tripped": false
+  },
+  {
+   "t_s": 6720.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0476,
+   "tripped": false
+  },
+  {
+   "t_s": 6780.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0529,
+   "tripped": false
+  },
+  {
+   "t_s": 6840.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0366,
+   "tripped": false
+  },
+  {
+   "t_s": 6900.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0454,
+   "tripped": false
+  },
+  {
+   "t_s": 6960.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.039,
+   "tripped": false
+  },
+  {
+   "t_s": 7020.0,
+   "pH": 7.9993,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0474,
+   "tripped": false
+  },
+  {
+   "t_s": 7080.0,
+   "pH": 7.9992,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0498,
+   "tripped": false
+  },
+  {
+   "t_s": 7140.0,
+   "pH": 7.9992,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0483,
+   "tripped": false
+  },
+  {
+   "t_s": 7200.0,
+   "pH": 7.9991,
+   "V_kg": 49994.8,
+   "cycles": 5.0004,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0379,
+   "tripped": false
+  },
+  {
+   "t_s": 7260.0,
+   "pH": 7.9935,
+   "V_kg": 49679.1,
+   "cycles": 5.0258,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0631,
+   "tripped": false
+  },
+  {
+   "t_s": 7320.0,
+   "pH": 7.9877,
+   "V_kg": 49362.2,
+   "cycles": 5.0514,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0974,
+   "tripped": false
+  },
+  {
+   "t_s": 7380.0,
+   "pH": 7.9818,
+   "V_kg": 49043.9,
+   "cycles": 5.0773,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.1062,
+   "tripped": false
+  },
+  {
+   "t_s": 7440.0,
+   "pH": 7.9757,
+   "V_kg": 48724.4,
+   "cycles": 5.1036,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.1273,
+   "tripped": false
+  },
+  {
+   "t_s": 7500.0,
+   "pH": 7.9695,
+   "V_kg": 48403.5,
+   "cycles": 5.1301,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.1562,
+   "tripped": false
+  },
+  {
+   "t_s": 7560.0,
+   "pH": 7.963,
+   "V_kg": 48081.2,
+   "cycles": 5.157,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.1842,
+   "tripped": false
+  },
+  {
+   "t_s": 7620.0,
+   "pH": 7.9565,
+   "V_kg": 47757.5,
+   "cycles": 5.1842,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.2025,
+   "tripped": false
+  },
+  {
+   "t_s": 7680.0,
+   "pH": 7.9497,
+   "V_kg": 47432.5,
+   "cycles": 5.2117,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.2161,
+   "tripped": false
+  },
+  {
+   "t_s": 7740.0,
+   "pH": 7.9427,
+   "V_kg": 47106.0,
+   "cycles": 5.2396,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.2433,
+   "tripped": false
+  },
+  {
+   "t_s": 7800.0,
+   "pH": 7.9355,
+   "V_kg": 46778.1,
+   "cycles": 5.2678,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.2765,
+   "tripped": false
+  },
+  {
+   "t_s": 7860.0,
+   "pH": 7.9281,
+   "V_kg": 46448.8,
+   "cycles": 5.2963,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.3028,
+   "tripped": false
+  },
+  {
+   "t_s": 7920.0,
+   "pH": 7.9205,
+   "V_kg": 46118.0,
+   "cycles": 5.3252,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.3124,
+   "tripped": false
+  },
+  {
+   "t_s": 7980.0,
+   "pH": 7.9127,
+   "V_kg": 45785.8,
+   "cycles": 5.3545,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.3406,
+   "tripped": false
+  },
+  {
+   "t_s": 8040.0,
+   "pH": 7.9046,
+   "V_kg": 45452.1,
+   "cycles": 5.3842,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.3707,
+   "tripped": false
+  },
+  {
+   "t_s": 8100.0,
+   "pH": 7.8962,
+   "V_kg": 45117.0,
+   "cycles": 5.4142,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.3864,
+   "tripped": false
+  },
+  {
+   "t_s": 8160.0,
+   "pH": 7.8875,
+   "V_kg": 44780.3,
+   "cycles": 5.4447,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.4186,
+   "tripped": false
+  },
+  {
+   "t_s": 8220.0,
+   "pH": 7.8786,
+   "V_kg": 44441.9,
+   "cycles": 5.4755,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.4448,
+   "tripped": false
+  },
+  {
+   "t_s": 8280.0,
+   "pH": 7.8693,
+   "V_kg": 44102.0,
+   "cycles": 5.5068,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.4651,
+   "tripped": false
+  },
+  {
+   "t_s": 8340.0,
+   "pH": 7.8597,
+   "V_kg": 43760.7,
+   "cycles": 5.5385,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.4883,
+   "tripped": false
+  },
+  {
+   "t_s": 8400.0,
+   "pH": 7.8498,
+   "V_kg": 43417.7,
+   "cycles": 5.5706,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.5216,
+   "tripped": false
+  },
+  {
+   "t_s": 8460.0,
+   "pH": 7.8394,
+   "V_kg": 43073.0,
+   "cycles": 5.6031,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.552,
+   "tripped": false
+  },
+  {
+   "t_s": 8520.0,
+   "pH": 7.8287,
+   "V_kg": 42726.8,
+   "cycles": 5.6361,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.5889,
+   "tripped": false
+  },
+  {
+   "t_s": 8580.0,
+   "pH": 7.8175,
+   "V_kg": 42379.0,
+   "cycles": 5.6696,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.6002,
+   "tripped": false
+  },
+  {
+   "t_s": 8640.0,
+   "pH": 7.8059,
+   "V_kg": 42029.4,
+   "cycles": 5.7036,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.6339,
+   "tripped": false
+  },
+  {
+   "t_s": 8700.0,
+   "pH": 7.7938,
+   "V_kg": 41678.2,
+   "cycles": 5.738,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.6587,
+   "tripped": false
+  },
+  {
+   "t_s": 8760.0,
+   "pH": 7.7811,
+   "V_kg": 41325.2,
+   "cycles": 5.773,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.6827,
+   "tripped": false
+  },
+  {
+   "t_s": 8820.0,
+   "pH": 7.7678,
+   "V_kg": 40970.6,
+   "cycles": 5.8084,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.7325,
+   "tripped": false
+  },
+  {
+   "t_s": 8880.0,
+   "pH": 7.7539,
+   "V_kg": 40614.1,
+   "cycles": 5.8444,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.7411,
+   "tripped": false
+  },
+  {
+   "t_s": 8940.0,
+   "pH": 7.7394,
+   "V_kg": 40255.9,
+   "cycles": 5.881,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.7759,
+   "tripped": false
+  },
+  {
+   "t_s": 9000.0,
+   "pH": 7.7241,
+   "V_kg": 39895.9,
+   "cycles": 5.9181,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.8121,
+   "tripped": false
+  },
+  {
+   "t_s": 9060.0,
+   "pH": 7.7079,
+   "V_kg": 39534.1,
+   "cycles": 5.9557,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.8451,
+   "tripped": false
+  },
+  {
+   "t_s": 9120.0,
+   "pH": 7.6909,
+   "V_kg": 39170.3,
+   "cycles": 5.994,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.8689,
+   "tripped": false
+  },
+  {
+   "t_s": 9180.0,
+   "pH": 7.6729,
+   "V_kg": 38804.6,
+   "cycles": 6.0329,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.8971,
+   "tripped": false
+  },
+  {
+   "t_s": 9240.0,
+   "pH": 7.6538,
+   "V_kg": 38437.2,
+   "cycles": 6.0724,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.94,
+   "tripped": false
+  },
+  {
+   "t_s": 9300.0,
+   "pH": 7.6334,
+   "V_kg": 38067.6,
+   "cycles": 6.1125,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.9581,
+   "tripped": false
+  },
+  {
+   "t_s": 9360.0,
+   "pH": 7.6117,
+   "V_kg": 37696.2,
+   "cycles": 6.1533,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.9901,
+   "tripped": false
+  },
+  {
+   "t_s": 9420.0,
+   "pH": 7.5884,
+   "V_kg": 37322.9,
+   "cycles": 6.1948,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.025,
+   "tripped": false
+  },
+  {
+   "t_s": 9480.0,
+   "pH": 7.5634,
+   "V_kg": 36947.5,
+   "cycles": 6.237,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.0615,
+   "tripped": false
+  },
+  {
+   "t_s": 9540.0,
+   "pH": 7.5364,
+   "V_kg": 36570.0,
+   "cycles": 6.2799,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.0916,
+   "tripped": false
+  },
+  {
+   "t_s": 9600.0,
+   "pH": 7.5071,
+   "V_kg": 36190.5,
+   "cycles": 6.3235,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.145,
+   "tripped": false
+  },
+  {
+   "t_s": 9660.0,
+   "pH": 7.475,
+   "V_kg": 35808.7,
+   "cycles": 6.3679,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.1744,
+   "tripped": false
+  },
+  {
+   "t_s": 9720.0,
+   "pH": 7.4397,
+   "V_kg": 35424.9,
+   "cycles": 6.4131,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.2132,
+   "tripped": false
+  },
+  {
+   "t_s": 9780.0,
+   "pH": 7.4006,
+   "V_kg": 35038.8,
+   "cycles": 6.4592,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.24,
+   "tripped": false
+  },
+  {
+   "t_s": 9840.0,
+   "pH": 7.3567,
+   "V_kg": 34650.6,
+   "cycles": 6.5061,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.2862,
+   "tripped": false
+  },
+  {
+   "t_s": 9900.0,
+   "pH": 7.3069,
+   "V_kg": 34260.0,
+   "cycles": 6.5538,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.3173,
+   "tripped": false
+  },
+  {
+   "t_s": 9960.0,
+   "pH": 7.2494,
+   "V_kg": 33867.2,
+   "cycles": 6.6025,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.3592,
+   "tripped": false
+  },
+  {
+   "t_s": 10020.0,
+   "pH": 7.1818,
+   "V_kg": 33471.9,
+   "cycles": 6.6521,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.3937,
+   "tripped": false
+  },
+  {
+   "t_s": 10080.0,
+   "pH": 7.0999,
+   "V_kg": 33074.2,
+   "cycles": 6.7027,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.4478,
+   "tripped": false
+  },
+  {
+   "t_s": 10140.0,
+   "pH": 6.9966,
+   "V_kg": 32674.2,
+   "cycles": 6.7543,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.4858,
+   "tripped": false
+  },
+  {
+   "t_s": 10200.0,
+   "pH": 6.8578,
+   "V_kg": 32271.6,
+   "cycles": 6.8069,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.5183,
+   "tripped": false
+  },
+  {
+   "t_s": 10260.0,
+   "pH": 6.6476,
+   "V_kg": 31866.5,
+   "cycles": 6.8606,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.5743,
+   "tripped": false
+  },
+  {
+   "t_s": 10320.0,
+   "pH": 6.2225,
+   "V_kg": 31458.9,
+   "cycles": 6.9154,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.6177,
+   "tripped": false
+  },
+  {
+   "t_s": 10380.0,
+   "pH": 5.0877,
+   "V_kg": 31048.6,
+   "cycles": 6.9714,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.6584,
+   "tripped": false
+  },
+  {
+   "t_s": 10440.0,
+   "pH": 4.6147,
+   "V_kg": 30635.5,
+   "cycles": 7.0286,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.6931,
+   "tripped": false
+  },
+  {
+   "t_s": 10500.0,
+   "pH": 4.3859,
+   "V_kg": 30219.5,
+   "cycles": 7.087,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.7538,
+   "tripped": false
+  },
+  {
+   "t_s": 10560.0,
+   "pH": 4.2337,
+   "V_kg": 29800.5,
+   "cycles": 7.1468,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.795,
+   "tripped": false
+  },
+  {
+   "t_s": 10620.0,
+   "pH": 4.1188,
+   "V_kg": 29378.4,
+   "cycles": 7.2079,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.8592,
+   "tripped": false
+  },
+  {
+   "t_s": 10680.0,
+   "pH": 4.0261,
+   "V_kg": 28953.2,
+   "cycles": 7.2705,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.9095,
+   "tripped": false
+  },
+  {
+   "t_s": 10740.0,
+   "pH": 3.948,
+   "V_kg": 28525.1,
+   "cycles": 7.3345,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 2.9723,
+   "tripped": false
+  },
+  {
+   "t_s": 10800.0,
+   "pH": 3.8804,
+   "V_kg": 28093.7,
+   "cycles": 7.4001,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.0001,
+   "tripped": false
+  },
+  {
+   "t_s": 10860.0,
+   "pH": 3.8206,
+   "V_kg": 27659.1,
+   "cycles": 7.4673,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.0555,
+   "tripped": false
+  },
+  {
+   "t_s": 10920.0,
+   "pH": 3.7667,
+   "V_kg": 27220.9,
+   "cycles": 7.5362,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1268,
+   "tripped": false
+  },
+  {
+   "t_s": 10980.0,
+   "pH": 3.7176,
+   "V_kg": 26780.5,
+   "cycles": 7.6069,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11040.0,
+   "pH": 3.6725,
+   "V_kg": 26340.1,
+   "cycles": 7.6794,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11100.0,
+   "pH": 3.6305,
+   "V_kg": 25899.7,
+   "cycles": 7.7539,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11160.0,
+   "pH": 3.5913,
+   "V_kg": 25459.3,
+   "cycles": 7.8303,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11220.0,
+   "pH": 3.5543,
+   "V_kg": 25018.8,
+   "cycles": 7.9089,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11280.0,
+   "pH": 3.5193,
+   "V_kg": 24578.4,
+   "cycles": 7.9897,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11340.0,
+   "pH": 3.4861,
+   "V_kg": 24138.0,
+   "cycles": 8.0728,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11400.0,
+   "pH": 3.4543,
+   "V_kg": 23697.6,
+   "cycles": 8.1583,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11460.0,
+   "pH": 3.4239,
+   "V_kg": 23257.1,
+   "cycles": 8.2464,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11520.0,
+   "pH": 3.3946,
+   "V_kg": 22816.7,
+   "cycles": 8.3371,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11580.0,
+   "pH": 3.3664,
+   "V_kg": 22376.3,
+   "cycles": 8.4306,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11640.0,
+   "pH": 3.3391,
+   "V_kg": 21935.9,
+   "cycles": 8.527,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11700.0,
+   "pH": 3.3126,
+   "V_kg": 21495.4,
+   "cycles": 8.6266,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11760.0,
+   "pH": 3.2868,
+   "V_kg": 21055.0,
+   "cycles": 8.7294,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11820.0,
+   "pH": 3.2617,
+   "V_kg": 20614.6,
+   "cycles": 8.8356,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11880.0,
+   "pH": 3.2371,
+   "V_kg": 20174.2,
+   "cycles": 8.9455,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 11940.0,
+   "pH": 3.2131,
+   "V_kg": 19733.7,
+   "cycles": 9.0592,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12000.0,
+   "pH": 3.1896,
+   "V_kg": 19293.3,
+   "cycles": 9.1769,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12060.0,
+   "pH": 3.1664,
+   "V_kg": 18852.9,
+   "cycles": 9.299,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12120.0,
+   "pH": 3.1437,
+   "V_kg": 18412.4,
+   "cycles": 9.4256,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12180.0,
+   "pH": 3.1212,
+   "V_kg": 17972.0,
+   "cycles": 9.5571,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12240.0,
+   "pH": 3.0991,
+   "V_kg": 17531.6,
+   "cycles": 9.6938,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12300.0,
+   "pH": 3.0772,
+   "V_kg": 17091.2,
+   "cycles": 9.8359,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12360.0,
+   "pH": 3.0555,
+   "V_kg": 16650.7,
+   "cycles": 9.984,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12420.0,
+   "pH": 3.034,
+   "V_kg": 16210.3,
+   "cycles": 10.1383,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12480.0,
+   "pH": 3.0126,
+   "V_kg": 15769.9,
+   "cycles": 10.2994,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12540.0,
+   "pH": 2.9913,
+   "V_kg": 15329.5,
+   "cycles": 10.4677,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12600.0,
+   "pH": 2.9701,
+   "V_kg": 14889.0,
+   "cycles": 10.6438,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12660.0,
+   "pH": 2.949,
+   "V_kg": 14448.6,
+   "cycles": 10.8282,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12720.0,
+   "pH": 2.9279,
+   "V_kg": 14008.2,
+   "cycles": 11.0218,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12780.0,
+   "pH": 2.9067,
+   "V_kg": 13567.8,
+   "cycles": 11.2251,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12840.0,
+   "pH": 2.8856,
+   "V_kg": 13127.3,
+   "cycles": 11.4391,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12900.0,
+   "pH": 2.8643,
+   "V_kg": 12686.9,
+   "cycles": 11.6647,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 12960.0,
+   "pH": 2.8429,
+   "V_kg": 12246.5,
+   "cycles": 11.9029,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 13020.0,
+   "pH": 2.8213,
+   "V_kg": 11806.0,
+   "cycles": 12.155,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 13080.0,
+   "pH": 2.7996,
+   "V_kg": 11365.6,
+   "cycles": 12.4224,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 13140.0,
+   "pH": 2.7776,
+   "V_kg": 10925.2,
+   "cycles": 12.7065,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 13200.0,
+   "pH": 2.7554,
+   "V_kg": 10484.8,
+   "cycles": 13.0093,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 13260.0,
+   "pH": 2.7328,
+   "V_kg": 10044.3,
+   "cycles": 13.3327,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 3.1357,
+   "tripped": false
+  },
+  {
+   "t_s": 13320.0,
+   "pH": 2.7198,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13380.0,
+   "pH": 2.7084,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13440.0,
+   "pH": 2.6973,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13500.0,
+   "pH": 2.6865,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13560.0,
+   "pH": 2.6759,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13620.0,
+   "pH": 2.6656,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13680.0,
+   "pH": 2.6555,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13740.0,
+   "pH": 2.6456,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13800.0,
+   "pH": 2.636,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13860.0,
+   "pH": 2.6266,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13920.0,
+   "pH": 2.6174,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 13980.0,
+   "pH": 2.6083,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14040.0,
+   "pH": 2.5995,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14100.0,
+   "pH": 2.5908,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14160.0,
+   "pH": 2.5823,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14220.0,
+   "pH": 2.574,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14280.0,
+   "pH": 2.5658,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14340.0,
+   "pH": 2.5577,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14400.0,
+   "pH": 2.5499,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14460.0,
+   "pH": 2.5421,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14520.0,
+   "pH": 2.5345,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14580.0,
+   "pH": 2.527,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14640.0,
+   "pH": 2.5197,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14700.0,
+   "pH": 2.5124,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14760.0,
+   "pH": 2.5053,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14820.0,
+   "pH": 2.4983,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14880.0,
+   "pH": 2.4915,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 14940.0,
+   "pH": 2.4847,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15000.0,
+   "pH": 2.478,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15060.0,
+   "pH": 2.4714,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15120.0,
+   "pH": 2.465,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15180.0,
+   "pH": 2.4586,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15240.0,
+   "pH": 2.4523,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15300.0,
+   "pH": 2.4461,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15360.0,
+   "pH": 2.44,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15420.0,
+   "pH": 2.4339,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15480.0,
+   "pH": 2.428,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15540.0,
+   "pH": 2.4221,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15600.0,
+   "pH": 2.4164,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15660.0,
+   "pH": 2.4106,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15720.0,
+   "pH": 2.405,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15780.0,
+   "pH": 2.3995,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15840.0,
+   "pH": 2.394,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15900.0,
+   "pH": 2.3885,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 15960.0,
+   "pH": 2.3832,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16020.0,
+   "pH": 2.3779,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16080.0,
+   "pH": 2.3727,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16140.0,
+   "pH": 2.3675,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16200.0,
+   "pH": 2.3624,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16260.0,
+   "pH": 2.3573,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16320.0,
+   "pH": 2.3524,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16380.0,
+   "pH": 2.3474,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16440.0,
+   "pH": 2.3425,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16500.0,
+   "pH": 2.3377,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16560.0,
+   "pH": 2.333,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16620.0,
+   "pH": 2.3282,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16680.0,
+   "pH": 2.3236,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16740.0,
+   "pH": 2.319,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16800.0,
+   "pH": 2.3144,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16860.0,
+   "pH": 2.3099,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16920.0,
+   "pH": 2.3054,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 16980.0,
+   "pH": 2.301,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17040.0,
+   "pH": 2.2966,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17100.0,
+   "pH": 2.2922,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17160.0,
+   "pH": 2.2879,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17220.0,
+   "pH": 2.2837,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17280.0,
+   "pH": 2.2795,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17340.0,
+   "pH": 2.2753,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17400.0,
+   "pH": 2.2712,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17460.0,
+   "pH": 2.2671,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17520.0,
+   "pH": 2.263,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17580.0,
+   "pH": 2.259,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17640.0,
+   "pH": 2.255,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17700.0,
+   "pH": 2.2511,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17760.0,
+   "pH": 2.2472,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17820.0,
+   "pH": 2.2433,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17880.0,
+   "pH": 2.2395,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 17940.0,
+   "pH": 2.2356,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18000.0,
+   "pH": 2.2319,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18060.0,
+   "pH": 2.2281,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18120.0,
+   "pH": 2.2244,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18180.0,
+   "pH": 2.2207,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18240.0,
+   "pH": 2.2171,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18300.0,
+   "pH": 2.2135,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18360.0,
+   "pH": 2.2099,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18420.0,
+   "pH": 2.2063,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18480.0,
+   "pH": 2.2028,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18540.0,
+   "pH": 2.1993,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18600.0,
+   "pH": 2.1958,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18660.0,
+   "pH": 2.1924,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18720.0,
+   "pH": 2.189,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18780.0,
+   "pH": 2.1856,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18840.0,
+   "pH": 2.1822,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18900.0,
+   "pH": 2.1789,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 18960.0,
+   "pH": 2.1756,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19020.0,
+   "pH": 2.1723,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19080.0,
+   "pH": 2.169,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19140.0,
+   "pH": 2.1658,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19200.0,
+   "pH": 2.1626,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19260.0,
+   "pH": 2.1594,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19320.0,
+   "pH": 2.1562,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19380.0,
+   "pH": 2.153,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19440.0,
+   "pH": 2.1499,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19500.0,
+   "pH": 2.1468,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19560.0,
+   "pH": 2.1437,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19620.0,
+   "pH": 2.1407,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19680.0,
+   "pH": 2.1377,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19740.0,
+   "pH": 2.1346,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19800.0,
+   "pH": 2.1316,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19860.0,
+   "pH": 2.1287,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19920.0,
+   "pH": 2.1257,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 19980.0,
+   "pH": 2.1228,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20040.0,
+   "pH": 2.1199,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20100.0,
+   "pH": 2.117,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20160.0,
+   "pH": 2.1141,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20220.0,
+   "pH": 2.1112,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20280.0,
+   "pH": 2.1084,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20340.0,
+   "pH": 2.1056,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20400.0,
+   "pH": 2.1028,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20460.0,
+   "pH": 2.1,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20520.0,
+   "pH": 2.0972,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20580.0,
+   "pH": 2.0945,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20640.0,
+   "pH": 2.0918,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20700.0,
+   "pH": 2.0891,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20760.0,
+   "pH": 2.0864,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20820.0,
+   "pH": 2.0837,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20880.0,
+   "pH": 2.081,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 20940.0,
+   "pH": 2.0784,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21000.0,
+   "pH": 2.0757,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21060.0,
+   "pH": 2.0731,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21120.0,
+   "pH": 2.0705,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21180.0,
+   "pH": 2.0679,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21240.0,
+   "pH": 2.0654,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21300.0,
+   "pH": 2.0628,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21360.0,
+   "pH": 2.0603,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21420.0,
+   "pH": 2.0578,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21480.0,
+   "pH": 2.0552,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21540.0,
+   "pH": 2.0528,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21600.0,
+   "pH": 2.0503,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21660.0,
+   "pH": 2.0478,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21720.0,
+   "pH": 2.0454,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21780.0,
+   "pH": 2.0429,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21840.0,
+   "pH": 2.0405,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21900.0,
+   "pH": 2.0381,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 21960.0,
+   "pH": 2.0357,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22020.0,
+   "pH": 2.0333,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22080.0,
+   "pH": 2.0309,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22140.0,
+   "pH": 2.0286,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22200.0,
+   "pH": 2.0262,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22260.0,
+   "pH": 2.0239,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22320.0,
+   "pH": 2.0216,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22380.0,
+   "pH": 2.0192,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22440.0,
+   "pH": 2.017,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22500.0,
+   "pH": 2.0147,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22560.0,
+   "pH": 2.0124,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22620.0,
+   "pH": 2.0101,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22680.0,
+   "pH": 2.0079,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22740.0,
+   "pH": 2.0056,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22800.0,
+   "pH": 2.0034,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22860.0,
+   "pH": 2.0012,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22920.0,
+   "pH": 1.999,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 22980.0,
+   "pH": 1.9968,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23040.0,
+   "pH": 1.9946,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23100.0,
+   "pH": 1.9925,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23160.0,
+   "pH": 1.9903,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23220.0,
+   "pH": 1.9881,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23280.0,
+   "pH": 1.986,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23340.0,
+   "pH": 1.9839,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23400.0,
+   "pH": 1.9818,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23460.0,
+   "pH": 1.9797,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23520.0,
+   "pH": 1.9776,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23580.0,
+   "pH": 1.9755,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23640.0,
+   "pH": 1.9734,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23700.0,
+   "pH": 1.9713,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23760.0,
+   "pH": 1.9693,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23820.0,
+   "pH": 1.9672,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23880.0,
+   "pH": 1.9652,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 23940.0,
+   "pH": 1.9632,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24000.0,
+   "pH": 1.9611,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24060.0,
+   "pH": 1.9591,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24120.0,
+   "pH": 1.9571,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24180.0,
+   "pH": 1.9551,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24240.0,
+   "pH": 1.9531,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24300.0,
+   "pH": 1.9512,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24360.0,
+   "pH": 1.9492,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24420.0,
+   "pH": 1.9473,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24480.0,
+   "pH": 1.9453,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24540.0,
+   "pH": 1.9434,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24600.0,
+   "pH": 1.9414,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24660.0,
+   "pH": 1.9395,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24720.0,
+   "pH": 1.9376,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24780.0,
+   "pH": 1.9357,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24840.0,
+   "pH": 1.9338,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24900.0,
+   "pH": 1.9319,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 24960.0,
+   "pH": 1.93,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25020.0,
+   "pH": 1.9282,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25080.0,
+   "pH": 1.9263,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25140.0,
+   "pH": 1.9244,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25200.0,
+   "pH": 1.9226,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25260.0,
+   "pH": 1.9208,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25320.0,
+   "pH": 1.9189,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25380.0,
+   "pH": 1.9171,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25440.0,
+   "pH": 1.9153,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25500.0,
+   "pH": 1.9135,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25560.0,
+   "pH": 1.9117,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25620.0,
+   "pH": 1.9099,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25680.0,
+   "pH": 1.9081,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25740.0,
+   "pH": 1.9063,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25800.0,
+   "pH": 1.9045,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25860.0,
+   "pH": 1.9028,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25920.0,
+   "pH": 1.901,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 25980.0,
+   "pH": 1.8993,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26040.0,
+   "pH": 1.8975,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26100.0,
+   "pH": 1.8958,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26160.0,
+   "pH": 1.8941,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26220.0,
+   "pH": 1.8923,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26280.0,
+   "pH": 1.8906,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26340.0,
+   "pH": 1.8889,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26400.0,
+   "pH": 1.8872,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26460.0,
+   "pH": 1.8855,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26520.0,
+   "pH": 1.8838,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26580.0,
+   "pH": 1.8821,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26640.0,
+   "pH": 1.8805,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26700.0,
+   "pH": 1.8788,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26760.0,
+   "pH": 1.8771,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26820.0,
+   "pH": 1.8755,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26880.0,
+   "pH": 1.8738,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 26940.0,
+   "pH": 1.8722,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27000.0,
+   "pH": 1.8705,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27060.0,
+   "pH": 1.8689,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27120.0,
+   "pH": 1.8673,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27180.0,
+   "pH": 1.8657,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27240.0,
+   "pH": 1.8641,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27300.0,
+   "pH": 1.8624,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27360.0,
+   "pH": 1.8608,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27420.0,
+   "pH": 1.8592,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27480.0,
+   "pH": 1.8577,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27540.0,
+   "pH": 1.8561,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27600.0,
+   "pH": 1.8545,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27660.0,
+   "pH": 1.8529,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27720.0,
+   "pH": 1.8514,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27780.0,
+   "pH": 1.8498,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27840.0,
+   "pH": 1.8482,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27900.0,
+   "pH": 1.8467,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 27960.0,
+   "pH": 1.8451,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28020.0,
+   "pH": 1.8436,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28080.0,
+   "pH": 1.8421,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28140.0,
+   "pH": 1.8405,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28200.0,
+   "pH": 1.839,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28260.0,
+   "pH": 1.8375,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28320.0,
+   "pH": 1.836,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28380.0,
+   "pH": 1.8345,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28440.0,
+   "pH": 1.833,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28500.0,
+   "pH": 1.8315,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28560.0,
+   "pH": 1.83,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28620.0,
+   "pH": 1.8285,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28680.0,
+   "pH": 1.827,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28740.0,
+   "pH": 1.8255,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  },
+  {
+   "t_s": 28800.0,
+   "pH": 1.8241,
+   "V_kg": 9993.0,
+   "cycles": 13.3719,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 0.0,
+   "tripped": false
+  }
+ ],
+ "trajectory_with_interlocks": [
+  {
+   "t_s": 0.0,
+   "pH": 8.0001,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 1.0452,
+   "tripped": false
+  },
+  {
+   "t_s": 60.0,
+   "pH": 8.0076,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0546,
+   "tripped": false
+  },
+  {
+   "t_s": 120.0,
+   "pH": 8.0076,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0549,
+   "tripped": false
+  },
+  {
+   "t_s": 180.0,
+   "pH": 8.0076,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0547,
+   "tripped": false
+  },
+  {
+   "t_s": 240.0,
+   "pH": 8.0076,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0449,
+   "tripped": false
+  },
+  {
+   "t_s": 300.0,
+   "pH": 8.0076,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0431,
+   "tripped": false
+  },
+  {
+   "t_s": 360.0,
+   "pH": 8.0076,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0403,
+   "tripped": false
+  },
+  {
+   "t_s": 420.0,
+   "pH": 8.0075,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0487,
+   "tripped": false
+  },
+  {
+   "t_s": 480.0,
+   "pH": 8.0075,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0497,
+   "tripped": false
+  },
+  {
+   "t_s": 540.0,
+   "pH": 8.0075,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0364,
+   "tripped": false
+  },
+  {
+   "t_s": 600.0,
+   "pH": 8.0075,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0359,
+   "tripped": false
+  },
+  {
+   "t_s": 660.0,
+   "pH": 8.0075,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0481,
+   "tripped": false
+  },
+  {
+   "t_s": 720.0,
+   "pH": 8.0075,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0429,
+   "tripped": false
+  },
+  {
+   "t_s": 780.0,
+   "pH": 8.0074,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.053,
+   "tripped": false
+  },
+  {
+   "t_s": 840.0,
+   "pH": 8.0074,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0389,
+   "tripped": false
+  },
+  {
+   "t_s": 900.0,
+   "pH": 8.0074,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0406,
+   "tripped": false
+  },
+  {
+   "t_s": 960.0,
+   "pH": 8.0074,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0407,
+   "tripped": false
+  },
+  {
+   "t_s": 1020.0,
+   "pH": 8.0074,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.055,
+   "tripped": false
+  },
+  {
+   "t_s": 1080.0,
+   "pH": 8.0074,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0408,
+   "tripped": false
+  },
+  {
+   "t_s": 1140.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0416,
+   "tripped": false
+  },
+  {
+   "t_s": 1200.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0386,
+   "tripped": false
+  },
+  {
+   "t_s": 1260.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0475,
+   "tripped": false
+  },
+  {
+   "t_s": 1320.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0459,
+   "tripped": false
+  },
+  {
+   "t_s": 1380.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.051,
+   "tripped": false
+  },
+  {
+   "t_s": 1440.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.036,
+   "tripped": false
+  },
+  {
+   "t_s": 1500.0,
+   "pH": 8.0073,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0528,
+   "tripped": false
+  },
+  {
+   "t_s": 1560.0,
+   "pH": 8.0072,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0438,
+   "tripped": false
+  },
+  {
+   "t_s": 1620.0,
+   "pH": 8.0072,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0432,
+   "tripped": false
+  },
+  {
+   "t_s": 1680.0,
+   "pH": 8.0072,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0477,
+   "tripped": false
+  },
+  {
+   "t_s": 1740.0,
+   "pH": 8.0072,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0496,
+   "tripped": false
+  },
+  {
+   "t_s": 1800.0,
+   "pH": 8.0072,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0445,
+   "tripped": false
+  },
+  {
+   "t_s": 1860.0,
+   "pH": 8.0072,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0425,
+   "tripped": false
+  },
+  {
+   "t_s": 1920.0,
+   "pH": 8.0071,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0525,
+   "tripped": false
+  },
+  {
+   "t_s": 1980.0,
+   "pH": 8.0071,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0446,
+   "tripped": false
+  },
+  {
+   "t_s": 2040.0,
+   "pH": 8.0071,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0546,
+   "tripped": false
+  },
+  {
+   "t_s": 2100.0,
+   "pH": 8.0071,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.036,
+   "tripped": false
+  },
+  {
+   "t_s": 2160.0,
+   "pH": 8.0071,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0409,
+   "tripped": false
+  },
+  {
+   "t_s": 2220.0,
+   "pH": 8.0071,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0475,
+   "tripped": false
+  },
+  {
+   "t_s": 2280.0,
+   "pH": 8.007,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0518,
+   "tripped": false
+  },
+  {
+   "t_s": 2340.0,
+   "pH": 8.007,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0496,
+   "tripped": false
+  },
+  {
+   "t_s": 2400.0,
+   "pH": 8.007,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.04,
+   "tripped": false
+  },
+  {
+   "t_s": 2460.0,
+   "pH": 8.007,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0429,
+   "tripped": false
+  },
+  {
+   "t_s": 2520.0,
+   "pH": 8.007,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0454,
+   "tripped": false
+  },
+  {
+   "t_s": 2580.0,
+   "pH": 8.007,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0429,
+   "tripped": false
+  },
+  {
+   "t_s": 2640.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0536,
+   "tripped": false
+  },
+  {
+   "t_s": 2700.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0352,
+   "tripped": false
+  },
+  {
+   "t_s": 2760.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0001,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0454,
+   "tripped": false
+  },
+  {
+   "t_s": 2820.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0001,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0377,
+   "tripped": false
+  },
+  {
+   "t_s": 2880.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0496,
+   "tripped": false
+  },
+  {
+   "t_s": 2940.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0355,
+   "tripped": false
+  },
+  {
+   "t_s": 3000.0,
+   "pH": 8.0069,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.039,
+   "tripped": false
+  },
+  {
+   "t_s": 3060.0,
+   "pH": 8.0068,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0403,
+   "tripped": false
+  },
+  {
+   "t_s": 3120.0,
+   "pH": 8.0068,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0358,
+   "tripped": false
+  },
+  {
+   "t_s": 3180.0,
+   "pH": 8.0068,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.053,
+   "tripped": false
+  },
+  {
+   "t_s": 3240.0,
+   "pH": 8.0068,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0368,
+   "tripped": false
+  },
+  {
+   "t_s": 3300.0,
+   "pH": 8.0068,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0411,
+   "tripped": false
+  },
+  {
+   "t_s": 3360.0,
+   "pH": 8.0068,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0498,
+   "tripped": false
+  },
+  {
+   "t_s": 3420.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0505,
+   "tripped": false
+  },
+  {
+   "t_s": 3480.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0487,
+   "tripped": false
+  },
+  {
+   "t_s": 3540.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0544,
+   "tripped": false
+  },
+  {
+   "t_s": 3600.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0377,
+   "tripped": false
+  },
+  {
+   "t_s": 3660.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0357,
+   "tripped": false
+  },
+  {
+   "t_s": 3720.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0494,
+   "tripped": false
+  },
+  {
+   "t_s": 3780.0,
+   "pH": 8.0067,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.052,
+   "tripped": false
+  },
+  {
+   "t_s": 3840.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0499,
+   "tripped": false
+  },
+  {
+   "t_s": 3900.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0508,
+   "tripped": false
+  },
+  {
+   "t_s": 3960.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0435,
+   "tripped": false
+  },
+  {
+   "t_s": 4020.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0518,
+   "tripped": false
+  },
+  {
+   "t_s": 4080.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0427,
+   "tripped": false
+  },
+  {
+   "t_s": 4140.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0546,
+   "tripped": false
+  },
+  {
+   "t_s": 4200.0,
+   "pH": 8.0066,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0496,
+   "tripped": false
+  },
+  {
+   "t_s": 4260.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0479,
+   "tripped": false
+  },
+  {
+   "t_s": 4320.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0522,
+   "tripped": false
+  },
+  {
+   "t_s": 4380.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0535,
+   "tripped": false
+  },
+  {
+   "t_s": 4440.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0441,
+   "tripped": false
+  },
+  {
+   "t_s": 4500.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0393,
+   "tripped": false
+  },
+  {
+   "t_s": 4560.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0456,
+   "tripped": false
+  },
+  {
+   "t_s": 4620.0,
+   "pH": 8.0065,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0381,
+   "tripped": false
+  },
+  {
+   "t_s": 4680.0,
+   "pH": 8.0064,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0468,
+   "tripped": false
+  },
+  {
+   "t_s": 4740.0,
+   "pH": 8.0064,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0347,
+   "tripped": false
+  },
+  {
+   "t_s": 4800.0,
+   "pH": 8.0064,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0439,
+   "tripped": false
+  },
+  {
+   "t_s": 4860.0,
+   "pH": 8.0064,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0464,
+   "tripped": false
+  },
+  {
+   "t_s": 4920.0,
+   "pH": 8.0064,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0357,
+   "tripped": false
+  },
+  {
+   "t_s": 4980.0,
+   "pH": 8.0064,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0454,
+   "tripped": false
+  },
+  {
+   "t_s": 5040.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.048,
+   "tripped": false
+  },
+  {
+   "t_s": 5100.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0423,
+   "tripped": false
+  },
+  {
+   "t_s": 5160.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0421,
+   "tripped": false
+  },
+  {
+   "t_s": 5220.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0489,
+   "tripped": false
+  },
+  {
+   "t_s": 5280.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.046,
+   "tripped": false
+  },
+  {
+   "t_s": 5340.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0368,
+   "tripped": false
+  },
+  {
+   "t_s": 5400.0,
+   "pH": 8.0063,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0423,
+   "tripped": false
+  },
+  {
+   "t_s": 5460.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0351,
+   "tripped": false
+  },
+  {
+   "t_s": 5520.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0411,
+   "tripped": false
+  },
+  {
+   "t_s": 5580.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0484,
+   "tripped": false
+  },
+  {
+   "t_s": 5640.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0544,
+   "tripped": false
+  },
+  {
+   "t_s": 5700.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.046,
+   "tripped": false
+  },
+  {
+   "t_s": 5760.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0407,
+   "tripped": false
+  },
+  {
+   "t_s": 5820.0,
+   "pH": 8.0062,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0371,
+   "tripped": false
+  },
+  {
+   "t_s": 5880.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.053,
+   "tripped": false
+  },
+  {
+   "t_s": 5940.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0547,
+   "tripped": false
+  },
+  {
+   "t_s": 6000.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0551,
+   "tripped": false
+  },
+  {
+   "t_s": 6060.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0371,
+   "tripped": false
+  },
+  {
+   "t_s": 6120.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.04,
+   "tripped": false
+  },
+  {
+   "t_s": 6180.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0544,
+   "tripped": false
+  },
+  {
+   "t_s": 6240.0,
+   "pH": 8.0061,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0476,
+   "tripped": false
+  },
+  {
+   "t_s": 6300.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0422,
+   "tripped": false
+  },
+  {
+   "t_s": 6360.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0436,
+   "tripped": false
+  },
+  {
+   "t_s": 6420.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0509,
+   "tripped": false
+  },
+  {
+   "t_s": 6480.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0459,
+   "tripped": false
+  },
+  {
+   "t_s": 6540.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.039,
+   "tripped": false
+  },
+  {
+   "t_s": 6600.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0469,
+   "tripped": false
+  },
+  {
+   "t_s": 6660.0,
+   "pH": 8.006,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0433,
+   "tripped": false
+  },
+  {
+   "t_s": 6720.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0475,
+   "tripped": false
+  },
+  {
+   "t_s": 6780.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0529,
+   "tripped": false
+  },
+  {
+   "t_s": 6840.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0366,
+   "tripped": false
+  },
+  {
+   "t_s": 6900.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0454,
+   "tripped": false
+  },
+  {
+   "t_s": 6960.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0389,
+   "tripped": false
+  },
+  {
+   "t_s": 7020.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0474,
+   "tripped": false
+  },
+  {
+   "t_s": 7080.0,
+   "pH": 8.0059,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0498,
+   "tripped": false
+  },
+  {
+   "t_s": 7140.0,
+   "pH": 8.0058,
+   "V_kg": 50000.0,
+   "cycles": 5.0,
+   "acid_kg_h": 1.4916,
+   "blowdown_kg_s": 1.0482,
+   "tripped": false
+  },
+  {
+   "t_s": 7200.0,
+   "pH": 8.0059,
+   "V_kg": 49994.8,
+   "cycles": 5.0004,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 1.0378,
+   "tripped": true
+  },
+  {
+   "t_s": 7260.0,
+   "pH": 8.008,
+   "V_kg": 49554.3,
+   "cycles": 5.0258,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7320.0,
+   "pH": 8.0102,
+   "V_kg": 49113.9,
+   "cycles": 5.0516,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7380.0,
+   "pH": 8.0125,
+   "V_kg": 48673.5,
+   "cycles": 5.0777,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7440.0,
+   "pH": 8.0147,
+   "V_kg": 48233.1,
+   "cycles": 5.1042,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7500.0,
+   "pH": 8.0169,
+   "V_kg": 47792.6,
+   "cycles": 5.131,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7560.0,
+   "pH": 8.0192,
+   "V_kg": 47352.2,
+   "cycles": 5.1583,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7620.0,
+   "pH": 8.0215,
+   "V_kg": 46911.8,
+   "cycles": 5.1859,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7680.0,
+   "pH": 8.0238,
+   "V_kg": 46471.3,
+   "cycles": 5.214,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7740.0,
+   "pH": 8.0262,
+   "V_kg": 46030.9,
+   "cycles": 5.2425,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7800.0,
+   "pH": 8.0285,
+   "V_kg": 45590.5,
+   "cycles": 5.2714,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7860.0,
+   "pH": 8.0309,
+   "V_kg": 45150.1,
+   "cycles": 5.3008,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7920.0,
+   "pH": 8.0333,
+   "V_kg": 44709.6,
+   "cycles": 5.3306,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 7980.0,
+   "pH": 8.0358,
+   "V_kg": 44269.2,
+   "cycles": 5.3609,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8040.0,
+   "pH": 8.0382,
+   "V_kg": 43828.8,
+   "cycles": 5.3916,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8100.0,
+   "pH": 8.0407,
+   "V_kg": 43388.4,
+   "cycles": 5.4229,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8160.0,
+   "pH": 8.0432,
+   "V_kg": 42947.9,
+   "cycles": 5.4546,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8220.0,
+   "pH": 8.0457,
+   "V_kg": 42507.5,
+   "cycles": 5.4869,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8280.0,
+   "pH": 8.0483,
+   "V_kg": 42067.1,
+   "cycles": 5.5197,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8340.0,
+   "pH": 8.0509,
+   "V_kg": 41626.7,
+   "cycles": 5.553,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8400.0,
+   "pH": 8.0535,
+   "V_kg": 41186.2,
+   "cycles": 5.5869,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8460.0,
+   "pH": 8.0561,
+   "V_kg": 40745.8,
+   "cycles": 5.6214,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8520.0,
+   "pH": 8.0588,
+   "V_kg": 40305.4,
+   "cycles": 5.6565,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8580.0,
+   "pH": 8.0615,
+   "V_kg": 39865.0,
+   "cycles": 5.6921,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8640.0,
+   "pH": 8.0642,
+   "V_kg": 39424.5,
+   "cycles": 5.7284,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8700.0,
+   "pH": 8.067,
+   "V_kg": 38984.1,
+   "cycles": 5.7654,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8760.0,
+   "pH": 8.0698,
+   "V_kg": 38543.7,
+   "cycles": 5.803,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8820.0,
+   "pH": 8.0726,
+   "V_kg": 38103.2,
+   "cycles": 5.8413,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8880.0,
+   "pH": 8.0755,
+   "V_kg": 37662.8,
+   "cycles": 5.8802,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 8940.0,
+   "pH": 8.0784,
+   "V_kg": 37222.4,
+   "cycles": 5.92,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9000.0,
+   "pH": 8.0813,
+   "V_kg": 36782.0,
+   "cycles": 5.9604,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9060.0,
+   "pH": 8.0842,
+   "V_kg": 36341.5,
+   "cycles": 6.0016,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9120.0,
+   "pH": 8.0872,
+   "V_kg": 35901.1,
+   "cycles": 6.0437,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9180.0,
+   "pH": 8.0903,
+   "V_kg": 35460.7,
+   "cycles": 6.0865,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9240.0,
+   "pH": 8.0933,
+   "V_kg": 35020.3,
+   "cycles": 6.1302,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9300.0,
+   "pH": 8.0964,
+   "V_kg": 34579.8,
+   "cycles": 6.1747,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9360.0,
+   "pH": 8.0996,
+   "V_kg": 34139.4,
+   "cycles": 6.2202,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9420.0,
+   "pH": 8.1028,
+   "V_kg": 33699.0,
+   "cycles": 6.2666,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9480.0,
+   "pH": 8.106,
+   "V_kg": 33258.6,
+   "cycles": 6.3139,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9540.0,
+   "pH": 8.1093,
+   "V_kg": 32818.1,
+   "cycles": 6.3623,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9600.0,
+   "pH": 8.1126,
+   "V_kg": 32377.7,
+   "cycles": 6.4117,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9660.0,
+   "pH": 8.1159,
+   "V_kg": 31937.3,
+   "cycles": 6.4621,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9720.0,
+   "pH": 8.1193,
+   "V_kg": 31496.8,
+   "cycles": 6.5136,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9780.0,
+   "pH": 8.1228,
+   "V_kg": 31056.4,
+   "cycles": 6.5663,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9840.0,
+   "pH": 8.1263,
+   "V_kg": 30616.0,
+   "cycles": 6.6202,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9900.0,
+   "pH": 8.1298,
+   "V_kg": 30175.6,
+   "cycles": 6.6753,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 9960.0,
+   "pH": 8.1335,
+   "V_kg": 29735.1,
+   "cycles": 6.7317,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10020.0,
+   "pH": 8.1371,
+   "V_kg": 29294.7,
+   "cycles": 6.7895,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10080.0,
+   "pH": 8.1408,
+   "V_kg": 28854.3,
+   "cycles": 6.8486,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10140.0,
+   "pH": 8.1446,
+   "V_kg": 28413.9,
+   "cycles": 6.9091,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10200.0,
+   "pH": 8.1484,
+   "V_kg": 27973.4,
+   "cycles": 6.9712,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10260.0,
+   "pH": 8.1523,
+   "V_kg": 27533.0,
+   "cycles": 7.0347,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10320.0,
+   "pH": 8.1563,
+   "V_kg": 27092.6,
+   "cycles": 7.1,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10380.0,
+   "pH": 8.1603,
+   "V_kg": 26652.2,
+   "cycles": 7.1669,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10440.0,
+   "pH": 8.1644,
+   "V_kg": 26211.7,
+   "cycles": 7.2355,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10500.0,
+   "pH": 8.1685,
+   "V_kg": 25771.3,
+   "cycles": 7.306,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10560.0,
+   "pH": 8.1727,
+   "V_kg": 25330.9,
+   "cycles": 7.3784,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10620.0,
+   "pH": 8.177,
+   "V_kg": 24890.5,
+   "cycles": 7.4529,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10680.0,
+   "pH": 8.1814,
+   "V_kg": 24450.0,
+   "cycles": 7.5294,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10740.0,
+   "pH": 8.1858,
+   "V_kg": 24009.6,
+   "cycles": 7.6081,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10800.0,
+   "pH": 8.1904,
+   "V_kg": 23569.2,
+   "cycles": 7.6891,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10860.0,
+   "pH": 8.195,
+   "V_kg": 23128.7,
+   "cycles": 7.7726,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10920.0,
+   "pH": 8.1997,
+   "V_kg": 22688.3,
+   "cycles": 7.8586,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 10980.0,
+   "pH": 8.2045,
+   "V_kg": 22247.9,
+   "cycles": 7.9472,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11040.0,
+   "pH": 8.2094,
+   "V_kg": 21807.5,
+   "cycles": 8.0387,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11100.0,
+   "pH": 8.2144,
+   "V_kg": 21367.0,
+   "cycles": 8.1331,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11160.0,
+   "pH": 8.2194,
+   "V_kg": 20926.6,
+   "cycles": 8.2306,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11220.0,
+   "pH": 8.2246,
+   "V_kg": 20486.2,
+   "cycles": 8.3314,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11280.0,
+   "pH": 8.23,
+   "V_kg": 20045.8,
+   "cycles": 8.4356,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11340.0,
+   "pH": 8.2354,
+   "V_kg": 19605.3,
+   "cycles": 8.5435,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11400.0,
+   "pH": 8.2409,
+   "V_kg": 19164.9,
+   "cycles": 8.6553,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11460.0,
+   "pH": 8.2466,
+   "V_kg": 18724.5,
+   "cycles": 8.7713,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11520.0,
+   "pH": 8.2524,
+   "V_kg": 18284.1,
+   "cycles": 8.8915,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11580.0,
+   "pH": 8.2584,
+   "V_kg": 17843.6,
+   "cycles": 9.0165,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11640.0,
+   "pH": 8.2645,
+   "V_kg": 17403.2,
+   "cycles": 9.1463,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11700.0,
+   "pH": 8.2707,
+   "V_kg": 16962.8,
+   "cycles": 9.2815,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11760.0,
+   "pH": 8.2771,
+   "V_kg": 16522.4,
+   "cycles": 9.4223,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11820.0,
+   "pH": 8.2837,
+   "V_kg": 16081.9,
+   "cycles": 9.5691,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11880.0,
+   "pH": 8.2905,
+   "V_kg": 15641.5,
+   "cycles": 9.7223,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 11940.0,
+   "pH": 8.2975,
+   "V_kg": 15201.1,
+   "cycles": 9.8825,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12000.0,
+   "pH": 8.3046,
+   "V_kg": 14760.6,
+   "cycles": 10.0502,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12060.0,
+   "pH": 8.312,
+   "V_kg": 14320.2,
+   "cycles": 10.226,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12120.0,
+   "pH": 8.3196,
+   "V_kg": 13879.8,
+   "cycles": 10.4104,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12180.0,
+   "pH": 8.3274,
+   "V_kg": 13439.4,
+   "cycles": 10.6043,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12240.0,
+   "pH": 8.3356,
+   "V_kg": 12998.9,
+   "cycles": 10.8084,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12300.0,
+   "pH": 8.3439,
+   "V_kg": 12558.5,
+   "cycles": 11.0237,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12360.0,
+   "pH": 8.3526,
+   "V_kg": 12118.1,
+   "cycles": 11.2512,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12420.0,
+   "pH": 8.3616,
+   "V_kg": 11677.7,
+   "cycles": 11.4921,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12480.0,
+   "pH": 8.3709,
+   "V_kg": 11237.2,
+   "cycles": 11.7478,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12540.0,
+   "pH": 8.3806,
+   "V_kg": 10796.8,
+   "cycles": 12.0197,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12600.0,
+   "pH": 8.3908,
+   "V_kg": 10356.4,
+   "cycles": 12.3096,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 3.1357,
+   "tripped": true
+  },
+  {
+   "t_s": 12660.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 12720.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 12780.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 12840.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 12900.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 12960.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13020.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13080.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13140.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13200.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13260.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13320.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13380.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13440.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13500.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13560.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13620.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13680.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13740.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13800.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13860.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13920.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 13980.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14040.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14100.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14160.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14220.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14280.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14340.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14400.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14460.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14520.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14580.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14640.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14700.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14760.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14820.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14880.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 14940.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15000.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15060.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15120.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15180.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15240.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15300.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15360.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15420.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15480.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15540.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15600.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15660.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15720.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15780.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15840.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15900.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 15960.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16020.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16080.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16140.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16200.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16260.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16320.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16380.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16440.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16500.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16560.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16620.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16680.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16740.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16800.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16860.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16920.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 16980.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17040.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17100.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17160.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17220.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17280.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17340.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17400.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17460.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17520.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17580.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17640.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17700.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17760.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17820.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17880.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 17940.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18000.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18060.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18120.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18180.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18240.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18300.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18360.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18420.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18480.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18540.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18600.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18660.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18720.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18780.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18840.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18900.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 18960.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19020.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19080.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19140.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19200.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19260.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19320.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19380.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19440.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19500.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19560.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19620.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19680.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19740.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19800.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19860.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19920.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 19980.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20040.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20100.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20160.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20220.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20280.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20340.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20400.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20460.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20520.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20580.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20640.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20700.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20760.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20820.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20880.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 20940.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21000.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21060.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21120.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21180.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21240.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21300.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21360.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21420.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21480.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21540.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21600.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21660.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21720.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21780.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21840.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21900.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 21960.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22020.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22080.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22140.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22200.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22260.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22320.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22380.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22440.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22500.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22560.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22620.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22680.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22740.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22800.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22860.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22920.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 22980.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23040.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23100.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23160.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23220.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23280.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23340.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23400.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23460.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23520.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23580.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23640.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23700.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23760.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23820.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23880.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 23940.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24000.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24060.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24120.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24180.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24240.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24300.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24360.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24420.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24480.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24540.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24600.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24660.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24720.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24780.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24840.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24900.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 24960.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25020.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25080.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25140.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25200.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25260.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25320.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25380.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25440.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25500.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25560.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25620.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25680.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25740.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25800.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25860.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25920.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 25980.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26040.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26100.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26160.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26220.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26280.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26340.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26400.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26460.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26520.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26580.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26640.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26700.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26760.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26820.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26880.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 26940.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27000.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27060.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27120.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27180.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27240.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27300.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27360.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27420.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27480.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27540.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27600.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27660.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27720.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27780.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27840.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27900.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 27960.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28020.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28080.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28140.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28200.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28260.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28320.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28380.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28440.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28500.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28560.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28620.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28680.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28740.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  },
+  {
+   "t_s": 28800.0,
+   "pH": 8.3993,
+   "V_kg": 9996.7,
+   "cycles": 12.5611,
+   "acid_kg_h": 0.0,
+   "blowdown_kg_s": 0.0,
+   "tripped": true
+  }
+ ]
+}
