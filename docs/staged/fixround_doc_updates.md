@@ -42,6 +42,34 @@ is given in words.
 - `docs/defect_register.md:59` (defect 49's row) — "a tested discharge ceiling of **3.33**" → add "(the daily maximum; defect 69)"
 - `docs/incumbent_gap.md:190–192` — "the makeup alone already breaches it on both waters, giving a discharge ceiling of 1.0" → "… so no cycle count complies (INFEASIBLE)"
 
+## Defects 70 and 51 — the de-duplicated calibration data
+
+- `docs/poc_report.md:196–198` — "model MAE on the same points **0.537 K**", "MAE / u_c **2.48**", "points agreeing within U (k=2) 40 %" → **0.594 K**, **2.82**, **37.5 %** (the uncertainty study now runs on the 32-row holdout, not 50)
+- `docs/poc_report.md:205–208` — within-campaign MAE "0.332 K (1.53 x u_c)" → **0.367 K (1.69)**; across-campaign "0.470 K (2.17)" → **0.547 K (2.52)**; drift penalty "+0.138 K" → **+0.180 K**; fill coefficient "1.240 to 1.532, a spread of 21.1 %" → **1.241 to 1.532, 20.97 %**
+- `results/v2_diagnosis.json` — carries an Exp3 entry and has **no generator** in the repository, so its per-campaign table (which `make_report.py` prints into the PoC report) cannot be re-derived. Whoever does the documentation pass should either write the generator or delete the Exp3 entry by hand and say so
+- `docs/poc_report.md:82, 92, 94` — the Exp3 rows of the per-campaign tables, and "The identified fill coefficient moves 23.5 % across the three campaigns" → Exp3 is not a campaign (defect 51/70); the spread across the two real campaigns is what `results/drift.json` now carries
+- `docs/poc_report.md:171, 177` — "E: separate flows + wet bulb … 0.517 K against 0.542 K for the adopted law" → on the de-duplicated holdout law A wins outright at **0.600 K** and E scores **0.608 K**, so the paragraph's argument ("the form that scores best on MAE was rejected") no longer describes the result: the adopted law now also scores best
+- `HANDOFF.md:254` and `HANDOFF.md:525`, `docs/defect_register.md:428` — "Model error is **2.48×** the propagated measurement uncertainty" → **2.82×**
+- `docs/deck_2026_09_12.md:141` — "the water figures carry **±5.6 pp** from fan-movement uncertainty. 20 % is inside the error bar of the 15 % already computed" → the analytic bar is **±2.0 pp** and 20 % is outside it (13.0–17.0 %), but the bar is now a between-tower spread from **two** campaigns; the Monte Carlo interval WIDENED (V7 sd 5.51 → 5.79 pp, P(≥20 %) 0.094 → 0.072). Whatever replaces this sentence must not read as though the instrument improved
+- `src/gate_uncertainty.py` and `scripts/gate_uncertainty.py` prose were updated in place (they are code, not documents)
+
+## Defect 71 — the PINN's fifth gate
+
+- `HANDOFF.md:276–284` — "**PINN surrogate — three defects, then all four gates passed**" and its four-row table → **five** gates are pre-registered; P2 (holdout MAE ≤ 0.60 K) is the missing row. An independent audit measured **0.627 K on the inherited 50-row holdout — FAIL**; `results/pinn.json` carries no P2 at all. Until `src/pinn.py` is re-run (it now computes P2 on the 32-row holdout), the honest wording is "four of five gates scored, and the fifth was not"
+- `docs/ai_architecture.md:78` — "Gates pre-registered before training, in the same way as V1, V2 and V5" → add that one of them was never scored, with defect 71's reference
+
+## Defect 73 — the fan-flow unit
+
+- No document states the unit; `docs/defect_register.md:15` (defect 1) records the Hz reading as fixed. If the register gains a row for 73, defect 1's row should point at it: the correlation's argument is read as hertz on two physical arguments, and the dataset README prints it as a percentage
+
+## Defect 57 in the MATLAB twin
+
+- `HANDOFF.md:555` — "over pH 8.43–8.89, **11.1 of 24 hours above it**" is a brucite limit computed with the old enthalpy pairing. The Python engine's corrected values are 0.6 pH units higher at a 45 °C skin; `results/matlab_simulink.json` still carries the old constant and was not regenerated
+
+## Defect 75 — the V5 table
+
+- `docs/poc_report.md` V5 section — if it was regenerated from a run in which V7 had overwritten `results/v5_controller.csv`, its rows are the 3-cycle baseline ("3 → 5", +19.2 % water). The committed table is the 4-cycle one and the generator now writes each gate under its own name
+
 ## Stale before this branch (defect 57's fix, merged at 709a3c5, never re-run into this artefact)
 
 `results/incumbent_gap.json` as committed (8433848) predated the brucite enthalpy fix. Re-running it at 709a3c5, before any change here, moved the no-acid regime only:
