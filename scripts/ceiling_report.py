@@ -60,7 +60,7 @@ def _ceiling(water, T_hot, T_cold, pH, programme=None):
 
 def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
             m_w_kg_s, programme=None, silica_measured=True,
-            diurnal_amplitude_k=5.0):
+            diurnal_amplitude_k=5.0, basin_material=None, cement_type=None):
     """Everything the report needs, as data. No formatting here."""
     out = {"water": water.name, "cycles_now": cycles_now,
            "T_hot": T_hot, "T_cold": T_cold, "pH": pH,
@@ -138,6 +138,20 @@ def analyse(water, cycles_now, T_hot, T_cold, pH, tariffs, evap_kg_s,
         out["discharge"]["applies_here"] = None   # unknown for this site
     except Exception as exc:                      # never fail the report on it
         out["discharge"] = {"error": str(exc)}
+
+    # CONCRETE BASIN SULFATE (robustness_gaps section 10). REPORTED, NOT
+    # IMPOSED, for the same reason as the discharge permit: the limit belongs
+    # to the basin's cement, which this report cannot know. Undeclared means
+    # inactive, and the exposure class is printed regardless. Evaluated at the
+    # recommended ceiling, without acid sulfate, because this report does not
+    # carry an acid dose; acid moves every boundary lower (src/concrete.py).
+    try:
+        import concrete
+        out["concrete"] = concrete.concrete_sulfate_constraint(
+            water, ceiling, basin_material=basin_material,
+            cement_type=cement_type)
+    except Exception as exc:                      # never fail the report on it
+        out["concrete"] = {"error": str(exc)}
     out["binding"] = binding
 
     # what the incumbent index would say, at the same conditions
@@ -570,6 +584,11 @@ def main() -> int:
                   f"monthly average, bound by {mx['parameter']}")
             print(f"             : IF RCER-2015 applies to this site. It binds "
                   f"Jubail and Yanbu; check before using it.")
+    cr = a.get("concrete") or {}
+    if "exposure" in cr:
+        print(f"concrete     : SO4 {cr['so4_mg_l']:.0f} mg/L at the ceiling -> "
+              f"ACI 318-19 {cr['exposure']['aci_318_19']}, EN 206 "
+              f"{cr['exposure']['en_206']} ({cr['status']})")
     print(f"silica xover : {a['silica_crossover']}")
     print(f"written      -> {out}")
     if args.json:
