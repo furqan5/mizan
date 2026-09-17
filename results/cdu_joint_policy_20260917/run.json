@@ -1,0 +1,1215 @@
+{
+  "registration": {
+    "inputs_sha256": {
+      "src/cdu_joint_policy.py": "70cdf96c15c7277516bd8d369c7d3a70608c7084c2359fbf5b41698a462e198b",
+      "src/hybrid_supervisor.py": "49c32b34aedf2987fd9ad33a214e7407bbf315b6dbbb9b02c120744ba6e7908d",
+      "src/models/cdu_model.py": "bf9aa7ff52e108efb44e30f398881d21ce8a91d5a07dc3bf5d8ff44b27e90590",
+      "src/chemistry.py": "7ef7d1e97d2593161a70e53e5a467af9ea359a9a29eb6360735e08626155efa6",
+      "src/controller.py": "a6b12a9a26c6e9fa68144031d4caf4c63c5c99f01a23b078d515674c28215ca9",
+      "src/tower.py": "3ed25512a649918efa80dcdc044dd0e7270f03f63ba49e6639c1a37d784e64ba",
+      "src/corrosion.py": "d71897ef6cecc0f43042b3b9843626368946f2bb213d277abca61cc1ff8fef94",
+      "scripts/generate_pitch_artifacts.py": "f3e415d99133c93d69a92c832120363f3c7c6827bfd8b46e2d2b6a00be26bf97",
+      "results/calibration.json": "eac4a714385cb0b0d488c470515f1c12b7ee89ca881c5443630f0f7f62d525bb",
+      "results/tmy_hourly.npy": "57efd6ea18d4162f04d109cdc0753371dc164747135539e5a5ab1e55951a04c0",
+      "results/pitch_artifacts.json": "85956f4617582550c58525f85343b0aec7b769284c2e74607c44a2e5c384fc5f",
+      "docs/staged/cdu_joint_policy_preregistration.md": "a9bf473c7e567be0a9d80db44d82edb91ab9ed14d20d8a201f16a99a27737e2d"
+    },
+    "nlr_csv_sha256": "c0ca5518748dba3f6072d77dc2d2d70c802f0ebe9c8f3aa8ce3cc002f3f7c232",
+    "python": "3.14.6 (tags/v3.14.6:c63aec6, Jun 10 2026, 10:26:10) [MSC v.1944 64 bit (AMD64)]",
+    "started": "2026-09-17 19:21:02"
+  },
+  "H_B2": {
+    "regions_supporting": 3,
+    "status": "PASS",
+    "rule": "delta2 <= 0.5*delta1 in >= 3 of 4 regions; delta1 <= 0 counts against"
+  },
+  "load_shape_verdict": {
+    "depends_on_load_shape": true,
+    "any_region_moved_3h_or_more": true,
+    "count_range": [
+      12,
+      24
+    ],
+    "nlr_fraction": 0.9462442583159482
+  },
+  "plausibility_temperatures": {
+    "cdu_hybrid_T_fws_range_c": [
+      4.44,
+      8.89
+    ],
+    "cdu_hybrid_T_gpu_inlet_water_range_c": [
+      9.440000000000001,
+      13.89
+    ],
+    "cdu_hybrid_states_with_chiller": 909,
+    "cdu_hybrid_states": 909,
+    "supervisor_nominal_flow_T_fws_max_c_at_42C_return": 27.0,
+    "supervisor_nominal_flow_T_fws_max_c_at_55C_return": 40.0,
+    "model_return_limit_c": 42.0,
+    "model_cdu_approach_k": 5.0,
+    "deschutes_approach_k": 3.0,
+    "model_heat_to_liquid": 1.0
+  },
+  "materials": {
+    "alfa_laval_fhe_316": {
+      "wall_T_used_c": 111.86483104057022,
+      "table_row_c": null,
+      "pH": 8.25,
+      "limit_mg_l": null
+    },
+    "ARAMCO_RIYADH_REFINERY_TSE": {
+      "Cl_mg_l": 216.0,
+      "janikowski_304_max_cycles": 0.6944444444444444,
+      "janikowski_316_max_cycles": 1.8518518518518519,
+      "alfa_laval_fhe_316_max_cycles": null,
+      "silica_floor_5cy_c": 12.566284668918655,
+      "silica_floor_4cy_c": 2.8267145270946323,
+      "duplex_2205": "no cited criterion held; not derived",
+      "titanium": "no cited criterion held; not derived",
+      "copper_nickel": "no cited criterion held (corrosion.py records none); not derived"
+    },
+    "run_controller.TSE": {
+      "Cl_mg_l": 528.0,
+      "janikowski_304_max_cycles": 0.2840909090909091,
+      "janikowski_316_max_cycles": 0.7575757575757576,
+      "alfa_laval_fhe_316_max_cycles": null,
+      "silica_floor_5cy_c": 31.7605486042767,
+      "silica_floor_4cy_c": 20.69376613936644,
+      "duplex_2205": "no cited criterion held; not derived",
+      "titanium": "no cited criterion held; not derived",
+      "copper_nickel": "no cited criterion held (corrosion.py records none); not derived"
+    }
+  },
+  "regions": {
+    "Gulf_Dhahran": {
+      "label": "Gulf \u2014 Dhahran, Saudi Arabia",
+      "base": {
+        "B0": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 422.41476426261175,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 12,
+          "any_mineral_material_hours": 14,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 3.537106919804142,
+          "PUE_ratio_of_totals": 3.537106919804142,
+          "max_secondary_flow_ratio": 11.375404748469494,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 5,
+          "max_P_pump_sec_kW": 264955.5858487996,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 22588.962278237275,
+          "T_fws_range_c": [
+            30.3420607527554,
+            36.12091040089405
+          ],
+          "max_T_wall_primary_c": 111.86483104057022,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2964590627590677
+        },
+        "B1": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 106579.06439234616,
+          "water_m3_day": 419.14575415115684,
+          "water_delta_pct_vs_B0": -0.7738863287985364,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 2,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 3.5558634567560645,
+          "PUE_ratio_of_totals": 3.5558634567560645,
+          "max_secondary_flow_ratio": 11.375404748469494,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 5,
+          "max_P_pump_sec_kW": 264955.5858487996,
+          "mean_P_fan_kW": 87.21709572244623,
+          "mean_P_pump_sec_kW": 22780.554015082133,
+          "T_fws_range_c": [
+            31.76144452017682,
+            36.12091040089405
+          ],
+          "max_T_wall_primary_c": 111.86483104057022,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.252300230153036
+        },
+        "B2": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 21705497.715529088,
+          "water_m3_day": 446.5328483949632,
+          "water_delta_pct_vs_B0": 5.709574137270787,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 7.252723808204927,
+          "PUE_ratio_of_totals": 7.252723808204926,
+          "max_secondary_flow_ratio": 18.101184483815274,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 5,
+          "max_P_pump_sec_kW": 1067562.9400343096,
+          "mean_P_fan_kW": 108.57890454414202,
+          "mean_P_pump_sec_kW": 56030.93536930019,
+          "T_fws_range_c": [
+            30.3420607527554,
+            36.447549965089785
+          ],
+          "max_T_wall_primary_c": 325.32304417234786,
+          "cycles_chosen": {
+            "2.0": 1,
+            "4.0": 12,
+            "5.0": 11
+          },
+          "WUE_max_L_kWh": 3.3102509306262577
+        },
+        "B1f": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 21783675.204296913,
+          "water_m3_day": 418.67851886562624,
+          "water_delta_pct_vs_B0": -0.8844968767859441,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 1,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 1,
+          "PUE_mean_of_hours": 7.271480345156849,
+          "PUE_ratio_of_totals": 7.271480345156849,
+          "max_secondary_flow_ratio": 18.101184483815274,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 5,
+          "max_P_pump_sec_kW": 1067562.9400343096,
+          "mean_P_fan_kW": 85.79600026658825,
+          "mean_P_pump_sec_kW": 56222.52710614505,
+          "T_fws_range_c": [
+            31.76144452017682,
+            36.447549965089785
+          ],
+          "max_T_wall_primary_c": 325.32304417234786,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2221221636204507
+        }
+      },
+      "S_OEM_return_55C": {
+        "B0": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 422.41476426261175,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 12,
+          "any_mineral_material_hours": 12,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0472222222222223,
+          "PUE_ratio_of_totals": 1.0472222222222223,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 180.0,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 180.0,
+          "T_fws_range_c": [
+            30.3420607527554,
+            36.12091040089405
+          ],
+          "max_T_wall_primary_c": 46.060518150236305,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2964590627590677
+        },
+        "B1": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -17618.363099965845,
+          "water_m3_day": 419.14575415115684,
+          "water_delta_pct_vs_B0": -0.7738863287985364,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0446907884136052,
+          "PUE_ratio_of_totals": 1.0446907884136052,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 180.0,
+          "mean_P_fan_kW": 87.21709572244623,
+          "mean_P_pump_sec_kW": 180.0,
+          "T_fws_range_c": [
+            31.76144452017682,
+            36.12091040089405
+          ],
+          "max_T_wall_primary_c": 46.060518150236305,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.252300230153036
+        },
+        "B2": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -95366.97283157939,
+          "water_m3_day": 389.45034979842575,
+          "water_delta_pct_vs_B0": -7.8038026255380375,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0358011910036666,
+          "PUE_ratio_of_totals": 1.0358011910036666,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 180.0,
+          "mean_P_fan_kW": 7.2107190329986475,
+          "mean_P_pump_sec_kW": 180.0,
+          "T_fws_range_c": [
+            34.980921593815864,
+            38.59661583670073
+          ],
+          "max_T_wall_primary_c": 48.53622358604299,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.054133613331661
+        }
+      },
+      "H_B2_region_supports": false,
+      "H_B2_scoreable": true,
+      "deck_table_staleness": {
+        "PUE_blind": {
+          "stored": 3.537106919804142,
+          "now": 3.537106919804142
+        },
+        "PUE_bounded": {
+          "stored": 3.5558634567560645,
+          "now": 3.5558634567560645
+        },
+        "WUE_blind": {
+          "stored": 1.9556239086232026,
+          "now": 1.9556239086232026
+        },
+        "WUE_bounded": {
+          "stored": 1.9404896025516523,
+          "now": 1.9404896025516523
+        },
+        "cost_delta_per_year_usd": {
+          "stored": 106579.06439234615,
+          "now": 106579.06439234615
+        },
+        "hours_blind_materially_violating": {
+          "stored": 12,
+          "now": 12
+        },
+        "hours_bounded_materially_violating": {
+          "stored": 0,
+          "now": 0
+        },
+        "hours_floor_unreachable": {
+          "stored": 0,
+          "now": 0
+        },
+        "max_silica_SR_blind": {
+          "stored": 1.0280791596702394,
+          "now": 1.0280791596702394
+        },
+        "max_silica_SR_bounded": {
+          "stored": 0.999982535457467,
+          "now": 0.999982535457467
+        },
+        "solved_hours": {
+          "stored": 24,
+          "now": 24
+        },
+        "chemical_floor_c": {
+          "stored": 31.7605486042767,
+          "now": 31.7605486042767
+        },
+        "max_secondary_flow_ratio": {
+          "stored": 11.375404748469494,
+          "now": 11.375404748469494
+        }
+      },
+      "WUE_bound_violations": 1,
+      "load_shape": {
+        "L0_flat_1.00": {
+          "silica_scaling_hours": 12
+        },
+        "L1_NLR_flat": {
+          "fraction_min": 0.9462442583159482,
+          "fraction_max": 0.9462442583159482,
+          "solved": 24,
+          "silica_scaling_hours": 12,
+          "delta_vs_L0": 0
+        },
+        "L2_PowerData_median": {
+          "fraction_min": 0.94,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 12,
+          "delta_vs_L0": 0
+        },
+        "L3_PowerData_max": {
+          "fraction_min": 0.845,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 12,
+          "delta_vs_L0": 0
+        }
+      },
+      "t_cold_hour": 3,
+      "elapsed_s": 773.5377869606018
+    },
+    "USA_NorthernVirginia": {
+      "label": "USA \u2014 Loudoun County, Virginia",
+      "base": {
+        "B0": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 900.9863260142237,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 24,
+          "any_mineral_material_hours": 24,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0491518002876878,
+          "PUE_ratio_of_totals": 1.0491518002876878,
+          "max_secondary_flow_ratio": 1.3948356930565897,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 1085.4983006873615,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 573.036005753757,
+          "T_fws_range_c": [
+            23.55013082183177,
+            29.83069679835452
+          ],
+          "max_T_wall_primary_c": 38.436933940995885,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 1.9962455659185028
+        },
+        "B1": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 1601382.8829484163,
+          "water_m3_day": 836.7164244276674,
+          "water_delta_pct_vs_B0": -7.133282684863033,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.1589877556450559,
+          "PUE_ratio_of_totals": 1.1589877556450559,
+          "max_secondary_flow_ratio": 1.9652728983159524,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 3036.1874917766368,
+          "mean_P_fan_kW": 11.81933488956453,
+          "mean_P_pump_sec_kW": 2867.9357780115533,
+          "T_fws_range_c": [
+            31.77354628275423,
+            31.91164814384352
+          ],
+          "max_T_wall_primary_c": 39.71068983271782,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 1.879713801788598
+        },
+        "B2": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 30234.255597066476,
+          "water_m3_day": 943.1753095993739,
+          "water_delta_pct_vs_B0": 4.682533171372928,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.047410850235902,
+          "PUE_ratio_of_totals": 1.047410850235902,
+          "max_secondary_flow_ratio": 1.3948356930565897,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 1085.4983006873615,
+          "mean_P_fan_kW": 73.36631602979507,
+          "mean_P_pump_sec_kW": 574.8506886882482,
+          "T_fws_range_c": [
+            25.980104679873275,
+            29.83069679835452
+          ],
+          "max_T_wall_primary_c": 38.436933940995885,
+          "cycles_chosen": {
+            "4.0": 24
+          },
+          "WUE_max_L_kWh": 2.1293286036464028
+        },
+        "B1f": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 1601382.8829484163,
+          "water_m3_day": 836.7164244276674,
+          "water_delta_pct_vs_B0": -7.133282684863033,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.1589877556450559,
+          "PUE_ratio_of_totals": 1.1589877556450559,
+          "max_secondary_flow_ratio": 1.9652728983159524,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 3036.1874917766368,
+          "mean_P_fan_kW": 11.81933488956453,
+          "mean_P_pump_sec_kW": 2867.9357780115533,
+          "T_fws_range_c": [
+            31.77354628275423,
+            31.91164814384352
+          ],
+          "max_T_wall_primary_c": 39.71068983271782,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 1.879713801788598
+        }
+      },
+      "S_OEM_return_55C": {
+        "B0": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 900.9863260142237,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 24,
+          "any_mineral_material_hours": 24,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0405,
+          "PUE_ratio_of_totals": 1.0405,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            23.55013082183177,
+            29.83069679835452
+          ],
+          "max_T_wall_primary_c": 39.77030454769678,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 1.9962455659185028
+        },
+        "B1": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -113430.4840762318,
+          "water_m3_day": 836.7164244276674,
+          "water_delta_pct_vs_B0": -7.133282684863033,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0355909667444783,
+          "PUE_ratio_of_totals": 1.0355909667444783,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 11.81933488956453,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            31.77354628275423,
+            31.91164814384352
+          ],
+          "max_T_wall_primary_c": 41.85125589318578,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 1.879713801788598
+        },
+        "B2": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -131317.08508230044,
+          "water_m3_day": 819.1493044922835,
+          "water_delta_pct_vs_B0": -9.083048117275005,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0351269245046297,
+          "PUE_ratio_of_totals": 1.0351269245046295,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 2.5384900925913594,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            33.314125720523506,
+            37.38558458102254
+          ],
+          "max_T_wall_primary_c": 47.3251923303648,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 1.7725076007949945
+        }
+      },
+      "H_B2_region_supports": true,
+      "H_B2_scoreable": true,
+      "deck_table_staleness": {
+        "PUE_blind": {
+          "stored": 1.0491518002876878,
+          "now": 1.0491518002876878
+        },
+        "PUE_bounded": {
+          "stored": 1.1589877556450559,
+          "now": 1.1589877556450559
+        },
+        "WUE_blind": {
+          "stored": 1.877054845862966,
+          "now": 1.877054845862966
+        },
+        "WUE_bounded": {
+          "stored": 1.7431592175576405,
+          "now": 1.7431592175576405
+        },
+        "cost_delta_per_year_usd": {
+          "stored": 1601382.8829484165,
+          "now": 1601382.8829484165
+        },
+        "hours_blind_materially_violating": {
+          "stored": 24,
+          "now": 24
+        },
+        "hours_bounded_materially_violating": {
+          "stored": 0,
+          "now": 0
+        },
+        "hours_floor_unreachable": {
+          "stored": 0,
+          "now": 0
+        },
+        "max_silica_SR_blind": {
+          "stored": 1.178162295356296,
+          "now": 1.178162295356296
+        },
+        "max_silica_SR_bounded": {
+          "stored": 0.9997474221098508,
+          "now": 0.9997474221098508
+        },
+        "solved_hours": {
+          "stored": 24,
+          "now": 24
+        },
+        "chemical_floor_c": {
+          "stored": 31.7605486042767,
+          "now": 31.7605486042767
+        },
+        "max_secondary_flow_ratio": {
+          "stored": 1.9652728983159524,
+          "now": 1.9652728983159524
+        }
+      },
+      "WUE_bound_violations": 0,
+      "load_shape": {
+        "L0_flat_1.00": {
+          "silica_scaling_hours": 24
+        },
+        "L1_NLR_flat": {
+          "fraction_min": 0.9462442583159482,
+          "fraction_max": 0.9462442583159482,
+          "solved": 24,
+          "silica_scaling_hours": 24,
+          "delta_vs_L0": 0
+        },
+        "L2_PowerData_median": {
+          "fraction_min": 0.94,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 24,
+          "delta_vs_L0": 0
+        },
+        "L3_PowerData_max": {
+          "fraction_min": 0.845,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 24,
+          "delta_vs_L0": 0
+        }
+      },
+      "t_cold_hour": 5,
+      "elapsed_s": 680.8993628025055
+    },
+    "Europe_Frankfurt": {
+      "label": "Europe \u2014 Frankfurt, Germany",
+      "base": {
+        "B0": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 759.0794338253831,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 20,
+          "any_mineral_material_hours": 20,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0405,
+          "PUE_ratio_of_totals": 1.0405,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            18.30944877634123,
+            23.070839596914546
+          ],
+          "max_T_wall_primary_c": 33.01044734625681,
+          "cycles_chosen": {
+            "5.0": 20
+          },
+          "WUE_max_L_kWh": 1.6643254641554286
+        },
+        "B1": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": 9769621.906363258,
+          "water_m3_day": 754.2976162709945,
+          "water_delta_pct_vs_B0": -0.6299495601258351,
+          "silica_scaling_hours": 8,
+          "any_mineral_material_hours": 8,
+          "floor_unreachable_hours": 8,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.350422739420679,
+          "PUE_ratio_of_totals": 1.350422739420679,
+          "max_secondary_flow_ratio": 4.945304855166627,
+          "hours_flow_ratio_over_flag": 14,
+          "hours_PUE_over_uptime_avg": 2,
+          "max_P_pump_sec_kW": 48377.02955871065,
+          "mean_P_fan_kW": 4.573244875067761,
+          "mean_P_pump_sec_kW": 6703.881543538511,
+          "T_fws_range_c": [
+            25.98184233864527,
+            34.97787997042236
+          ],
+          "max_T_wall_primary_c": 46.666054259154095,
+          "cycles_chosen": {
+            "5.0": 20
+          },
+          "WUE_max_L_kWh": 1.603733566022013
+        },
+        "B2": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": -93514.5184747086,
+          "water_m3_day": 790.9075722942673,
+          "water_delta_pct_vs_B0": 4.192991806995239,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0357917176548832,
+          "PUE_ratio_of_totals": 1.0357917176548832,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 15.834353097663907,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            24.976643165547856,
+            26.863306138864324
+          ],
+          "max_T_wall_primary_c": 36.80291388820659,
+          "cycles_chosen": {
+            "4.0": 20
+          },
+          "WUE_max_L_kWh": 1.7134219562477422
+        },
+        "B1f": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": 9769621.906363258,
+          "water_m3_day": 754.2976162709945,
+          "water_delta_pct_vs_B0": -0.6299495601258351,
+          "silica_scaling_hours": 8,
+          "any_mineral_material_hours": 8,
+          "floor_unreachable_hours": 8,
+          "infeasible_hours_fallback": 8,
+          "PUE_mean_of_hours": 1.350422739420679,
+          "PUE_ratio_of_totals": 1.350422739420679,
+          "max_secondary_flow_ratio": 4.945304855166627,
+          "hours_flow_ratio_over_flag": 14,
+          "hours_PUE_over_uptime_avg": 2,
+          "max_P_pump_sec_kW": 48377.02955871065,
+          "mean_P_fan_kW": 4.573244875067761,
+          "mean_P_pump_sec_kW": 6703.881543538511,
+          "T_fws_range_c": [
+            25.98184233864527,
+            34.97787997042236
+          ],
+          "max_T_wall_primary_c": 46.666054259154095,
+          "cycles_chosen": {
+            "5.0": 20
+          },
+          "WUE_max_L_kWh": 1.603733566022013
+        }
+      },
+      "S_OEM_return_55C": {
+        "B0": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 759.0794338253831,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 20,
+          "any_mineral_material_hours": 20,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0405,
+          "PUE_ratio_of_totals": 1.0405,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            18.30944877634123,
+            23.070839596914546
+          ],
+          "max_T_wall_primary_c": 33.01044734625681,
+          "cycles_chosen": {
+            "5.0": 20
+          },
+          "WUE_max_L_kWh": 1.6643254641554286
+        },
+        "B1": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": -170338.5114882703,
+          "water_m3_day": 754.2976162709945,
+          "water_delta_pct_vs_B0": -0.6299495601258351,
+          "silica_scaling_hours": 8,
+          "any_mineral_material_hours": 8,
+          "floor_unreachable_hours": 8,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0352286622437534,
+          "PUE_ratio_of_totals": 1.0352286622437534,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 4.573244875067761,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            25.98184233864527,
+            34.97787997042236
+          ],
+          "max_T_wall_primary_c": 44.91748771976462,
+          "cycles_chosen": {
+            "5.0": 20
+          },
+          "WUE_max_L_kWh": 1.603733566022013
+        },
+        "B2": {
+          "solved_hours": 20,
+          "cost_delta_vs_B0_usd_yr": -142918.70407400967,
+          "water_m3_day": 772.1692789452991,
+          "water_delta_pct_vs_B0": 1.724436802871818,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0352627221427857,
+          "PUE_ratio_of_totals": 1.0352627221427857,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 400.0,
+          "mean_P_fan_kW": 5.254442855713026,
+          "mean_P_pump_sec_kW": 400.0,
+          "T_fws_range_c": [
+            25.98184233864527,
+            34.97787997042236
+          ],
+          "max_T_wall_primary_c": 44.91748771976462,
+          "cycles_chosen": {
+            "4.0": 8,
+            "5.0": 12
+          },
+          "WUE_max_L_kWh": 1.6813361229191701
+        }
+      },
+      "H_B2_region_supports": true,
+      "H_B2_scoreable": true,
+      "deck_table_staleness": {
+        "PUE_blind": {
+          "stored": 1.0405000000000002,
+          "now": 1.0405000000000002
+        },
+        "PUE_bounded": {
+          "stored": 1.3504227394206791,
+          "now": 1.3504227394206791
+        },
+        "WUE_blind": {
+          "stored": 1.581415487136215,
+          "now": 1.581415487136215
+        },
+        "WUE_bounded": {
+          "stored": 1.5714533672312385,
+          "now": 1.5714533672312385
+        },
+        "cost_delta_per_year_usd": {
+          "stored": 9769621.906363258,
+          "now": 9769621.906363258
+        },
+        "hours_blind_materially_violating": {
+          "stored": 20,
+          "now": 20
+        },
+        "hours_bounded_materially_violating": {
+          "stored": 8,
+          "now": 8
+        },
+        "hours_floor_unreachable": {
+          "stored": 8,
+          "now": 8
+        },
+        "max_silica_SR_blind": {
+          "stored": 1.3144760570856953,
+          "now": 1.3144760570856953
+        },
+        "max_silica_SR_bounded": {
+          "stored": 1.1212658865577376,
+          "now": 1.1212658865577376
+        },
+        "solved_hours": {
+          "stored": 20,
+          "now": 20
+        },
+        "chemical_floor_c": {
+          "stored": 31.7605486042767,
+          "now": 31.7605486042767
+        },
+        "max_secondary_flow_ratio": {
+          "stored": 4.945304855166627,
+          "now": 4.945304855166627
+        }
+      },
+      "WUE_bound_violations": 0,
+      "load_shape": {
+        "L0_flat_1.00": {
+          "silica_scaling_hours": 20
+        },
+        "L1_NLR_flat": {
+          "fraction_min": 0.9462442583159482,
+          "fraction_max": 0.9462442583159482,
+          "solved": 24,
+          "silica_scaling_hours": 24,
+          "delta_vs_L0": 4
+        },
+        "L2_PowerData_median": {
+          "fraction_min": 0.94,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 24,
+          "delta_vs_L0": 4
+        },
+        "L3_PowerData_max": {
+          "fraction_min": 0.845,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 24,
+          "delta_vs_L0": 4
+        }
+      },
+      "t_cold_hour": 5,
+      "elapsed_s": 770.7146475315094
+    },
+    "Pakistan_Balloki": {
+      "label": "Pakistan \u2014 Balloki / Punjab industrial",
+      "base": {
+        "B0": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 397.6739816873531,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 21,
+          "any_mineral_material_hours": 21,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0832886341655439,
+          "PUE_ratio_of_totals": 1.0832886341655437,
+          "max_secondary_flow_ratio": 1.9932865110658293,
+          "hours_flow_ratio_over_flag": 7,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 1267.1533209294005,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 436.3090733243498,
+          "T_fws_range_c": [
+            24.109039882491775,
+            31.98315974924603
+          ],
+          "max_T_wall_primary_c": 39.76219495502525,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2380035905896016
+        },
+        "B1": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 533603.2413659969,
+          "water_m3_day": 368.1175290540072,
+          "water_delta_pct_vs_B0": -7.432332512158891,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.1617944668056157,
+          "PUE_ratio_of_totals": 1.1617944668056157,
+          "max_secondary_flow_ratio": 1.9932865110658293,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 1267.1533209294005,
+          "mean_P_fan_kW": 32.70123436871083,
+          "mean_P_pump_sec_kW": 1141.6545000762142,
+          "T_fws_range_c": [
+            31.764696449848447,
+            31.98315974924603
+          ],
+          "max_T_wall_primary_c": 39.76219495502525,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2380035905896016
+        },
+        "B2": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -21482.760581213297,
+          "water_m3_day": 412.3561254537047,
+          "water_delta_pct_vs_B0": 3.692005120388927,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.0800788145887905,
+          "PUE_ratio_of_totals": 1.0800788145887905,
+          "max_secondary_flow_ratio": 1.9932865110658293,
+          "hours_flow_ratio_over_flag": 7,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 1267.1533209294005,
+          "mean_P_fan_kW": 80.14949061531692,
+          "mean_P_pump_sec_kW": 440.4810260950073,
+          "T_fws_range_c": [
+            26.126533226878493,
+            31.98315974924603
+          ],
+          "max_T_wall_primary_c": 39.76219495502525,
+          "cycles_chosen": {
+            "4.0": 21,
+            "5.0": 3
+          },
+          "WUE_max_L_kWh": 2.3640560306935816
+        },
+        "B1f": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 533603.2413659969,
+          "water_m3_day": 368.1175290540072,
+          "water_delta_pct_vs_B0": -7.432332512158891,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.1617944668056157,
+          "PUE_ratio_of_totals": 1.1617944668056157,
+          "max_secondary_flow_ratio": 1.9932865110658293,
+          "hours_flow_ratio_over_flag": 24,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 1267.1533209294005,
+          "mean_P_fan_kW": 32.70123436871083,
+          "mean_P_pump_sec_kW": 1141.6545000762142,
+          "T_fws_range_c": [
+            31.764696449848447,
+            31.98315974924603
+          ],
+          "max_T_wall_primary_c": 39.76219495502525,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2380035905896016
+        }
+      },
+      "S_OEM_return_55C": {
+        "B0": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": 0.0,
+          "water_m3_day": 397.6739816873531,
+          "water_delta_pct_vs_B0": 0.0,
+          "silica_scaling_hours": 21,
+          "any_mineral_material_hours": 21,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.04875,
+          "PUE_ratio_of_totals": 1.04875,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 160.0,
+          "mean_P_fan_kW": 110.0,
+          "mean_P_pump_sec_kW": 160.0,
+          "T_fws_range_c": [
+            24.109039882491775,
+            31.98315974924603
+          ],
+          "max_T_wall_primary_c": 41.92276749858829,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2380035905896016
+        },
+        "B1": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -66498.55840145153,
+          "water_m3_day": 368.1175290540072,
+          "water_delta_pct_vs_B0": -7.432332512158891,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.039087654296089,
+          "PUE_ratio_of_totals": 1.0390876542960887,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 160.0,
+          "mean_P_fan_kW": 32.70123436871083,
+          "mean_P_pump_sec_kW": 160.0,
+          "T_fws_range_c": [
+            31.764696449848447,
+            31.98315974924603
+          ],
+          "max_T_wall_primary_c": 41.92276749858829,
+          "cycles_chosen": {
+            "5.0": 24
+          },
+          "WUE_max_L_kWh": 2.2380035905896016
+        },
+        "B2": {
+          "solved_hours": 24,
+          "cost_delta_vs_B0_usd_yr": -92709.11797757985,
+          "water_m3_day": 346.01949528207143,
+          "water_delta_pct_vs_B0": -12.989154127234766,
+          "silica_scaling_hours": 0,
+          "any_mineral_material_hours": 0,
+          "floor_unreachable_hours": 0,
+          "infeasible_hours_fallback": 0,
+          "PUE_mean_of_hours": 1.035317311261574,
+          "PUE_ratio_of_totals": 1.035317311261574,
+          "max_secondary_flow_ratio": 1.0,
+          "hours_flow_ratio_over_flag": 0,
+          "hours_PUE_over_uptime_avg": 0,
+          "max_P_pump_sec_kW": 160.0,
+          "mean_P_fan_kW": 2.5384900925913594,
+          "mean_P_pump_sec_kW": 160.0,
+          "T_fws_range_c": [
+            33.679799278779306,
+            38.861723225497364
+          ],
+          "max_T_wall_primary_c": 48.80133097483963,
+          "cycles_chosen": {
+            "4.0": 3,
+            "5.0": 21
+          },
+          "WUE_max_L_kWh": 2.0005474650263486
+        }
+      },
+      "H_B2_region_supports": true,
+      "H_B2_scoreable": true,
+      "deck_table_staleness": {
+        "PUE_blind": {
+          "stored": 1.0832886341655437,
+          "now": 1.0832886341655437
+        },
+        "PUE_bounded": {
+          "stored": 1.1617944668056157,
+          "now": 1.1617944668056157
+        },
+        "WUE_blind": {
+          "stored": 2.071218654621631,
+          "now": 2.071218654621631
+        },
+        "WUE_bounded": {
+          "stored": 1.9172787971562875,
+          "now": 1.9172787971562875
+        },
+        "cost_delta_per_year_usd": {
+          "stored": 533603.2413659969,
+          "now": 533603.2413659969
+        },
+        "hours_blind_materially_violating": {
+          "stored": 21,
+          "now": 21
+        },
+        "hours_bounded_materially_violating": {
+          "stored": 0,
+          "now": 0
+        },
+        "hours_floor_unreachable": {
+          "stored": 0,
+          "now": 0
+        },
+        "max_silica_SR_blind": {
+          "stored": 1.1647512738332435,
+          "now": 1.1647512738332435
+        },
+        "max_silica_SR_bounded": {
+          "stored": 0.9999193496201263,
+          "now": 0.9999193496201263
+        },
+        "solved_hours": {
+          "stored": 24,
+          "now": 24
+        },
+        "chemical_floor_c": {
+          "stored": 31.7605486042767,
+          "now": 31.7605486042767
+        },
+        "max_secondary_flow_ratio": {
+          "stored": 1.9932865110658293,
+          "now": 1.9932865110658293
+        }
+      },
+      "WUE_bound_violations": 6,
+      "load_shape": {
+        "L0_flat_1.00": {
+          "silica_scaling_hours": 21
+        },
+        "L1_NLR_flat": {
+          "fraction_min": 0.9462442583159482,
+          "fraction_max": 0.9462442583159482,
+          "solved": 24,
+          "silica_scaling_hours": 21,
+          "delta_vs_L0": 0
+        },
+        "L2_PowerData_median": {
+          "fraction_min": 0.94,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 21,
+          "delta_vs_L0": 0
+        },
+        "L3_PowerData_max": {
+          "fraction_min": 0.845,
+          "fraction_max": 1.0,
+          "solved": 24,
+          "silica_scaling_hours": 21,
+          "delta_vs_L0": 0
+        }
+      },
+      "t_cold_hour": 5,
+      "elapsed_s": 687.7168622016907
+    }
+  },
+  "elapsed_s": 774.4392125606537
+}

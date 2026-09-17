@@ -104,22 +104,38 @@ def _joint(hs, chem, kw, cycles_set):
     base = {k: v for k, v in kw.items() if k != "cycles"}
     q_guess = kw["q_it_kw"] * hs.LOOP_HEAT_FACTOR
     best, n_cand, n_adm = None, 0, 0
+    raised = 0
+
+    def _eval(**extra):
+        # ATTEMPT 1 CRASHED HERE (results/cdu_joint_policy_20260917_attempt1_crashed.log).
+        # A fan-grid point with facility water just below the cold-plate budget
+        # asks the uncapped cubic pump law for an absurd flow; the pump heat
+        # sends the plate wall to thousands of degrees and speciation goes
+        # complex. That is the P-FLOW defect, not a chemistry answer. An
+        # evaluation that raises returns no state, which section 2 of the
+        # pre-registration already makes inadmissible. Counted, not hidden.
+        nonlocal raised
+        try:
+            return hs.evaluate(enforce_chemical_floor=True, **base, **extra)
+        except (TypeError, ValueError, ArithmeticError):
+            raised += 1
+            return None
     for c in cycles_set:
         floor = chem.temperature_floor_for_silica(kw["makeup"], float(c))
-        cands = [hs.evaluate(enforce_chemical_floor=True, cycles=float(c), **base)]
+        cands = [_eval(cycles=float(c))]
         for f in hs.fan_grid():
             st = hs.solve_free_cooling(kw["T_db"], kw["rh"], kw["m_w_pri"], q_guess, f,
                                        kw["m_a_rated"], kw["fill_c"], kw["fill_n"])
             if st is None or st["T_fws"] < floor:
                 continue
-            cands.append(hs.evaluate(enforce_chemical_floor=True, cycles=float(c),
-                                     tower_state=(f, st), **base))
+            cands.append(_eval(cycles=float(c), tower_state=(f, st)))
         for e in cands:
             n_cand += 1
             if _admissible(e):
                 n_adm += 1
                 if best is None or e["cost_per_h"] < best["cost_per_h"]:
                     best = e
+    _joint.raised = getattr(_joint, "raised", 0) + raised
     return best, n_cand, n_adm
 
 
@@ -151,7 +167,8 @@ def run_region(key, smoke=False):
         b0, b1 = row["blind"], row["bounded"]
         rec = {"hour": t, "T_db": kw["T_db"], "rh": kw["rh"], "B0": _slim(b0), "B1": _slim(b1)}
         b2, nc, na = _joint(hs, chem, kw, CYCLES_GRID)
-        rec.update(B2=_slim(b2), B2_candidates=nc, B2_admissible=na)
+        rec.update(B2=_slim(b2), B2_candidates=nc, B2_admissible=na,
+                   candidates_raised_cumulative=getattr(_joint, "raised", 0))
         b1f, _, _ = _joint(hs, chem, kw, [int(BASE_CYCLES)])
         rec["B1f"] = _slim(b1f)
         # S-OEM: identical tower states, cold-plate return limit at the OEM point

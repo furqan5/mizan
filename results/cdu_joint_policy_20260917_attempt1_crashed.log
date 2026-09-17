@@ -1,0 +1,110 @@
+[Gulf_Dhahran] deck path B0/B1 done 277s
+[Gulf_Dhahran] hour 0 324s
+[Gulf_Dhahran] hour 1 324s
+[Gulf_Dhahran] hour 2 324s
+[Pakistan_Balloki] deck path B0/B1 done 336s
+[Pakistan_Balloki] hour 0 345s
+[Pakistan_Balloki] hour 1 375s
+[Gulf_Dhahran] hour 3 383s
+[Gulf_Dhahran] hour 4 384s
+[Gulf_Dhahran] hour 5 384s
+[USA_NorthernVirginia] deck path B0/B1 done 388s
+[Pakistan_Balloki] hour 2 393s
+[Gulf_Dhahran] hour 6 394s
+[USA_NorthernVirginia] hour 0 406s
+[USA_NorthernVirginia] hour 1 417s
+[Pakistan_Balloki] hour 3 430s
+[Gulf_Dhahran] hour 7 434s
+[USA_NorthernVirginia] hour 2 442s
+[Gulf_Dhahran] hour 8 447s
+[Pakistan_Balloki] hour 4 481s
+[USA_NorthernVirginia] hour 3 485s
+[USA_NorthernVirginia] hour 4 507s
+[Pakistan_Balloki] hour 5 513s
+[Pakistan_Balloki] hour 6 514s
+[Gulf_Dhahran] hour 9 514s
+[Pakistan_Balloki] hour 7 514s
+[Pakistan_Balloki] hour 8 515s
+[Pakistan_Balloki] hour 9 515s
+[Pakistan_Balloki] hour 10 515s
+[Pakistan_Balloki] hour 11 527s
+[USA_NorthernVirginia] hour 5 531s
+[USA_NorthernVirginia] hour 6 531s
+[USA_NorthernVirginia] hour 7 531s
+[USA_NorthernVirginia] hour 8 532s
+[USA_NorthernVirginia] hour 9 532s
+[USA_NorthernVirginia] hour 10 532s
+[USA_NorthernVirginia] hour 11 577s
+[USA_NorthernVirginia] hour 12 602s
+[Europe_Frankfurt] deck path B0/B1 done 608s
+[USA_NorthernVirginia] hour 13 633s
+[Europe_Frankfurt] hour 0 647s
+[Europe_Frankfurt] hour 1 652s
+[Europe_Frankfurt] hour 2 656s
+[Europe_Frankfurt] hour 3 661s
+[Europe_Frankfurt] hour 4 684s
+[Europe_Frankfurt] hour 5 700s
+[Europe_Frankfurt] hour 6 701s
+[Europe_Frankfurt] hour 7 701s
+[Europe_Frankfurt] hour 8 701s
+[Europe_Frankfurt] hour 9 701s
+[Europe_Frankfurt] hour 10 701s
+[Europe_Frankfurt] hour 11 705s
+[Europe_Frankfurt] hour 12 706s
+[Europe_Frankfurt] hour 13 727s
+[Europe_Frankfurt] hour 14 727s
+[Europe_Frankfurt] hour 15 740s
+[Europe_Frankfurt] hour 16 751s
+[Europe_Frankfurt] hour 17 761s
+[Europe_Frankfurt] hour 18 770s
+[Europe_Frankfurt] hour 19 777s
+[Europe_Frankfurt] hour 20 777s
+[Europe_Frankfurt] hour 21 777s
+[Europe_Frankfurt] hour 22 778s
+[Europe_Frankfurt] hour 23 778s
+[Europe_Frankfurt] done 809s
+multiprocessing.pool.RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Python314\Lib\multiprocessing\pool.py", line 125, in worker
+    result = (True, func(*args, **kwds))
+                    ~~~~^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\multiprocessing\pool.py", line 48, in mapstar
+    return list(map(*args))
+  File "C:\Users\Nouman\mizan-wt\cdu\src\cdu_joint_policy.py", line 153, in run_region
+    b2, nc, na = _joint(hs, chem, kw, CYCLES_GRID)
+                 ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nouman\mizan-wt\cdu\src\cdu_joint_policy.py", line 115, in _joint
+    cands.append(hs.evaluate(enforce_chemical_floor=True, cycles=float(c),
+                 ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                             tower_state=(f, st), **base))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Nouman\mizan-wt\cdu\src\hybrid_supervisor.py", line 390, in evaluate
+    scaling = unit_here.scaling_state(cdu_state, makeup, cycles, ph,
+                                      limits=limits)
+  File "C:\Users\Nouman\mizan-wt\cdu\src\models\cdu_model.py", line 179, in scaling_state
+    sat = chem.saturation_state_split(
+        conc, state["t_wall_primary_c"], state["t_fws_c"],
+        pH_hot=ph, pH_cold=ph)
+  File "C:\Users\Nouman\mizan-wt\cdu\src\chemistry.py", line 1139, in saturation_state_split
+    hot = saturation_state(water, T_hot, pH=pH_hot)
+  File "C:\Users\Nouman\mizan-wt\cdu\src\chemistry.py", line 594, in saturation_state
+    sp = speciate(water, T_c, pH)
+  File "C:\Users\Nouman\mizan-wt\cdu\src\chemistry.py", line 541, in speciate
+    target = max(total.get(s, 0.0) - bound, 1e-30)
+TypeError: '>' not supported between instances of 'float' and 'complex'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Nouman\mizan-wt\cdu\src\cdu_joint_policy.py", line 378, in <module>
+    results = dict(pool.map(run_region, list(gpa.REGIONS)))
+                   ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\multiprocessing\pool.py", line 367, in map
+    return self._map_async(func, iterable, mapstar, chunksize).get()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\multiprocessing\pool.py", line 774, in get
+    raise self._value
+TypeError: '>' not supported between instances of 'float' and 'complex'
+exit 1
