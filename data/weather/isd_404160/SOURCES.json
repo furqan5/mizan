@@ -1,0 +1,136 @@
+{
+ "station": "Dhahran King Abdulaziz AB",
+ "usaf": "404160",
+ "wban": "99999",
+ "format": "NCEI ISD-Lite: 12 whitespace-separated integers per line -- year month day hour (UTC), air temp x10 C, dew point x10 C, SLP x10 hPa, wind dir, wind speed x10 m/s, sky cover, precip 1h, precip 6h; missing = -9999",
+ "time_zone": "UTC in file; Dhahran local standard time is UTC+3, no DST",
+ "hashes_first_recorded_by": "independent weather cross-check, 16-17 Sep 2026 (retrieval times per file below)",
+ "files": [
+  {
+   "year": 2011,
+   "file": "404160-99999-2011.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2011/404160-99999-2011.gz",
+   "bytes": 73245,
+   "sha256": "540954692a85ba315c0253e18cc97e4a495fb1e1f2d9f4b223b4af27412d8720",
+   "server_last_modified": "Sat, 03 Apr 2021 14:27:07 GMT",
+   "retrieved_utc": "2026-09-16T22:54:32Z"
+  },
+  {
+   "year": 2012,
+   "file": "404160-99999-2012.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2012/404160-99999-2012.gz",
+   "bytes": 73130,
+   "sha256": "4f982aa7022daa371febb5ac384309581eae5be4c73ce7fd8b16612f567322c0",
+   "server_last_modified": "Fri, 02 Apr 2021 23:52:18 GMT",
+   "retrieved_utc": "2026-09-16T22:54:34Z"
+  },
+  {
+   "year": 2013,
+   "file": "404160-99999-2013.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2013/404160-99999-2013.gz",
+   "bytes": 74152,
+   "sha256": "de812ad450985042940bc8896d02aa6325abc749e15676aa6e070aec91df8936",
+   "server_last_modified": "Wed, 10 Feb 2021 21:32:33 GMT",
+   "retrieved_utc": "2026-09-16T22:54:43Z"
+  },
+  {
+   "year": 2014,
+   "file": "404160-99999-2014.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2014/404160-99999-2014.gz",
+   "bytes": 70438,
+   "sha256": "f17a23822be2320917f16b1672b1312d6251367468b6be92057160a38f5d9721",
+   "server_last_modified": "Thu, 11 Feb 2021 06:03:44 GMT",
+   "retrieved_utc": "2026-09-16T22:55:00Z"
+  },
+  {
+   "year": 2015,
+   "file": "404160-99999-2015.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2015/404160-99999-2015.gz",
+   "bytes": 64919,
+   "sha256": "5319ebeb09d2c19b139a388598be5805b9bbc89f427c4ae2659c31871e2f9cba",
+   "server_last_modified": "Thu, 11 Feb 2021 13:21:53 GMT",
+   "retrieved_utc": "2026-09-16T22:55:02Z"
+  },
+  {
+   "year": 2016,
+   "file": "404160-99999-2016.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2016/404160-99999-2016.gz",
+   "bytes": 62786,
+   "sha256": "a1ac2e43e3a924036f6b29ab7499f1d08dc805c6771d451e9c8fb15ab0847452",
+   "server_last_modified": "Thu, 11 Feb 2021 20:59:40 GMT",
+   "retrieved_utc": "2026-09-16T22:55:03Z"
+  },
+  {
+   "year": 2017,
+   "file": "404160-99999-2017.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2017/404160-99999-2017.gz",
+   "bytes": 59432,
+   "sha256": "b8c09170be0b15e221c37b360fedae4ad25c29acc76c4f002e08d2f7c63b0095",
+   "server_last_modified": "Sun, 06 Dec 2020 05:22:20 GMT",
+   "retrieved_utc": "2026-09-16T22:55:07Z"
+  },
+  {
+   "year": 2018,
+   "file": "404160-99999-2018.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2018/404160-99999-2018.gz",
+   "bytes": 62011,
+   "sha256": "168603a7cadfcc80fea959b67e928a819296163d8ea376a00cb727152486c2a6",
+   "server_last_modified": "Sat, 05 Dec 2020 15:41:10 GMT",
+   "retrieved_utc": "2026-09-16T22:55:09Z"
+  },
+  {
+   "year": 2019,
+   "file": "404160-99999-2019.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2019/404160-99999-2019.gz",
+   "bytes": 60158,
+   "sha256": "a30c830025a2a674551cef7e37fc35bc4975c8a4d475e31cea5c2aae03f5c01b",
+   "server_last_modified": "Fri, 23 Oct 2020 20:47:15 GMT",
+   "retrieved_utc": "2026-09-16T22:55:11Z"
+  },
+  {
+   "year": 2020,
+   "file": "404160-99999-2020.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2020/404160-99999-2020.gz",
+   "bytes": 62595,
+   "sha256": "b59b1a6b35d6adb1d5efb6c1cdcd8180467f5a4a53ff15d6fae5eabb6f4a3eab",
+   "server_last_modified": "Sat, 27 Feb 2021 06:10:04 GMT",
+   "retrieved_utc": "2026-09-16T22:55:14Z"
+  },
+  {
+   "year": 2021,
+   "file": "404160-99999-2021.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2021/404160-99999-2021.gz",
+   "bytes": 62868,
+   "sha256": "df726fc1e3ce5c617d91a869beb9f10fe22c65873123582993d53896f55dd17b",
+   "server_last_modified": "Fri, 04 Feb 2022 02:56:00 GMT",
+   "retrieved_utc": "2026-09-16T22:55:16Z"
+  },
+  {
+   "year": 2022,
+   "file": "404160-99999-2022.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2022/404160-99999-2022.gz",
+   "bytes": 62807,
+   "sha256": "3b75297983fe42c1c81febca7a09258ef36f2ff18c47032cd60ca188b5816bd3",
+   "server_last_modified": "Thu, 18 May 2023 22:20:53 GMT",
+   "retrieved_utc": "2026-09-16T22:55:18Z"
+  },
+  {
+   "year": 2023,
+   "file": "404160-99999-2023.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2023/404160-99999-2023.gz",
+   "bytes": 62237,
+   "sha256": "850af461539771bba0a814e1adf2fc9be50f20928fb6f14d4615f4014b9c5d00",
+   "server_last_modified": "Fri, 05 Jan 2024 19:40:09 GMT",
+   "retrieved_utc": "2026-09-16T22:55:20Z"
+  },
+  {
+   "year": 2024,
+   "file": "404160-99999-2024.gz",
+   "url": "https://www.ncei.noaa.gov/pub/data/noaa/isd-lite/2024/404160-99999-2024.gz",
+   "bytes": 60846,
+   "sha256": "15bdce9097175f6893ca5ab519a2f9fc5a8919f94316308a8c3eaf35ab972f51",
+   "server_last_modified": "Tue, 21 Jan 2025 06:42:11 GMT",
+   "retrieved_utc": "2026-09-16T22:55:22Z"
+  }
+ ]
+}
