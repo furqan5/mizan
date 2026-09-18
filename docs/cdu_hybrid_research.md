@@ -79,12 +79,13 @@ The tower uses each bin's mean dry bulb and relative humidity. The WB column is 
 
 **Baseline definition [Estimate]:** fixed 4 cycles, pH 7.8 and FWS 7 °C, choosing the feasible sampled ECWT nearest 32 °C. The fixed-FWS counterfactual optimises the other variables over the same feasible grid. The coupled optimum also selects FWS. These counterfactuals differ from the legacy fan-grid study; the new totals are new scenario results, not revisions of its published gates.
 
+*The coupled-vs-baseline row below is the 7–8 September run and is superseded by the 17 September re-scores (defect 66): energy **11.06 %** as the registered script runs and **11.85 %** with defects 25, 30 and 44 corrected, cost **9.12 % / 9.79 %**. No verdict in this study changed, so the original rows are kept as the record of what it reported.*
 | Comparison | Energy: totals / mean ratios | Cost: totals / mean ratios | USD/year |
 | --- | --- | --- | --- |
 | Coupled vs baseline | 12.40 % / 12.58 % | 11.79 % / 12.02 % | 179,763.37 |
 | FWS reset increment only | 5.13 % / 5.14 % | 3.59 % / 3.60 % | 50,054.36 |
 
-**Annual water [Estimate]:** coupled-versus-baseline reduction is 11.13 % as ratio of totals and 11.15 % as mean of hourly ratios; the annual difference is 18,657.95 m³. All 8,760 represented hours must have both policies before totals are emitted.
+**Annual water [Estimate]:** coupled-versus-baseline reduction is 11.13 % as ratio of totals and 11.15 % as mean of hourly ratios — **superseded by the 17 September re-scores, which give 5.63 % and 4.01 % respectively (defect 66)**; the annual difference is 18,657.95 m³. All 8,760 represented hours must have both policies before totals are emitted.
 
 **Aggregation [Derived]:** totals saving =100*sum[h_i*(B_i-O_i)]/sum[h_i*B_i]; mean-of-ratios =sum[h_i*100*(B_i-O_i)/B_i]/sum[h_i]. Absolute costs use the requested repository tariff dictionary, including electricity USD 0.074/kWh and legacy water USD 3.11/m³. Site tariff eligibility is not established.
 

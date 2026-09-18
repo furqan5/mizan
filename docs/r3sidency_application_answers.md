@@ -62,7 +62,7 @@ POC rather than MVP is deliberate: validated in simulation against published dat
 ### Page 3 — Product
 
 - **One-liner** — the dual-domain positioning, in plain words.
-- **Pitch** — the 3-vs-4.5 cycles gap, then the three constraints that bite in surprising places (316 stainless at 1.85 cycles, nitrate permit at 3.33, cold-climate tower bypass), then the envelope split published against yourself.
+- **Pitch** — the 3-vs-4.5 cycles gap, then the three constraints that bite in surprising places (316 stainless at a 1.85-cycle chloride *screen*, nitrate permit **infeasible on the monthly average** and 3.33 on the daily maximum alone, cold-climate tower bypass), then the envelope split published against yourself. *(As submitted this line said "316 stainless at 1.85 cycles" and "nitrate permit at 3.33"; both are corrected by defects 65 and 69.)*
 - **When/why you started** — 30 August, the three-week pivot to dual-domain, and the reason: *"the index the entire industry uses to set its water limit is a single-mineral index from 1936, and on recycled water it is measuring the wrong mineral."*
 - **Target users** — plant engineer and water treatment lead, not the CFO.
 - **Traction** — *"No. No users, no pilot, no revenue, no community, and I am not going to dress that up."* Then the five-operator validation, and the technician quote that cut against the model.

@@ -223,7 +223,11 @@ does not depend on the load model at all.
 
 1. **Flat load 0.90 is an assumption `[A]`**, the same status as `annual.py`'s
    comfort curve. No data-centre plant data was used anywhere.
-2. **More of the money now rests on extrapolation.** Bins 5–7 (3,285 h, 37.5 % of
+2. **More of the money now rests on extrapolation.** Bins 5–7 (3,285 h) are
+   entirely above 21.9 °C, and bin 4 holds 266 h more: **3,551 h, 40.5 %**,
+   counted hour by hour. `annual_datacentre.py` still classifies by bin centroid
+   (defect 60), which is why the bin figure below is what it is. The old 37.5 %
+   is superseded. Bins 5–7 (3,285 h, 37.5 % of
    the year) are above the validated 21.9 °C wet-bulb. Under district cooling the
    value was concentrated in the cool, validated half; at data-centre load the
    water saving is essentially flat across both halves (10.75 vs 10.60), so

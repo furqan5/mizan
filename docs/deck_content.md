@@ -109,10 +109,10 @@ A water treater would have promised 12.5 % and not delivered it. An energy optim
 
 | | hours | water | energy |
 |---|---|---|---|
-| Inside the validated wet-bulb envelope | 5,475 | **-3.31 %** | +8.84 % |
-| Hotter and wetter than any data we hold | 3,285 | +8.23 % | **-0.39 %** |
+| Inside the validated wet-bulb envelope | 5,209 | **-3.22 %** | +8.82 % |
+| Hotter and wetter than any data we hold | 3,551 | +5.41 % | **+0.95 %** |
 
-The water saving is **negative where the model has been validated** and positive only where it has not. Energy is the exact reverse. So we lead with energy, which our own data supports, and treat water as the thesis the pilot exists to test. We would rather say that than have a reviewer find it.
+The water saving is **negative where the model has been validated** and positive only where it has not. Energy runs the other way: +8.8 % inside, about zero outside. So we lead with energy, which our own data supports, and treat water as the thesis the pilot exists to test. We would rather say that than have a reviewer find it.
 
 ## Slide 8 — Product
 

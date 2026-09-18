@@ -388,7 +388,9 @@ enormous credibility.
 
 **1. Our test data is from Spain, and 40.5 % of a Dhahran year is hotter and
 more humid than anything in it.** 3,551 hours out of 8,760, and 84 % of
-September. This is the single biggest gap and no amount of modelling closes it.
+September — on the TMYx file's humidity. On Dhahran station dew point it is
+24.3 %, and across complete station years 2011–2024 it ranges 16.1–36.7 %, so
+quote the source with the number. This is the single biggest gap and no amount of modelling closes it.
 It is exactly what the KFUPM wind tunnel is for — it humidifies, so it can reach
 Gulf conditions directly.
 
@@ -463,15 +465,18 @@ quietly claiming compliance in those hours; the fault is recorded as defect 42.
 positive only where it has not.** This is the hardest sentence in the document
 and it must be said before a customer finds it. Splitting the Dhahran year at
 the edge of our test data: inside the validated wet-bulb envelope the
-controller uses **3.3 % MORE** water than the baseline; outside it, in the
-3,285 hours hotter and wetter than anything we have measured, it saves
-**8.23 %** — a figure that must always be written to two decimals, because a
-bare "8.2 %" collides with a superseded annual cost number and our own audit
-will reject it. The annual +2.37 % is entirely carried by the unvalidated
-half.
+controller uses **3.2 % MORE** water than the baseline (4.8 % more on station
+humidity); outside it, in the 3,551 hours hotter and wetter than anything we
+have measured, it saves **5.41 %** (1.91 % on station humidity). The annual
+**+1.31 %** is entirely carried by the unvalidated half — and on station
+humidity the annual figure is **−2.64 %**, i.e. negative. **Never state a
+positive annual water saving for Dhahran without saying which weather file it
+came from.** The earlier version of this paragraph said 3.3 % / 8.23 % / +2.37 %
+in 3,285 hours; that split classified whole wet-bulb bins by their centre and
+mis-assigned 266 hours (defect 60).
 
-The energy result is the exact reverse — **+8.8 % inside the envelope, −0.4 %
-outside**. So the two halves of the product are validated to opposite degrees.
+The energy result runs the other way — **+8.8 % inside the envelope, +1.0 %
+outside** (−1.1 to +1.0 % across weather sources). So the two halves of the product are validated to opposite degrees.
 **Lead with energy, which is defensible on our own data, and treat water as
 the thesis the pilot exists to test.** That is also the honest reading of why
 the water gate keeps failing.

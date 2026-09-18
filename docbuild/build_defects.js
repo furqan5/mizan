@@ -14,7 +14,7 @@ const A = (...x) => kids.push(...x);
 A(...S.cover({
   kicker: 'DEEP-TECH VENTURES PROGRAM (.dvp) · COHORT 2 · DHAHRAN TECHNO VALLEY',
   title: 'Defect Register',
-  subtitle: 'Ten defects found, ten fixed, none open — and what a failed gate is not',
+  subtitle: 'Seventy-four defects found, sixty-four fixed, ten open — and what a failed gate is not',
 }));
 
 A(p('Two different things in this package can look alike from a distance, and confusing them would be a serious misreading.'));
@@ -25,7 +25,7 @@ A(quote('A **failed gate** is a result. A threshold was fixed in advance, the ex
 A(p('This document lists both, separately, so that neither can be mistaken for the other. We submit it deliberately. A venture that shows no defects at this stage has either not looked or is not saying, and a reviewer is entitled to assume the second.'));
 
 // ------------------------------------------------------------- part 1 ----
-A(h1('Part 1 — Defects: ten found, ten fixed, none open'));
+A(h1('Part 1 — Defects: seventy-four found, sixty-four fixed, ten open'));
 
 A(table(
   ['#', 'Defect', 'How it revealed itself', 'State'],
@@ -145,7 +145,7 @@ A(h1('What this register is for'));
 
 A(p('A reviewer should be able to ask two questions and get a clean answer to each.'));
 
-A(quote('**"Is the work sound?"** Ten defects were found, all ten are fixed, none is open, and a 49-check audit gates every release. Four of the ten were caught because a first-principles model refused a bad input rather than absorbing it.'));
+A(quote('**"Is the work sound?"** Seventy-four defects were found, sixty-four are fixed, ten are open with what would close each one written down, and a passing audit gates every release. Six were caught because a first-principles model, or a check written against it, refused a bad input rather than absorbing it.'));
 
 A(quote('**"Did everything work?"** No. Two gates failed. Both are diagnosed to a specific cause with no open questions, neither threshold was moved, and one of them failed precisely *because* a defect was fixed.'));
 

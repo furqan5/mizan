@@ -252,7 +252,7 @@ The two-ceilings *result* was never in doubt and is unchanged: two distinct limi
 10. **New result: in Gulf summer the binding limit on fan speed is the CHILLER**, not tower physics and not chemistry. All four summer optima sit at 33.9-34.7 °C, hard against the 35 °C ceiling.
 11. **A numerical defect sitting directly on the reported number.** The condenser duty fixed point was solved by 6 steps of successive substitution at 5 mK. The map contracts at ~0.5 per step, so ~26 steps are needed — and every grid point was seeded from ONE nearby solve, so the baseline came out accurate and the optimum did not. **Evaporation moved 5.199 → 5.396 kg/s (3.8 %) on the choice of seed alone**, an order of magnitude larger than the margin the water gate was failing by. Now Aitken delta-squared with a bracketed Brent fallback; 360/360 converge to 1e-5 K, and the two solvers agree to the second decimal place.
 7. **Fill drift.** The identified fill coefficient moves **21 % across campaigns spanning 2019–2023**. Periodic recalibration is a functional requirement, not an upsell. Kloppers (2003) explicitly did not study fill ageing.
-8. **Uncertainty.** Model error is **2.48× the propagated measurement uncertainty** — a negative result, reported. ~30 % is fill drift, ~70 % residual.
+8. **Uncertainty.** Model error is **2.82× the propagated measurement uncertainty** — a negative result, reported. It was 2.48× on the 50-row holdout, before defect 51 de-duplicated it. ~30 % is fill drift, ~70 % residual.
 
 ---
 
@@ -523,7 +523,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 | Almeria wet-bulb 21.9 C vs Gulf 30.3 C | **AGAINST US, and now quantified** | OPEN on the data, **QUANTIFIED 12 Sep 2026 (defect 48).** Splitting the Dhahran year at the edge of the test data: the WATER saving is **−3.31 % inside** the validated envelope and **+8.23 % outside** it, so the entire positive annual water figure is carried by the 3,285 hours we have never measured. ENERGY is the reverse: **+8.84 % inside, −0.39 % outside.** The two halves are validated to opposite degrees. Lead with energy; treat water as the thesis the pilot tests. Still closed only by KFUPM's humidifying wind tunnel |
 | Corrosion, aggressive-anion side | Was absent entirely | **CLOSED 12 Sep 2026 (defect 46).** `src/corrosion.py` — Larson–Skold with its calibration envelope attached, Ryznar, Puckorius, UFC 3-230-13 Table 5-9 coupon bands, chloride pitting. The two levers partition the risk: **acid owns Larson–Skold (cycles move it by exactly zero), cycles own chloride pitting (acid does not touch it)**. On the measured Riyadh water a **316 stainless condenser pits at 1.85 cycles** against a 4.52-cycle scaling ceiling — it binds first, and hardest on the CDU |
 | No chemistry ever measured | Was the largest single gap | **CLOSED AS FAR AS ECONOMICS ALLOW, 12 Sep 2026 (defect 47).** Measuring the ions online is **$120–185k/tower against an $89k/yr saving** — the instruments cost more than the thing they optimise, which is why nobody sells this. Instead `src/conductivity.py` checks the assumed composition against the conductivity sensor already on the skid (USGS specific-conductance imbalance). It does not measure ions; it says **when the assumption has stopped being true**, and the sign is diagnostic. Full spec, BOM and cost reality in `docs/instrumentation_spec.md` |
-| Model error 2.48x measurement uncertainty | Against us | OPEN, reported |
+| Model error 2.82x measurement uncertainty (2.48x before defect 51) | Against us | OPEN, reported |
 | Water gate missed (10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %] vs 15 %) | Against us | **DIAGNOSED** — the threshold required 8.5 cycles and gypsum saturates at 7. Mis-specified, not missed. Stays failed, and it now misses by 4.17 points against 0.17 as originally reported |
 | Bi-quadratic chiller coefficients | Unknown | **CLOSED** — York YT 1758 kW / 6.28 COP, EnergyPlus `datasets/Chillers.idf` (CoolTools). Reference point IS the AHRI point; fitted to 35 C |
 | Discharge TDS cap | Unknown | **CLOSED** — RCER-2015 Vol. I. Table 3B (sewer) 2,000 mg/L Jubail / 2,500 Yanbu; **Table 3C (coastal outfall, incl. seawater cooling return) has NO TDS limit**; Table 3D (irrigation) 2,000. It is a property of the discharge ROUTE, not the loop |
@@ -672,8 +672,10 @@ Two consequences, and neither is optional:
    that was real work rather than re-labelling, and the work came back
    against us.
 
-Only **62.5 %** of the weighted year is inside the validated wet-bulb
-envelope, so 37.5 % of even this number rests on extrapolation.
+Only **59.5 %** of the year, counted hour by hour, is inside the validated
+wet-bulb envelope, so **40.5 %** of even this number rests on extrapolation —
+24.3 % on Dhahran station humidity. The 62.5 / 37.5 split this line used to
+carry was a bin count and is superseded by defect 60.
 
 ---
 

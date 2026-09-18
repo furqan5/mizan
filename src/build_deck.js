@@ -516,7 +516,7 @@ function howUsedSlide() {
 // --- defects vs failed gates: they are not the same thing ---------------
 function defectSlide() {
   const s = p.addSlide();
-  sectionHeader(s, "EVIDENCE INTEGRITY", "Nine defects found. Nine fixed. Two gates still fail.");
+  sectionHeader(s, "EVIDENCE INTEGRITY", "Seventy-four defects found. Sixty-four fixed, ten open. Three gates still fail.");
   s.addText("A defect is a mistake in the work. A failed gate is a result. Confusing the two is how evidence packages get quietly laundered.", {
     x: M, y: 1.72, w: 12.1, h: 0.5, isTextBox: true, margin: 0,
     fontFace: "Calibri", fontSize: 14, italic: true, color: MUTE, lineSpacing: 20,

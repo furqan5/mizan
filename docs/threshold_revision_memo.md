@@ -134,7 +134,7 @@ Recorded as **defect 14, open** — open because the fix is a reporting judgemen
 
 ## V2 — water consumption
 
-Pre-registered: **≤ 8.00 % MAPE** on the untouched holdout. Achieved: **9.90 %**. Failed.
+Pre-registered: **≤ 8.00 % MAPE** on the untouched holdout. Achieved: **10.80 %**. Failed. (It was 9.90 % until defect 51 de-duplicated the holdout; the verdict did not change.)
 
 ### The cause is settled
 
@@ -204,7 +204,7 @@ The five hand-picked conditions were four summer and one winter. A real Dhahran 
 
 **This kills option C as a route to a passing gate**, and it does something more useful instead: it says the number to quote to a customer is the annual one, **not** the 10.83 % the gate scores. Two annual figures exist and they are not interchangeable — the hours-weighted mean of ratios is 8.42 %, and the ratio of hour-weighted totals is **8.81 %**. `annual_dhahran.json` says in its own `weighting_note` that the ratio of totals is the one to quote outside this repository, so **8.81 % is the commercial figure**. The 10.83 % should not be used outside the specific five-condition comparison it was computed for.
 
-It also carries its own caveat, from the same file: only **62.5 %** of the weighted year lies inside the wet-bulb envelope the model was validated in. The remaining 37.5 % rests on extrapolation, which no weighting scheme can fix.
+It also carries its own caveat, from the same file: only **59.5 %** of the year, counted hour by hour, lies inside the wet-bulb envelope the model was validated in. The remaining **40.5 %** rests on extrapolation, which no weighting scheme can fix. (The previously stated 62.5 / 37.5 split was a bin count, superseded by defect 60.)
 
 
 ---

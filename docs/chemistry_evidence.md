@@ -69,11 +69,11 @@ Within the APHA ±5% acceptance band **as published**. Adding the unreported K�
 
 ### 1.1b The measured Riyadh assay, and why it does not balance `[C]` + `[A]`
 
-The Dhahran water above is the package's default. The **Riyadh Refinery** assay — AlMajnouni & Jaffer, NACE Paper 577, Table 1 — is the one the **Cycle Ceiling Report** runs on, because it is the only Gulf TSE analysis we hold in which **silica is measured rather than assumed** (SiO₂ 18.0 mg/L, against the 26.8 imported from brackish groundwater).
+The Dhahran water above is the package's default. The **Riyadh Refinery** assay — AlMajnouni & Jaffer, NACE Paper 577, Table 1 — is the one the **Cycle Ceiling Report** runs on, because it is the only Gulf TSE analysis we hold in which **silica is measured rather than assumed** (SiO₂ **8 mg/L as printed** — 18.0 until defect 67 found a text-layer misread — against the 26.8 imported from brackish groundwater). At 8 mg/L that water is **calcite**-bound, not silica-bound, so the package holds no measured Gulf TSE that is silica-bound at all.
 
 It **fails our own charge-balance check at −5.25 %**, outside the ±5 % APHA band, and the report now says so before it says anything else.
 
-**The deficit is on the cation side** — 0.806 meq/kg of positive charge unaccounted for. On a **secondary** treated sewage effluent there is one obvious candidate: secondary treatment nitrifies only partially, so the stream carries **ammonium**, and NH₄⁺ is not in this model's species list at all. The deficit closes with **11.3 mg/L as N**, squarely inside the range a secondary effluent carries. The most likely reading is that the assay is **incomplete, not wrong** — and incomplete in a way this model cannot represent.
+**The deficit is on the cation side** — 0.806 meq/kg of positive charge unaccounted for. The table also prints **ammonia 16 mg/L and nitrite 31 mg/L** with no basis stated for either, and the model carries neither species. Counting both (defect 68): with nitrite as **NO₂⁻** the balance passes on every ammonia basis (−2.19 % as N, −3.44 % as NH₃, −3.76 % as NH₄⁺); with nitrite as **N** it fails on every one (−11.14 to −12.71 %, with the ion sum 11.5–11.9 % over the stated TDS). Ammonium alone gives +0.43 % as NH₄⁺ or +2.00 % as N, so the earlier reading — that 11.3 mg/L of ammonium as N closes it to about −2 % — was wrong as a number as well as one-sided. The most likely reading is still that the assay is **incomplete, not wrong**, but **the ammonia basis is undetermined** and nothing here decides it.
 
 **That is an explanation, not a licence, and no ion was added to the water.** Instead the balance is closed *both ways* and the spread reported (`sidestream.charge_closure_bracket()`):
 

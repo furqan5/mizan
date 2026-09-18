@@ -49,7 +49,13 @@ A basin swinging 25–35 °C sees the **limit** move 117.2 → 142.6 mg/L, by
 fixed at the value that holds saturation at the mean temperature, it moves
 0.01 mg/L. A ratio of about **2,400 to one**.
 
-Measured over a periodic steady state, on measured makeup silica of 18 mg/L
+Measured over a periodic steady state, on makeup silica of 18 mg/L — the value
+carried before defect 67, whose printed source says 8 mg/L. This run has not been
+redone (no OpenModelica runtime is installed), so the table below is the 18 mg/L
+run and stays until it is. By the model's own blowdown equation, at 8 mg/L the
+blowdown plus drift falls from 0.678 to 0.277 kg/s and the basin turnover rises
+from 20.5 h to 50.2 h, so the 168 h spin-up the basin-dynamics test assumes must
+be re-checked when it is re-run. Measured on makeup silica of 18 mg/L
 (NACE Paper 577, Riyadh Refinery):
 
 | | |

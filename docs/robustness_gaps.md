@@ -148,7 +148,8 @@ corrected without replacing the post. That is a founder decision, not a code cha
 
 ## 4. V2 still fails, and the diagnosis is the business model
 
-Evaporation MAPE **9.90 %** against a pre-registered **8.00 %**. Diagnosed as
+Evaporation MAPE **10.80 %** against a pre-registered **8.00 %** (9.90 % before the
+holdout was de-duplicated, defect 51). Diagnosed as
 fill-characteristic drift between campaigns rather than an unaccounted bleed. It
 stays failed, and it should — it is the quantitative justification for an annual
 recalibration licence.
@@ -161,8 +162,10 @@ law identified on a second tower.
 
 ## 5. The validation envelope, which is the honest limit on everything above
 
-- **62.5 %** of the hours-weighted Dhahran year sits inside the wet-bulb envelope
-  the model was validated in. The other **37.5 % is extrapolation**, and no
+- **59.5 %** of the Dhahran TMYx year, counted hour by hour, sits inside the
+  wet-bulb envelope the model was validated in. The other **40.5 % is
+  extrapolation** — 24.3 % on Dhahran station humidity. The previously stated
+  62.5 / 37.5 split classified whole bins by their centroid (defect 60), and no
   weighting scheme fixes that.
 - The validation data is **Almeria at 21.9 °C wet-bulb**; the Gulf design point is
   **30.3 °C**. This is listed as OPEN in `HANDOFF.md` and is the only open item
@@ -203,12 +206,45 @@ and neither is in the code:
    acid cannot move gypsum** — so it has no incentive to go anywhere near the aggressive region.
    The guard will bind on a low-sulfate water where calcite is the constraint and acid *is* the
    lever. `src/corrosion_floor_audit.py`.
-2. **No acid-dosing interlocks.** A real incident: makeup tripped overnight, acid
-   kept pumping, the tubes were destroyed. Needs makeup-flow proving, an
-   independent low-pH trip, and a bounded dosing integral.
+2. **Acid-dosing interlocks — a software layer now exists; the hardware does
+   not.** A real incident: makeup tripped overnight, acid kept pumping, the tubes
+   were destroyed. That incident is now **simulated** against a pre-registered
+   fault matrix (`docs/staged/safety_preregistration.md`, committed before the
+   run; `src/safety_sim.py`; `results/safety_incident.json`).
 
-Until both exist, this controller should not be connected to a dosing pump on a
-real plant, and no demonstration should imply that it could be.
+   **What exists, in software:** makeup-flow proving, a bounded dosing integral,
+   a pH-probe disagreement check, a fouled-conductivity-cell check, and a
+   fail-safe on trip. On the registered incident the basin pH crosses 6.5 at
+   **51.5 min** after the makeup trip with no interlocks and falls to **1.82**;
+   with the interlocks the acid stops **on the same scan** as the fault and pH
+   never leaves 8.0.
+
+   **What is still hardware that does not exist:** an **independent low-pH trip**
+   wired outside the controller, and a **watchdog** that closes the dosing valve
+   when the controller stops. Software that trips itself is not a protection
+   layer; both of these are physical devices on a purchase order, and neither has
+   been bought.
+
+   **Two rows of the fault matrix fail as registered, and the matrix was not
+   changed.** F3 (pH probe drift) requires acid off within 61 s of the
+   disagreement first exceeding 0.3 and measures **149 s**; F4a (fouled
+   conductivity cell) requires a trip within 601 s and measures **768 s**. The
+   cause in both is that the bound counts from the first crossing while the
+   setpoint requires a continuous 60 s dwell, and probe noise resets the dwell
+   timer. Neither fault moved the true basin pH. A fix needs its own
+   pre-registration and is not applied.
+
+   **And the registered fail-safe is itself wrong for this incident (defect 56).**
+   Blowdown to 3.0 cycles on any trip is right for a chemistry trip and wrong when
+   makeup is lost: the bleed opens on water that cannot be replaced, and the basin
+   reaches the low-level pump trip at **90.8 min** with interlocks against
+   **101.1 min** with none. A non-default flag that holds the bleed closed while
+   makeup is unproven moves that to **158.6 min**. Whether it becomes the default
+   is a specification decision nobody has taken.
+
+Until the two hardware devices exist, this controller should not be connected to a
+dosing pump on a real plant, and no demonstration should imply that it could be.
+The software layer narrows the gap; it does not close it.
 
 ---
 
@@ -282,9 +318,20 @@ and, since 4 September, against corrosion of metal — but not against attack on
 holding the water. On a plant with an ordinary Portland cement basin this would bind **before**
 gypsum, which would make it the real ceiling.
 
-Flagged rather than implemented: the specific thresholds circulating informally (800 / 1 200 ppm)
-have no citation, and inventing one would be worse than naming the gap. See
-`docs/external_claims_verified.md`.
+**Partly closed, 17 September 2026.** `src/concrete.py` now carries the **cited**
+exposure classes — ACI 318-19 Table 19.3.1.1 (S0/S1/S2/S3 on water-soluble
+sulfate in water) and EN 206 Table 2 (XA1/XA2/XA3) — and reports which class the
+circulating water reaches at each cycle count. It is a **reported constraint, not
+an imposed one**: the class selects a cement and a water-cement ratio, which is a
+property of the basin that was poured, not of the control policy, so the
+controller cannot decide it and does not try. The informal 800 / 1 200 ppm
+figures are still uncited and are still not used.
+
+It moved once already. With the acid's own sulfate now in the circulating water
+(defect 54), ACI class S2 is reached at **3.99** cycles on the field-validated
+makeup against **5.00** without the acid — so on a plant with an ordinary
+Portland cement basin the acid lever, not the cycles lever, is what crosses the
+class boundary. See `docs/external_claims_verified.md`.
 
 ## 11. NEW — the energy half of the product is prior art
 
@@ -299,6 +346,49 @@ that with no model, no chemistry and no licence.
 What ESC cannot do is see the wall — it optimises what it measures, and it measures power. Full
 argument, and what it implies for pricing and positioning, in `docs/prior_art_esc.md`. **It argues
 for a constraint service rather than a rival optimiser**, and that is a founder decision.
+
+## 12. NEW — open items from the 17 September round
+
+Four things the branches left open. Each is a register row; this is where they sit
+against the rest of the gap list.
+
+**The chemistry engine fails its own registered PHREEQC benchmark (defect 53).**
+Across a pre-registered grid of 4 waters × cycles 1–8 × four temperatures, 95.7 %
+of 416 saturation indices fall inside tolerance — but **calcite is 89.1 % against
+a 90 % per-mineral bar**, and every one of the 18 failures sits at low ionic
+strength and 45–55 °C. The decomposition at the worst point is −0.041 from using
+Davies where PHREEQC uses Truesdell–Jones, −0.033 from a calcite constant
+transcribed from an earlier `phreeqc.dat` than 3.9.0 ships, and −0.006 from
+complexation. Calcite is the mineral that binds on the measured Gulf assay, so
+this is not a peripheral disagreement. Closing it means moving the engine to the
+3.9.0 constants and to a different activity model, which is a physics decision.
+
+**The surrogate's fifth gate was written and never scored (defect 71), and its
+third gate is scored outside its own band (defect 72).** P2, holdout outlet MAE
+≤ 0.60 K, was fixed before training and simply not computed; an independent audit
+put it at 0.627 K on the old 50-row holdout, which would be a FAIL. The code now
+computes it against the 32-row holdout but has not been run, because the
+checkpoint is not in the repository. Separately, P3's sampler never filters on wet
+bulb: on the gate's own seed, **51.9 % of its 5,000 points lie outside the
+24–31 °C band the gate is written against**, spanning 19.6 to 41.9 °C. So "zero
+physical violations in the extrapolation band" is measured on a wider and hotter
+band than the sentence describes.
+
+**The fan-flow unit cannot be settled from the sources held here (defect 73).**
+The dataset's README defines the fan channel as a percentage and prints the
+air-flow correlation in that same symbol; the code converts to hertz before the
+polynomial. The repository cannot arbitrate, because the dataset carries no
+measured air-flow channel at all. The hertz reading stands on two physical
+arguments — as a percentage the quadratic turns over inside the stated operating
+range, and the design point gives an implausible L/G — and explicitly not on
+which reading scores better.
+
+**The data-centre pump law is uncapped and cubic (defect 63).** Secondary flow
+rises without limit to hold a 42 °C cold-plate return, which no Dhahran design
+hour can reach at design flow, so two hours drew 233–265 MW of pumping for a 9 MW
+hall and set the headline PUE. Every PUE and every dollar figure on the
+data-centre slide came from that region. At the GPU OEM's published return point
+all four regions sit at 1.035–1.049.
 
 ## The short version
 
@@ -406,9 +496,16 @@ project.
 ### What the corrections cost, and what they bought
 
 They cost the two ceilings and the gypsum framing. They bought a chemistry engine
-that agrees with a published standard, refuses an analysis that fails its own
-closure test, and lands on observed industry practice: **the computed ceiling on
-the validated water is ~5.8 cycles against a Gulf empirical band of 3.5–5.0.**
+that agrees with a published standard and refuses an analysis that fails its own
+closure test. **The claim that it "lands on observed industry practice" is
+withdrawn:** on the corrected engine the computed ceiling on the validated water
+is **5.84 cycles** against a Gulf empirical band of 3.5–5.0, which is *above* the
+band, not on it. Being more permissive than the operators is the direction that
+scales a condenser, and it is recorded as such rather than rounded toward the
+band. The gap is explained in the register at defect 35 — the engine computes a
+SCALING ceiling and an operator sets an OPERATING one, which is the minimum over
+six constraints this model does not carry — but that explanation is a hypothesis
+about the difference, not a measurement of it.
 
 A first-principles limit landing on observed practice, with no parameter fitted
 to it, remains the strongest validation in this package — and it survived all

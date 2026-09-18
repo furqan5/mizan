@@ -33,8 +33,8 @@ matching them.
 Three pass and three fail. V1 and V2 are scored on 32 held-out points: the
 published dataset loads as 165 rows but only 147 are distinct (its Exp3 file
 repeats 17 Exp1 rows, and one of those is also a training row). Scored on the
-duplicated 50-row holdout, heat rejection had passed at 5.94 % and V2 failed at
-9.90 %. The de-duplicated re-score was pre-registered
+duplicated 50-row holdout, heat rejection had passed at 5.94 % (now 6.27 %) and
+V2 failed at 9.90 % (now 10.80 %). The de-duplicated re-score was pre-registered
 (`docs/staged/almeria_dedup_preregistration.md`) with thresholds unchanged.
 
 V3: evaluating calcite saturation in the bulk instead of at the condenser skin

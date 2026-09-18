@@ -32,7 +32,7 @@ A(table(
     ['Letters of intent or pilot agreements', 'Furqan_Mizan_Customer_Development_Plan.pdf', '**We hold none.** This is the qualified pipeline and dated plan that stands in its place'],
     ['Commercialisation plan and budget', 'Furqan_Mizan_Commercialisation_and_Budget.pdf', 'Pricing, route to market, named accounts, in-kind and cash budget, kill gates'],
     ['Free-text form fields', 'Furqan_Mizan_Application_Answers.pdf', 'Not an upload. The wording to transcribe into each field'],
-    ['Any other supporting documents', 'Furqan_Mizan_Defect_Register.pdf', 'Ten defects found and fixed, and the two failed gates explained. Recommended'],
+    ['Any other supporting documents', 'Furqan_Mizan_Defect_Register.pdf', 'Seventy-four defects found, sixty-four fixed, ten open, and the three failed gates explained. Recommended'],
   ],
   widths([1.8, 2.4, 3]), { zebra: true, size: 17 }));
 

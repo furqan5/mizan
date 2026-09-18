@@ -150,7 +150,7 @@ pass, it is a coin toss wearing a verdict, and it must not be reported as
 "V7 passed" without everything below it.
 
 **The instrument that measures water failed its own calibration gate.** Gate
-V2 scores the evaporation model at **9.90 % MAPE against a pre-registered
+V2 scores the evaporation model at **10.80 % MAPE (9.90 % before defect 51) against a pre-registered
 8 % threshold — a FAIL, reported as one**. Makeup water is computed from
 evaporation. So the quantity this gate is made of carries a validated error
 an order of magnitude larger than the margin by which the gate was cleared.
@@ -171,6 +171,7 @@ physics.** Both halves of that sentence travel together or neither does.
 `scripts/v7_baseline_sensitivity.py` sweeps the single input that changed,
 across the band the primary sources actually support:
 
+*The percentages in this table are cycles arithmetic, `1 − (C₀−1)/C₀ · C/(C−1)`, and not the envelope share that defect 60 superseded. 37.5 % here is what a 2.0-cycle baseline gives; the coincidence with the old extrapolated-hours figure is a collision of two decimals and nothing more.*
 | baseline | source | arithmetic headroom to 5 cycles |
 |---|---|---|
 | 2.0 | Aramco: *"The COC with groundwater was limited to 2"* | 37.5 % |
