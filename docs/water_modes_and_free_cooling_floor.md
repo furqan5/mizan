@@ -200,6 +200,9 @@ The boundary is the GPU coolant supply temperature and it stops there.
 
 26 new tests in `tests/test_water_saving.py` and `tests/test_cdu_controller.py`.
 Suite total 122, audit passing, register 32 found / 32 fixed / none open.
+*(Snapshot as of the date of this document. The register stood at 74 found /
+64 fixed / 10 open on 18 September 2026; see `docs/defect_register.md`, which
+is the only place that count is maintained.)*
 
 ---
 

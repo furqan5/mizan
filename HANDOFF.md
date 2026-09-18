@@ -4,7 +4,7 @@
 > to `origin` (github.com/furqan5/mizan), 26 commits ahead of `main`. Open the PR
 > at https://github.com/furqan5/mizan/pull/new/water-modes-and-cdu when ready.
 >
-> **State:** 193 tests pass · audit passes · register **50 found / 50 fixed / 0 open**.
+> **State:** 295 tests pass, 4 registered xfails · audit passes · register **74 found / 64 fixed / 10 open**.
 >
 > **The three findings that change what you say to people, in order of how much
 > they change it:**
@@ -226,8 +226,9 @@ argument -- **periodic recalibration is a functional requirement, and this
 gate measures how fast a fixed characteristic goes stale.**
 
 **Do not restore the old drift value to recover the pass.** See
-`docs/defect_register.md`, which separates defects (fifty found, fifty fixed,
-none open) from gate outcomes (two failed, both diagnosed).
+`docs/defect_register.md`, which separates defects (seventy-four found,
+sixty-four fixed, ten open) from gate outcomes (three passed, three failed, all
+diagnosed).
 
 **The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
 

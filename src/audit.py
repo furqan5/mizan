@@ -361,10 +361,40 @@ def main():
         # Now: count the rows marked OPEN, read the declared count, require
         # they agree. Zero open defects still passes. One open and declared
         # passes. One open and undeclared fails, which is the real defect.
-        _WORDS = {"none": 0, "one": 1, "two": 2, "three": 3, "four": 4,
-                  "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
-        n_open_rows = len(re.findall(r"\|\s*\*\*OPEN\*\*\s*\|", reg))
-        m = re.search(r"\*\*Open defects:\s*([A-Za-z]+|\d+)", reg)
+        # DEFECT 76. Two blindnesses in one guard, both found the moment this
+        # register's open count went into double figures.
+        #
+        # (a) The vocabulary was a hand-written dict running "none" to "nine",
+        #     so a register declaring "ten" parsed as None and the audit
+        #     reported "does not declare an open-defect count" -- which reads
+        #     like a missing declaration rather than a parser out of words.
+        #     That is defect 41 again, in the other guard. It is BUILT now,
+        #     the way the total-count parser below already is.
+        #
+        # (b) The row pattern required the state cell to hold the bare token,
+        #     `| **OPEN** |`. Every row in this register qualifies its verdict,
+        #     so a table could list "**OPEN** -- not fixed, because ..." beside
+        #     a summary line claiming none, and this check would agree with the
+        #     summary. That is the exact case its own comment above says it was
+        #     rewritten to catch. Widening it can only ever find MORE open rows,
+        #     never fewer, so it cannot be used to turn a failure into a pass.
+        _WORDS = {"none": 0}
+        _U = ["", "one", "two", "three", "four", "five", "six", "seven",
+              "eight", "nine"]
+        _T = {20: "twenty", 30: "thirty", 40: "forty", 50: "fifty",
+              60: "sixty", 70: "seventy", 80: "eighty", 90: "ninety"}
+        for _i, _u in enumerate(_U):
+            if _u:
+                _WORDS[_u] = _i
+        _WORDS.update({"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13,
+                       "fourteen": 14, "fifteen": 15, "sixteen": 16,
+                       "seventeen": 17, "eighteen": 18, "nineteen": 19})
+        for _tv, _tw in _T.items():
+            _WORDS[_tw] = _tv
+            for _i, _u in enumerate(_U[1:], start=1):
+                _WORDS[f"{_tw}-{_u}"] = _tv + _i
+        n_open_rows = len(re.findall(r"\|\s*\*\*OPEN\*\*[^|\n]*\|", reg))
+        m = re.search(r"\*\*Open defects:\s*([A-Za-z]+(?:-[A-Za-z]+)?|\d+)", reg)
         if m is None:
             declared = None
         else:

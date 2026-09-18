@@ -131,7 +131,7 @@ These exist because each was bought with a mistake. Anyone reasoning about this 
 
 1. **Pre-register thresholds before running the gate.** Gates that fail stay failed and get reported.
 2. **Before "fixing" a missed threshold, check it against the physical ceiling.** One gate here demanded 8.5 cycles on a water that saturates at 7 — it was mis-specified, not missed.
-3. **Suspect a defect in your own code before blaming the model.** Fifty defects found this way; forty-eight of them changed a number.
+3. **Suspect a defect in your own code before blaming the model.** Seventy-four defects found this way; most of them changed a number, and ten are still open.
 4. **Never quote a test count, or any figure, from memory** — only by copy from output in the same session.
 5. **A constraint that is computed but not enforced is worse than one that doesn't exist**, because it reads like coverage. This failure mode occurred **eight times**, and once the fix for it reproduced it.
 6. **Never attribute a quotation to a source you have not read.** This was violated twice and corrected both times.
@@ -154,7 +154,7 @@ Ranked by how much it would move things:
 
 ## 7. Current status
 
-- 193 tests pass; internal consistency audit passes; defect register **50 found, 50 fixed, 0 open**.
+- 295 tests pass and 4 are registered xfails; internal consistency audit passes; defect register **74 found, 64 fixed, 10 open**.
 - Branch pushed to `origin`, 26 commits ahead of `main`.
 - **Customer interviews: 4 completed against a pre-registered target of 15 by 15 September 2026.** This is the binding constraint on accelerator applications, and no amount of engineering closes it.
 - Sanabil (Saudi) applications close **1 October 2026**; a16z SPEEDRUN window **12 October – 1 November 2026**.
