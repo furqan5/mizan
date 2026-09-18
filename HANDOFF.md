@@ -6,7 +6,7 @@
 > applied all of it. The repository is **public** (github.com/furqan5/mizan),
 > under PolyForm Noncommercial.
 >
-> **State:** 295 tests pass, 4 registered xfails · audit passes · register
+> **State:** 296 tests pass, 4 registered xfails · audit passes · register
 > **74 found / 64 fixed / 10 open**.
 >
 > **Read this block before you say anything to anyone.** Four of the seven items

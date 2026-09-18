@@ -172,7 +172,7 @@ Ranked by how much it would move things:
 
 ## 7. Current status
 
-- 295 tests pass and 4 are registered xfails; internal consistency audit passes; defect register **74 found, 64 fixed, 10 open**.
+- 296 tests pass and 4 are registered xfails; internal consistency audit passes; defect register **74 found, 64 fixed, 10 open**.
 - Branch pushed to `origin`, 26 commits ahead of `main`.
 - **Customer interviews: 4 completed against a pre-registered target of 15 by 15 September 2026.** This is the binding constraint on accelerator applications, and no amount of engineering closes it.
 - Sanabil (Saudi) applications close **1 October 2026**; a16z SPEEDRUN window **12 October – 1 November 2026**.
