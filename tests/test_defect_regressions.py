@@ -268,12 +268,35 @@ def test_the_register_declares_its_open_count_honestly():
     reg = (pathlib.Path(__file__).resolve().parents[1]
            / "docs" / "defect_register.md").read_text(encoding="utf-8",
                                                       errors="replace")
-    n_open = len(_re.findall(r"\|\s*\*\*OPEN\*\*\s*\|", reg))
-    m = _re.search(r"\*\*Open defects:\s*([A-Za-z]+|\d+)", reg)
+    # DEFECT 76. This guard carried the same two blindnesses as the copy in
+    # src/audit.py, and they are fixed the same way. The row pattern used to
+    # require a state cell holding the bare token, `| **OPEN** |`; every row in
+    # the register qualifies its verdict, so ten OPEN rows counted as zero and
+    # a summary line claiming none would have passed the very case this test
+    # says it guards. And the vocabulary stopped at "five", so a register
+    # declaring "ten" parsed as None. Widening the row pattern can only ever
+    # find MORE open rows, never fewer, so it cannot turn a failure into a pass.
+    n_open = len(_re.findall(r"\|\s*\*\*OPEN\*\*[^|\n]*\|", reg))
+    m = _re.search(r"\*\*Open defects:\s*([A-Za-z]+(?:-[A-Za-z]+)?|\d+)", reg)
     assert m, "the register must declare an open-defect count"
-    words = {"none": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
+    _units = ["", "one", "two", "three", "four", "five", "six", "seven",
+              "eight", "nine"]
+    words = {"none": 0}
+    words.update({w: i for i, w in enumerate(_units) if w})
+    words.update({"ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13,
+                  "fourteen": 14, "fifteen": 15, "sixteen": 16,
+                  "seventeen": 17, "eighteen": 18, "nineteen": 19})
+    for _v, _w in {20: "twenty", 30: "thirty", 40: "forty", 50: "fifty",
+                   60: "sixty", 70: "seventy", 80: "eighty",
+                   90: "ninety"}.items():
+        words[_w] = _v
+        for _i, _u in enumerate(_units[1:], start=1):
+            words[f"{_w}-{_u}"] = _v + _i
     tok = m.group(1).lower()
     declared = int(tok) if tok.isdigit() else words.get(tok)
+    assert declared is not None, (
+        f"the register declares an open count this test cannot parse: {tok!r}. "
+        "Extend the vocabulary rather than letting the guard go blind.")
     assert declared == n_open, (
         f"register declares {declared} open, table shows {n_open}")
 

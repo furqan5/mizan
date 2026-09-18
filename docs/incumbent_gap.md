@@ -203,9 +203,10 @@ instrument it.
    was the search's own lower bound reported as an answer (defect 69). RCER does not govern
    Dhahran or Riyadh.
 7. **Davies validity** (16.3 and 23.6 cycles) binds nowhere.
-8. **Staged defects 57 and 58** (`docs/staged/incumbent-gap_defects.md`) are not fixed here.
-   Defect 57 may move controller results wherever the optimiser's pH exceeds the corrected brucite
-   limit, and none of those results was rerun.
+8. **Defects 57 and 58** (`docs/defect_register.md`) were staged by this study and are not fixed
+   in it. Defect 57 has since been fixed and this study re-run against it, which is why the
+   no-acid table above is calcite-bound; defect 58, the two incompatible magnesium-silica rules,
+   remains open and is what §3.2's variant sensitivity rests on.
 
 ---
 

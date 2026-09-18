@@ -166,7 +166,7 @@ class InterlockConfig:
     # registered fail-safe is what the matrix tests. On loss of makeup a
     # blowdown valve can only throw away inventory that cannot be replaced:
     # the simulation found the registered fail-safe empties the basin sooner.
-    # See docs/staged/safety-interlocks_defects.md, staged defect 56.
+    # See docs/defect_register.md, defect 56.
     hold_blowdown_on_makeup_loss: bool = False
 
     @property

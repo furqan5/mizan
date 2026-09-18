@@ -8,7 +8,7 @@
 > (`results/cdu_hybrid_rescore_corrected_20260917/`). **No verdict changed.** The annual
 > figures did change: water 11.13 % → 5.63 % / 4.01 %, and the optimum moved from 6 cycles to 4–5.
 > The facility water in this study is **chilled water (4.44–8.89 °C)**, which is not
-> current direct-liquid-cooling practice. See `docs/staged/cdu-side_defects.md`, defect 66.
+> current direct-liquid-cooling practice. See `docs/defect_register.md`, defect 66.
 
 > **[SUPERSEDED IN PART — 11 Sep 2026]** This document was written when the
 > binding mineral on this water was believed to be **gypsum**, and its

@@ -124,7 +124,7 @@ energy over 240 days without mentioning water once.
 > to 4 also removes most of the penalty at 42 °C (pre-registered hypothesis H-B2, passed
 > 3 of 4). The model routes open tower water straight through the CDU primary; the reference
 > topology isolates the two loops. The floor itself depends on the **assumed** 26.8 mg/L
-> silica: at 18 mg/L the 5-cycle floor is 12.6 °C. `docs/staged/cdu-side_defects.md` 63–65,
+> silica: at 18 mg/L the 5-cycle floor is 12.6 °C. `docs/defect_register.md` 63–65,
 > `results/cdu_joint_policy_20260917/run.json`.
 
 `hybrid_supervisor.compare_blind_vs_bounded()` runs both policies. `blind`
