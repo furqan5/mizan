@@ -241,6 +241,22 @@ $266,928 → $266,953; incumbent-gap Riyadh M 6.72 → 8.91 cycles.
 | P(V7 true ≥ 15 %) | 0.406 | **0.325** |
 | P(V7 true ≥ 20 %) | 0.094 | **0.072** |
 
+### What this round did NOT update, and why
+
+`docbuild/*.js` and `src/build_deck.js` are the generators for the PDF and PPTX
+bundles. Their **defect counts** were moved with everything else, but their gate
+tables, their model-selection paragraph and several of their prose figures still
+quote 0.542 K, 5.94 %, 9.90 %, 14.83 % and 8.55 % — the last two retired on
+3 September 2026, so these files were already stale before this round and are
+stale by more than this round moved. They are **deliberately left**, because
+rebuilding the binaries was out of scope for this pass and a generator whose
+output is not rebuilt is a document nobody reads. `src/audit.py` does not scan
+them and neither does `tests/test_artefact_consistency.py`.
+
+**Do not rebuild a PDF or a deck from `docbuild/` until those figures are
+rewritten from `results/`.** That is a job of its own and it is the largest
+single piece of staleness left in the repository.
+
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
 **Open defects: ten.** Seventy-four found, sixty-four fixed. The ten open are

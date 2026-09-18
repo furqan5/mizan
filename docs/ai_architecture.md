@@ -75,7 +75,7 @@ But an LSTM is the wrong instrument. You do not need to *learn* the weather — 
 
 ## 5. A physics-informed surrogate of the tower model — ADOPT, and it is now built
 
-`src/pinn.py`. Gates pre-registered before training, in the same way as V1, V2 and V5.
+`src/pinn.py`. Gates pre-registered before training, in the same way as V1, V2 and V5. **One of the five was never scored, and one is scored outside its own band.** P2 (holdout outlet MAE ≤ 0.60 K) was fixed before training and then simply not computed, so `results/pinn.json` carries no entry for it and the consistency test passed over it vacuously; an independent audit put it at 0.627 K on the inherited 50-row holdout, which is a FAIL (defect 71). P3's sampler never filters on wet bulb, so 51.9 % of its points lie outside the 24–31 °C extrapolation band the gate is written against (defect 72). Until `src/pinn.py` is re-run, this section describes four of five gates.
 
 **What it is.** A small network that reproduces the validated physics core — outlet water temperature and evaporation from ambient, flows and inlet water temperature. It is trained **against the core, not against the plant**, so it is a surrogate and inherits every limitation the core has. It is scored on how faithfully it reproduces the model, never on whether the model is right.
 
@@ -83,7 +83,7 @@ But an LSTM is the wrong instrument. You do not need to *learn* the weather — 
 
 1. **Speed and differentiability.** One duty fixed point costs a bracketed root-find over an RK4 integration — measured at **148 ms per point**. The optimiser solves hundreds per decision, which is why the shipped optimiser is a grid search rather than a gradient method. A differentiable surrogate at microsecond cost turns a five-minute advisory into a one-second setpoint, and makes constrained MPC feasible on edge hardware.
 
-2. **It is the only honest thing that can be said about Gulf wet-bulb before the KFUPM rig exists.** The validation dataset tops out at 21.9 °C wet-bulb, and an hourly TMY year for Dhahran puts **40.5 % of all hours above that** — 84 % of hours in September (ASHRAE 2025 design wet-bulb 30.5 °C at 1 %). No amount of fitting closes that, because there is no data there. But a *physics-informed* network can be constrained where there is no data. The physics loss is evaluated at **collocation points sampled across the full Gulf envelope**, enforcing the inequalities thermodynamics guarantees everywhere:
+2. **It is the only honest thing that can be said about Gulf wet-bulb before the KFUPM rig exists.** The validation dataset tops out at 21.9 °C wet-bulb, and an hourly TMY year for Dhahran puts **40.5 % of all hours above that** on the TMYx file's humidity, and 24.3 % on Dhahran station dew point — 84 % of hours in September on TMYx (ASHRAE 2025 design wet-bulb 30.5 °C at 1 %). No amount of fitting closes that, because there is no data there. But a *physics-informed* network can be constrained where there is no data. The physics loss is evaluated at **collocation points sampled across the full Gulf envelope**, enforcing the inequalities thermodynamics guarantees everywhere:
 
    - a wet tower cannot cool water below the ambient wet bulb;
    - more air, at fixed duty, cannot make the water hotter;
