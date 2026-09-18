@@ -1,39 +1,129 @@
 # Session handoff — Furqan / Mizan
 
-> **CURRENT AS OF 12 SEPTEMBER 2026.** Branch `water-modes-and-cdu` is **pushed**
-> to `origin` (github.com/furqan5/mizan), 26 commits ahead of `main`. Open the PR
-> at https://github.com/furqan5/mizan/pull/new/water-modes-and-cdu when ready.
+> **CURRENT AS OF 18 SEPTEMBER 2026.** Branch `integrate/sep17`. Six branches
+> worked in parallel on 17 September and are merged here; each staged its defects
+> and its stale-number list instead of editing shared documents, and this pass
+> applied all of it. The repository is **public** (github.com/furqan5/mizan),
+> under PolyForm Noncommercial.
 >
-> **State:** 295 tests pass, 4 registered xfails · audit passes · register **74 found / 64 fixed / 10 open**.
+> **State:** 295 tests pass, 4 registered xfails · audit passes · register
+> **74 found / 64 fixed / 10 open**.
 >
-> **The three findings that change what you say to people, in order of how much
-> they change it:**
+> **Read this block before you say anything to anyone.** Four of the seven items
+> below change a sentence that is currently in the deck.
 >
-> 1. **The water saving is negative where the model has been validated** (defect
->    48). Splitting the Dhahran year at the edge of the Almeria calibration data:
->    inside the envelope (5,475 h) water is **−3.31 %** and energy **+8.84 %**;
->    extrapolated (3,285 h) water is **+8.23 %** and energy **−0.39 %**. The whole
->    positive annual water figure is carried by hours never measured at. **Lead
->    with energy. Treat water as the thesis the pilot exists to test.** The deck
->    prints this split itself.
-> 2. **Measuring the chemistry costs more than the chemistry saves** (defect 47).
->    Online silica + calcium + alkalinity + phosphate is **$120–185k/tower**
->    against an **$89k/yr** saving on a 4.2 MW tower. So the skid buys only what
->    is cheap (~**$23–30k installed**) and *computes* the chemistry, using the
->    conductivity residual as a free scaling alarm. `docs/instrumentation_spec.md`.
-> 3. **A 316 stainless condenser pits at 1.85 cycles** on the measured Riyadh
->    water — *below* the 3.0 baseline we recommend (defect 46). Lands on the
->    **data-centre CDU** case, where plate exchangers are routinely 316.
+> ---
 >
-> **Also settled since the last handoff:** skin ΔT is derived, not assumed
-> (7.45 K at the TEMA fouling allowance, and only 0.055 cycles/K — not
-> load-bearing); Mg-silicate is a **brucite** criterion, now enforced; the
-> discharge permit binds at **3.33 cycles on nitrate** before chemistry binds at
-> 4.52, and is reported-not-imposed because RCER covers Jubail and Yanbu and the
-> assay is from Riyadh.
+> **1. The one measured Gulf TSE assay is NOT silica-bound, and the silica thesis
+> now rests on an assumption that measurement contradicts.**
+>
+> NACE CORROSION/96 Paper 577, Table 1, prints **silica 8 mg/L**. The repository
+> carried **18 mg/L, labelled MEASURED**, because the value was taken from the
+> PDF's text layer, where the table's vertical rule had been read by OCR as a
+> leading "1" (defect 67). The page itself was read at high resolution and every
+> other row of the table checked against it.
+>
+> On the corrected water **calcite binds at every scored condition and at every
+> acid pH**. The incumbent-gap ceiling on that water moves **6.72 (silica) → 8.91
+> (calcite)** at pH 7.8, and the Cycle Ceiling Report stays at **4.52 cycles,
+> calcite-bound** (4.5168 → 4.5171). The only silica-bound TSE left in the package
+> is `ARAMCO_FIELD_VALIDATED`, whose **26.8 mg/L is ASSUMED** — imported from
+> Salbukh brackish groundwater, not an assay of that water. The data-centre silica
+> floor rests on the same assumed number: at 8 mg/L **there is no floor at all at
+> 3–7 cycles**.
+>
+> Say it plainly: *the silica story is a hypothesis about Gulf treated effluent,
+> and the single measurement we hold points the other way.* **One site assay
+> decides it**, and that is now the highest-value thing anyone can do for this
+> product.
+>
+> **2. Two calibration gates now fail, after the Almería data was de-duplicated.**
+>
+> The published dataset loads as 165 rows but holds **147 distinct measurements**:
+> the Exp3 file repeats Exp1 rows 0–16 exactly, and one of those is also a
+> training row (defect 51). The 50-row holdout was 32 distinct rows. Re-scored, as
+> pre-registered before the run and with no threshold moved: **heat rejection
+> 5.94 % PASS → 6.27 % FAIL**, **evaporation 9.90 % → 10.80 %, FAIL either way**.
+> Outlet MAE 0.542 → 0.600 K, still a pass. **Three of six gates now fail**, and
+> the reason the count went up is that a contaminated split had been flattering
+> one of them by 0.06 points.
+>
+> **3. The chemistry engine fails its own registered PHREEQC benchmark.**
+>
+> "Benchmarked against PHREEQC 3.9.0" had rested on a single composition. The
+> pre-registered grid — 4 waters × cycles 1–8 × 25/35/45/55 °C — gives **95.7 % of
+> 416 indices within tolerance overall, but calcite 89.1 % against a 90 % bar:
+> FAIL** (defect 53). Every one of the 18 failures sits at **45–55 °C and low
+> ionic strength**, and calcite is the mineral that binds on the measured Gulf
+> assay. Quote the measured share, never the word "benchmarked" on its own.
+>
+> **4. Weather: the annual water saving does not survive a change of source.**
+>
+> **+1.31 % on the TMYx file's humidity and −2.64 % on Dhahran station humidity.**
+> Hours above the calibration edge are **40.5 % of the year on TMYx and 24.3 % on
+> station humidity**. The energy-led framing survives both sources; **a positive
+> annual water saving does not.** Never state one without saying which weather
+> file it came from.
+>
+> **5. The discharge permit is harder than the package has been saying.**
+>
+> RCER-2015 Table 3C prints nitrate as **10 mg/L daily maximum and 1 mg/L monthly
+> average**. The package's 3.33-cycle headline was the daily maximum. On the
+> monthly average this makeup is already at 3 mg/L, so **no cycle count complies
+> at all** (defect 69). Reported, not imposed — RCER covers Jubail and Yanbu and
+> the assay is from Riyadh — but the sentence "the permit binds before the
+> chemistry does" is now much stronger than it was.
+>
+> **6. Safety: the interlocks exist in software; the hardware does not.**
+>
+> The overnight makeup-trip incident that destroyed a real plant's tubes is now
+> simulated against a pre-registered fault matrix. **Without interlocks the basin
+> pH crosses 6.5 at 51.5 minutes** after the trip and falls to 1.82; **with them
+> the acid stops on the same scan as the fault** and pH never leaves 8.0. What is
+> still missing is physical: an **independent low-pH trip** wired outside the
+> controller, and a **watchdog** that closes the dosing valve when the controller
+> stops. Neither has been bought. Two matrix rows also fail as registered (F3 at
+> 149 s against 61 s, F4a at 768 s against 601 s), and the registered fail-safe
+> itself empties the basin sooner during a makeup loss (defect 56). **Do not
+> connect this to a dosing pump.**
+>
+> **7. The data-centre numbers on slide 6 were a pump-law artefact.**
+>
+> The Dhahran **PUE of 3.537** came from an uncapped cubic secondary-pump law held
+> to a 42 °C cold-plate return that no Dhahran design hour can reach: two hours
+> drew **233–265 MW of pumping for a 9 MW hall** (defect 63). At the GPU OEM's
+> published return point all four regions sit at **1.035–1.049**. And
+> **"+$9.8M/yr to bound Frankfurt" came from holding cycles fixed at 5**; when the
+> controller is allowed to choose cycles it is **−$93k/yr** — a saving, not a cost
+> — with Loudoun at +$30k and Balloki at −$21k, for 3.7–4.7 % more makeup (defect
+> 64). **Withdraw the dollar cost of bounding. Do not replace it with a new dollar
+> figure** until `generate_pitch_artifacts.py` is recomputed.
+>
+> ---
+>
+> **What still stands, unchanged by any of the above:** the water saving is
+> negative inside the validated envelope and positive only outside it, so lead
+> with energy and treat water as the thesis a pilot exists to test (defect 48,
+> figures moved by defect 60: inside 5,209 h, water **−3.22 %**, energy
+> **+8.82 %**; extrapolated 3,551 h, water **+5.41 %**, energy **+0.95 %**).
+> Measuring the chemistry still costs more than the chemistry saves — $120–185k
+> per tower against an $89k/yr saving — so the skid buys cheap instruments
+> (~$23–30k installed) and *computes* the rest (defect 47). Skin ΔT is derived,
+> not assumed (7.45 K, 0.055 cycles/K, not load-bearing). Mg-silicate is a brucite
+> criterion and is enforced; its constant was wrong in temperature and is fixed
+> (defect 57).
+>
+> **And one claim that needs three qualifications now:** the 316 stainless figure.
+> **1.85 cycles is a guidance screen, not a measured onset**; it is **this water**
+> (0.76 cycles on the Dhahran TSE at 528 mg/L chloride); and it reaches a CDU
+> plate only where the facility loop is **open** to the tower, because the CDU's
+> technology-cooling side is a closed loop that never carries tower water (defect
+> 65). The finding survives as "check the alloy, the chloride and the topology";
+> it does not survive as "CDU plate packs are routinely 316, so this binds".
 >
 > **Tagline:** *"The limit, computed."* — in `src/brand.py`. Chosen partly
-> because it survives finding 1, where a tagline about saving water would not.
+> because it survives all of the above, where a tagline about saving water would
+> not.
 
 
 > **SUPERSEDED IN PART — 10 September 2026.** Four chemistry defects were found
@@ -101,7 +191,7 @@ A sensor skid (conductivity, pH, ORP, temperature, makeup and blowdown flow) plu
 
 ```
 V1  outlet water temp MAE      0.542 K   <= 1.00 K    PASS
-V1  heat rejection MAPE        5.94 %    <= 6.00 %    PASS
+V1  heat rejection MAPE        5.94 %    <= 6.00 %    PASS   [superseded: 6.27 % FAIL on the de-duplicated holdout, defect 51]
 V2  evaporation vs measured    9.90 %    <= 8.00 %    FAIL, and now DIAGNOSED
 V3  bulk overstates limit      6.9-7.1 % typical, 15.2-15.6 % fouled
 V5  total cost reduction       5.75 %    >= 3 %       PASS
@@ -133,6 +223,13 @@ fan speed is an actuator at all. But it was monetised into `cost_pct` and never 
 on its own, which made an energy venture look like a water venture. `run_controller.py`
 and `annual.py` now emit it. **It is a reported diagnostic, not a pre-registered gate** —
 attaching a threshold after seeing the answer is not a test.
+
+**SUPERSEDED 17 September 2026 (defect 60).** The bins below were eight equal-hour
+bins whose membership was decided by centroid; they are now cut at the 21.9 °C
+validation edge and shared 5/3 by hours, and the correlation across them is
+**r = -0.714** (it was -0.836 on the pre-fix artefact, so documents quoting
+r = -0.66 were already stale before that). The half-year table below has not been
+regenerated and is kept as the record of what the study said.
 
 **The finding that came out of it.** Across eight equal-hour wet-bulb bins of a Dhahran
 year the energy saving and the water saving are **anti-correlated, r = -0.548**:
@@ -242,7 +339,7 @@ The two-ceilings *result* was never in doubt and is unchanged: two distinct limi
 
 1. **Fan correlation units.** The PSA dataset's `w_fan` column is a percentage but the published air-flow correlation takes **hertz**. Read as percent it turns over at 62 % (air flow falling as the fan speeds up). Cost ~1 K of accuracy and a +1.5 K bias before it was caught.
 2. **Silica is prograde** — it binds at the *cold basin*, not the hot skin. Industry uses a static "150 mg/L" rule regardless of basin temperature; the true ceiling moves **95 → 143 mg/L** across 15–35 °C, i.e. the standard rule is **non-conservative by 37 % at a winter basin**.
-3. **At realistic Saudi silica (26.8 mg/L, Salbukh measured) the model computes 4.4–4.9 max cycles — the industry's empirical band is 3.5–5.0.** A first-principles limit landing on observed practice is the strongest validation in the package.
+3. ~~**At realistic Saudi silica (26.8 mg/L, Salbukh measured) the model computes 4.4–4.9 max cycles — the industry's empirical band is 3.5–5.0.** A first-principles limit landing on observed practice is the strongest validation in the package.~~ **WITHDRAWN 18 September 2026.** Two things went wrong with this sentence. The corrected engine computes **5.84** cycles on that water, which is *above* the 3.5–5.0 band rather than on it — and being more permissive than the operators is the direction that scales a condenser. And 26.8 mg/L is **assumed**, imported from brackish groundwater; the only measured Gulf TSE silica this package holds is 8 mg/L (defect 67), on a water that is calcite-bound.
 4. **Magnesium silicate binds before amorphous silica** on Gulf water. Sepiolite was the wrong proxy (kinetically inhibited, gave indices forbidding all operation). Industry uses an **empirical Mg × SiO₂ product**: 35,000 standard / 25,000 utility, with **Mg as ppm Mg²⁺** — the "as CaCO₃" reading gives 2.78 cycles, below observed practice, so it is wrong.
 5. **V6, the sharpest result.** Two-step mechanism: brucite precipitates at the skin, then reacts with silica. Brucite's saturation pH is retrograde, so **deposition occurs when bulk pH > pH_s(brucite) at the skin**. The same tower deposits at high load and not at low load. Needs thermal model + chemistry model + acid actuator together.
 6. **Chiller model, now a named machine.** Carnot (η=0.55) overstated the value of cooling the condenser by ~60 %. Replaced with the EnergyPlus `Chiller:Electric:EIR` bi-quadratic, coefficients from **York YT 1758 kW (500 TR) / 6.28 COP / inlet vanes**, `datasets/Chillers.idf` lines 6001-6083 (CoolTools library). Chosen because its reference point IS the AHRI 550/590 rating point and its curves are fitted over **15.56-35.00 °C entering condenser water** — the Gulf range; most of the library stops at 26.11 °C. Gives 2.36 %/K over 30-36 °C against 2.62 % for the untraced set it replaced.
@@ -274,7 +371,7 @@ The two-ceilings *result* was never in doubt and is unchanged: two distinct limi
 
 5. **Chiller validity envelope** — the optimiser was driving the fan to its lower bound, putting entering condenser water at 36.5-40.5 C, outside the fitted range, and collecting a **false 20.41 % water saving** from the extrapolation. The envelope is now a hard constraint (it is also the machine's permitted ECWT window). **1,840 of 6,307** candidate points are now rejected rather than extrapolated.
 
-6. **PINN surrogate — three defects, then all four gates passed.** `src/pinn.py`, thresholds fixed and printed before training.
+6. **PINN surrogate — three defects, then four of FIVE pre-registered gates were scored and the fifth was not.** `src/pinn.py`, thresholds fixed and printed before training. **P2 (holdout outlet MAE ≤ 0.60 K) was registered and never computed**, so `results/pinn.json` has no entry for it and the consistency test passed over it vacuously; an independent audit reconstructed the checkpoint and measured **0.627 K — a FAIL — on the inherited 50-row holdout (defect 71)**. The code now computes P2 against the 32-row de-duplicated holdout but has not been run, because the checkpoint is not in the repository. Separately, **P3's sampler never filters on wet bulb**: 51.9 % of its points lie outside the 24–31 °C band the gate is written against (defect 72). Until `src/pinn.py` is re-run, say "four of five gates scored, and the fifth was not".
 
    | Gate | Threshold | Result | |
    |---|---|---|---|
@@ -323,7 +420,7 @@ Energy is the majority term in Gulf winter (74 % of that condition's saving) and
 
 ## Data and sources
 
-- **Validation data:** Zenodo 10806201 (Plataforma Solar de Almería), MD5 `ac94e0076a9217b58e032a2545bf9fc4`, CC BY 4.0, 165 steady-state points. **Limitation:** its summer wet-bulb tops at 21.9 °C; Gulf design is 30.3 °C.
+- **Validation data:** Zenodo 10806201 (Plataforma Solar de Almería), MD5 `ac94e0076a9217b58e032a2545bf9fc4`, CC BY 4.0, 165 rows of which **147 are distinct measurements** — the Exp3 file repeats Exp1 rows 0–16 exactly (defect 51). **Limitation:** its summer wet-bulb tops at 21.9 °C; Gulf design is 30.3 °C.
 - **Makeup water:** measured Saudi Aramco reclaimed-water analysis, Badruzzaman et al. (2022), *Water Resources and Industry* 28:100188.
 - **Silica:** Al-Mutaz & Al-Anezi (2004), King Saud University / Riyadh Water Treatment Project.
 - **Tariffs (published, not assumed):** electricity $0.074/kWh; water **$3.11/m³ avoided** (Marafiq/RCJY: process water SAR 8.04 + industrial wastewater SAR 3.64); acid $0.19/kg. **No Saudi time-of-use tariff exists** — never claim peak-shifting.
@@ -520,7 +617,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 
 | Item | Direction it cuts | State |
 |---|---|---|
-| Almeria wet-bulb 21.9 C vs Gulf 30.3 C | **AGAINST US, and now quantified** | OPEN on the data, **QUANTIFIED 12 Sep 2026 (defect 48).** Splitting the Dhahran year at the edge of the test data: the WATER saving is **−3.31 % inside** the validated envelope and **+8.23 % outside** it, so the entire positive annual water figure is carried by the 3,285 hours we have never measured. ENERGY is the reverse: **+8.84 % inside, −0.39 % outside.** The two halves are validated to opposite degrees. Lead with energy; treat water as the thesis the pilot tests. Still closed only by KFUPM's humidifying wind tunnel |
+| Almeria wet-bulb 21.9 C vs Gulf 30.3 C | **AGAINST US, and now quantified** | OPEN on the data, **QUANTIFIED 12 Sep 2026 (defect 48), re-measured 17 Sep (defect 60).** Splitting the Dhahran year at the edge of the test data: the WATER saving is **−3.22 % inside** the validated envelope and **+5.41 % outside** it, so the entire positive annual water figure is carried by the **3,551** hours we have never measured. ENERGY does not reverse so much as fall away: **+8.82 % inside, +0.95 % outside.** The two halves are validated to opposite degrees. The figures as first published were −3.31 / +8.23 / +8.84 / −0.39 % over 3,285 hours; that split classified whole bins by centroid. Lead with energy; treat water as the thesis the pilot tests. Still closed only by KFUPM's humidifying wind tunnel |
 | Corrosion, aggressive-anion side | Was absent entirely | **CLOSED 12 Sep 2026 (defect 46).** `src/corrosion.py` — Larson–Skold with its calibration envelope attached, Ryznar, Puckorius, UFC 3-230-13 Table 5-9 coupon bands, chloride pitting. The two levers partition the risk: **acid owns Larson–Skold (cycles move it by exactly zero), cycles own chloride pitting (acid does not touch it)**. On the measured Riyadh water a **316 stainless condenser pits at 1.85 cycles** against a 4.52-cycle scaling ceiling — it binds first, and hardest on the CDU |
 | No chemistry ever measured | Was the largest single gap | **CLOSED AS FAR AS ECONOMICS ALLOW, 12 Sep 2026 (defect 47).** Measuring the ions online is **$120–185k/tower against an $89k/yr saving** — the instruments cost more than the thing they optimise, which is why nobody sells this. Instead `src/conductivity.py` checks the assumed composition against the conductivity sensor already on the skid (USGS specific-conductance imbalance). It does not measure ions; it says **when the assumption has stopped being true**, and the sign is diagnostic. Full spec, BOM and cost reality in `docs/instrumentation_spec.md` |
 | Model error 2.82x measurement uncertainty (2.48x before defect 51) | Against us | OPEN, reported |
@@ -553,7 +650,11 @@ Simscape thermal network for the loop's 150 t inertia, Stateflow supervisor
 (SHADOW -> ADVISORY -> CLOSED LOOP with a hard FALLBACK), MATLAB Function
 blocks for the Poppe tower, the named York YT chiller and the brucite limit.
 One day in ~90 s. Basin 26.9-32.4 C, skin 38.4-46.2 C, scale limit moving
-over pH 8.43-8.89, **11.1 of 24 hours above it** with both plant instruments
+over pH 8.43-8.89 — **superseded: that band was computed with the brucite enthalpy
+pairing corrected on 17 September (defect 57), and the Python engine's limits are
+about 0.6 pH units higher at a 45 °C skin. `results/matlab_simulink.json` still
+carries the old constant and has not been regenerated** — **11.1 of 24 hours above
+it** with both plant instruments
 flat. Matches `mizan_demo.m`, which gets there with no Simulink at all.
 
 **Five toolboxes, five real jobs** (`mizan_control_design.m`):
