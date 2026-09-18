@@ -322,7 +322,7 @@ _DWELL_RESTARTS = (
     "threshold inside the measurement noise, the dwell timer restarts each time "
     "noise pulls it back under, and the trip lands later than registered. The "
     "row is reported as failing and is not rewritten; see "
-    "docs/staged/safety-interlocks_defects.md.")
+    "docs/defect_register.md, the failed-gate table for the 17 September round.")
 
 
 @pytest.mark.xfail(strict=True, reason=_DWELL_RESTARTS)
