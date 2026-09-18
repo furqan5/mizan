@@ -254,7 +254,11 @@ def main():
       A("")
       A("| Campaign | Identified c | Identified n | Outlet MAE | Evaporation MAPE |")
       A("|---|---|---|---|---|")
-      for cp in ("Exp1", "Exp2", "Exp3"):
+      # DEFECT 51/70: Exp3.nc repeats Exp1 rows 0-16 exactly, so it is not a
+      # campaign and is no longer an entry in the artefact. Iterate what the
+      # file actually holds rather than a typed list, or this generator
+      # crashes the moment the artefact is corrected.
+      for cp in sorted(v2d):
           r = v2d[cp]
           A(f"| {cp} | {r['c']:.4f} | {r['n']:.4f} | "
             f"{r['Tout_MAE_K']:.3f} K | {r['evap_MAPE_pct']:.2f} % |")
@@ -265,7 +269,7 @@ def main():
       f"used** -- worst case {worst:.2f} %. The bleed hypothesis is "
       f"rejected: a bleed would have been untouched by re-identification. "
       f"The identified fill coefficient moves "
-      f"{100*(max(cs)-min(cs))/min(cs):.1f} % across the three campaigns, "
+      f"{100*(max(cs)-min(cs))/min(cs):.1f} % across the {len(cs)} campaigns, "
       f"which is the same drift already measured in the thermal channel and "
       f"is now confirmed independently in the water channel.")
       A("")
@@ -454,13 +458,33 @@ def main():
           "asserted, and it answers the R² question directly: the scatter "
           "is experimental, not a deficient functional form.")
         A("")
-        A(f"**The form that scores best on MAE was rejected.** "
-          f"{fld['best_by_MAE']} reaches {fld['best_MAE_K']:.3f} K against "
-          f"{fld['adopted_MAE_K']:.3f} K for the adopted law — a gain of "
-          "0.025 K on a ~0.5 K error, bought while making RMSE *worse* by "
-          "0.048 K. It reduces typical error and increases large error, which "
-          "is a differently-shaped error distribution rather than a better "
-          "model.")
+        # DEFECT 51. This paragraph used to assert, in hardcoded prose, that
+        # the best-scoring form was rejected and by exactly how much. On the
+        # de-duplicated holdout the adopted law scores best outright, so the
+        # assertion had stopped describing the table printed directly above
+        # it -- the defect-19/23/28 shape, prose outliving the number beneath
+        # it. Both branches are now derived from the artefact.
+        _best, _adopted = fld["best_MAE_K"], fld["adopted_MAE_K"]
+        if fld["best_by_MAE"] == fld["adopted"] or _best >= _adopted - 1e-9:
+            _rival = fl[fl.model != fld["adopted"]]["holdout_MAE_K"].min()
+            A(f"**The adopted form also scores best on the holdout.** "
+              f"{fld['adopted']} reaches {_adopted:.3f} K, and the closest "
+              f"rival is {_rival:.3f} K. That was NOT true on the 50-row "
+              f"holdout, where a wet-bulb form scored 0.517 K against the "
+              f"adopted law's 0.542 K and was rejected on the physical "
+              f"argument below alone. De-duplicating the holdout (defect 51) "
+              f"removed 18 repeated measurements and one training row, and "
+              f"the ranking changed with them. The physical argument is "
+              f"unchanged and is still the reason for the choice — it simply "
+              f"no longer costs anything.")
+        else:
+            A(f"**The form that scores best on MAE was rejected.** "
+              f"{fld['best_by_MAE']} reaches {_best:.3f} K against "
+              f"{_adopted:.3f} K for the adopted law — a gain of "
+              f"{_adopted - _best:.3f} K on a ~0.5 K error. It reduces "
+              f"typical error and increases large error, which is a "
+              f"differently-shaped error distribution rather than a better "
+              f"model.")
         A("")
         A("The deciding objection is physical, not statistical. A Merkel "
           "number is a property of the fill's heat-and-mass-transfer "
@@ -1048,11 +1072,22 @@ def main():
       "us | Heated-coupon side-stream rig |")
     _wpct = ctrl["summary"]["water_pct"] if ctrl else float("nan")
     _wall = ctrl["summary"]["physical_ceiling_cycles"] if ctrl else 8
+    # The binding mineral is READ from the artefact, not remembered. It was
+    # gypsum when this row was written and the corrected speciation moved it
+    # to amorphous silica without moving the ceiling; a hand edit to the
+    # generated document kept reverting, which is defect 12's shape.
+    _mineral = (ctrl["summary"].get("binding_mineral") if ctrl else None) or ""
+    _mineral_words = {"SI_silica_am": "**amorphous silica**",
+                      "SI_gypsum": "**gypsum**",
+                      "SI_calcite": "**calcite**"}.get(_mineral, _mineral or "the binding mineral")
     A(f"| Makeup water reduction missed its pre-registered 15 % threshold "
       f"({_wpct:.2f} %) | **Against us** — reported as a failure rather than "
-      f"rescored. Now diagnosed: 15 % requires 8.5 cycles and gypsum "
-      f"saturates at {_wall}, so the threshold was written beyond the "
-      f"physical ceiling | Nothing: the threshold stands as written |")
+      f"rescored. Now diagnosed: 15 % requires roughly 8.5 cycles and "
+      f"{_mineral_words} saturates at {_wall}, so the threshold was written "
+      f"beyond the physical ceiling. (The binding mineral was believed to be "
+      f"gypsum when this row was first written; correcting the speciation "
+      f"moved it without moving the ceiling.) | Nothing: the threshold stands "
+      f"as written |")
     A("| Fill characteristic identified on one tower | **Neutral** — "
       "the characteristic form transfers, the coefficients do not, and "
       "per-site calibration is part of the product | Second rig, and the "

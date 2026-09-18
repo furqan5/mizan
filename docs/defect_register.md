@@ -568,9 +568,16 @@ Re-identifying the fill law on each campaign separately cannot help if the cause
 |---|---|---|
 | Exp1 | 1.5320 | 6.55 % |
 | Exp2 | 1.2401 | 7.80 % |
-| Exp3 | 1.3826 | 4.50 % |
 
 **Every campaign falls inside the 8 % gate.** The bleed hypothesis is rejected. The fill coefficient moves **23.5 %** across campaigns spanning four years — the same drift already measured in the thermal channel, now confirmed independently in the water channel.
+
+There were three rows in that table until 18 September 2026. The third, Exp3 at
+c 1.3826 and 4.50 %, was the duplicate file counted as a campaign (defects 51 and
+70). It has been deleted **by hand** from `results/v2_diagnosis.json`, because no
+script in the repository writes that file — which is defect 74's second instance
+and is recorded there. The 23.5 % is unchanged by the deletion, because Exp1 and
+Exp2 were always the two extremes. `results/drift.json`, which IS regenerated
+from the de-duplicated loader, puts the same spread at **20.97 %**.
 
 So V2 fails as a **single-calibration** gate, for a physical reason rather than a modelling one: the gate holds one fill law fixed while the tower itself changed. The model is not deficient; the assumption that a tower's characteristic is a constant is.
 

@@ -89,9 +89,8 @@ A fixed bleed would give a shortfall proportional to circulating flow; a model d
 |---|---|---|---|---|
 | Exp1 | 1.5320 | -0.6015 | 0.280 K | 6.55 % |
 | Exp2 | 1.2401 | -0.5014 | 0.454 K | 7.80 % |
-| Exp3 | 1.3826 | -0.4293 | 0.262 K | 4.50 % |
 
-**Every campaign falls inside the 8 % gate once its own fill law is used** -- worst case 7.80 %. The bleed hypothesis is rejected: a bleed would have been untouched by re-identification. The identified fill coefficient moves 23.5 % across the three campaigns, which is the same drift already measured in the thermal channel and is now confirmed independently in the water channel.
+**Every campaign falls inside the 8 % gate once its own fill law is used** -- worst case 7.80 %. The bleed hypothesis is rejected: a bleed would have been untouched by re-identification. The identified fill coefficient moves 23.5 % across the 2 campaigns, which is the same drift already measured in the thermal channel and is now confirmed independently in the water channel.
 
 So V2 fails as a **single-calibration** gate, and it fails for a physical reason rather than a modelling one: the gate holds one fill law fixed across campaigns spanning four years, and the tower itself changed over those four years. The model is not deficient; the assumption that a tower's characteristic is a constant is.
 
@@ -145,16 +144,16 @@ Gate V5 scores an unweighted mean over five hand-picked ambient conditions. That
 | Metric | Makeup water saving |
 |---|---|
 | Five-condition unweighted mean (gate V5) | 4.38 % |
-| **Hours-weighted annual, Dhahran TMYx** | **1.25 %** |
-| Difference | **-5.00 points** |
+| **Hours-weighted annual, Dhahran TMYx** | **0.31 %** |
+| Difference | **-4.07 points** |
 
 **The gate metric was flattering the product.** The saving is large when it is hot and small when it is not, and the five chosen conditions were weighted toward summer. A real Dhahran year is not weighted that way.
 
-The figure that belongs in a commercial conversation is therefore **1.3 % annually**, not 4.38 %. The higher number should not be used outside the specific five-condition comparison it was computed for. This is reported here rather than quietly dropped because it was found while looking for a way to make a failed gate pass, and it did the opposite.
+The figure that belongs in a commercial conversation is therefore **0.3 % annually**, not 4.38 %. The higher number should not be used outside the specific five-condition comparison it was computed for. This is reported here rather than quietly dropped because it was found while looking for a way to make a failed gate pass, and it did the opposite.
 
-Quoted OUTSIDE this repository the figure is **2.4 %** -- the ratio of hours-weighted totals, cubic metres saved over cubic metres consumed. The 1.3 % above is an hours-weighted mean of ratios, which is the right object for comparing against the gate and the wrong one for a customer.
+Quoted OUTSIDE this repository the figure is **1.3 %** -- the ratio of hours-weighted totals, cubic metres saved over cubic metres consumed. The 0.3 % above is an hours-weighted mean of ratios, which is the right object for comparing against the gate and the wrong one for a customer.
 
-The same calculation carries its own caveat: only **62.5 %** of the weighted year lies inside the wet-bulb envelope the model was validated in. The rest rests on extrapolation, and no weighting scheme fixes that.
+The same calculation carries its own caveat: only **59.5 %** of the year, counted hour by hour, lies inside the wet-bulb envelope the model was validated in. The rest rests on extrapolation, and no weighting scheme fixes that.
 
 ## 5. Model selection — why the fill law has two parameters
 
@@ -164,17 +163,17 @@ Five candidate forms were fitted on the training campaign alone and scored by fo
 
 | Form | Params | Train R² | Holdout MAE | Holdout RMSE |
 |---|---|---|---|---|
-| A: ratio only  Me=c(mw/ma)^n **(adopted)** | 2 | 0.372 | 0.542 K | 0.662 K |
-| B: separate flows  Me=c*mw^a*ma^b | 3 | 0.382 | 0.629 K | 0.788 K |
-| C: ratio + inlet temp | 3 | 0.372 | 0.550 K | 0.666 K |
-| D: separate flows + inlet temp | 4 | 0.382 | 0.633 K | 0.793 K |
-| E: separate flows + wet bulb | 4 | 0.506 | 0.517 K | 0.710 K |
+| A: ratio only  Me=c(mw/ma)^n **(adopted)** | 2 | 0.372 | 0.600 K | 0.720 K |
+| B: separate flows  Me=c*mw^a*ma^b | 3 | 0.382 | 0.726 K | 0.885 K |
+| C: ratio + inlet temp | 3 | 0.372 | 0.608 K | 0.726 K |
+| D: separate flows + inlet temp | 4 | 0.382 | 0.734 K | 0.893 K |
+| E: separate flows + wet bulb | 4 | 0.506 | 0.608 K | 0.811 K |
 
 Two results follow, and both are reported because both are informative.
 
 **Adding flow terms raises training R² while making holdout prediction worse.** That is overfitting demonstrated rather than asserted, and it answers the R² question directly: the scatter is experimental, not a deficient functional form.
 
-**The form that scores best on MAE was rejected.** E: separate flows + wet bulb reaches 0.517 K against 0.542 K for the adopted law — a gain of 0.025 K on a ~0.5 K error, bought while making RMSE *worse* by 0.048 K. It reduces typical error and increases large error, which is a differently-shaped error distribution rather than a better model.
+**The adopted form also scores best on the holdout.** A: ratio only  Me=c(mw/ma)^n reaches 0.600 K, and the closest rival is 0.608 K. That was NOT true on the 50-row holdout, where a wet-bulb form scored 0.517 K against the adopted law's 0.542 K and was rejected on the physical argument below alone. De-duplicating the holdout (defect 51) removed 18 repeated measurements and one training row, and the ranking changed with them. The physical argument is unchanged and is still the reason for the choice — it simply no longer costs anything.
 
 The deciding objection is physical, not statistical. A Merkel number is a property of the fill's heat-and-mass-transfer geometry. Ambient wet-bulb is an operating condition. Admitting it to the fill law lets the regression absorb the training climate into what is supposed to be equipment physics — and the training climate is not ours:
 
@@ -190,24 +189,24 @@ A model error is meaningless without the experiment's own uncertainty beside it.
 
 | Quantity | Value |
 |---|---|
-| u(predicted outlet T), from input uncertainty | 0.188 K |
+| u(predicted outlet T), from input uncertainty | 0.182 K |
 | u(measured outlet T), Pt100 | 0.104 K |
-| combined standard uncertainty u_c | 0.217 K |
-| expanded uncertainty U (k=2, ~95 %) | 0.434 K |
-| **model MAE on the same points** | **0.537 K** |
-| MAE / u_c | **2.48** |
-| points agreeing within U (k=2) | 40 % |
+| combined standard uncertainty u_c | 0.211 K |
+| expanded uncertainty U (k=2, ~95 %) | 0.421 K |
+| **model MAE on the same points** | **0.594 K** |
+| MAE / u_c | **2.82** |
+| points agreeing within U (k=2) | 38 % |
 
 **This is a negative result and it is reported as one.** The model does not agree with the experiment to within measurement uncertainty; it is about two and a half times outside it, with a systematic holdout bias rather than symmetric scatter. Something real is being missed.
 
 The cause was then isolated. If the deficiency were in the model form, it would persist within a single campaign. If the fill characteristic drifts — the campaigns span October 2019 to October 2023, and fill fouls and degrades — the error would appear only across campaigns.
 
-- mean **within**-campaign MAE: **0.332 K** (1.53 x u_c), bias essentially zero
-- mean **across**-campaign MAE: **0.470 K** (2.17 x u_c)
-- drift penalty: **+0.138 K**
-- identified fill coefficient across campaigns: **1.240 to 1.532**, a spread of **21.1 %**
+- mean **within**-campaign MAE: **0.367 K** (1.74 x u_c), bias essentially zero
+- mean **across**-campaign MAE: **0.547 K** (2.60 x u_c)
+- drift penalty: **+0.180 K**
+- identified fill coefficient across campaigns: **1.241 to 1.532**, a spread of **21.0 %**
 
-**Both effects are present, and the honest verdict is mixed.** Within a campaign the model is nearly unbiased and sits at 1.53 times the measurement uncertainty — close to the floor but not at it, so a genuine modelling residual remains. Across campaigns a further 0.138 K appears, and the identified fill coefficient moves by a fifth over four years.
+**Both effects are present, and the honest verdict is mixed.** Within a campaign the model is nearly unbiased and sits at 1.74 times the measurement uncertainty — close to the floor but not at it, so a genuine modelling residual remains. Across campaigns a further 0.180 K appears, and the identified fill coefficient moves by a fifth over four years.
 
 **The drift finding has a direct product consequence.** A cooling-tower fill characteristic is not a constant. A controller that assumes a fixed characteristic will degrade silently in service as the fill fouls. Periodic recalibration against the plant's own telemetry is therefore a functional requirement of the product, not a commercial add-on — and this dataset is the evidence for it.
 
@@ -219,9 +218,9 @@ Makeup water is a published Saudi treated-sewage-effluent analysis (TDS 1500 mg/
 
 | Bulk temperature | Limit at bulk | Limit at skin (+8 K) | Bulk basis overstates by |
 |---|---|---|---|
-| 30 °C | 2.63 cycles | 2.29 cycles | 15.1 % |
-| 33 °C | 2.50 cycles | 2.17 cycles | 15.3 % |
-| 36 °C | 2.37 cycles | 2.05 cycles | 15.4 % |
+| 30 °C | 2.65 cycles | 2.30 cycles | 15.1 % |
+| 33 °C | 2.51 cycles | 2.18 cycles | 15.2 % |
+| 36 °C | 2.38 cycles | 2.07 cycles | 15.4 % |
 
 The relative gap is stable at about 15.6 % across the whole condenser operating range. That gap is the margin a plant believes it has and does not. The silica ceiling itself moves seasonally, as Fig. 1 shows, while industry practice holds it fixed.
 
@@ -282,10 +281,10 @@ Per condition:
 | Condition | Wet bulb | Fan | Cycles | Makeup m³/h | Water | Cost |
 |---|---|---|---|---|---|---|
 | Dhahran summer peak | 25.2 °C | 70 → 60 % | 4 → 5 | 27.5 → 25.0 | +9.1 % | +2.7 % |
-| Dhahran summer humid | 29.7 °C | 100 → 80 % | 4 → 5 | 24.3 → 22.2 | +8.6 % | +3.4 % |
-| Dhahran shoulder | 22.4 °C | 60 → 50 % | 4 → 5 | 22.5 → 20.8 | +7.5 % | +0.8 % |
-| Doha summer humid | 30.3 °C | 100 → 80 % | 4 → 5 | 25.3 → 23.0 | +9.0 % | +3.6 % |
-| Gulf winter | 14.7 °C | 40 → 80 % | 4 → 4 | 19.5 → 19.7 | -0.8 % | +7.9 % |
+| Dhahran summer humid | 29.7 °C | 100 → 80 % | 4 → 5 | 24.3 → 22.2 | +8.6 % | +3.5 % |
+| Dhahran shoulder | 22.4 °C | 60 → 80 % | 4 → 4 | 22.5 → 23.1 | -3.1 % | +1.0 % |
+| Doha summer humid | 30.3 °C | 100 → 80 % | 4 → 5 | 25.3 → 23.0 | +9.0 % | +3.7 % |
+| Gulf winter | 14.7 °C | 40 → 90 % | 4 → 4 | 19.5 → 19.9 | -1.7 % | +8.7 % |
 
 ### Reading the failure honestly
 
@@ -323,9 +322,9 @@ Sweeping cycles at fixed fan speed, with pH free to take its least-cost feasible
 
 | Cycles | Best pH | Makeup m³/h | Acid kg/h | Water $/h | Acid $/h | Total $/h | Blocked by |
 |---|---|---|---|---|---|---|---|
-| 3 | 8.50 | 26.97 | 1.7 | 83.89 | 0.33 | **220.95** | |
-| 4 | 8.25 | 23.97 | 1.8 | 74.55 | 0.34 | **211.51** | |
-| 5 | 8.25 | 22.47 | 1.7 | 69.89 | 0.33 | **206.78** | |
+| 3 | 8.50 | 26.97 | 1.7 | 83.89 | 0.33 | **203.60** | |
+| 4 | 8.25 | 23.97 | 1.8 | 74.55 | 0.34 | **194.15** | |
+| 5 | 8.25 | 22.47 | 1.7 | 69.89 | 0.33 | **189.42** | |
 | 6 | — | nan | — | — | — | — | **SI_silica_am** |
 | 7 | — | nan | — | — | — | — | **SI_silica_am** |
 | 8 | — | nan | — | — | — | — | **SI_silica_am** |
@@ -372,12 +371,12 @@ At 4 cycles, with Gulf TSE loops running pH 8.5–9.0:
 
 | Skin temperature | pH_s(brucite) | Verdict at Gulf operating pH |
 |---|---|---|
-| 30 °C | 9.41 | safe across the whole band |
-| 34 °C | 9.16 | safe across the whole band |
-| 38 °C | 8.92 | deposits above pH 8.92 -- band straddles the limit |
-| 42 °C | 8.68 | deposits above pH 8.68 -- band straddles the limit |
-| 46 °C | 8.45 | DEPOSITING across the whole band |
-| 50 °C | 8.22 | DEPOSITING across the whole band |
+| 30 °C | 9.58 | safe across the whole band |
+| 34 °C | 9.45 | safe across the whole band |
+| 38 °C | 9.33 | safe across the whole band |
+| 42 °C | 9.21 | safe across the whole band |
+| 46 °C | 9.09 | safe across the whole band |
+| 50 °C | 8.98 | deposits above pH 8.98 -- band straddles the limit |
 
 **The same tower, same water, same pH, deposits at high load and does not at low load**, because the skin runs hotter. A fixed pH setpoint cannot express that, and neither can a fixed conductivity setpoint. Fig. 3 shows the envelope.
 
@@ -430,7 +429,7 @@ Every remaining open item is listed with the direction it biases the result. Tha
 | Model error is 2.5x the propagated measurement uncertainty | **Against us** — we report the real error, not a floor | Decomposed already: ~30 % fill drift, ~70 % residual. Second rig at KFUPM separates them |
 | Silica is not reported in the Aramco analysis, so its constraint is inactive | **Against us** — present silica could only lower the wall, never raise it. Our 8 cycles is an upper bound | ICP-OES and ion chromatography, Bldg 75-230 |
 | Saturation indices are computed, not measured | **Neutral** — constants are from the USGS PHREEQC database, not fitted by us | Heated-coupon side-stream rig |
-| Makeup water reduction missed its pre-registered 15 % threshold (4.38 %) | **Against us** — reported as a failure rather than rescored. Now diagnosed: 15 % requires roughly 8.5 cycles and **amorphous silica** saturates at 6, so the threshold was written beyond the physical ceiling. (The binding mineral was believed to be gypsum when this row was first written; correcting the speciation moved it to silica without moving the ceiling.) | Nothing: the threshold stands as written |
+| Makeup water reduction missed its pre-registered 15 % threshold (4.38 %) | **Against us** — reported as a failure rather than rescored. Now diagnosed: 15 % requires roughly 8.5 cycles and **amorphous silica** saturates at 6, so the threshold was written beyond the physical ceiling. (The binding mineral was believed to be gypsum when this row was first written; correcting the speciation moved it without moving the ceiling.) | Nothing: the threshold stands as written |
 | Fill characteristic identified on one tower | **Neutral** — the characteristic form transfers, the coefficients do not, and per-site calibration is part of the product | Second rig, and the drift result already quantifies the recalibration interval |
 | No AI contributes to any result here | **Neutral** — stated so the evidence cannot be mistaken for a learned fit | Scaling-kinetics residual, once coupon data exists |
 
