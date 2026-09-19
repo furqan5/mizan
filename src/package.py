@@ -180,8 +180,6 @@ tagged, and where a gate failed it says so.
 
 --------------------------------------------------------------------------------
 Engr. Furqan Shakeel   engr.furqan.shakeel@gmail.com   +92 302 1044259
-Engr. Damia Baig       baigdamia@gmail.com             +92 331 6491787
-Engr. Muhammad Ahsan   muhammadahsan4203@gmail.com     +92 307 4873873
 Lahore, Pakistan
 """
 

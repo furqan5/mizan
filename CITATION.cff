@@ -11,12 +11,6 @@ authors:
     family-names: Shakeel
     affiliation: Furqan
     email: engr.furqan.shakeel@gmail.com
-  - given-names: Damia
-    family-names: Baig
-    affiliation: Furqan
-  - given-names: Muhammad
-    family-names: Ahsan
-    affiliation: Furqan
 repository-code: 'https://github.com/furqan5/mizan'
 identifiers:
   - type: doi

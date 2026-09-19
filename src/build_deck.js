@@ -461,14 +461,12 @@ function teamSlide() {
     x: M, y: 0.55, w: 11, h: 0.3, isTextBox: true, margin: 0,
     fontFace: "Calibri", fontSize: 12, bold: true, color: TEAL, charSpacing: 2,
   });
-  s.addText("Three energy engineers, all full-time", {
+  s.addText("Solo founder, full-time", {
     x: M, y: 0.92, w: 12.1, h: 0.7, isTextBox: true, margin: 0,
     fontFace: "Cambria", fontSize: 30, bold: true, color: PAPER,
   });
   const team = [
-    ["Engr. Furqan Shakeel", "Co-founder & CEO", "Physics core, controller, validation programme"],
-    ["Engr. Damia Baig", "Co-founder", "Customer discovery, pipeline, commercial strategy"],
-    ["Engr. Muhammad Ahsan", "Co-founder", "Commercial development, market and tariff verification"],
+    ["Engr. Furqan Shakeel", "Founder", "Physics core, controller, validation, customer development"],
   ];
   team.forEach(([n, r, w], i) => {
     const x = M + i * 4.15;

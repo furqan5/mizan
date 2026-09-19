@@ -158,11 +158,9 @@ We rejected reinforcement learning (no hard-constraint guarantee), chemistry sof
 
 ## Slide 13 — Team and ask
 
-**Engr. Furqan Shakeel** — Co-founder & CTO · engr.furqan.shakeel@gmail.com · linkedin.com/in/furqan-shakeel  
-**Engr. Damia Baig** — Co-founder & CEO · [contact details to be added]  
-**Engr. Muhammad Ahsan** — Co-founder, Commercial Development · muhammadahsan4203@gmail.com
+**Engr. Furqan Shakeel** — Founder · engr.furqan.shakeel@gmail.com · linkedin.com/in/furqan-shakeel
 
-Three energy engineers, all full-time. One owns the physics core and controller; two own customer development. That ratio is deliberate: the technical risk is now largely retired and the binding risk is commercial.
+Solo founder, full-time. Owns the physics core, the controller and customer development. The technical risk is now largely retired and the binding risk is commercial.
 
 Ask: DTV Cohort 2 place, lab access for the TRL 4 programme above, and introductions to Saudi district-cooling and industrial-cooling operators through the DTVC corporate partner network.
 

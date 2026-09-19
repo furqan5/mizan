@@ -6,12 +6,12 @@
 
 ## 1. Who and what
 
-Three energy engineers in Lahore, Pakistan.
+One energy engineer in Lahore, Pakistan, building solo.
 
 - **Furqan** — the parent company. Deep physics and physics-informed AI for energy infrastructure. From the Arabic root *f-r-q*, to separate: the criterion distinguishing true from false.
 - **Mizan** — the first product. *"The limit, computed."* A **retrofit supervisory controller** for cooling-tower / condenser-water loops. It co-optimises **fan speed, blowdown rate and acid dose** against **first-principles mineral saturation limits**.
 
-Founders: Furqan Shakeel (CEO, physics core), Damia Baig (commercial), Muhammad Ahsan (commercial development).
+Founder: Furqan Shakeel, solo — physics core, product and customer development.
 
 Repository: `github.com/furqan5/mizan`, branch `integrate/sep17`. Public, under PolyForm Noncommercial.
 

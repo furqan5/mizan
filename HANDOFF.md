@@ -151,7 +151,7 @@
 
 ## Who and what
 
-Three energy engineers in Lahore.
+Furqan Shakeel, an energy engineer in Lahore, building Mizan as a solo founder.
 
 **FURQAN** — the parent. *"The criterion for energy."*
 Deep physics and physics-informed AI for hard energy infrastructure — we separate what is measured from what is merely modelled. Furqan (الفرقان), from the Arabic root **f-r-q**, to separate: the criterion that distinguishes the true from the false. The name is the method, not decoration.
@@ -161,9 +161,9 @@ A retrofit supervisory controller for cooling-tower / condenser-water loops in G
 
 Brand strings live in one place: `src/brand.py`. The report title page, the deck title slide and the running footers all read from it.
 
-- **Engr. Furqan Shakeel** — Co-founder & CEO, owns the physics core. engr.furqan.shakeel@gmail.com · +92 302 1044259 · linkedin.com/in/furqan-shakeel
-- **Engr. Damia Baig** — Co-founder, commercial. baigdamia@gmail.com · +92 331 6491787 · linkedin.com/in/damia-baig
-- **Engr. Muhammad Ahsan** — Co-founder, commercial development. muhammadahsan4203@gmail.com · +92 310 4550698 · linkedin.com/in/-m-ahsan
+- **Engr. Furqan Shakeel** — Founder. Physics core, product and customer development. engr.furqan.shakeel@gmail.com · linkedin.com/in/furqan-shakeel
+
+*Team, 19 Sep 2026:* Mizan is a solo-founder company. Damia Baig and Muhammad Ahsan were named as co-founders in earlier versions of this repository and in the DTV submission of 31 Aug 2026; their contact details have been removed from this public file. `LICENSE` and `CITATION.cff` name Furqan Shakeel alone, which matches the commit history: every commit is his.
 
 Target: **DTV .dvp Cohort 2** (Dhahran Techno Valley / KFUPM), then QDB Pre-Accelerator, then YC. **DTV excludes SaaS** — the product is a physical retrofit device, sold as capex plus an annual recalibration licence.
 
@@ -548,8 +548,8 @@ TRL 3 -- performance in the relevant environment is predicted, not tested -- but
 we now say so explicitly, which is worth more than the level.
 
 **CV data received** from the founders' own CV PDFs and `people.json` is now
-complete. Ahsan's mobile is +92 310 4550698 (both numbers are his; this one
-chosen). Furqan's venture email engr.furqan.shakeel@gmail.com confirmed.
+complete. *(Historical, 30 Aug 2026. Other people's contact details removed
+from this public file on 19 Sep 2026.)*
 
 **Plain-English write-up** for all three founders:
 `docs/ENGINEERING_IN_PLAIN_ENGLISH.md` -- definitions, physics, every result,
@@ -572,8 +572,9 @@ CV_Furqan_Shakeel / _Damia_Baig / _Muhammad_Ahsan
 Pitch_Deck                        15 slides, .pptx and .pdf
 ```
 
-**Roles are now fixed** (confirmed by the founder, 30 Aug 2026), and every document uses
-them consistently. Earlier documents disagreed with each other:
+**Roles as of 30 Aug 2026** (superseded 19 Sep 2026: Mizan is now a solo-founder
+company — see "Who and what" above). At the time every document used them
+consistently; earlier documents had disagreed with each other:
 
 - **Furqan Shakeel** — Founder & CTO
 - **Damia Baig** — Co-founder & CEO
@@ -585,17 +586,9 @@ section rather than printing a placeholder, so a missing field would show up as
 `[still to supply: ...]` in the build log. It currently prints `[complete]` for
 all three.
 
-Contact decisions, settled by the founders and consistent across every document:
-
-```
-Furqan Shakeel  engr.furqan.shakeel@gmail.com  +92 302 1044259  linkedin.com/in/furqan-shakeel
-Damia Baig      baigdamia@gmail.com            +92 331 6491787  linkedin.com/in/damia-baig
-Muhammad Ahsan  muhammadahsan4203@gmail.com    +92 310 4550698  linkedin.com/in/-m-ahsan
-```
-
-Ahsan gave two mobile numbers; both are his and +92 310 4550698 was chosen. His
-LinkedIn handle begins with a hyphen and he has chosen to keep it -- the URL
-resolves, and the package no longer flags it. Self-deprecating skill and language
+Contact decisions for the 30 Aug submission were settled at the time; the table
+that recorded them held other people's phone numbers and has been removed from
+this public file (19 Sep 2026). Self-deprecating skill and language
 markers were removed from all three CVs (`B2`, `IELTS 6.0`, `German (basic)`).
 Levels were NOT inflated: the markers were dropped, and German at basic level was
 removed rather than promoted.
@@ -842,7 +835,7 @@ than six passes.
 4. **3D CAD via MCP, for CFD later.** FreeCAD is the realistic option: free, scriptable, several MCP servers exist, exports STEP/STL, and one of them ships OpenFOAM/FluidX3D hooks. Nothing installed yet. The engineering reason to want it: parametric condenser-tube and sensor-skid geometry -> STEP -> OpenFOAM boundary-layer CFD would let the **skin-temperature rise** be confirmed for a specific site. **[SUPERSEDED 12 Sep 2026 -- defect 44.]** It is no longer assumed and no longer the least-defended input: `chemistry.skin_temperature_rise()` derives it as q''*(1/h_i + R_f) against published fouling allowances, giving 7.45 K at the TEMA treated-cooling-tower value -- which is where the 8 K came from all along. And it is not load-bearing: the ceiling moves 4.92 to 4.56 cycles across the ENTIRE clean-to-fouled range, 0.055 cycles per kelvin. CFD would now be confirmation, not foundation.
 
 5. **Customer interviews.** Four logged against a pre-registered gate of fifteen by 15 September, so this is behind and it is the binding constraint on the DTV form's mandatory interview-count field. Two are Gulf district cooling conversations reached cold on LinkedIn, at the same operator and independent of each other; two are Pakistani industrial contacts whose names the founder still has to fill in. The roster is in `results/interviews.csv`, which is gitignored because it names real people and this repository is public. **The finding so far cuts both ways.** Nobody analyses the deposit, which is the blind spot the product claims exists. But the deposit was then described as dark brown and black, and neither calcite nor gypsum is dark, so the model may be computing a minority phase. That is recorded as evidence against, not explained away. The DTV form has a mandatory interview-count field. Kit in `docs/linkedin_outreach.md`; figure `figs/silica_seasonal.png`. One question above all: *"What is your current cycles-of-concentration setpoint, and what set it?"*
-6. **CV gaps** — education and experience rows for all three founders.
+6. **CV gaps** — education and experience rows for the founder.
 
 ---
 

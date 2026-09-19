@@ -55,8 +55,8 @@ That chain is the entire product thesis for data centres, and it is the thing
 
 **What NOT to build, and why:**
 
-- **No GPU junction / DVFS / ITD model.** That is semiconductor physics none of
-  the three founders has, and it is precisely the ground Phaidra occupies. The
+- **No GPU junction / DVFS / ITD model.** That is semiconductor physics the
+  founder does not have, and it is precisely the ground Phaidra occupies. The
   NeuroThermal doc's ITD section is its most impressive-looking part and its
   worst strategic choice.
 - **No CDU flow optimiser.** Published: arXiv 2605.15516 already does CDU

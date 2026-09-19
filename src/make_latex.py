@@ -472,10 +472,6 @@ JOBS = [
      "Deep Research Brief — Chiller Performance Curves", [DATE], False),
     (OUT / "CV_Furqan_Shakeel.md", "Furqan_Mizan_CV_Furqan_Shakeel.pdf",
      "Curriculum Vitae — Engr. Furqan Shakeel", [DATE], False),
-    (OUT / "CV_Damia_Baig.md", "Furqan_Mizan_CV_Damia_Baig.pdf",
-     "Curriculum Vitae — Engr. Damia Baig", [DATE], False),
-    (OUT / "CV_Muhammad_Ahsan.md", "Furqan_Mizan_CV_Muhammad_Ahsan.pdf",
-     "Curriculum Vitae — Engr. Muhammad Ahsan", [DATE], False),
 ]
 
 FOOTER = ("Furqan \\textbullet\\ Mizan condenser-water controller "

@@ -135,13 +135,11 @@ Qatar `[C]`:
 
 ## 5. GTM designed for engineers who do not sell
 
-The pitch is a technical demonstration, not a sales call: we run the prospect's own makeup water analysis through the model and show them their two ceilings — the economic optimum and the physical limit — and where their current conductivity setpoint sits relative to both. That is a peer conversation between engineers, which all three founders can hold credibly.
+The pitch is a technical demonstration, not a sales call: we run the prospect's own makeup water analysis through the model and show them their two ceilings — the economic optimum and the physical limit — and where their current conductivity setpoint sits relative to both. That is a peer conversation between engineers, which an engineer-founder can hold credibly.
 
-- **Furqan Shakeel (CTO)** owns the physics core, controller and validation programme, and joins calls for technical qualification.
-- **Damia Baig (CEO)** and **Muhammad Ahsan (Commercial Development)** own discovery and pipeline between them.
-- Disagreement protocol: the CEO decides commercial scope, the CTO decides technical architecture; deadlocks resolve toward whoever has more customer evidence.
+- **Furqan Shakeel (founder, solo since 19 Sep 2026)** owns the physics core, the controller, the validation programme, and discovery and pipeline.
 
-Two of three founders on commercial is deliberate. The technical risk is now largely retired — the evidence package is built and reproducible — and the binding risk from here is traction velocity, which is a headcount problem.
+With one founder, commercial throughput is the binding risk. The technical risk is now largely retired — the evidence package is built and reproducible — so the next constraint is conversations, not code.
 
 Target: 30 structured conversations in 90 days — 10 operators, 8 controls/water integrators, 6 ESCOs, 6 consultants.
 

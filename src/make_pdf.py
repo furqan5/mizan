@@ -174,10 +174,6 @@ def main():
     cv_jobs = [
         ("CV_Furqan_Shakeel.md", "Furqan_Mizan_CV_Furqan_Shakeel.pdf",
          "Furqan / Mizan - CV: Engr. Furqan Shakeel"),
-        ("CV_Damia_Baig.md", "Furqan_Mizan_CV_Damia_Baig.pdf",
-         "Furqan / Mizan - CV: Engr. Damia Baig"),
-        ("CV_Muhammad_Ahsan.md", "Furqan_Mizan_CV_Muhammad_Ahsan.pdf",
-         "Furqan / Mizan - CV: Engr. Muhammad Ahsan"),
     ]
 
     print("generating submission PDFs:")

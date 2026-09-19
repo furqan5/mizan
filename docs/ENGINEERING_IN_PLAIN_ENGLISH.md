@@ -19,8 +19,8 @@
 
 
 
-**For Damia, Ahsan and Furqan. Written so that any of us can hold a technical
-conversation with an operator without the others in the room.**
+**Written so that anyone who picks this up can hold a technical conversation
+with an operator without the author in the room.**
 
 No equations. Every term is defined the first time it appears. Every number in
 here is one we can defend, and where a number is uncertain it says so.

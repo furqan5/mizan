@@ -337,16 +337,12 @@ def main():
 
     A("## Slide 13 — Team and ask")
     A("")
-    A("**Engr. Furqan Shakeel** — Co-founder & CTO · "
-      "engr.furqan.shakeel@gmail.com · linkedin.com/in/furqan-shakeel  ")
-    A("**Engr. Damia Baig** — Co-founder & CEO · [contact details to be added]  ")
-    A("**Engr. Muhammad Ahsan** — Co-founder, Commercial Development · "
-      "muhammadahsan4203@gmail.com")
+    A("**Engr. Furqan Shakeel** — Founder · "
+      "engr.furqan.shakeel@gmail.com · linkedin.com/in/furqan-shakeel")
     A("")
-    A("Three energy engineers, all full-time. One owns the physics core and "
-      "controller; two own customer development. That ratio is deliberate: "
-      "the technical risk is now largely retired and the binding risk is "
-      "commercial.")
+    A("Solo founder, full-time. Owns the physics core, the controller and "
+      "customer development. The technical risk is now largely retired and "
+      "the binding risk is commercial.")
     A("")
     A("Ask: DTV Cohort 2 place, lab access for the TRL 4 programme above, "
       "and introductions to Saudi district-cooling and industrial-cooling "
