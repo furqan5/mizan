@@ -111,7 +111,7 @@ On this water a **316 stainless** condenser reaches a published chloride **scree
 | Online silica + calcium + alkalinity + phosphate | **$120,000–185,000 per tower** + $20–30k/yr consumables |
 | Annual saving on a 4.2 MW tower | **$89,000** |
 
-**The instruments cost more than the thing they optimise.** That is structural and it is why no incumbent sells chemistry-bounded control.
+**The instruments cost more than the thing they optimise.** That is structural, and it is why the product has to be an inference engine rather than an analyser. It is **not** evidence that chemistry-bounded control is unsold: OLI Systems publishes a real-time cooling-tower digital twin that computes full ionic speciation against live plant data and optimises blowdown with it (verified 24 September 2026). What their published material does not carry is an energy objective, an air-side handle, or evaluation at the hot heat-transfer surface — see `docs/prior_art_esc.md`.
 
 So the skid buys only cheap instruments — toroidal conductivity, pH/ORP, Pt100, two magmeters, an industrial edge computer, a coupon rack — at roughly **$15k in instruments, $23–30k installed**, and **computes** the chemistry. Specific conductance is a known function of ion composition, so the residual between computed and measured conductance is a **free scaling alarm**: precipitation removes ions, and the measured value falls below prediction.
 

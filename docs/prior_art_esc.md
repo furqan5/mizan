@@ -158,4 +158,70 @@ literature does not.
 
 **Not yet done.** These are founder decisions. What is no longer in doubt is the direction: the
 measurement above says the energy pitch competes with six published groups and one live
-deployment, and the chemistry pitch competes with nobody.
+deployment. The clause that used to end this sentence — *"and the chemistry pitch competes with nobody"* — was **withdrawn on 24 September 2026** and is corrected below.
+
+
+---
+
+## OLI Systems, and the sentence above that is now wrong
+
+**Verified 24 September 2026** against OLI's own public pages, after an
+independent review flagged it. The correction is not marginal: it removes a
+whole class of claim from this package.
+
+**What OLI documents publicly.** OLI Systems sells `OLI Flowsheet: ESP`, a
+first-principles electrolyte flowsheet simulator with *"100+ unit operations
+designed for electrolytes"*, and it publishes a **cooling-tower digital twin**
+built on it. Their material states the model *"simulates real operating
+conditions of cooling towers, calculates scaling tendencies based on full ionic
+speciation, and forecasts the impact of blowdown, cycles of concentration (CoC)
+changes, and heat loads."* The `OLI Process API` puts the same engine in the
+cloud and, on their description, *pulls data from historians (flow rates,
+conductivity, weather), triggers cloud simulations with up-to-date inputs, and
+returns outputs such as optimized blowdown rate, scaling risk and species
+concentrations*, with an optimisation step that recommends a blowdown rate to
+minimise scale risk and an ML layer over it. They also ship a general
+`OLI Optimizer` in Flowsheet: ESP V11 and advertise it can *"Minimize energy
+consumption in water, wastewater treatment and industrial applications"*, and
+they present scaling **and corrosion** prediction for cooling towers in
+Platform V10.
+
+**So three claims this package used to make are dead, and must not be said
+again:**
+
+1. That ion-specific speciation for cooling water exists only **offline**. It
+   does not. OLI runs it against live historian data in a cloud loop.
+2. That nobody builds a **real-time chemistry digital twin** of a
+   cooling-tower loop. OLI publishes exactly that, as a pilot solution.
+3. That *"the chemistry pitch competes with nobody."* It competes with OLI.
+
+**What their public material does not cover, stated as absence of documentation
+and not as a claim about their capability.** OLI's engine is a general
+flowsheet simulator and a competent user could very likely build most of what
+follows in it; the point is that none of it appears in the cooling-tower
+material we can read, and two of the pages that would settle it are behind a
+support login or a seminar video.
+
+| Element | In OLI's published cooling-tower material |
+|---|---|
+| Full ionic speciation of the circulating water | **Yes**, stated explicitly |
+| Real-time loop against plant historian data | **Yes** |
+| Optimisation of **blowdown rate** against scale risk | **Yes** |
+| Corrosion prediction alongside scaling | **Yes**, Platform V10 |
+| Retrograde minerals evaluated at a **hot heat-transfer surface** rather than in the bulk | **Not found** |
+| A prograde species (amorphous silica) evaluated at the **cold basin** | **Not found** |
+| **Chiller or fan electricity** in the objective | **Not found.** Their cooling-tower economic analysis prices only makeup water at *"$0.50/m³"* and blowdown disposal at *"$15/m³"*; energy cost is absent, and the article points at future ML work rather than a joint optimisation |
+| An **air-side handle** — fan speed or condenser-water setpoint — as a decision variable | **Not found.** The published decision variable is blowdown rate |
+| A **discharge-permit** ceiling reported beside the chemistry ceiling | **Not found** |
+| Closed loop rather than advisory | **Advisory** on their own wording: it *"provides recommendations"* |
+| Maturity | Described as a **pilot solution** |
+
+**The corrected width.** What is left is not novelty in chemistry. It is a
+specific integrated decision: a supervisory controller that moves the **air-side
+and water-side handles together** — fan speed, blowdown and acid dose — against
+an ion-specific saturation limit evaluated **per mineral at the temperature
+where that mineral is least soluble**, inside a **chiller capacity and
+temperature envelope**, and with a discharge ceiling reported beside the
+chemistry one. Every one of those pieces exists somewhere. The coupling of a
+surface-evaluated chemistry constraint to a thermal-energy objective is what we
+could not find, and that is the only sentence this package is entitled to.

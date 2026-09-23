@@ -202,7 +202,17 @@ benefit need a site-specific budget and validation plan.
 3. **The conditions barely vary.** The basin runs 30.4–33.6 °C across all five conditions, so this
    study says little about winter or data-centre operation.
 4. **Where P1 is placed decides the direction of the gap** (§3.1). No source in the repository
-   establishes that any operator runs LSI near 2.5.
+   establishes that any operator runs LSI near 2.5. **P1 is an assumed treatment limit, not
+   observed incumbent practice**, and every row derived from it is a break-even against a
+   hypothesis. The operators actually in the repository report LSI 0–0.5 and 1.4, which is
+   *below* M — so the honest reading of this panel is that the incumbent index is
+   conservative here, not that it over-cycles.
+7. **The gap is not "full speciation"** (added 24 September 2026). OLI Systems publishes a
+   cooling-tower digital twin that computes scaling tendencies from full ionic speciation
+   against live plant data and optimises blowdown with it. Nothing in this study may be
+   presented as speciation being unavailable to an incumbent. What this study measures is
+   the gap against **index-based policies**, which is a different and narrower claim.
+   `docs/prior_art_esc.md` records what OLI's published material does and does not cover.
 5. **Permitted cycles are not chosen actions.** The review scored cost-optimal actions; this study
    scores ceilings. H4 reproduces the review's null qualitatively on its grids, not its costs.
 6. **Discharge (RCER-2015 Table 3C, monthly average) is reported and not imposed.** Taking nitrate

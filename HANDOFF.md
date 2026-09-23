@@ -179,11 +179,13 @@ A sensor skid (conductivity, pH, ORP, temperature, makeup and blowdown flow) plu
 
 ## The differentiation claim, as narrowed by evidence three times
 
-**Not ours** (all confirmed taken): ion-association/Pitzer speciation (French Creek since 1990, OLI Systems); skin-temperature saturation (ChemTreat US 11,780,742 B2, granted Oct 2023 — US + PCT only, **no Gulf family member**); blowdown control on a saturation index (US 4,460,008 / 4,464,315, 1984, expired).
+**Not ours** (all confirmed taken): ion-association/Pitzer speciation (French Creek since 1990, OLI Systems); skin-temperature saturation (ChemTreat US 11,780,742 B2, granted Oct 2023 — US + PCT only, **no Gulf family member**); blowdown control on a saturation index (US 4,460,008 / 4,464,315, 1984, expired); **and, verified 24 September 2026, real-time full-speciation cooling-water optimisation — OLI Systems publishes a cooling-tower digital twin on `OLI Flowsheet: ESP` and the `OLI Process API` that calculates scaling tendencies from full ionic speciation against live historian data and recommends an optimised blowdown rate.** That last one removes a class of claim rather than a single sentence; `docs/prior_art_esc.md` records what their published material does and does not cover.
 
-**What is open**, and three independent literature sweeps found nobody doing it:
+**What is open.** Three independent literature sweeps found nobody doing this, and the OLI check did not touch it:
 
 > *"No academic paper, patent, or commercial product literature describes a closed-loop control scheme where a chemical saturation limit directly bounds or dynamically alters the mechanical thermal energy optimizer."*
+
+The OLI material is the nearest thing found to the contrary and it does not reach it: the published decision variable is **blowdown rate**, the published cooling-tower economics carries **makeup water and blowdown disposal cost but no electricity**, there is **no air-side handle**, and the mode is **advisory**. Read that as absence of documentation, not as a limit on what their simulator could be made to do.
 
 ---
 

@@ -378,7 +378,9 @@ WaterCycle is an **offline design and what-if tool**, not an online controller. 
 
 So the genuine white space is the **intersection**, not any single element:
 
-> **Ion-specific speciation (French Creek has it, offline, at bulk temperature) evaluated at skin temperature (ChemTreat has it, online, with empirical LSI-family indices) driving simultaneous closed-loop actuation of fan speed, blowdown and acid dose (nobody found doing all three against a saturation objective).**
+> **Ion-specific speciation (French Creek has it offline at bulk temperature, and OLI Systems has it ONLINE against live plant data) evaluated at skin temperature (ChemTreat has it, online, with empirical LSI-family indices) driving simultaneous closed-loop actuation of fan speed, blowdown and acid dose against a saturation objective (none of the three found doing that, and OLI's published decision variable is blowdown alone).**
+
+**Corrected 24 September 2026.** This line previously said speciation was available only offline. That was wrong. OLI publishes a cooling-tower digital twin that runs full ionic speciation in a real-time cloud loop off plant historian data. The intersection is still the white space, but one of its three elements is a good deal more occupied than this dossier said. `docs/prior_art_esc.md` holds the verified breakdown.
 
 Frame the claim as **the co-optimisation of three actuators against an ion-specific, skin-temperature saturation objective**. Do not frame it as "we invented skin-temperature saturation" or "we invented ion-specific speciation". Both would be falsified in ten minutes by a competent reviewer.
 
@@ -506,7 +508,7 @@ Consider selling **outcome-based** (share of verified water + chemical + energy 
 
 Stop claiming skin temperature or ion speciation as the invention. **Claim the co-optimisation.** The verified, defensible position is:
 
-> *No incumbent or patent found combines (a) ion-specific mineral speciation, (b) evaluated at condenser skin temperature, (c) driving simultaneous closed-loop control of fan speed, blowdown and acid dose. ChemTreat has (b) with empirical LSI-family indices and antiscalant dose only. French Creek has (a) offline at bulk temperature. Veolia and Nalco control blowdown and dose on conductivity/pH setpoints. The combination is the contribution.*
+> *No incumbent or patent found combines (a) ion-specific mineral speciation, (b) evaluated at condenser skin temperature, (c) driving simultaneous closed-loop control of fan speed, blowdown and acid dose. ChemTreat has (b) with empirical LSI-family indices and antiscalant dose only. French Creek has (a) offline at bulk temperature. **OLI Systems has (a) online and in real time, in a published cooling-tower digital twin that optimises blowdown against scale risk — verified 24 September 2026 — but with no energy objective, no air-side handle and no documented surface evaluation.** Veolia and Nalco control blowdown and dose on conductivity/pH setpoints. The combination is the contribution, and (a) on its own is no longer any part of it.*
 
 That sentence is fully supported by the [C] evidence in §3.3 and will survive scrutiny. The current framing will not.
 

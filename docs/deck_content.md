@@ -33,7 +33,7 @@ A Gulf condenser-water loop is run by three parties setting three handles indepe
 
 They are not independent. Concentrating the loop to save water raises scaling risk and changes evaporation. Cooling the condenser to save compressor power costs fan power and evaporates more water.
 
-**Nobody solves them together, because doing so requires the thermal model and the chemistry model to be one problem.**
+**Nobody we could find solves the air side and the chemistry together, because doing so requires the thermal model and the chemistry model to be one problem.** Solving the *water* side against real chemistry is already sold: OLI Systems publishes a real-time full-speciation cooling-tower digital twin that optimises blowdown. It carries no energy objective and no fan handle, and that is the gap — not speciation.
 
 ## Slide 4 — Prior art, disclosed up front
 
@@ -42,7 +42,7 @@ We searched before we claimed. Two of the three ingredients are already taken, a
 | Element | Status |
 |---|---|
 | Skin-temperature saturation | **Taken.** ChemTreat US 11,780,742 B2, granted Oct 2023 — but empirical LSI-family indices, antiscalant feed only |
-| Ion-association speciation | **Taken.** French Creek WaterCycle since 1990 — but offline, at bulk temperature |
+| Ion-association speciation | **Taken.** French Creek WaterCycle since 1990, offline at bulk temperature — and **OLI Systems online and in real time**, in a published cooling-tower digital twin that optimises blowdown from full ionic speciation. Speciation is not our differentiator |
 | Blowdown on a saturation index | **Public domain.** US 4,460,008 / 4,464,315, 1984, expired |
 
 **What is open, stated precisely:**

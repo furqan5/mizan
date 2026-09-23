@@ -163,8 +163,21 @@ that its own list of scaling compounds is *"calcium, silica, magnesium"* —
 The surviving claim, stated at the width the evidence supports:
 
 > Not: nobody controls on a saturation index.
-> **Yes: nobody evaluates an ion-specific saturation at the heat-transfer surface,
-> and nobody couples that constraint to an energy objective.**
+> **Yes: the coupling of an ion-specific saturation evaluated at the
+> heat-transfer surface to a thermal-energy objective is what three sweeps
+> could not find claimed anywhere.**
+
+**Narrowed again on 24 September 2026, and this one matters more.** The
+earlier form of that sentence said *nobody evaluates an ion-specific
+saturation at the heat-transfer surface.* It contradicted this package's own
+prior-art list, which records ChemTreat US 11,780,742 B2 as holding
+skin-temperature saturation, and it is dead. So is anything resembling
+*nobody runs full speciation in real time*: **OLI Systems publishes a
+cooling-tower digital twin that calculates scaling tendencies from full ionic
+speciation against live historian data and recommends an optimised blowdown
+rate.** See `docs/prior_art_esc.md` for the verified breakdown of what their
+published material does and does not cover. The half that survives is the
+coupling to the energy objective and the air-side handle, not the chemistry.
 
 ## Consequence
 
@@ -240,7 +253,10 @@ Put that beside Mizan's result and the two point in opposite directions:
 
 > **The silicon wants to run warmer. The condenser tube wants to run cooler.
 > The quantity that decides where you land is ion-specific mineral saturation
-> at the heat-transfer surface — and it is in nobody's objective function.**
+> at the heat-transfer surface — and no published objective function we could
+> find contains it.** OLI computes that chemistry in real time and optimises
+> blowdown with it; what their published material does not do is put it in an
+> energy objective or give it an air-side handle.
 
 That is a sharper hybrid thesis than anything in the NeuroThermal concept
 document, it is evidenced on both sides, and the 18-document scan says the
