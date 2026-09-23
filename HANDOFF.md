@@ -1,6 +1,103 @@
 # Session handoff — Furqan / Mizan
 
-> **CURRENT AS OF 18 SEPTEMBER 2026.** Branch `integrate/sep17`. Six branches
+> **CURRENT AS OF 24 SEPTEMBER 2026.** Branch `water-modes-and-cdu`. This pass
+> took an independent review workspace's newest engineering work into the
+> repository and registered what came with it. The repository is **public**
+> (github.com/furqan5/mizan), under PolyForm Noncommercial.
+>
+> **State:** `python -m pytest -p no:cacheprovider -o addopts="" -q tests review_tests`
+> gives **665 passed, 4 xfailed** · `python src/audit.py` gives **AUDIT PASSED**,
+> 71 assertions · register **76 found / 64 fixed / 12 open**. Note `pytest.ini`
+> selects only `tests/`, so `review_tests` has to be named explicitly or 282 of
+> those tests never run.
+>
+> ---
+>
+> **1. The 20 September review patch is applied, at commit 7878c79.** R1–R8:
+> the equal-TDS thermal cache collision, nonfinite/missed-scan interlock inputs,
+> the missing-optimiser-result bypass, the empty permit table, the infeasible
+> chemistry search anchor presenting a lower bound as feasible, an explicit
+> heat-flux/film/deposit resistance network in `src/surface_temperatures.py`,
+> registered-run provenance in `src/evidence_run.py`, and the stale incumbent
+> prose. Its author is preserved on that commit. **Do not re-apply it.**
+>
+> **2. Four dynamic components are ported, additive and opt-in.**
+> `src/inventory_ledger.py` (conserved imposed-flux ledger over 18 analytical
+> components, UNKNOWN stays unknown, a negative remainder rejects rather than
+> clipping), `src/thermal_dynamics.py` (constant-cp energy nodes, an epsilon HX
+> pass, a chiller pass, and a tower pass that prescribes HOT flow and reconciles
+> the core's cold-flow argument), `src/solution_mass_bridge.py` and
+> `src/control_timeline.py`, with `scripts/dynamic_component_evidence.py` and
+> four `docs/*_scope.md` registrations. **Test counts, from this session's
+> collection: 62 inventory + 58 thermal + 67 mass bridge + 95 timing = 282**,
+> which is what the source claimed. Two existing modules gained opt-in paths
+> only — `chiller_power_biquad(strict_domain=True)` and
+> `solve_outlet_temperature(conservative_energy=True)` — and existing
+> behaviour was **proven** unchanged rather than assumed: `tests` plus the six
+> earlier `review_tests` files give 383 passed, 4 xfailed and AUDIT PASSED both
+> with and without those two edits.
+>
+> **3. Defect 77 (OPEN): the Poppe solver stops closing energy once the exit air
+> fogs, and half the calibration dataset is in that region.** At the registered
+> condition the historical temperature-coordinate solver misses air/liquid energy
+> closure by **1.8373 kW** against 0.0356 kW allowed on a 3562.3 kW duty. It is a
+> regime boundary, not a step-size error: RH 0.20–0.60 closes to 2.15e-05 kW,
+> RH 0.70–0.95 fails at 1.84–3.04 kW, and 160 against 320 RK4 steps moves
+> the outlet by 1.29e-09 K. **70 of the 147 field-validated calibration rows are
+> in the failing region**; at the published fill law the forward-prediction MAE
+> moves 0.4856 → 0.5061 K and the worst row's outlet by 2.5382 K. The
+> corrected integrator is ported and closes the same case to −2.93e-06 kW, but
+> it stays opt-in, so no published number has moved. Closing the row means
+> re-fitting the fill law and regenerating everything beneath it.
+>
+> **4. Defect 78 (OPEN): the hot skin is evaluated at the bulk pH, which
+> implicitly adds alkalinity — and the direction is the reassuring one.**
+> Every production caller passes one pH to both evaluation points, and the engine
+> carries no CO₂(aq) species and no proton balance, so pH cannot respond to
+> heating at all. Against a conserved DIC-and-alkalinity pass built from the
+> engine's own carbonate constants, holding pH implies adding
+> **8.9192e-06 to 3.7861e-05 eq/kgw** at the published 45/32 °C, pH 8.25
+> point. That **overstates** SI_calcite at the skin by **0.0539–0.0849**, so
+> the current convention understates the ceiling and can never inflate it. **The
+> headline field-validated ceiling does not move at all — 5.0233 cycles both
+> ways —** because amorphous silica binds there and silica is evaluated at the
+> cold basin. The Riyadh refinery water's calcite-bound ceiling does move,
+> **4.5171 → 4.9148 cycles**. The thesis is unchanged; nothing in the engine
+> was touched.
+>
+> **5. Defect 53 is refined and still open, and the CaHCO3 provenance is now
+> settled.** Changing the calcite phase constant alone would leave **17 of 128**
+> calcite points failing instead of 14. The dominant term is the CaHCO3
+> association constant: on a common `Ca + HCO3` basis ours is **+1.1060 at
+> 25 °C**, which reproduces **phreeqc.dat v3.7.3** to 2e-04 log units, while
+> the pinned v3.9.0 reference ships **−4.0571**. v3.8.6 and v3.8.8 both carry
+> the older value, so this is an **upstream database revision between v3.8.8 and
+> v3.9.0, not a transcription error here**. Do not insert the newer constant to
+> make the grid agree.
+>
+> **6. Say nothing about speciation being unique to us. OLI Systems already
+> sells it.** Verified against OLI's own public pages, 24 September 2026: `OLI
+> Flowsheet: ESP` plus the `OLI Process API` is a published cooling-tower digital
+> twin that *"calculates scaling tendencies based on full ionic speciation"*,
+> runs against plant historian data in a cloud loop, and recommends an optimised
+> blowdown rate. Three claims are **withdrawn outright**: that speciation for
+> cooling water exists only offline, that nobody builds a real-time chemistry
+> twin of a tower loop, and that the chemistry pitch competes with nobody. What
+> their published material does not carry is an **energy objective**, an
+> **air-side handle**, evaluation at the **hot surface**, a **discharge ceiling**
+> beside the chemistry one, or closed-loop operation — and that is absence of
+> documentation, not a limit on their simulator. The surviving claim is the
+> **coupling**, not the chemistry. `docs/prior_art_esc.md` holds the
+> element-by-element breakdown; `HANDOFF.md`, `docs/handoff_external.md`,
+> `docs/market_dossier.md`, `docs/prior_art_datacenter.md`,
+> `docs/incumbent_gap.md` and both deck documents are corrected to that width.
+> Also corrected: the measured-Riyadh comparison against **LSI 2.5 is an assumed
+> treatment limit, not observed incumbent practice** — the operators actually
+> in the repository report LSI 0–0.5 and 1.4, which is *below* M.
+>
+> ---
+
+> **AS OF 18 SEPTEMBER 2026** — superseded by the block above and kept as the record of that pass. Branch `integrate/sep17`. Six branches
 > worked in parallel on 17 September and are merged here; each staged its defects
 > and its stale-number list instead of editing shared documents, and this pass
 > applied all of it. The repository is **public** (github.com/furqan5/mizan),
