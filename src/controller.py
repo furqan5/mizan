@@ -1089,7 +1089,8 @@ def _biquad(c, x, y):
 
 def chiller_power_biquad(Q_evap_kw, T_cw_supply_c, T_chw_supply_c=7.0,
                          Q_ref_kw=None, cop_ref=CHILLER_COP_REF,
-                         T_chws_ref=6.67, T_cws_ref=29.44):
+                         T_chws_ref=6.67, T_cws_ref=29.44,
+                         *, strict_domain=False):
     """Chiller electrical power, EnergyPlus Chiller:Electric:EIR form.
 
     Coefficients are those of a named machine (see above). They are
@@ -1101,8 +1102,27 @@ def chiller_power_biquad(Q_evap_kw, T_cw_supply_c, T_chw_supply_c=7.0,
     which is how power varies with condenser temperature and is the only
     quantity the optimiser depends on, while anchoring the magnitude to the
     machine's stated reference COP of 6.28 (about 0.56 kW/ton).
+    With strict_domain=True, reject extrapolation and evaluate the raw PLR
+    throughout the declared machine domain, including 1 < PLR <= 1.06.
+    Below-minimum cycling/unloading is not implemented in that path. The
+    historical default retains its original clipping for reproducibility.
+    This is an archetype machine map, not qualification of a site's chiller.
     """
     Q_ref_kw = Q_evap_kw if Q_ref_kw is None else Q_ref_kw
+
+    if strict_domain:
+        values = (Q_evap_kw, T_cw_supply_c, T_chw_supply_c, Q_ref_kw,
+                  cop_ref, T_chws_ref, T_cws_ref)
+        if any(isinstance(x, (bool, np.bool_)) or not np.isfinite(x) for x in values):
+            raise ValueError('Chiller inputs must be finite numbers')
+        if min(Q_evap_kw, Q_ref_kw, cop_ref) <= 0:
+            raise ValueError('Strict running-chiller duty/capacity/COP must be positive')
+        if not CHILLER_TCHWS_RANGE[0] <= T_chw_supply_c <= CHILLER_TCHWS_RANGE[1]:
+            raise ValueError('Leaving chilled-water temperature outside fitted range')
+        if not CHILLER_TCWS_RANGE[0] <= T_cw_supply_c <= CHILLER_TCWS_RANGE[1]:
+            raise ValueError('Entering condenser-water temperature outside fitted range')
+        if (T_chws_ref, T_cws_ref, cop_ref) != (6.67, 29.44, CHILLER_COP_REF):
+            raise ValueError('Strict path uses the canonical machine rating only')
 
     CHILLER_RANGE_LOG["calls"] += 1
     t_cws = float(T_cw_supply_c)
@@ -1118,6 +1138,8 @@ def chiller_power_biquad(Q_evap_kw, T_cw_supply_c, T_chw_supply_c=7.0,
     eirft_ref = _biquad(CHILLER_EIRFT, T_chws_ref, T_cws_ref)
     capft = _biquad(CHILLER_CAPFT, T_chw_supply_c, T_cw_supply_c) / capft_ref
     eirft = _biquad(CHILLER_EIRFT, T_chw_supply_c, T_cw_supply_c) / eirft_ref
+    if strict_domain and min(capft, eirft) < 0.3:
+        raise ValueError('Canonical curve modifier would require clipping')
     capft = max(capft, 0.3)
     eirft = max(eirft, 0.3)
 
@@ -1125,7 +1147,9 @@ def chiller_power_biquad(Q_evap_kw, T_cw_supply_c, T_chw_supply_c=7.0,
     plr_raw = Q_evap_kw / max(q_avail, 1e-6)
     if not (CHILLER_PLR_RANGE[0] <= plr_raw <= CHILLER_PLR_RANGE[1]):
         CHILLER_RANGE_LOG["PLR_out"] += 1
-    plr = min(max(plr_raw, 0.1), 1.0)
+        if strict_domain:
+            raise ValueError('Chiller part-load ratio outside fitted range')
+    plr = plr_raw if strict_domain else min(max(plr_raw, 0.1), 1.0)
     eirplr = (CHILLER_EIRFPLR[0] + CHILLER_EIRFPLR[1] * plr
               + CHILLER_EIRFPLR[2] * plr * plr)
     eirplr_ref = sum(CHILLER_EIRFPLR)

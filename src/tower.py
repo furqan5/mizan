@@ -185,8 +185,88 @@ def fill_merkel_number(m_w, m_a, c, n):
     return c * (m_w / m_a) ** n
 
 
+def _air_temperature_from_enthalpy(h_air, humidity, pressure):
+    """Invert the same moist/fog enthalpy used by the canonical Poppe ODE.
+
+    [E] Unsaturated air has an analytic inverse. In fog, find the saturation
+    dew point first; the physical air temperature is above the analytic
+    all-vapour value and below that dew point. No guessed fog heat capacity.
+    """
+    t_vapour = (h_air - 2501.0 * humidity) / (1.006 + 1.86 * humidity)
+    if humidity <= ps.ws_scalar(t_vapour, pressure):
+        return t_vapour
+    hi = t_vapour + 1.0
+    for _ in range(100):
+        if ps.ws_scalar(hi, pressure) >= humidity:
+            break
+        hi += 1.0
+    else:
+        raise ValueError('Could not bracket fog-air enthalpy inversion')
+    dew = brentq(lambda t: ps.ws_scalar(t, pressure)-humidity,
+                 t_vapour, hi, xtol=1e-10)
+    return brentq(lambda t: _moist_enthalpy_general(t, humidity, pressure)-h_air,
+                  t_vapour, dew, xtol=1e-10)
+
+
+def integrate_poppe_conservative(T_wo, T_wi, T_db, w_in, m_w_in, m_a,
+                                 aw=1.0, p=ps.P_ATM, n_steps=160):
+    """Opt-in energy-coordinate Poppe path; historical solver is unchanged.
+
+    [E] Integrate humidity and Merkel number with the existing derivative
+    equations. At each RK stage impose the exact differential invariants
+    m_w=m_cold+m_a*(w-w_in), and
+    h_a=h_in+(m_w*CPW*T_w-m_cold*CPW*T_wo)/m_a.
+    Air temperature is recovered from the same moist/fog enthalpy relation.
+    This avoids integrating a discontinuous effective air heat capacity at
+    the unsaturated/fog boundary. It is not a post-hoc balance adjustment:
+    corrected stage air temperatures feed back into the transfer equations.
+
+    [J] Registered 21 Sep 2026 after the retained temperature-coordinate
+    failure: use unchanged 160 RK4 steps, with the existing 1e-5 relative
+    air/liquid energy gate. Require a 160/320-step probe within 0.01 K outlet
+    and 0.1% evaporation. Numerical gates do not establish field accuracy.
+    """
+    if not T_wi > T_wo or m_a <= 0 or m_w_in <= 0 or n_steps <= 0:
+        return None
+    h_in = ps.h_scalar(T_db, w_in)
+    step = (T_wi-T_wo)/n_steps
+
+    def air_state(t, w):
+        mw = m_w_in + m_a*(w-w_in)
+        ha = h_in + CPW*(mw*t-m_w_in*T_wo)/m_a
+        ta = _air_temperature_from_enthalpy(ha, w, p)
+        return mw, ha, ta
+
+    def rhs(t, y):
+        mw, _ha, ta = air_state(t, y[0])
+        rates = _derivs(t, [y[0], ta, y[1], mw], m_a, aw, p)
+        return [rates[0], rates[2]]
+
+    y, t = [w_in, 0.0], T_wo
+    try:
+        for _ in range(n_steps):
+            k1 = rhs(t, y)
+            k2 = rhs(t+step/2, [y[i]+step*k1[i]/2 for i in range(2)])
+            k3 = rhs(t+step/2, [y[i]+step*k2[i]/2 for i in range(2)])
+            k4 = rhs(t+step, [y[i]+step*k3[i] for i in range(2)])
+            y = [y[i]+step*(k1[i]+2*k2[i]+2*k3[i]+k4[i])/6 for i in range(2)]
+            t += step
+            if not all(_math.isfinite(v) for v in y) or not 0 <= y[0] <= 1:
+                return None
+        mw, _ha, ta = air_state(T_wi, y[0])
+        if y[1] <= 0 or mw <= 0:
+            return None
+        return {'Me': float(y[1]), 'w_out': float(y[0]), 'T_a_out': float(ta),
+                'h_a_out': _moist_enthalpy_general(ta, y[0], p),
+                'm_evap': float(m_a*(y[0]-w_in)), 'm_w_top': float(mw),
+                'fogged': bool(y[0] > ps.ws_scalar(ta, p))}
+    except (ValueError, OverflowError, ZeroDivisionError):
+        return None
+
+
 def solve_outlet_temperature(T_wi, T_db, rh, m_w, m_a, c, n,
-                             aw=1.0, p=ps.P_ATM, n_scan=24):
+                             aw=1.0, p=ps.P_ATM, n_scan=24, *,
+                             conservative_energy=False, n_steps=160):
     """Cold-water outlet temperature by matching the Merkel number demanded
     by the duty to the Merkel number the fill can supply (shooting method).
 
@@ -198,6 +278,7 @@ def solve_outlet_temperature(T_wi, T_db, rh, m_w, m_a, c, n,
     w_in = float(ps.humidity_ratio_from_rh(T_db, rh, p))
     T_wb = float(ps.wetbulb(T_db, w_in, p))
     Me_avail = fill_merkel_number(m_w, m_a, c, n)
+    integrator = integrate_poppe_conservative if conservative_energy else integrate_poppe
 
     lo, hi = T_wb + 0.05, T_wi - 0.02
     if hi <= lo:
@@ -214,7 +295,7 @@ def solve_outlet_temperature(T_wi, T_db, rh, m_w, m_a, c, n,
         means the duty is beyond what the tower can deliver, which is the
         same side of the root as "demand exceeds capacity".
         """
-        r = integrate_poppe(T_wo, T_wi, T_db, w_in, m_w, m_a, aw, p)
+        r = integrator(T_wo, T_wi, T_db, w_in, m_w, m_a, aw, p, n_steps=n_steps)
         return 1.0e3 if r is None else r["Me"] - Me_avail
 
     # Walk DOWN from the hot end and take the FIRST sign change. That
@@ -231,7 +312,7 @@ def solve_outlet_temperature(T_wi, T_db, rh, m_w, m_a, c, n,
         if prev_f is not None and prev_f * f <= 0:
             T_wo = brentq(residual, float(T), prev_T, xtol=1e-6, rtol=1e-10,
                           maxiter=100)
-            info = integrate_poppe(T_wo, T_wi, T_db, w_in, m_w, m_a, aw, p)
+            info = integrator(T_wo, T_wi, T_db, w_in, m_w, m_a, aw, p, n_steps=n_steps)
             if info is None:
                 return float("nan"), None
             info["T_wb"] = T_wb
