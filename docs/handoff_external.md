@@ -149,7 +149,7 @@ These exist because each was bought with a mistake. Anyone reasoning about this 
 
 1. **Pre-register thresholds before running the gate.** Gates that fail stay failed and get reported.
 2. **Before "fixing" a missed threshold, check it against the physical ceiling.** One gate here demanded 8.5 cycles on a water that saturates at 7 — it was mis-specified, not missed.
-3. **Suspect a defect in your own code before blaming the model.** Seventy-four defects found this way; most of them changed a number, and ten are still open.
+3. **Suspect a defect in your own code before blaming the model.** Seventy-six defects found this way; most of them changed a number, and twelve are still open.
 4. **Never quote a test count, or any figure, from memory** — only by copy from output in the same session.
 5. **A constraint that is computed but not enforced is worse than one that doesn't exist**, because it reads like coverage. This failure mode occurred **eight times**, and once the fix for it reproduced it.
 6. **Never attribute a quotation to a source you have not read.** This was violated twice and corrected both times.
