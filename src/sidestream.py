@@ -165,6 +165,25 @@ def treat(water, technology, fraction_treated=1.0):
                       pH=water.pH, TDS=tds, **kw)
 
 
+class InfeasibleCeilingError(ValueError):
+    """The requested search has no admissible lower-bound anchor.
+
+    This rejects a numeric ceiling; it does not prove that an arbitrary,
+    non-monotone chemistry problem has no feasible interval at higher cycles.
+    """
+
+    def __init__(self, lower_bound_cycles, binding_mineral,
+                 saturation_index, limit):
+        self.lower_bound_cycles = float(lower_bound_cycles)
+        self.binding_mineral = binding_mineral
+        self.saturation_index = float(saturation_index)
+        self.limit = float(limit)
+        super().__init__(
+            f"ceiling search lower bound {self.lower_bound_cycles:g} cycles "
+            f"is infeasible: {binding_mineral}={self.saturation_index:.8g} "
+            f"exceeds {self.limit:.8g}; no numeric ceiling returned")
+
+
 def ceiling_with(water, T_hot, T_cold, limits=None, pH=None,
                  lo=1.0, hi=30.0):
     """Ceiling and binding mineral for a water, at the two evaluation points.
@@ -177,8 +196,27 @@ def ceiling_with(water, T_hot, T_cold, limits=None, pH=None,
 
     Passing a pH evaluates both waters at the setpoint the controller would
     actually hold, which is the comparison a treatment decision needs.
+
+    Raises InfeasibleCeilingError if the lower bound already violates a
+    configured mineral limit, for either pH regime. Callers must deny the
+    proposed ceiling or explicitly handle this exception; the lower bound
+    must never be presented as an admissible operating point. The existing
+    root search assumes a connected feasible interval from this anchor;
+    this check is not a proof of monotonicity over all possible analyses.
     """
     limits = chem.OPERATING_LIMITS if limits is None else limits
+    lower_water = water.concentrate(lo)
+    lower_hot_ph = (chem.ph_atmospheric_equilibrium(lower_water, T_hot)
+                    if pH is None else pH)
+    lower_cold_ph = (chem.ph_atmospheric_equilibrium(lower_water, T_cold)
+                     if pH is None else pH)
+    lower_state = chem.saturation_state_split(
+        lower_water, T_hot, T_cold,
+        pH_hot=lower_hot_ph, pH_cold=lower_cold_ph)
+    lower_binding = min(limits, key=lambda k: limits[k] - lower_state[k])
+    if lower_state[lower_binding] > limits[lower_binding]:
+        raise InfeasibleCeilingError(
+            lo, lower_binding, lower_state[lower_binding], limits[lower_binding])
     if pH is None:
         c = chem.max_cycles_split(water, T_hot, T_cold, limits=limits,
                                   lo=lo, hi=hi)
@@ -190,9 +228,7 @@ def ceiling_with(water, T_hot, T_cold, limits=None, pH=None,
                                         pH_hot=pH, pH_cold=pH)
         return min(limits[k] - s[k] for k in limits)
 
-    if margin(lo) < 0:
-        c = float(lo)
-    elif margin(hi) > 0:
+    if margin(hi) > 0:
         c = float(hi)
     else:
         from scipy.optimize import brentq

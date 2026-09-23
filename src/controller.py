@@ -400,11 +400,13 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
     # whole method is to vary SiO2 and hence TDS at fixed fan and cycles.
     # Same class as defects 11 and 26: computed, understood, enforced by
     # nothing. The comment above already worried about the smaller hole.
-    key = (round(float(fan_pct), 3), round(float(cycles), 4),
-           round(float(makeup_water.tds()), 6),
-           round(float(makeup_water.SiO2), 6),
-           round(float(makeup_water.PO4), 6),
-           round(float(fill_c), 6), round(float(fill_n), 6),
+    # The cached tuple carries `conc`, not just thermal outputs. TDS alone
+    # cannot identify that composition: two charge-balanced assays with
+    # equal TDS can lie on opposite sides of a calcite constraint. Retain
+    # the complete water state, without rounding away assay differences.
+    key = (float(fan_pct), float(cycles),
+           tuple(sorted(vars(makeup_water).items())),
+           float(fill_c), float(fill_n),
            tuple(sorted((k, float(v)) for k, v in cond.items()
                         if isinstance(v, (int, float)) and k != "T_wo_guess")))
     if key in _cache:
@@ -1158,13 +1160,44 @@ TUBE_VELOCITY_MIN_ABSOLUTE = 0.5    # m/s at deep part load [C]
 # byte-for-byte. See docs/safety_interlocks.md: the layer is a software
 # specification plus a simulation, not a certified safety function.
 def supervise(*args, safety_layer=None, frame=None, heartbeat=0, **kwargs):
-    best, n_eval = optimise(*args, **kwargs)
-    if safety_layer is None or best is None:
+    """Optimize and expose a command, including an explicit failure record.
+
+    With an attached interlock, a failed optimization returns feasible=False
+    and an isolated acid command; numerical exceptions are reported by type.
+    Without an interlock, the legacy optimizer API and exceptions are intact.
+    This synchronous wrapper cannot replace an independent hardware watchdog.
+    """
+    try:
+        best, n_eval = optimise(*args, **kwargs)
+    except Exception as exc:
+        if safety_layer is None:
+            raise
+        command = safety_layer.reject_request(
+            frame, detail=f"optimizer raised {type(exc).__name__}")
+        return {"feasible": False, "optimizer_status": "ERROR",
+                "optimizer_error_type": type(exc).__name__,
+                "safety_command": command}, None
+    if safety_layer is None:
         return best, n_eval
+    if best is None:
+        # An optimizer failure must not skip the interlock scan and leave
+        # the last dosing command in force. This record is explicitly NOT
+        # an operating point; it only carries the isolated acid command.
+        command = safety_layer.reject_request(
+            frame, detail="optimizer returned no feasible operating point")
+        return {"feasible": False, "optimizer_status": "NO_FEASIBLE_POINT",
+                "safety_command": command}, n_eval
     import safety
-    req = safety.Request(fan_pct=best["fan_pct"], cycles=best["cycles"],
-                         acid_kg_s=best["acid_kg_h"] / 3600.0,
-                         heartbeat=heartbeat)
+    try:
+        req = safety.Request(fan_pct=best["fan_pct"], cycles=best["cycles"],
+                             acid_kg_s=best["acid_kg_h"] / 3600.0,
+                             heartbeat=heartbeat)
+    except (KeyError, TypeError, ValueError) as exc:
+        command = safety_layer.reject_request(
+            frame, detail=f"optimizer result malformed: {type(exc).__name__}")
+        return {"feasible": False, "optimizer_status": "INVALID_RESULT",
+                "optimizer_error_type": type(exc).__name__,
+                "safety_command": command}, n_eval
     guarded = dict(best)
     guarded["safety_command"] = safety_layer.scan(frame, req)
     return guarded, n_eval

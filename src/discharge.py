@@ -54,8 +54,10 @@ here -- it is reported.
 from __future__ import annotations
 
 import math
+import numbers
 import pathlib
 import sys
+from collections.abc import Mapping
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
@@ -179,6 +181,7 @@ def max_cycles_for_discharge(makeup, table=None, basis="monthly_avg",
     complies.
     """
     table = RCER_TABLE_3C if table is None else table
+    _validate_discharge_inputs(makeup, table, basis, lo, hi)
 
     def worst(cy):
         q = blowdown_quality(makeup, cy)
@@ -205,6 +208,55 @@ def max_cycles_for_discharge(makeup, table=None, basis="monthly_avg",
         else:
             a = m
     return float(a), worst(b)[1]
+
+
+def _finite_nonnegative(value):
+    return (not isinstance(value, bool) and isinstance(value, numbers.Real)
+            and math.isfinite(value) and value >= 0)
+
+
+def _validate_discharge_inputs(makeup, table, basis, lo, hi):
+    """Reject unknown coverage/configuration instead of inventing headroom.
+
+    Invalid inputs raise ValueError before searching. INFEASIBLE remains
+    reserved for a valid, declared concentration screen that cannot be met.
+    Missing coverage is not a regulatory finding of infeasibility.
+    """
+    if basis not in ("max", "monthly_avg"):
+        raise ValueError("unknown discharge basis; use max or monthly_avg")
+    if not (_finite_nonnegative(lo) and _finite_nonnegative(hi)
+            and 1.0 <= lo <= hi):
+        raise ValueError("discharge search needs finite 1 <= lo <= hi")
+    if not isinstance(table, Mapping) or not table:
+        raise ValueError("discharge table must declare concentration limits")
+    checked = 0
+    for parameter, limit in table.items():
+        if parameter not in ("P_as_P", "NO3", "Cl", "TDS", "pH"):
+            raise ValueError(f"unsupported discharge parameter {parameter!r}")
+        if not isinstance(limit, Mapping) or not limit:
+            raise ValueError(f"missing discharge limit for {parameter}")
+        allowed = {"min", "max", "unit"} if parameter == "pH" else {"max", "monthly_avg", "unit"}
+        if set(limit) - allowed:
+            raise ValueError(f"unknown discharge limit fields for {parameter}")
+        expected_unit = "pH units" if parameter == "pH" else "mg/L"
+        if "unit" in limit and limit["unit"] != expected_unit:
+            raise ValueError(f"unsupported concentration basis/unit for {parameter}")
+        for key, value in limit.items():
+            if key != "unit" and not _finite_nonnegative(value):
+                raise ValueError(f"invalid {key} limit for {parameter}")
+        if parameter == "pH":
+            continue  # explicitly outside this cycles concentration screen
+        cap = limit.get(basis, limit.get("max"))
+        if cap is None:
+            raise ValueError(f"no applicable {basis} concentration limit for {parameter}")
+        checked += 1
+    if checked == 0:
+        raise ValueError("no modelled concentration limit: discharge ceiling is unknown")
+    for species in chem.SPECIES:
+        if not _finite_nonnegative(getattr(makeup, species, None)):
+            raise ValueError(f"missing or invalid makeup concentration {species}")
+    if not _finite_nonnegative(makeup.tds()):
+        raise ValueError("missing or invalid makeup TDS")
 
 
 def binding_ceiling(makeup, T_hot, T_cold, pH=8.25, table=None,

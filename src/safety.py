@@ -53,8 +53,9 @@ Every setpoint below is pre-registered, with its source or a [J] reason, in
 from __future__ import annotations
 
 import math
+import numbers
 from collections import deque
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 import conductivity as cond_model
 
@@ -72,6 +73,9 @@ COND_CELL_FAULT = "COND_CELL_FAULT"
 HEARTBEAT_LOST = "HEARTBEAT_LOST"
 ACID_PUMP_STUCK = "ACID_PUMP_STUCK"
 BLOWDOWN_VALVE_FAILED = "BLOWDOWN_VALVE_FAILED"
+INVALID_INPUT = "INVALID_INPUT"
+SCAN_TIMING_FAULT = "SCAN_TIMING_FAULT"
+OPTIMIZER_UNAVAILABLE = "OPTIMIZER_UNAVAILABLE"
 
 SELF_CLEARING = frozenset({MAKEUP_NOT_PROVEN})
 
@@ -216,8 +220,10 @@ class Frame:
 
 @dataclass
 class Command:
-    fan_pct: float
-    cycles: float
+    # None means no validated previous request exists for that actuator.
+    # It is not a numerical actuator setting and must never be written as one.
+    fan_pct: float | None
+    cycles: float | None
     acid_kg_s: float
     acid_isolation_open: bool
     blowdown_basis: str           # "conductivity" | "flow_ratio"
@@ -245,6 +251,8 @@ class SafetyLayer:
                  initial_acid_so4_mg_kg=0.0):
         if mode not in ("shadow", "active"):
             raise ValueError("mode must be 'shadow' or 'active'")
+        if not _finite_number(cfg.scan_s) or cfg.scan_s <= 0:
+            raise ValueError("scan_s must be finite and positive")
         self.cfg = cfg
         self.makeup = makeup_water
         self.mode = mode
@@ -277,6 +285,7 @@ class SafetyLayer:
         self._win_allow = 0.0
         self._last_acid_cmd = 0.0
         self._last_isolation_open = False
+        self._last_valid_request = None
 
         self.latched = set()            # latched trip causes
         self.active = set()             # causes whose condition holds now
@@ -520,10 +529,89 @@ class SafetyLayer:
         return granted, allow
 
     # -- the scan ----------------------------------------------------------
+    def _admission_errors(self, f, req):
+        """Reject malformed data before it reaches observers or histories.
+
+        Empty age_s retains the existing simulation convention of fresh
+        channels; supplied ages must be finite and nonnegative. A physical
+        adapter must supply independently measured freshness metadata.
+        """
+        bad = []
+        for name in ("t", *CHANNELS, "blowdown_command", "evaporation_estimate"):
+            value = getattr(f, name, None)
+            if not _finite_number(value):
+                bad.append(name)
+            elif name in ("t", *_FLOW_CHANNELS, "blowdown_command",
+                           "evaporation_estimate") and value < 0:
+                bad.append(name)
+        ages = getattr(f, "age_s", None)
+        if not isinstance(ages, dict):
+            bad.append("age_s")
+        else:
+            for name, value in ages.items():
+                if name not in CHANNELS or not _finite_number(value) or value < 0:
+                    bad.append(f"age_s.{name}")
+        for name in ("fan_pct", "cycles", "acid_kg_s"):
+            value = getattr(req, name, None)
+            if not _finite_number(value):
+                bad.append(f"request.{name}")
+            elif ((name == "fan_pct" and not 0 <= value <= 100)
+                  or (name == "cycles" and value <= 1)
+                  or (name == "acid_kg_s" and value < 0)):
+                bad.append(f"request.{name}")
+        heartbeat = getattr(req, "heartbeat", None)
+        if (isinstance(heartbeat, bool) or not isinstance(heartbeat, numbers.Integral)
+                or heartbeat < 0):
+            bad.append("request.heartbeat")
+        return bad
+
+    def reject_request(self, f, cause=OPTIMIZER_UNAVAILABLE, detail=""):
+        """Issue an explicit acid-off result when no trustworthy request exists.
+
+        This is an acid interlock only, not a thermally qualified plant
+        fallback. Other actuators retain the last validated request where
+        available. The fault latches until a valid scan and manual reset.
+        Both modes expose a finite, isolated command on malformed input;
+        the shadow harness must still perform no physical writes.
+        """
+        value = getattr(f, "t", None)
+        t = value if _finite_number(value) and value >= 0 else self._t_prev
+        t = 0.0 if t is None else t
+        self._set_condition(t, cause, True, detail)
+        if self._t_prev is None or t > self._t_prev:
+            self._t_prev = t
+        self._proven = False
+        self._above_since = None
+        self._ph_hist = {"ph_control": deque(), "ph_trip": deque()}
+        self._cond_hist.clear()
+        previous = self._last_valid_request
+        self.would_be = Command(
+            fan_pct=previous.fan_pct if previous is not None else None,
+            cycles=min(previous.cycles, self.cfg.failsafe_cycles)
+                   if previous is not None else None,
+            acid_kg_s=0.0, acid_isolation_open=False,
+            blowdown_basis="flow_ratio", tripped=True,
+            causes=tuple(sorted(self.latched | (self.active & SELF_CLEARING))))
+        self._last_acid_cmd = 0.0
+        self._last_isolation_open = False
+        return self.would_be
+
     def scan(self, f, req):
         c = self.cfg
+        bad = self._admission_errors(f, req)
+        if bad:
+            return self.reject_request(f, INVALID_INPUT, ",".join(bad))
         dt = c.scan_s if self._t_prev is None else f.t - self._t_prev
+        # The registered harness uses a fixed scan period. Missing,
+        # repeated, backward or faster scans cannot establish continuous
+        # flow or safely use the fixed-period rolling dose accounting.
+        if not math.isclose(dt, c.scan_s, rel_tol=1e-6, abs_tol=1e-9):
+            return self.reject_request(f, SCAN_TIMING_FAULT,
+                                       f"interval {dt:g} s; expected {c.scan_s:g} s")
         self._t_prev = f.t
+        for cause in (INVALID_INPUT, SCAN_TIMING_FAULT, OPTIMIZER_UNAVAILABLE):
+            self._set_condition(f.t, cause, False)
+        self._last_valid_request = replace(req)
 
         # observer runs on what was actually commanded last scan
         delivered_est = (f.acid_flow if self._last_isolation_open else 0.0)
@@ -593,3 +681,8 @@ class SafetyLayer:
 
     def trips(self):
         return [e for e in self.events if e.kind == "TRIP"]
+
+
+def _finite_number(value):
+    return (not isinstance(value, bool) and isinstance(value, numbers.Real)
+            and math.isfinite(value))

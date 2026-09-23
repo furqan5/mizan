@@ -5,6 +5,10 @@
 `src/incumbent_gap.py`, the results are in `results/incumbent_gap.json`, and the checks are in
 `tests/test_incumbent_gap.py`. Every number below comes from that one run.
 
+**Review correction, 20 September 2026.** The economic table and concluding claims below
+now match the stored post-defect-67 `results/incumbent_gap.json`. No study result, threshold
+or assay was changed. These are conditional model comparisons, not observed plant savings.
+
 ---
 
 ## 1. Verdicts, failures included
@@ -159,26 +163,30 @@ condition, not hours-weighted: median, with the range over the five conditions. 
 
 | comparison | direction | Dhahran TSE | Riyadh TSE |
 |---|---|---|---|
-| P0, fixed 3.0 cycles → M | water left on the table | **USD 40,344/yr** (29,909–43,685) | **USD 58,991/yr** (46,339–65,972) |
-| P1, LSI 2.5 with acid, vs M | break-even for over-cycling | **USD 33,699/yr** (30,640–40,785) | **USD 12,474/yr** (12,139–15,988) |
-| P3, primary rule of thumb → M | water left on the table | USD 112,766/yr (88,797–126,292) | USD 15,050/yr (10,610–15,947) |
-| P2, RSI ≥ 6 → M | water left on the table | USD 175,084/yr (116,382–187,644) | USD 275,585/yr (185,467–295,197) |
+| P0, fixed 3.0 cycles → M | conditional reduction in makeup/discharge cost | **USD 40,344/yr** (29,909–43,685) | **USD 65,736/yr** (54,438–75,802) |
+| P1, LSI 2.5 with acid, vs M | break-even for over-cycling | **USD 33,699/yr** (30,640–40,785) | **USD 5,419/yr** (4,376–6,158) |
+| P3, primary rule of thumb → M | conditional reduction in makeup/discharge cost | USD 112,766/yr (88,797–126,292) | USD 4,613/yr (4,434–5,909) |
+| P2, RSI ≥ 6 → M | conditional reduction in makeup/discharge cost | USD 175,084/yr (116,382–187,644) | USD 282,330/yr (193,565–301,700) |
 
 **How to read it.** The P0 row is the value a fixed-setpoint plant gives up by staying at three
 cycles, *if M's ceiling is safe to run at*. M is a scaling ceiling, not an operating ceiling. On
 both waters it also requires a phosphate programme that the screen cannot size.
 
-The P1 row is a break-even, not a saving. **The ceiling pays for itself against an LSI-2.5
-incumbent if an avoided scaling event is worth more than roughly USD 12,000–34,000 a year.** No
-cleaning, retubing or outage cost is cited anywhere in the repository, so nothing more is claimed.
+The P1 row is the extra makeup/discharge cost of respecting M instead of the hypothetical
+LSI-2.5 policy: **median USD 5,419/yr on Riyadh and USD 33,699/yr on Dhahran**. Avoided damage
+would have to exceed that amount plus the product's own cost to justify the intervention.
+No cleaning, retubing, outage cost or event frequency is established in this study. This is
+a break-even comparison, not a demonstrated benefit or evidence that plants run at LSI 2.5.
 
-The P2 and P3 rows compare against incumbents far more conservative than any operator in the
-repository (1.6–2.1 cycles). They are upper bounds on a strawman and should not be quoted as
-savings.
+P2 permits only 1.64–1.86 cycles in the median comparison. P3 permits 2.10 on Dhahran but
+7.43 on Riyadh after the silica correction. Neither policy is an established site baseline;
+their comparisons cannot be presented as measured savings from replacing incumbent practice.
 
-The P0 value, USD 40–59k a year, is below the USD 120–185k per tower it would cost to *measure*
-the chemistry (defect 47). The finding stands: the product has to infer the chemistry, not
-instrument it.
+The P0 medians are USD 40–66k/yr under the stated assumptions. The repository's separate
+USD 120–185k/tower instrument estimate concerns a comprehensive online measurement package;
+it is not the cost of a periodic laboratory assay and does not establish that chemistry
+must be inferred without assays. Actual assay cost, measurement frequency and attainable
+benefit need a site-specific budget and validation plan.
 
 ---
 
@@ -212,26 +220,33 @@ instrument it.
 
 ## What the pitch can claim
 
-On the one repository water that passes its own analysis checks (Dhahran TSE, silica assumed), and
-on the measured Riyadh assay admitted by exception, the computed ceiling at the V5 conditions is
-set by amorphous silica at the cold basin: **4.4–4.7 and 6.6–7.0 cycles**. The Langelier index
-cannot see that mineral.
+At the five V5 conditions and fixed pH 7.8, the conditional ceiling is **4.41–4.70 cycles,
+silica-bound**, on Dhahran TSE with **assumed silica 26.8 mg/L**, and **8.60–9.09 cycles,
+calcite-bound**, on the measured Riyadh assay with **8 mg/L silica**. Riyadh is admitted by
+exception to the charge-balance check. Both waters carry unresolved phosphate-programme
+requirements. These scaling ceilings exclude material qualification and an applicable
+site discharge permit, so neither is a certified operating setpoint.
 
 Four claims fit that evidence:
 
-- A plant held at a fixed 3 cycles leaves roughly **USD 40–59k a year** of makeup and discharge on
-  a 4.2 MW tower, if the ceiling is safe to operate at.
-- An LSI controller pushed to its published inhibitor limit with acid would permit **11–13
-  cycles**, well past silica saturation.
+- Against the assumed fixed-3-cycle baseline, the model's makeup/discharge cost reduction has
+  medians **USD 40,344/yr and USD 65,736/yr**, respectively, on a 4.2 MW tower. These annualised
+  single-condition results exclude acid costs, product costs and site qualification.
+- The **hypothetical LSI-2.5** policy permits median 12.95 cycles on Dhahran and 11.41 on
+  Riyadh, exceeding M by 8.43 and 2.50 cycles. This tests the selected inhibitor-limit rule;
+  it does not show that observed incumbent operation exceeds M.
 - The independent review's finding that the full model changes nothing **reproduces exactly when
   silica is zero and disappears when silica is declared**.
-- **The product's value on these waters is therefore the silica term, and it is worth exactly as
-  much as the silica assay behind it.**
+- **The binding mineral and gap depend on assay, pH, treatment assumptions and the chosen
+  comparator.** A silica-specific advantage remains a hypothesis on the water whose silica
+  is assumed. The measured Riyadh result concerns calcite and requires comparison against
+  an independently qualified calcite/inhibitor model and the site's actual policy.
 
 Four claims the evidence does not support:
 
 - a gap that generalises across waters;
 - that real incumbents over-cycle (reported operator LSI of 0–1.4 puts them *below* the ceiling);
-- that rules of thumb are beaten (cited variants land within half a cycle on each water, though
-  no one variant did on both);
-- any avoided scaling cost beyond a break-even of **USD 12–34k a year**.
+- that one rule of thumb has been shown superior across sites (four tested variants land within
+  half a cycle on Dhahran; none does on Riyadh after the silica correction);
+- actual avoided scaling cost, a safety certificate, or a market-wide claim that nobody sells
+  an equivalent analysis. None is established by this numerical comparison.
