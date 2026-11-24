@@ -38,6 +38,8 @@ import psychro as ps
 import tower as tw
 
 RESULTS = pathlib.Path(__file__).resolve().parents[1] / "results"
+# DEFECT 79: the Almería air is evaluated at the site pressure, not 101,325 Pa.
+P_SITE = cal.PSA_PRESSURE_PA
 
 
 # --- candidate fill laws --------------------------------------------------
@@ -48,7 +50,7 @@ def features(df):
     """Regressors available at prediction time."""
     m_a = np.array([float(tw.air_mass_flow_from_fan(w)) for w in df.w_fan])
     m_w = df.m_w.values
-    T_wb = np.array([float(ps.wetbulb_from_rh(t, r))
+    T_wb = np.array([float(ps.wetbulb_from_rh(t, r, P_SITE))
                      for t, r in zip(df.Tamb.values, df.rh.values)])
     return {"m_w": m_w, "m_a": m_a, "LG": m_w / m_a,
             "T_wi": df.Tin.values, "T_wb": T_wb}
@@ -95,8 +97,8 @@ def holdout_mae(df, f, coeffs, intercept, builder):
     for i, r in enumerate(df.itertuples()):
         m_a = f["m_a"][i]
         # shooting method against this point's own available Merkel number
-        w_in = float(ps.humidity_ratio_from_rh(r.Tamb, r.rh))
-        T_wb = float(ps.wetbulb(r.Tamb, w_in))
+        w_in = float(ps.humidity_ratio_from_rh(r.Tamb, r.rh, P_SITE))
+        T_wb = float(ps.wetbulb(r.Tamb, w_in, P_SITE))
         lo, hi = T_wb + 0.05, float(r.Tin) - 0.02
         if hi <= lo:
             continue
@@ -104,7 +106,7 @@ def holdout_mae(df, f, coeffs, intercept, builder):
 
         def residual(T_wo):
             res = tw.integrate_poppe(T_wo, float(r.Tin), float(r.Tamb), w_in,
-                                     float(r.m_w), m_a)
+                                     float(r.m_w), m_a, p=P_SITE)
             return 1.0e3 if res is None else res["Me"] - target
 
         grid = np.linspace(hi, lo, 24)
@@ -180,7 +182,8 @@ def main():
     # winner on MAE fails both.
     #
     # 1. Does the gain survive scrutiny? Model E improves MAE by 0.025 K on
-    #    a ~0.5 K error while making RMSE WORSE by 0.048 K. It reduces
+    #    a ~0.5 K error while making RMSE WORSE by 0.048 K (sea level; at the
+    #    site pressure of defect 79, 0.006 K and 0.038 K). It reduces
     #    typical error and increases large error. That is not a better
     #    model, it is a differently-shaped error distribution.
     #
@@ -212,7 +215,9 @@ def main():
         print()
         print("   DECISION: REJECT the wet-bulb form and RETAIN the "
               "two-parameter law A.")
-        print("     The MAE gain (0.025 K) is inside the noise, the RMSE is "
+        # The gain was a literal "0.025 K" here, true only at sea level; at the
+        # site pressure (defect 79) it is 0.006 K. Printed from the run now.
+        print(f"     The MAE gain ({gain:.3f} K) is inside the noise, the RMSE is "
               "worse, and the added")
         print("     regressor is an operating condition masquerading as an "
               "equipment property. It")

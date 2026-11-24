@@ -46,6 +46,7 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
+import calibrate as cal
 import dataset as ds
 import tower as tw
 
@@ -101,7 +102,9 @@ def propagate(df, c, n, n_samples=160, seed=20260829):
                 (1.0 + rng.normal(0.0, u_air_flow_frac()))
             if m_a <= 0.05 or m_w <= 0:
                 continue
-            t, info = tw.solve_outlet_temperature(T_in, T_amb, rh, m_w, m_a, c, n)
+            # DEFECT 79: solved at the Almería site pressure, as calibrated.
+            t, info = tw.solve_outlet_temperature(T_in, T_amb, rh, m_w, m_a, c, n,
+                                                  p=cal.PSA_PRESSURE_PA)
             if info is not None and np.isfinite(t):
                 preds.append(t)
         if len(preds) < 0.5 * n_samples:

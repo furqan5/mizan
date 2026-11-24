@@ -5,7 +5,7 @@ here is either measured in this repository or is an internal inconsistency
 between the code and its own comments. Nothing is imported from outside without
 saying so.
 
-The audit passes, the register stands at seventy-six found / sixty-four fixed / twelve open
+The audit passes, the register stands at seventy-seven found / sixty-five fixed / twelve open
 open, and the numbers in every document match the artefacts. That is
 *consistency*. It is not the same thing as *robustness*, and the gap between the
 two is what this file is about.
@@ -148,8 +148,9 @@ corrected without replacing the post. That is a founder decision, not a code cha
 
 ## 4. V2 still fails, and the diagnosis is the business model
 
-Evaporation MAPE **10.80 %** against a pre-registered **8.00 %** (9.90 % before the
-holdout was de-duplicated, defect 51). Diagnosed as
+Evaporation MAPE **10.02 %** against a pre-registered **8.00 %** (10.80 % before the
+fill law was re-fitted at the site pressure, defect 79; 9.90 % before the holdout
+was de-duplicated, defect 51). Diagnosed as
 fill-characteristic drift between campaigns rather than an unaccounted bleed. It
 stays failed, and it should — it is the quantitative justification for an annual
 recalibration licence.

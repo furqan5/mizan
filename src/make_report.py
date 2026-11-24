@@ -47,6 +47,13 @@ def main():
     v2d = json.loads(v2d_path.read_text()) if v2d_path.exists() else None
     unc_path = RESULTS / "uncertainty.json"
     unc = json.loads(unc_path.read_text()) if unc_path.exists() else None
+    # DEFECT 79: the drift spread and the per-campaign re-identification are
+    # read from the artefact drift.py writes, not typed into the prose.
+    _dr_path, _drc_path = RESULTS / "drift.json", RESULTS / "drift.csv"
+    _dr = json.loads(_dr_path.read_text()) if _dr_path.exists() else None
+    _drc = pd.read_csv(_drc_path) if _drc_path.exists() else None
+    _spread = (f"a {_dr['fill_c_spread_pct']:.0f} %" if _dr is not None
+               else "a")
 
     L = []
     A = L.append
@@ -238,8 +245,8 @@ def main():
       "respectively -- neither explains it. What does fit the pattern is "
       "that the model matches the campaign it was identified on and not the "
       "two it was not, which is the same campaign-to-campaign movement "
-      "already documented in the fill characteristic (section 5.1, a 21 % "
-      "spread in the identified coefficient over four years).")
+      "already documented in the fill characteristic (section 5.1, "
+      f"{_spread} spread in the identified coefficient over four years).")
     A("")
     if v2d is not None:
       A("**The cause is now established, by a test that could have failed.** "
@@ -265,6 +272,19 @@ def main():
       A("")
       worst = max(v2d[c]["evap_MAPE_pct"] for c in v2d)
       cs = [v2d[c]["c"] for c in v2d]
+      # DEFECT 79. v2_diagnosis.json has no generator (defect 74) and holds
+      # the sea-level fits; drift.py re-derives the same quantity at the
+      # site pressure, so both are printed and labelled.
+      if _drc is not None:
+          _w = _drc[_drc["mode"] == "within"].sort_values("train")
+          A("These fits are the sea-level ones, from before defect 79: "
+            "`results/v2_diagnosis.json` has no generator (register "
+            "defect 74) and was not re-derived. `drift.py`, which is, "
+            "re-identifies each campaign at the 95.5 kPa site pressure and "
+            "gives " + " and ".join(
+                f"{r.train} {r.evap_MAPE_pct:.2f} %" for r in _w.itertuples())
+            + f" evaporation MAPE, worst {_w.evap_MAPE_pct.max():.2f} %.")
+          A("")
       A(f"**Every campaign falls inside the 8 % gate once its own fill law is "
       f"used** -- worst case {worst:.2f} %. The bleed hypothesis is "
       f"rejected: a bleed would have been untouched by re-identification. "
@@ -498,10 +518,17 @@ def main():
         A(f"- Gulf design wet-bulb: **{fld['gulf_design_wb_C']:.1f} °C**")
         A(f"- extrapolation beyond the fitted range: **+{fld['gulf_design_wb_C']-wb[1]:.1f} K**")
         A("")
-        A("The fitted wet-bulb exponent would predict roughly 14 % different "
-          "transfer capability at Gulf design wet-bulb, on no supporting "
-          "data — extrapolating hardest exactly where the product is "
-          "intended to operate. The two-parameter law is retained.")
+        # DEFECT 79: this was a literal "roughly 14 %". It is computed from
+        # the wet-bulb form's own fitted exponent now.
+        _e = fl[fl.model.str.contains("wet bulb")]
+        _b = float(dict(kv.split("=") for kv in
+                        _e.iloc[0]["coeffs"].split(", "))["log(Twb)"])
+        _f = (fld["gulf_design_wb_C"] / wb[1]) ** _b
+        A(f"The fitted wet-bulb exponent would predict {100*abs(1-_f):.0f} % "
+          "different transfer capability at Gulf design wet-bulb, on no "
+          "supporting data — extrapolating hardest exactly where the "
+          "product is intended to operate. The two-parameter law is "
+          "retained.")
         A("")
 
     if unc is not None:
@@ -553,7 +580,8 @@ def main():
               "— close to the floor but not at it, so a genuine "
               "modelling residual remains. Across campaigns a further "
               f"{dr['drift_penalty_K']:.3f} K appears, and the identified "
-              "fill coefficient moves by a fifth over four years.")
+              f"fill coefficient moves by {dr['fill_c_spread_pct']:.0f} % over "
+              "four years.")
             A("")
             A("**The drift finding has a direct product consequence.** A "
               "cooling-tower fill characteristic is not a constant. A "

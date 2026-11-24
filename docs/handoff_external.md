@@ -135,9 +135,9 @@ So the skid buys only cheap instruments — toroidal conductivity, pH/ORP, Pt100
 - **Skin temperature rise** is now *derived* (7.45 K at the TEMA fouling allowance) rather than assumed, and shown not to be load-bearing (0.055 cycles per kelvin) — but not measured.
 - **No pilot, no letter of intent, no patent.**
 
-**Gates that fail, and are reported as failing — there are now three of six:** heat-rejection error **6.27 %** against a 6.00 % threshold; evaporation model error **10.80 %** against an 8.00 % threshold; V5 water saving **4.38 %** against a 15 % threshold.
+**Gates that fail, and are reported as failing — there are now three of six:** heat-rejection error **6.09 %** against a 6.00 % threshold; evaporation model error **10.02 %** against an 8.00 % threshold; V5 water saving **4.38 %** against a 15 % threshold.
 
-Heat rejection is the new one, and it is a data result rather than a model change. It read 5.94 % and passed on a 50-row holdout that turned out to contain 18 repeated measurements and one row the model had been trained on. On the 32 distinct rows it reads 6.27 %. The de-duplication was pre-registered before it was run and no threshold moved (defect 51).
+Heat rejection is the new one, and it is a data result rather than a model change. It read 5.94 % and passed on a 50-row holdout that turned out to contain 18 repeated measurements and one row the model had been trained on. On the 32 distinct rows it read 6.27 %. The de-duplication was pre-registered before it was run and no threshold moved (defect 51). Then the calibration was found to run the tower, which stands at 497 m, at sea-level pressure (defect 79). Re-fitted at the site pressure and re-scored once, heat rejection reads 6.09 % and evaporation 10.80 % → 10.02 %, still failing, while outlet error improves 0.600 → 0.542 K.
 
 **A measurement limit worth knowing:** the water figures carry a between-tower bar from fan-movement uncertainty propagated through the calibration. That bar was **±5.6 percentage points** while the error model treated the duplicated Exp3 file as a third campaign; on the two real campaigns it is **±2.0 pp** (defect 70). **Do not read that as the instrument having improved.** The Monte Carlo interval WIDENED at the same time, because the duplicate also carried the smallest residual scatter: V7's standard deviation moved 5.51 → 5.79 pp and P(true ≥ 20 %) fell 0.094 → 0.072. The population is now two campaigns, which the module itself says is not a population. Improving the water number is a *calibration* problem — one metered tower across a fan range — not a control problem.
 
@@ -149,7 +149,7 @@ These exist because each was bought with a mistake. Anyone reasoning about this 
 
 1. **Pre-register thresholds before running the gate.** Gates that fail stay failed and get reported.
 2. **Before "fixing" a missed threshold, check it against the physical ceiling.** One gate here demanded 8.5 cycles on a water that saturates at 7 — it was mis-specified, not missed.
-3. **Suspect a defect in your own code before blaming the model.** Seventy-six defects found this way; most of them changed a number, and twelve are still open.
+3. **Suspect a defect in your own code before blaming the model.** Seventy-seven defects found this way; most of them changed a number, and twelve are still open.
 4. **Never quote a test count, or any figure, from memory** — only by copy from output in the same session.
 5. **A constraint that is computed but not enforced is worse than one that doesn't exist**, because it reads like coverage. This failure mode occurred **eight times**, and once the fix for it reproduced it.
 6. **Never attribute a quotation to a source you have not read.** This was violated twice and corrected both times.

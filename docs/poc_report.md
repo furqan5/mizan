@@ -22,7 +22,7 @@ Claimed maturity: **TRL 3** (analytical and computational studies validated agai
 
 **Claimed.** A first-principles model of a counterflow wet cooling tower, coupled to an ion-specific water-chemistry model, predicts **measured outlet water temperature** and **measured heat rejection** on experimental data the model was never fitted to, within thresholds fixed before the fit was run.
 
-**Explicitly not claimed, on the same data.** The water-consumption gate is **failed**. The model predicts measured water consumption to 10.80 % against a threshold of 8.00 %, and section 4 sets out why, including the fact that an earlier revision of this document reported a pass that turned out to rest on a drift constant a hundred times too large. The thermal claim and the water claim are separated here because the evidence separates them.
+**Explicitly not claimed, on the same data.** The water-consumption gate is **failed**. The model predicts measured water consumption to 10.02 % against a threshold of 8.00 %, and section 4 sets out why, including the fact that an earlier revision of this document reported a pass that turned out to rest on a drift constant a hundred times too large. The thermal claim and the water claim are separated here because the evidence separates them.
 
 **Not claimed.** No closed-loop control on physical hardware. No field data from an operating plant. No validated scaling-kinetics model. These are TRL 4 objectives and are the subject of the laboratory programme in section 9.
 
@@ -50,9 +50,9 @@ Aqueous speciation uses equilibrium constants from the USGS PHREEQC `phreeqc.dat
 
 **Identification.** The fill characteristic is identified the way cooling-tower practice identifies it (CTI ATC-105), not by black-box search. For each measured point the Poppe equations are integrated from the *measured* outlet temperature to the measured inlet temperature, giving the Merkel number the duty actually demanded from measurements alone. Regressing log(Me) on log(m_w/m_a) over the training campaign then gives the fill law in closed form.
 
-Identified law: **Me = 1.2401 · (m_w/m_a)^(-0.5014)**, log-space R² = 0.3719.
+Identified law: **Me = 1.1729 · (m_w/m_a)^(-0.5951)**, log-space R² = 0.5849.
 
-The exponent -0.501 sits in the normal range for counterflow fill, which is an independent check that the identification is physical and not a curve fit absorbing error.
+The exponent -0.595 sits in the normal range for counterflow fill, which is an independent check that the identification is physical and not a curve fit absorbing error.
 
 **Holdout.** Calibrated on campaign Exp2 only; tested on campaigns Exp1 and Exp3, which are separate experimental campaigns in different seasons under different designs of experiment. This is a harder test than a random row split because it measures transfer across campaigns rather than interpolation within one. The holdout was scored once, against thresholds fixed in advance.
 
@@ -60,16 +60,16 @@ The exponent -0.501 sits in the normal range for counterflow fill, which is an i
 
 | Gate | Quantity | Threshold | Holdout result | Verdict |
 |---|---|---|---|---|
-| V1 | Outlet water temperature MAE | ≤ 1.00 K | 0.600 K | **PASS** |
-| V1 | Heat rejection MAPE | ≤ 6.00 % | 6.27 % | **FAIL** |
-| V2 | Evaporation vs measured water loss MAPE | ≤ 8.00 % | 10.80 % | **FAIL** |
+| V1 | Outlet water temperature MAE | ≤ 1.00 K | 0.542 K | **PASS** |
+| V1 | Heat rejection MAPE | ≤ 6.00 % | 6.09 % | **FAIL** |
+| V2 | Evaporation vs measured water loss MAPE | ≤ 8.00 % | 10.02 % | **FAIL** |
 
-Holdout n = 32, 100 % solver convergence, RMSE 0.720 K, bias +0.488 K, 95th percentile absolute error 1.435 K.  
-Training set for comparison: MAE 0.454 K, heat rejection MAPE 7.48 %, evaporation MAPE 7.80 %.
+Holdout n = 32, 100 % solver convergence, RMSE 0.614 K, bias +0.404 K, 95th percentile absolute error 1.094 K.  
+Training set for comparison: MAE 0.441 K, heat rejection MAPE 7.05 %, evaporation MAPE 7.38 %.
 
 ### Why gate V2 fails, and why the earlier pass was not real
 
-V2 asks whether predicted water consumption matches the measured water-consumption channel, and on the untouched holdout it does not: 10.80 % against a threshold of 8.00 %. An earlier revision of this document reported 7.11 % and a pass. That pass was an artefact and is withdrawn here.
+V2 asks whether predicted water consumption matches the measured water-consumption channel, and on the untouched holdout it does not: 10.02 % against a threshold of 8.00 %. An earlier revision of this document reported 7.11 % and a pass. That pass was an artefact and is withdrawn here.
 
 The cause was the drift term. Predicted consumption is evaporation plus drift, and the drift constant was 0.0005 used as a FRACTION of circulating flow -- the modern eliminator rating of 0.0005 **per cent** with its percent sign dropped, and so a hundred times too much water. On this rig that inflated the prediction by roughly five per cent, which is most of the distance between the 7.11 % previously reported and the threshold. Correcting the constant to a defensible 0.001 % removes the inflation and exposes a real shortfall.
 
@@ -81,7 +81,7 @@ The cause was the drift term. Predicted consumption is evaporation plus drift, a
 | Exp1 | holdout | 9.88 % |
 | Exp3 | holdout | 8.60 % |
 
-A fixed bleed would give a shortfall proportional to circulating flow; a model deficiency would give one proportional to evaporation. Regressing the residual on each gives R² = -0.06 and 0.06 respectively -- neither explains it. What does fit the pattern is that the model matches the campaign it was identified on and not the two it was not, which is the same campaign-to-campaign movement already documented in the fill characteristic (section 5.1, a 21 % spread in the identified coefficient over four years).
+A fixed bleed would give a shortfall proportional to circulating flow; a model deficiency would give one proportional to evaporation. Regressing the residual on each gives R² = -0.06 and 0.06 respectively -- neither explains it. What does fit the pattern is that the model matches the campaign it was identified on and not the two it was not, which is the same campaign-to-campaign movement already documented in the fill characteristic (section 5.1, a 16 % spread in the identified coefficient over four years).
 
 **The cause is now established, by a test that could have failed.** Two explanations were possible: an unaccounted bleed in the measured channel, which is total water consumption and would include one; or the fill characteristic drifting between campaigns, which is already documented in the thermal channel. They make opposite predictions. Re-identifying the fill law on each campaign separately cannot help if the shortfall is a bleed, because a bleed is a term the model does not contain -- but it should close the gap almost entirely if the cause is drift.
 
@@ -89,6 +89,8 @@ A fixed bleed would give a shortfall proportional to circulating flow; a model d
 |---|---|---|---|---|
 | Exp1 | 1.5320 | -0.6015 | 0.280 K | 6.55 % |
 | Exp2 | 1.2401 | -0.5014 | 0.454 K | 7.80 % |
+
+These fits are the sea-level ones, from before defect 79: `results/v2_diagnosis.json` has no generator (register defect 74) and was not re-derived. `drift.py`, which is, re-identifies each campaign at the 95.5 kPa site pressure and gives Exp1 6.40 % and Exp2 7.42 % evaporation MAPE, worst 7.42 %.
 
 **Every campaign falls inside the 8 % gate once its own fill law is used** -- worst case 7.80 %. The bleed hypothesis is rejected: a bleed would have been untouched by re-identification. The identified fill coefficient moves 23.5 % across the 2 campaigns, which is the same drift already measured in the thermal channel and is now confirmed independently in the water channel.
 
@@ -131,7 +133,7 @@ The same hourly file finally puts a number on the largest open item in this pack
 
 **40.5 % of a Dhahran year -- 3,551 of 8,760 hours -- is above that ceiling**, rising to 84 % of hours in September, with an annual maximum wet-bulb of 34.6 °C.
 
-![Fig. 4](C:/Users/Nouman/Desktop/Furqan's Docs/Startup/mizan/figs/wetbulb_gap.png)
+![Fig. 4](E:/Startup/mizan/figs/wetbulb_gap.png)
 
 **Fig. 4.** Dhahran monthly wet-bulb against the ceiling of the validation dataset and the ASHRAE 1 % design condition. The shaded region is the part of the year the model has never been tested in.
 
@@ -157,31 +159,31 @@ The same calculation carries its own caveat: only **59.5 %** of the year, counte
 
 ## 5. Model selection — why the fill law has two parameters
 
-The identified fill law fits the training campaign with a log-space R² of 0.372. That is low enough to deserve an answer rather than a footnote, and there are only two possible explanations: the functional form is too poor, or the scatter is experimental and no form will fit it better.
+The identified fill law fits the training campaign with a log-space R² of 0.585. That is low enough to deserve an answer rather than a footnote, and there are only two possible explanations: the functional form is too poor, or the scatter is experimental and no form will fit it better.
 
 Five candidate forms were fitted on the training campaign alone and scored by forward outlet-temperature prediction on the untouched holdout. R² is reported for interest but is not the selection criterion — a form can raise R² on the Merkel number and still predict temperature worse, and temperature is the quantity that matters.
 
 | Form | Params | Train R² | Holdout MAE | Holdout RMSE |
 |---|---|---|---|---|
-| A: ratio only  Me=c(mw/ma)^n **(adopted)** | 2 | 0.372 | 0.600 K | 0.720 K |
-| B: separate flows  Me=c*mw^a*ma^b | 3 | 0.382 | 0.726 K | 0.885 K |
-| C: ratio + inlet temp | 3 | 0.372 | 0.608 K | 0.726 K |
-| D: separate flows + inlet temp | 4 | 0.382 | 0.734 K | 0.893 K |
-| E: separate flows + wet bulb | 4 | 0.506 | 0.608 K | 0.811 K |
+| A: ratio only  Me=c(mw/ma)^n **(adopted)** | 2 | 0.585 | 0.542 K | 0.614 K |
+| B: separate flows  Me=c*mw^a*ma^b | 3 | 0.591 | 0.639 K | 0.723 K |
+| C: ratio + inlet temp | 3 | 0.593 | 0.621 K | 0.705 K |
+| D: separate flows + inlet temp | 4 | 0.598 | 0.721 K | 0.816 K |
+| E: separate flows + wet bulb | 4 | 0.648 | 0.536 K | 0.652 K |
 
 Two results follow, and both are reported because both are informative.
 
 **Adding flow terms raises training R² while making holdout prediction worse.** That is overfitting demonstrated rather than asserted, and it answers the R² question directly: the scatter is experimental, not a deficient functional form.
 
-**The adopted form also scores best on the holdout.** A: ratio only  Me=c(mw/ma)^n reaches 0.600 K, and the closest rival is 0.608 K. That was NOT true on the 50-row holdout, where a wet-bulb form scored 0.517 K against the adopted law's 0.542 K and was rejected on the physical argument below alone. De-duplicating the holdout (defect 51) removed 18 repeated measurements and one training row, and the ranking changed with them. The physical argument is unchanged and is still the reason for the choice — it simply no longer costs anything.
+**The form that scores best on MAE was rejected.** E: separate flows + wet bulb reaches 0.536 K against 0.542 K for the adopted law — a gain of 0.006 K on a ~0.5 K error. It reduces typical error and increases large error, which is a differently-shaped error distribution rather than a better model.
 
 The deciding objection is physical, not statistical. A Merkel number is a property of the fill's heat-and-mass-transfer geometry. Ambient wet-bulb is an operating condition. Admitting it to the fill law lets the regression absorb the training climate into what is supposed to be equipment physics — and the training climate is not ours:
 
-- training wet-bulb range: **4.3 – 21.9 °C**
+- training wet-bulb range: **4.1 – 22.3 °C**
 - Gulf design wet-bulb: **30.3 °C**
-- extrapolation beyond the fitted range: **+8.4 K**
+- extrapolation beyond the fitted range: **+8.0 K**
 
-The fitted wet-bulb exponent would predict roughly 14 % different transfer capability at Gulf design wet-bulb, on no supporting data — extrapolating hardest exactly where the product is intended to operate. The two-parameter law is retained.
+The fitted wet-bulb exponent would predict 9 % different transfer capability at Gulf design wet-bulb, on no supporting data — extrapolating hardest exactly where the product is intended to operate. The two-parameter law is retained.
 
 ### How large is the residual, and what causes it?
 
@@ -189,24 +191,24 @@ A model error is meaningless without the experiment's own uncertainty beside it.
 
 | Quantity | Value |
 |---|---|
-| u(predicted outlet T), from input uncertainty | 0.182 K |
+| u(predicted outlet T), from input uncertainty | 0.177 K |
 | u(measured outlet T), Pt100 | 0.104 K |
-| combined standard uncertainty u_c | 0.211 K |
-| expanded uncertainty U (k=2, ~95 %) | 0.421 K |
-| **model MAE on the same points** | **0.594 K** |
-| MAE / u_c | **2.82** |
+| combined standard uncertainty u_c | 0.206 K |
+| expanded uncertainty U (k=2, ~95 %) | 0.412 K |
+| **model MAE on the same points** | **0.527 K** |
+| MAE / u_c | **2.56** |
 | points agreeing within U (k=2) | 38 % |
 
 **This is a negative result and it is reported as one.** The model does not agree with the experiment to within measurement uncertainty; it is about two and a half times outside it, with a systematic holdout bias rather than symmetric scatter. Something real is being missed.
 
 The cause was then isolated. If the deficiency were in the model form, it would persist within a single campaign. If the fill characteristic drifts — the campaigns span October 2019 to October 2023, and fill fouls and degrades — the error would appear only across campaigns.
 
-- mean **within**-campaign MAE: **0.367 K** (1.74 x u_c), bias essentially zero
-- mean **across**-campaign MAE: **0.547 K** (2.60 x u_c)
-- drift penalty: **+0.180 K**
-- identified fill coefficient across campaigns: **1.241 to 1.532**, a spread of **21.0 %**
+- mean **within**-campaign MAE: **0.368 K** (1.79 x u_c), bias essentially zero
+- mean **across**-campaign MAE: **0.511 K** (2.48 x u_c)
+- drift penalty: **+0.143 K**
+- identified fill coefficient across campaigns: **1.173 to 1.372**, a spread of **15.6 %**
 
-**Both effects are present, and the honest verdict is mixed.** Within a campaign the model is nearly unbiased and sits at 1.74 times the measurement uncertainty — close to the floor but not at it, so a genuine modelling residual remains. Across campaigns a further 0.180 K appears, and the identified fill coefficient moves by a fifth over four years.
+**Both effects are present, and the honest verdict is mixed.** Within a campaign the model is nearly unbiased and sits at 1.79 times the measurement uncertainty — close to the floor but not at it, so a genuine modelling residual remains. Across campaigns a further 0.143 K appears, and the identified fill coefficient moves by 16 % over four years.
 
 **The drift finding has a direct product consequence.** A cooling-tower fill characteristic is not a constant. A controller that assumes a fixed characteristic will degrade silently in service as the fill fouls. Periodic recalibration against the plant's own telemetry is therefore a functional requirement of the product, not a commercial add-on — and this dataset is the evidence for it.
 
@@ -224,11 +226,11 @@ Makeup water is a published Saudi treated-sewage-effluent analysis (TDS 1500 mg/
 
 The relative gap is stable at about 15.6 % across the whole condenser operating range. That gap is the margin a plant believes it has and does not. The silica ceiling itself moves seasonally, as Fig. 1 shows, while industry practice holds it fixed.
 
-![Fig. 1](C:/Users/Nouman/Desktop/Furqan's Docs/Startup/mizan/figs/silica_seasonal.png)
+![Fig. 1](E:/Startup/mizan/figs/silica_seasonal.png)
 
 **Fig. 1.** Amorphous silica ceiling against tower-basin temperature, from the PHREEQC SiO2(a) constant, compared with the static 150 mg/L industry rule.
 
-![Fig. 2](C:/Users/Nouman/Desktop/Furqan's Docs/Startup/mizan/figs/silica_wall.png)
+![Fig. 2](E:/Startup/mizan/figs/silica_wall.png)
 
 **Fig. 2.** Highest safe cycles of concentration against makeup silica, with the Saudi brackish range and industry practice band marked.
 
@@ -380,7 +382,7 @@ At 4 cycles, with Gulf TSE loops running pH 8.5–9.0:
 
 **The same tower, same water, same pH, deposits at high load and does not at low load**, because the skin runs hotter. A fixed pH setpoint cannot express that, and neither can a fixed conductivity setpoint. Fig. 3 shows the envelope.
 
-![Fig. 3](C:/Users/Nouman/Desktop/Furqan's Docs/Startup/mizan/figs/mg_silicate_envelope.png)
+![Fig. 3](E:/Startup/mizan/figs/mg_silicate_envelope.png)
 
 **Fig. 3.** Magnesium silicate deposition envelope. Brucite saturation pH at the condenser skin, against bulk pH. Aramco reclaimed water with 26.8 mg/L silica at four cycles.
 

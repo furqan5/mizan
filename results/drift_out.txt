@@ -1,21 +1,21 @@
 Is the residual model deficiency, or fill drift?
-combined measurement uncertainty u_c = 0.211 K (expanded U = 0.421 K)
+combined measurement uncertainty u_c = 0.206 K (expanded U = 0.412 K)
 
 WITHIN campaign (fitted and scored on the same campaign):
-  Exp1  n= 33  MAE=0.280 K  bias=-0.043  MAE/u_c=1.33  c=1.532 n=-0.602
-  Exp2  n=114  MAE=0.454 K  bias=-0.052  MAE/u_c=2.16  c=1.241 n=-0.502
+  Exp1  n= 33  MAE=0.292 K  bias=-0.054  MAE/u_c=1.41  c=1.372 n=-0.643
+  Exp2  n=114  MAE=0.444 K  bias=-0.014  MAE/u_c=2.16  c=1.173 n=-0.595
 
 ACROSS campaigns (fitted on one, scored on another):
-  Exp1 -> Exp2  n=114  MAE=0.510 K  bias=-0.286  MAE/u_c=2.42
-  Exp2 -> Exp1  n= 33  MAE=0.584 K  bias=+0.466  MAE/u_c=2.77
+  Exp1 -> Exp2  n=114  MAE=0.495 K  bias=-0.262  MAE/u_c=2.40
+  Exp2 -> Exp1  n= 33  MAE=0.527 K  bias=+0.388  MAE/u_c=2.56
 
-  mean WITHIN-campaign MAE : 0.367 K  (1.74 x u_c)
-  mean ACROSS-campaign MAE : 0.547 K  (2.60 x u_c)
-  drift penalty            : +0.180 K
+  mean WITHIN-campaign MAE : 0.368 K  (1.79 x u_c)
+  mean ACROSS-campaign MAE : 0.511 K  (2.48 x u_c)
+  drift penalty            : +0.143 K
 
-  identified fill coefficient c across campaigns: 1.241 to 1.532  (spread 21.0 % of mean)
-  identified exponent n across campaigns:         -0.602 to -0.502
+  identified fill coefficient c across campaigns: 1.173 to 1.372  (spread 15.6 % of mean)
+  identified exponent n across campaigns:         -0.643 to -0.595
 
   VERDICT: MIXED. Within-campaign error is above the measurement uncertainty but the across-campaign penalty is also material; both effects are present.
 
-written -> C:\Users\Nouman\mizan-wt\fixround\results\drift.json
+written -> E:\Startup\mizan\results\drift.json

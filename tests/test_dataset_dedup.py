@@ -91,12 +91,20 @@ def test_calibrate_scores_the_leak_free_split():
 
 def test_the_rescore_matches_its_preregistration():
     """Pre-registered: training unchanged so the fill law must not move;
-    holdout 32; thresholds unchanged; the diagnostic is labelled as one."""
+    holdout 32; thresholds unchanged; the diagnostic is labelled as one.
+
+    Defect 79 moved the reported fill law, deliberately: it is now fitted at
+    the site pressure. The defect-51 invariant was a statement about the
+    sea-level computation, and it is held there, on the reference the same
+    run re-derives at 101,325 Pa."""
     cal = json.loads((ROOT / "results" / "calibration.json").read_text())
+    ref = json.loads((ROOT / "results"
+                      / "calibration_sea_level_reference.json").read_text())
     assert cal["thresholds"] == {"V1_Tout_MAE_K": 1.0, "V1_Tout_MAE_target_K": 0.5,
                                  "V1_Q_MAPE_pct": 6.0, "V2_evap_MAPE_pct": 8.0}
-    assert cal["fill_c"] == pytest.approx(1.2400648125849212, abs=1e-12)
-    assert cal["fill_n"] == pytest.approx(-0.5013981003349164, abs=1e-12)
+    assert ref["p_Pa"] == 101325.0
+    assert ref["fill_c"] == pytest.approx(1.2400648125849212, abs=1e-12)
+    assert ref["fill_n"] == pytest.approx(-0.5013981003349164, abs=1e-12)
     assert cal["TRAIN"]["n_points"] == 115
     assert cal["HOLDOUT"]["n_points"] == 32
     assert cal["data"]["duplicate_rows_removed"] == 18

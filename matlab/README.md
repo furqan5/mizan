@@ -173,11 +173,11 @@ None was a physics error. All three were the kind of thing a physical model refu
 
 | | Job | Result |
 |---|---|---|
-| **Curve Fitting** | confidence bounds on the fill law | c = 1.2741, 95 % CI [1.2312, 1.3170] — the 21 % drift seen across campaigns is **wider than** a single campaign's interval, so it is a real physical change, not fitting noise |
-| **System Identification** | the loop's real time constant | τ = 513 s at a 99.9 % fit, against 314 s from inventory alone. The 1.6× gap is the condenser feedback, and it is the same coupling this product exists to price |
-| **Control System** | a PI and its margins | Kp = -15.40, Ki = -0.09005, phase margin 60° |
+| **Curve Fitting** | confidence bounds on the fill law | c = 1.2050, 95 % CI [1.1642, 1.2457] — the 16 % drift seen across campaigns is **wider than** a single campaign's interval, so it is a real physical change, not fitting noise (re-run 21 Oct 2026 on the site-pressure fill law, defect 79; it was c = 1.2741 and a 21 % drift at sea level) |
+| **System Identification** | the loop's real time constant | τ = 529 s at a 99.9 % fit, against 314 s from inventory alone. The 1.7× gap is the condenser feedback, and it is the same coupling this product exists to price |
+| **Control System** | a PI and its margins | Kp = -14.07, Ki = -0.07976, phase margin 60° |
 | **MPC** | the chiller ceiling as a **hard** constraint | entering condenser water capped at 35.0 °C. This is the constraint the optimiser once walked straight through; a PI cannot express it |
-| **Optimization** | replace the grid search | finds a better point, but is **8× slower** against the exact physics |
+| **Optimization** | replace the grid search | finds a better point, but is **about 9× slower** against the exact physics |
 
 That last result is reported as it came out. A gradient method estimates derivatives by finite differences, so each step costs several full physics solves, and one solve is a bracketed root find over an RK4 integration. **Optimisation does not beat a grid search until the objective is cheap to differentiate** — which is the argument for the physics-informed surrogate, and the reason it exists.
 

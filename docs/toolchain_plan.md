@@ -142,11 +142,11 @@ Result: basin 26.9–32.4 °C, tube skin 38.4–46.2 °C, scale limit moving ove
 
 | Toolbox | Job | Result |
 |---|---|---|
-| Curve Fitting | confidence bounds on the fill law | c = 1.2741, 95 % CI [1.2312, 1.3170]. The 21 % drift across campaigns is **wider than** one campaign's interval, so it is physical, not fitting noise |
-| System Identification | the loop's real time constant | τ = 513 s at 99.9 % fit, vs 314 s from inventory alone. The 1.6× gap is the condenser feedback |
-| Control System | a PI and its margins | Kp -15.40, Ki -0.09005, phase margin 60° |
+| Curve Fitting | confidence bounds on the fill law | c = 1.2050, 95 % CI [1.1642, 1.2457]. The 16 % drift across campaigns is **wider than** one campaign's interval, so it is physical, not fitting noise (re-run 21 Oct 2026 after defect 79; c = 1.2741 and 21 % at sea level) |
+| System Identification | the loop's real time constant | τ = 529 s at 99.9 % fit, vs 314 s from inventory alone. The 1.7× gap is the condenser feedback |
+| Control System | a PI and its margins | Kp -14.07, Ki -0.07976, phase margin 60° |
 | Model Predictive Control | the chiller ceiling as a **hard** constraint | entering condenser water capped at 35.0 °C — the constraint the optimiser once walked straight through |
-| Optimization | replace the grid search | finds a better point but is **8× slower** against the exact physics |
+| Optimization | replace the grid search | finds a better point but is **about 9× slower** against the exact physics |
 
 That last line is reported as it came out. A gradient method estimates derivatives by finite differences, so each step costs several full physics solves. **Optimisation does not beat a grid search until the objective is cheap to differentiate** — which is the argument for the surrogate, and the reason it exists.
 

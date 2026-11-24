@@ -38,9 +38,15 @@ score it is later graded on.
 Gate V1  thermal   outlet water temperature MAE <= 1.0 K (target 0.5 K)
                    heat-rejection MAPE            <= 6 %
 Gate V2  water     evaporation vs measured water loss MAPE <= 8 %
+
+DEFECT 79 (21 Oct 2026): every row used to be solved at the psychrometric
+default of 101,325 Pa, but the tower stands about 500 m up. The site pressure
+is now passed to every psychrometric and tower call. Pre-registered in
+docs/staged/almeria_site_pressure_preregistration.md before it was run.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import pathlib
 import sys
@@ -69,15 +75,27 @@ THRESHOLDS = {
 TRAIN_CAMPAIGNS = ["Exp2"]
 TEST_CAMPAIGNS = ["Exp1", "Exp3"]
 
+# ----- SITE PRESSURE (defect 79) ------------------------------------------
+# The dataset records no barometric pressure, so it comes from the altitude.
+# Elevation: Solargis s.r.o., "Solar Resource Overview", report SG-01-2016,
+# site "Plataforma Solar de Almeria, Spain", 37.094416 N 2.359850 W, issued
+# 22 Jan 2019: 497 m a.s.l. Pressure: ASHRAE Fundamentals 2017 Ch.1 Eq. (3),
+# the standard atmosphere, as weather_sensitivity.py uses for Dhahran. One
+# constant for every row; the weather's +/-1 kPa is not in the data.
+PSA_ELEVATION_M = 497.0
+PSA_PRESSURE_PA = 101325.0 * (1.0 - 2.25577e-5 * PSA_ELEVATION_M) ** 5.2559
+PREREGISTRATION = (pathlib.Path(__file__).resolve().parents[1] / "docs"
+                   / "staged" / "almeria_site_pressure_preregistration.md")
 
-def demanded_merkel(df):
+
+def demanded_merkel(df, p=PSA_PRESSURE_PA):
     """Merkel number demanded by each measured point (measurements only)."""
     Me, LG, evap, ok = [], [], [], []
     for r in df.itertuples():
         m_a = float(tw.air_mass_flow_from_fan(r.w_fan))
-        w_in = float(ps.humidity_ratio_from_rh(r.Tamb, r.rh))
+        w_in = float(ps.humidity_ratio_from_rh(r.Tamb, r.rh, p))
         res = tw.integrate_poppe(float(r.Tout), float(r.Tin), float(r.Tamb),
-                                 w_in, float(r.m_w), m_a)
+                                 w_in, float(r.m_w), m_a, p=p)
         if res is None or res["Me"] <= 0 or not np.isfinite(res["Me"]):
             Me.append(np.nan); LG.append(np.nan); evap.append(np.nan); ok.append(False)
         else:
@@ -97,14 +115,14 @@ def fit_fill_law(Me, LG, ok):
     return float(np.exp(log_c)), float(n), float(r2)
 
 
-def predict(df, c, n):
+def predict(df, c, n, p=PSA_PRESSURE_PA):
     """Forward-predict outlet temperature and evaporation."""
     T_out, evap, ok = [], [], []
     for r in df.itertuples():
         m_a = float(tw.air_mass_flow_from_fan(r.w_fan))
         t, info = tw.solve_outlet_temperature(float(r.Tin), float(r.Tamb),
                                               float(r.rh), float(r.m_w),
-                                              m_a, c, n)
+                                              m_a, c, n, p=p)
         if info is None:
             T_out.append(np.nan); evap.append(np.nan); ok.append(False)
         else:
@@ -140,6 +158,8 @@ def main():
     for k, v in THRESHOLDS.items():
         print(f"   {k:26s} {v}", flush=True)
     print(f"   train {TRAIN_CAMPAIGNS}   holdout {TEST_CAMPAIGNS}", flush=True)
+    print(f"   site pressure {PSA_PRESSURE_PA:.1f} Pa ({PSA_ELEVATION_M:.0f} m, "
+          f"standard atmosphere; defect 79)", flush=True)
     print("=" * 74, flush=True)
 
     # DEFECT 51 (staged). The files concatenate to 165 rows of which 147 are
@@ -163,6 +183,24 @@ def main():
     print(f"train n={len(train)}   holdout n={len(test)} (never seen during fit)\n",
           flush=True)
 
+    # DEFECT 79. The superseded sea-level result, re-derived by this same code
+    # so the before and the after come from one run. It goes to a file of its
+    # own: the audit treats every float in calibration.json as a live figure,
+    # and would stop catching documents that still quote these.
+    Me0, LG0, _, ok0 = demanded_merkel(train, p=ps.P_ATM)
+    c0, n0, r20 = fit_fill_law(Me0, LG0, ok0)
+    ref = {"NOT_A_GATE": "superseded by defect 79; the pre-fix sea-level result",
+           "p_Pa": ps.P_ATM, "fill_c": c0, "fill_n": n0, "fit_r2": r20,
+           "n_fitted": int(ok0.sum())}
+    for label, d in (("TRAIN", train), ("HOLDOUT", test)):
+        ref[label] = metrics(d, *predict(d, c0, n0, p=ps.P_ATM))
+    (RESULTS / "calibration_sea_level_reference.json").write_text(
+        json.dumps(ref, indent=2), encoding="utf8")
+    print(f"sea-level reference (superseded, not a gate): Me = {c0:.4f} * "
+          f"(m_w/m_a)^({n0:.4f}); holdout MAE {ref['HOLDOUT']['Tout_MAE_K']:.3f} K, "
+          f"Q {ref['HOLDOUT']['Q_MAPE_pct']:.2f} %, "
+          f"evap {ref['HOLDOUT']['evap_MAPE_pct']:.2f} %\n", flush=True)
+
     t0 = time.time()
     Me, LG, _, ok = demanded_merkel(train)
     c, n, r2 = fit_fill_law(Me, LG, ok)
@@ -171,7 +209,16 @@ def main():
           f"log-space R2 = {r2:.4f}   [{time.time()-t0:.1f}s]\n", flush=True)
 
     out = {"fill_c": c, "fill_n": n, "fit_r2": r2, "thresholds": THRESHOLDS,
-           "train_campaigns": TRAIN_CAMPAIGNS, "test_campaigns": TEST_CAMPAIGNS}
+           "train_campaigns": TRAIN_CAMPAIGNS, "test_campaigns": TEST_CAMPAIGNS,
+           "site_pressure": {
+               "p_Pa": PSA_PRESSURE_PA, "elevation_m": PSA_ELEVATION_M,
+               "elevation_source": "Solargis report SG-01-2016, Plataforma "
+                                   "Solar de Almeria, 22 Jan 2019",
+               "pressure_formula": "ASHRAE Fundamentals 2017 Ch.1 Eq. (3)",
+               "preregistration": "docs/staged/almeria_site_pressure_preregistration.md",
+               "preregistration_sha256": hashlib.sha256(
+                   PREREGISTRATION.read_bytes()).hexdigest(),
+               "sea_level_reference": "results/calibration_sea_level_reference.json"}}
 
     for label, d in (("TRAIN", train), ("HOLDOUT", test)):
         T_out, evap, okp = predict(d, c, n)

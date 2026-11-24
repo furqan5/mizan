@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Seventy-six found, sixty-four fixed, twelve open.
+## Part 1 — Defects. Seventy-seven found, sixty-five fixed, twelve open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -82,7 +82,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 | 35 | **The ceiling was reported as an operating limit when it is only a scaling limit** | AlMajnouni & Jaffer (Saudi Aramco, NACE Paper 577) conclude of the Riyadh Refinery TSE analysis: *"the cycles of concentration should be limited to 4 at a maximum pH of 8.0."* The engine returns **6.56 cycles** at pH 8.0 on that exact water, binding calcite. Their 4 carries margin the model does not: process leaks of amines and hydrocarbons, a named inhibitor programme, and a corrosion objective alongside the scaling one. But **being more permissive than the plant operator is the direction that scales a condenser**, and the `SI_calcite` limit of 2.0 (saturation ratio 100) is the most likely place the difference sits. | **Fixed** -- 11 Sep 2026, resolved as a CATEGORY DIFFERENCE rather than a numerical error. Working back from Aramco's own figure: at 4 cycles and pH 8.0 the engine puts that water at calcite SR 42.5 (SI 1.63), so their practical tolerance is SI 1.6-1.7 against a PUBLISHED INHIBITED BAND of SR 135-150 (SI 2.13-2.18). They operate three times more conservatively than the inhibitor chemistry requires, and their own paper says why -- *"process leaks consisting of amines and hydrocarbons prevented an increase in cycles of concentration **due to increased turbidity**"*, plus corrosion as a competing objective and no acid by design. **The engine computes a SCALING ceiling; they set an OPERATING ceiling, which is the minimum over six constraints this model does not compute.** Fixed by relabelling the output and adding `CONSTRAINTS_NOT_MODELLED` and `scaling_ceiling_caveat()`, not by moving a thermodynamic limit to match one site's housekeeping |
 
-| 34 | **Every headline number was a point estimate, and the instrument producing them fails its own gate** | Gate V7 cleared a 15.00 % threshold at **15.01 %** and was reported as a pass. A 0.01-point margin means something only if the error is smaller than 0.01 points, and **nothing in the package had ever computed the error on a water result**. Meanwhile gate V2 scores the evaporation model at 9.90 % MAPE against an 8 % threshold and FAILS — 10.80 % since defect 51 de-duplicated the holdout — and makeup water is computed from evaporation, so every water number inherits that. Diagnosed by decomposing the residual per campaign as `rel = a + k·fan`: the **offset** `a` varies −14.6 to +9.1 pp and **cancels** in a ratio, but the **slope** `k` runs −0.366 to +0.187 %/fan% and does **not**, because baseline and optimised run at different fan speeds. Its sign is not even consistent between campaigns, so it cannot be corrected — only propagated. | **Fixed** — 11 Sep 2026. `scripts/gate_uncertainty.py` propagates the measured residual structure. **V7 = 15.01 %, 95 % interval 1.0 to 22.8, P(true ≥ 15 %) = 0.41. V5 = 4.38 %, interval −11.2 to +13.1** — which includes the optimiser using *more* water than the baseline. Held by `tests/test_gate_uncertainty.py`, which recomputes the error model from the raw dataset rather than trusting typed constants |
+| 34 | **Every headline number was a point estimate, and the instrument producing them fails its own gate** | Gate V7 cleared a 15.00 % threshold at **15.01 %** and was reported as a pass. A 0.01-point margin means something only if the error is smaller than 0.01 points, and **nothing in the package had ever computed the error on a water result**. Meanwhile gate V2 scores the evaporation model at 9.90 % MAPE against an 8 % threshold and FAILS — 10.80 % since defect 51 de-duplicated the holdout, and 10.02 % since defect 79 corrected the site pressure — and makeup water is computed from evaporation, so every water number inherits that. Diagnosed by decomposing the residual per campaign as `rel = a + k·fan`: the **offset** `a` varies −14.6 to +9.1 pp and **cancels** in a ratio, but the **slope** `k` runs −0.366 to +0.187 %/fan% and does **not**, because baseline and optimised run at different fan speeds. Its sign is not even consistent between campaigns, so it cannot be corrected — only propagated. | **Fixed** — 11 Sep 2026. `scripts/gate_uncertainty.py` propagates the measured residual structure. **V7 = 15.01 %, 95 % interval 1.0 to 22.8, P(true ≥ 15 %) = 0.41. V5 = 4.38 %, interval −11.2 to +13.1** — which includes the optimiser using *more* water than the baseline. Held by `tests/test_gate_uncertainty.py`, which recomputes the error model from the raw dataset rather than trusting typed constants |
 
 | 33 | **Every ceiling in the package was a saturation limit, and the operator's real ceiling is often the discharge permit** | The engine computed how far a water could be concentrated before a mineral precipitated, and nothing else. Blowdown has to go somewhere and where it goes has a consent. **The controller could therefore recommend an operating point that breaches the permit, and would have reported it as optimal.** Measured on the validated makeup analysis against RCER-2015 (Royal Commission for Jubail and Yanbu): the scaling ceiling is **5.02 cycles**, the Table 3C discharge ceiling is **1.00 cycles** — the permit binds **five times harder than the chemistry**, and the makeup water breaches total phosphorus *before it is concentrated at all* (8 mg/L PO₄ = **2.61 mg/L as P** against a 2.0 maximum and a 1.0 monthly average). Found while reading RCER-2015 after the acid-ban clause turned up. | **Fixed** — 11 Sep 2026. `src/discharge.py` carries RCER Table 3C and Table 3B (Jubail), and `binding_ceiling()` returns `min(scaling, discharge)` with the binding parameter named. Both ceilings are always reported; neither is discarded. Held by `tests/test_discharge.py` |
 
@@ -130,6 +130,8 @@ a silent gap.
 | 77 | **The canonical Poppe integration stops closing energy the moment the exit air fogs, and half the calibration dataset is in that region** | The independent review's first thermal run kept this failure instead of repairing it, and it reproduces here against `src/tower.py` at the condition it registered: 38 °C hot liquid, 25 °C air, 85 % RH, 101325 Pa, 100 kg/s hot liquid, 75 kg/s dry air, fill `c = 1`, `n = 0.6`. The historical temperature-coordinate solver misses air/liquid energy closure by **1.8373 kW** against a registered tolerance of 1e-6 kW plus 1e-5 of the duty, which is 0.0356 kW on the 3562.3 kW closing duty — **more than fifty times the bar**. It is not a step-size error: 160 against 320 RK4 steps moves the outlet by **1.29e-09 K**. It is a regime boundary. The effective air heat capacity is discontinuous where the air saturates, so at the same condition RH 0.20–0.60 closes to within **2.15e-05 kW** and RH 0.70–0.95 fails at **1.84–3.04 kW**, switching on exactly when the exit air fogs. **Published results are inside the region.** On the 147-row field-validated calibration dataset at the published fill law (`c = 1.2401`, `n = −0.5014`), **70 rows leave the air fogged and all 70 exceed the tolerance**, worst residual 0.11854 kW on a ≤223.2 kW duty. The outlet temperature the calibration is scored on moves by more than 0.1 K on 7 rows and more than 1 K on 2, worst **2.5382 K**, and at fixed fill law the forward-prediction MAE goes **0.4856 → 0.5061 K**, RMSE **0.6431 → 0.6807 K** and bias **+0.0635 → +0.0415 K** | **OPEN** — the corrected coordinates are ported and they pass, but the default is deliberately unchanged. `tower.integrate_poppe_conservative` integrates humidity and Merkel number against the exact differential invariants `m_w = m_cold + m_a(w − w_in)` and `h_a = h_in + (m_w·CPW·T_w − m_cold·CPW·T_wo)/m_a`, recovering air temperature from the same moist/fog enthalpy relation rather than integrating across the discontinuity, and it closes the registered case to **−2.93e-06 kW**. It is reached only through `solve_outlet_temperature(..., conservative_energy=True)`, so no published number moves silently. What would close this row is a decision and a re-run, not an edit: the fill law has to be re-fitted on the corrected integrator and every artefact beneath it regenerated. The shift above is reported at the PUBLISHED fill law and is therefore an exposure measurement, not a new calibration. Held by `review_tests/test_thermal_dynamics.py` |
 
 | 78 | **Every caller evaluates the hot skin at the bulk pH, which silently adds alkalinity to the water** | `chemistry.MINERAL_EVAL_POINT` sends calcite, gypsum and tricalcium phosphate to the hot skin, and `saturation_state_split` takes a separate `pH_hot` and `pH_cold` for exactly that reason. Every production caller passes the same number to both: `controller.py:296` and `:565`, `scripts/ceiling_report.py:163`, `sidestream.ceiling_with` whenever a pH is supplied, `incumbent_gap.py:239`, `cdu_hybrid.py:248`, `cdu_hybrid_rescore.py:42` and `models/cdu_model.py:179`. It is not an oversight in one call site — **the engine carries no CO₂(aq) species and no proton balance, so pH cannot respond to heating at all.** `max_cycles_split` does re-close pH, by **atmospheric CO₂ equilibrium at each point**, which is the open-system assumption and is the wrong one inside a condenser tube: a single pass exchanges no CO₂ with air. What a heated pass conserves is DIC and alkalinity, and neither convention preserves them. Measured with the engine's own carbonate constants, a conserved pass moves pH DOWN as the water heats, so holding it at the bulk value **implies added alkalinity**: at the published ceiling-report point (45 °C skin, 32 °C basin, pH 8.25) the makeup implies **+8.9192e-06 eq/kgw** on `ARAMCO_FIELD_VALIDATED` and **+1.1774e-05** on `ARAMCO_RIYADH_REFINERY_TSE`, rising to **+2.7274e-05** and **+3.7861e-05 eq/kgw** at the respective fixed-pH ceilings. At the review's registered probe pair (25 → 55 °C, pH 7.4) this engine gives ΔpH **−0.0717** and **−0.0701** and adds **+2.2880e-05** and **+3.6120e-05 eq/kgw**; the review's PHREEQC closed-pass probe, on its own synthetic point, gives ΔpH −0.1102 and **+4.0192e-05 eq/kgw** — so this engine understates the shift by about a third, in the same direction as defect 53 | **OPEN**, and **the direction is the conservative one, so the thesis does not move.** Holding pH fixed OVERSTATES calcite supersaturation at the skin: SI_calcite is high by **0.0849** (field-validated makeup at 45 °C), **0.0723** (Riyadh makeup at 45 °C) and **0.0576** / **0.0539** at the respective ceilings. The current convention therefore understates the ceiling and can never inflate it. The repository's headline field-validated ceiling does not move at all — **5.0233 against 5.0233 cycles** — because amorphous silica binds there and silica is evaluated at the COLD basin, which this defect cannot reach. Where calcite binds it does move: the measured Riyadh refinery water's ceiling goes from **4.5171 to 4.9148 cycles**, **+0.3977**, calcite binding both ways, and at 55 °C / pH 7.4 from **13.8859 to 14.6442** with the binding mineral flipping from calcite to silica. Nothing is changed here. Closing this means giving the engine a real carbonate closure — DIC and alkalinity conserved through the heated pass, an explicit CO₂(aq) species, and a stated boundary for what the tower's air contact does to the recirculating bulk — which is a physics decision rather than an edit. It is registered before that decision, not after, because the quantity it moves is a ceiling |
+
+| 79 | **The calibration runs the Almería tower at sea-level pressure, about 500 m below where it stands** | Found 19 Oct 2026 while reviewing an outside plan to revive the package. `calibrate.predict` calls `tower.solve_outlet_temperature` without `p`, so every one of the 147 rows is solved at `psychro.P_ATM` = 101,325 Pa. The Plataforma Solar de Almería (Tabernas) stands at about 500 m, where the standard atmosphere gives about 95.5 kPa, 5.8 % lower; the dataset README states no barometric pressure, so the site value has to come from the altitude. At the same dry bulb and relative humidity the humidity ratio, and with it the air enthalpy that drives the Merkel integral, is understated: saturation at 25 °C is 20.08 g/kg at 101.3 kPa against 21.35 g/kg at 95.5 kPa, by `psychro.ws_scalar` (this cell first said 20.03 and 21.31, figures from outside this code). The fitted fill law (`c`, `n`) and every thermal gate scored from it (V1 outlet MAE 0.600 K, V1 heat rejection 6.27 %, V2 evaporation 10.80 %, all superseded below) carried this. Its effect on those figures was not measured when it was found | **Fixed** — 21 Oct 2026, re-scored once, exactly as pre-registered in `docs/staged/almeria_site_pressure_preregistration.md`, which was written before the run; its SHA-256 is stored in `results/calibration.json` beside the result and checked by `tests/test_site_pressure.py`. Site pressure **95,495 Pa**: 497 m (Solargis site report SG-01-2016) through the ASHRAE 2017 Ch. 1 Eq. (3) standard atmosphere, one value for all 147 rows. `calibrate.demanded_merkel` and `calibrate.predict` take `p` and default to it; `fill_law.py` and `uncertainty.py` pass it; sea level stays the default everywhere else. The execution check came first: at 101,325 Pa the new code reproduces the stored fill law to 2e-16 and the holdout figures to 6e-11. Thresholds unchanged, split unchanged (115 / 32), fill-law form unchanged. **The fill law moves: c 1.2401 → 1.1729, n −0.5014 → −0.5951**, log-space R² 0.372 → 0.585, and 115 of 115 training rows now integrate (114 at sea level). **No verdict changes:** V1 outlet MAE **0.600 → 0.542 K, PASS either way**; V1 heat rejection **6.27 % → 6.09 %, FAIL either way**, 0.09 points above the bar; V2 evaporation **10.80 % → 10.02 %, FAIL either way**. The supersession table and what was not re-derived are under the 17 September tables. 0.542 K equals, to three decimals, the superseded 50-row figure of defect 51 (0.5418 here); it is a coincidence, not a reversion |
 
 **59 was never issued.** The branches reserved their number blocks in advance and
 one block was short by a row, so 59 was allocated and never used. It is recorded
@@ -182,11 +184,11 @@ here for the reader.
 
 | | before | after |
 |---|---|---|
-| V1 outlet water temperature MAE | 0.542 K | **0.600 K** (PASS either way) |
-| V1 heat rejection MAPE | 5.94 % | **6.27 %** (PASS → FAIL) |
-| V2 evaporation MAPE | 9.90 % | **10.80 %** (FAIL either way) |
+| V1 outlet water temperature MAE | 0.542 K | **0.600 K** (PASS either way; 0.542 K at the site pressure, defect 79) |
+| V1 heat rejection MAPE | 5.94 % | **6.27 %** (PASS → FAIL; 6.09 % at the site pressure, defect 79) |
+| V2 evaporation MAPE | 9.90 % | **10.80 %** (FAIL either way; 10.02 % at the site pressure, defect 79) |
 | Holdout rows | 50 | **32** |
-| Model MAE against propagated measurement uncertainty | 2.48 | **2.82** |
+| Model MAE against propagated measurement uncertainty | 2.48 | **2.82** (2.56 at the site pressure, defect 79) |
 
 **Defect 60 — the envelope split.** The hours moved from 5,475 / 3,285 to
 **5,209 / 3,551**.
@@ -245,6 +247,99 @@ $266,928 → $266,953; incumbent-gap Riyadh M 6.72 → 8.91 cycles.
 | P(V7 true ≥ 15 %) | 0.406 | **0.325** |
 | P(V7 true ≥ 20 %) | 0.094 | **0.072** |
 
+### Supersession table for defect 79, 21 October 2026
+
+The calibration re-fitted and re-scored at the Almería site pressure, 95,495 Pa,
+against the sea-level 101,325 Pa it had used. Both columns come from the same
+run of `src/calibrate.py`; the before column is also stored, outside the live
+artefact, in `results/calibration_sea_level_reference.json`. The rows below the
+gates are the diagnostics the pre-registration named, each run once after the
+verdict and unable to change it.
+
+| Defect 79 — the calibration at the site pressure | before | after |
+|---|---|---|
+| Fill coefficient c | 1.2401 | **1.1729** |
+| Fill exponent n | −0.5014 | **−0.5951** |
+| Fill-law log-space R² | 0.372 | **0.585** |
+| Training rows whose demanded-Merkel integration closes | 114 of 115 | **115 of 115** |
+| V1 outlet water temperature MAE (defect 79) | 0.600 K | **0.542 K** (PASS either way) |
+| V1 heat rejection MAPE (defect 79) | 6.27 % | **6.09 %** (FAIL either way) |
+| V2 evaporation MAPE (defect 79) | 10.80 % | **10.02 %** (FAIL either way) |
+| Holdout outlet bias | +0.488 K | **+0.404 K** |
+| Holdout evaporation bias | −10.09 % | **−8.82 %** |
+| Model MAE over combined measurement uncertainty | 2.82 | **2.56** |
+| Fill-coefficient spread between campaigns, `drift.py` (defect 79) | 20.97 % | **15.6 %** |
+| Across-campaign drift penalty | +0.180 K | **+0.143 K** |
+| Training wet-bulb range, `fill_law.py` | 4.3–21.9 °C | **4.1–22.3 °C** |
+| Extrapolation to the 30.3 °C Gulf design wet bulb | 8.4 K | **8.0 K** |
+
+Training rows for comparison: outlet MAE 0.454 → 0.441 K, heat rejection 7.48 →
+7.05 %, evaporation 7.80 → 7.38 %. Those are kept out of the table above on
+purpose. The sea-level 7.80 % is also the Exp2 entry of
+`results/v2_diagnosis.json`, which the rescore did not regenerate, and a row
+here would make the scan flag every document that quotes that diagnosis
+correctly. The holdout points inside U (k = 2) are 12 of 32 both ways, and u_c moves from
+0.211 to 0.206 K.
+
+**The wet-bulb edge moved outward, not inward.** At the site pressure each row's
+wet bulb is about 0.24 K lower. The upper end of the training range still rose,
+21.9 → 22.3 °C, because one training row (wet bulb 22.5 °C at sea level) failed its
+demanded-Merkel integration at sea level and closes at the site pressure, so it
+now counts. The 21.9 °C edge that cuts the annual bins (`ALMERIA_WB_MAX_C`) is
+not moved. It now sits inside the validated range, which is the conservative
+side.
+
+**The model-form comparison changed its ranking and not its decision.** At sea
+level the two-parameter law scored best on the holdout outright. At the site
+pressure the wet-bulb form E scores 0.536 K against the law's 0.542 K, with RMSE
+worse by 0.038 K. The rule already in `fill_law.py` rejects it, because wet bulb
+is an operating condition rather than a fill property and would extrapolate 8.0 K.
+The pre-registration held the form fixed whatever this showed. The script had
+also been printing a literal "MAE gain (0.025 K)" from an earlier holdout; it
+prints the computed 0.006 K now.
+
+### What the defect-79 rescore did NOT re-derive, and why
+
+These still carry the **sea-level fill law (c 1.2401, n −0.5014)**. Each is the
+defect-74 shape and is listed so that none of them reads as current physics.
+
+* **Every plant-scale artefact that reads `fill_c` and `fill_n`**:
+  `controller_summary.json` (V5: 3.91 % cost, 4.38 % water), `annual_dhahran.json`,
+  `annual_datacentre.json`, and the diurnal, CDU-hybrid, joint-policy,
+  incumbent-gap, corrosion-floor, ceiling-condition and skin-sensitivity studies.
+  So do `scripts/v7_baseline_sensitivity.py`'s outputs and the per-campaign
+  constants typed into `gate_uncertainty`. Re-running them is the "re-run every
+  artefact beneath it" job that defect 77 also needs, and doing it once for both
+  is cheaper than doing it twice. A future run of any of these scripts reads the
+  new law from `calibration.json`.
+* **`results/v2_diagnosis.json`**, which no script writes (defect 74). Its two
+  entries stay the sea-level per-campaign fits. `drift.py`'s site-pressure figures
+  are in the V2 section of Part 2.
+* **`src/pinn.py`**, not threaded and not re-run. The surrogate's P2 gate is
+  unscored (defect 71) and its checkpoint is not in the repository.
+* **The MATLAB twin's verification run** (`mizan_verify.m`) against the
+  regenerated `results/matlab_cases.json`. The case file was regenerated because
+  the audit binds it to the fill law to 1e-12, and `mizan_control_design.m` was
+  re-run in MATLAB R2024b for the same reason: its curve fit now gives c = 1.2050
+  against 1.1729, τ = 529 s. That script still prints a literal "21 % drift",
+  which is 15.6 % now. Its WIDER-than-the-interval conclusion holds either way.
+* **The cold-air finding of defect 42, and the Frankfurt tower-bypass advice built
+  on it.** The finding is that fan turndown alone cannot keep the water above the
+  silica floor in cold air; the four-region study puts it at 8 hours a day at
+  Frankfurt. `tests/test_defect_regressions.py` exhibits it at 16 °C and RH 0.62.
+  On the site-pressure law that point **reaches** the 31.76 °C floor, at 25.6 %
+  fan against a sea-level miss of 5.78 K, and so do 12, 10 and 8 °C. At sea level
+  the low-fan solves fail (`low_fan_unexplorable`), and the sea-level results are
+  not monotone in ambient: 12 °C reaches the floor while 10 and 16 °C do not. So
+  part of the finding may have been the solver's low-fan limit rather than the
+  tower. **It is not re-derived and is now unverified**, not withdrawn. The two
+  defect-42 tests test the reporting code path, so they are pinned to the
+  sea-level law the case was found under, which still exercises the unreachable
+  branch. Settling the finding needs the four-region run repeated on the new law.
+* **`src/make_deck.py`**. Regenerating `docs/deck_content.md` from it would revert
+  the 24 September OLI and brucite corrections, which were made in the document
+  and not in the generator. The three gate rows were edited by hand instead.
+
 ### What this round did NOT update, and why
 
 `docbuild/*.js` and `src/build_deck.js` are the generators for the PDF and PPTX
@@ -263,7 +358,7 @@ single piece of staleness left in the repository.
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
-**Open defects: twelve.** Seventy-six found, sixty-four fixed. The twelve open are
+**Open defects: twelve.** Seventy-seven found, sixty-five fixed. The twelve open are
 53 (the registered PHREEQC calcite benchmark fails at 89.1 % against a 90 %
 bar), 56 (the registered fail-safe empties the basin sooner during a makeup
 loss), 58 (two incompatible magnesium–silica rules, one basis chosen by fit),
@@ -276,11 +371,12 @@ Poppe integration stops closing energy once the exit air fogs, and 70 of 147
 calibration rows are in that region), and 78 (the hot skin is evaluated at the
 bulk pH, which implies added alkalinity — in the conservative direction).
 Nine of the twelve are open because closing them is a physics, specification or
-sourcing decision rather than an edit, and each row says which. **That is the
-largest open count this register has carried**, and it is the direct consequence
-of six branches looking at the package at once on 17 September and an
-independent review looking again on 21 September, rather than of anything new
-breaking.
+sourcing decision rather than an edit, and each row says which. Defect 79, found
+on 19 October, was closed on 21 October by the single re-fit and rescore it called
+for. **Twelve open is the most this register has carried apart from those two
+days**, and it is the direct consequence of six branches looking at the package
+at once on 17 September and an independent review looking again on 21 September,
+rather than of anything new breaking.
 
 ### Gate V2 is not passable on this dataset, and that is now measured
 
@@ -306,11 +402,12 @@ and each campaign has its own offset. The decisive number:
 >
 > *Both figures are superseded in their inputs by defect 51: the 165 includes 18
 > repeated measurements, and the out-of-sample score is **10.80 %** on the 32
-> distinct holdout rows.*
+> distinct holdout rows, **10.02 %** at the site pressure (defect 79).*
 
 **Both figures in that quotation predate defect 51 and are kept as written.**
-The 165 includes 18 repeated measurements, and the out-of-sample figure is now
-**10.80 %** on the 32 distinct holdout rows. The in-sample bound has not been
+The 165 includes 18 repeated measurements, and the out-of-sample figure was
+**10.80 %** on the 32 distinct holdout rows and is **10.02 %** at the site
+pressure (defect 79). Neither bound has been recomputed at the site pressure. The in-sample bound has not been
 recomputed on the 147 distinct rows, so no corrected version of it is quoted
 here; what the argument needs is that the bound sits below the threshold and the
 honest out-of-sample score sits above it, and de-duplication moved the
@@ -562,14 +659,15 @@ Both are now consistency checks against the artefacts rather than string compari
 
 ## Part 2 — Gate outcomes. Three pass, three fail, all diagnosed.
 
-Scored on the de-duplicated 32-row holdout (defect 51) and on the current
-controller. The thresholds are the ones fixed before fitting and none has moved.
+Scored on the de-duplicated 32-row holdout (defect 51), at the Almería site
+pressure (defect 79), and on the current controller. The thresholds are the ones
+fixed before fitting and none has moved.
 
 | Gate | Threshold, fixed before fitting | Result | |
 |---|---|---|---|
-| V1 outlet water temperature MAE | ≤ 1.00 K | 0.600 K | **PASS** |
-| V1 heat rejection MAPE | ≤ 6.00 % | 6.27 % | **FAIL** |
-| V2 water consumption MAPE | ≤ 8.00 % | 10.80 % | **FAIL** |
+| V1 outlet water temperature MAE | ≤ 1.00 K | 0.542 K | **PASS** |
+| V1 heat rejection MAPE | ≤ 6.00 % | 6.09 % | **FAIL** |
+| V2 water consumption MAPE | ≤ 8.00 % | 10.02 % | **FAIL** |
 | V5 total cost reduction | ≥ 3 % | 3.91 % | **PASS** |
 | V5 makeup water reduction | ≥ 15 % | 4.38 % | **FAIL** |
 | V5 skin saturation violations | 0 | 0 | **PASS** |
@@ -577,8 +675,9 @@ controller. The thresholds are the ones fixed before fitting and none has moved.
 **V1 heat rejection is the new failure and it is a de-duplication result, not a
 model change.** It read 5.94 % against a 6.00 % bar on a holdout that contained
 18 repeated measurements and one row the fill law had been trained on. On the 32
-distinct rows it reads 6.27 %. A gate that passed by 0.06 points on a
-contaminated split did not pass.
+distinct rows it read 6.27 %, and at the site pressure (defect 79) it reads
+6.09 %. A gate that passed by 0.06 points on a contaminated split did not pass,
+and correcting the pressure moved it towards the bar without reaching it.
 
 ### V2 — failed, and the cause is now established
 
@@ -602,7 +701,20 @@ c 1.3826 and 4.50 %, was the duplicate file counted as a campaign (defects 51 an
 script in the repository writes that file — which is defect 74's second instance
 and is recorded there. The 23.5 % is unchanged by the deletion, because Exp1 and
 Exp2 were always the two extremes. `results/drift.json`, which IS regenerated
-from the de-duplicated loader, puts the same spread at **20.97 %**.
+from the de-duplicated loader, puts the same spread at **20.97 %** at sea level
+and 15.6 % at the site pressure (defect 79, below).
+
+**At the site pressure (defect 79) the diagnosis still holds, and the drift is
+smaller.** `drift.py` re-identifies each campaign at 95,495 Pa: Exp1 c 1.3724,
+evaporation 6.40 %; Exp2 (the 114 rows whose first campaign is Exp2) c 1.1734,
+7.42 %. Both stay inside 8 %, so the bleed hypothesis stays rejected. The spread
+in c falls from 20.97 % to **15.6 %**, and the across-campaign penalty from
++0.180 to +0.143 K. Only the pressure changed, so about a quarter of the spread
+that read as fill drift came from the pressure error, which acts differently on
+two campaigns run in different seasons. The table above is still the
+sea-level one, because `results/v2_diagnosis.json` has no generator (defect 74)
+and the rescore's pre-registration left it as it was; its 23.5 % is the figure
+the audit checks against.
 
 So V2 fails as a **single-calibration** gate, for a physical reason rather than a modelling one: the gate holds one fill law fixed while the tower itself changed. The model is not deficient; the assumption that a tower's characteristic is a constant is.
 
@@ -643,7 +755,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 | Item | Direction | What would close it |
 |---|---|---|
 | Almería wet-bulb tops at 21.9 °C; **40.5 % of a Dhahran year is above it** (3,551 of 8,760 h, 84 % of September) — on the TMYx file's humidity; **24.3 % with Dhahran station dew point**, and 16.1–36.7 % across complete station years 2011–2024 | **Unknown** — the only two-sided one, and now sized rather than described. The size itself depends on the weather source, which is why both are stated | KFUPM's humidifying wind tunnel. Not closable by argument, and the physics-informed surrogate is a mitigation, not a substitute |
-| Model error **2.82×** measurement uncertainty (2.48× before the holdout was de-duplicated, defect 51) | Against us | More campaigns, or a better fill model. Reported as a negative result |
+| Model error **2.56×** measurement uncertainty at the site pressure (2.82× at sea level, defect 79; 2.48× before the holdout was de-duplicated, defect 51) | Against us | More campaigns, or a better fill model. Reported as a negative result |
 | **Skin temperature rise is a hardcoded +8 K.** The film calculation in the codebase gives 2.4-3.7 K clean; 8 K is a fouled surface | **Neutral, and no longer load-bearing.** Re-measured 4 Sep against the corrected gypsum solubility: `SI_gypsum` has an interior minimum at 44.5 °C and the skin sits near 40 °C, so across the whole band 2.4-8.0 K the wall stays at **7 cycles** and the last feasible count at **6**. The previous entry said this bought about one cycle of apparent headroom; that was true of the van 't Hoff model and is not true of this one | `src/skin_sensitivity.py`, now deriving its own conclusions (defect 19). The heated-coupon rig still measures the real ΔT |
 | Magnesium-silicate SI threshold | Unknown | Handled by the empirical Mg × SiO₂ product instead of asserted |
 | OpenModelica leg | Neutral | Written, not installed, not run. Makes no claim |
@@ -661,7 +773,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Seventy-six defects were found, sixty-four are fixed, twelve are open and every open one says what would close it, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan. The twelve open rows are the honest state after six branches examined the package simultaneously on 17 September 2026 and an independent review examined it again on 21 September; three of them (53, 63, 73) are open because the repository does not hold the source that would decide them, four (56, 58, 64, 65) because the decision belongs to a person rather than to an edit, and two (77, 78) because the corrected physics now exists but adopting it means re-fitting and re-running every artefact beneath it.
+**"Is the work sound?"** Seventy-seven defects were found, sixty-five are fixed, twelve are open and every open one says what would close it, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan. The twelve open rows are the honest state after six branches examined the package simultaneously on 17 September 2026 and an independent review examined it again on 21 September; three of them (53, 63, 73) are open because the repository does not hold the source that would decide them, four (56, 58, 64, 65) because the decision belongs to a person rather than to an edit, and two (77, 78) because the corrected physics now exists but adopting it means re-fitting and re-running every artefact beneath it. A review of a revival plan found one more on 19 October, the calibration run at sea-level pressure (79); it was fixed on 21 October by re-fitting the fill law at the site pressure and re-scoring once, and no gate verdict changed.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 

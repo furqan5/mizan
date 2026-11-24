@@ -1,0 +1,34 @@
+{
+  "NOT_A_GATE": "superseded by defect 79; the pre-fix sea-level result",
+  "p_Pa": 101325.0,
+  "fill_c": 1.240064812584921,
+  "fill_n": -0.5013981003349163,
+  "fit_r2": 0.37190978577162803,
+  "n_fitted": 114,
+  "TRAIN": {
+    "n_points": 115,
+    "n_converged": 115,
+    "convergence_pct": 100.0,
+    "Tout_MAE_K": 0.4538902365175687,
+    "Tout_RMSE_K": 0.6199399307933449,
+    "Tout_bias_K": -0.054552235356588596,
+    "Tout_p95_abs_err_K": 1.417435843087052,
+    "Tout_max_abs_err_K": 1.9532520721863094,
+    "Q_MAPE_pct": 7.482579905742812,
+    "evap_MAPE_pct": 7.795122204489506,
+    "evap_bias_pct": -0.8335746181354884
+  },
+  "HOLDOUT": {
+    "n_points": 32,
+    "n_converged": 32,
+    "convergence_pct": 100.0,
+    "Tout_MAE_K": 0.5996496645165258,
+    "Tout_RMSE_K": 0.7203491405964225,
+    "Tout_bias_K": 0.487764113474937,
+    "Tout_p95_abs_err_K": 1.4351847917648637,
+    "Tout_max_abs_err_K": 1.5126170249027915,
+    "Q_MAPE_pct": 6.26947970700175,
+    "evap_MAPE_pct": 10.800079300830323,
+    "evap_bias_pct": -10.090452825227013
+  }
+}

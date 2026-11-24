@@ -17,9 +17,9 @@ Thresholds fixed before fitting. Campaign-wise holdout, scored once.
 
 | Gate | Threshold | Result |
 |---|---|---|
-| Outlet water temperature MAE | ≤ 1.00 K | **0.600 K** |
-| Heat rejection MAPE | ≤ 6.00 % | **6.27 %** |
-| Evaporation vs *measured* water loss | ≤ 8.00 % | **10.80 %** |
+| Outlet water temperature MAE | ≤ 1.00 K | **0.542 K** |
+| Heat rejection MAPE | ≤ 6.00 % | **6.09 %** |
+| Evaporation vs *measured* water loss | ≤ 8.00 % | **10.02 %** |
 
 n = 32 held-out points from experimental campaigns the model never saw. 100 % solver convergence. Public dataset, MD5-verified, CC BY 4.0.
 

@@ -150,7 +150,7 @@ pass, it is a coin toss wearing a verdict, and it must not be reported as
 "V7 passed" without everything below it.
 
 **The instrument that measures water failed its own calibration gate.** Gate
-V2 scores the evaporation model at **10.80 % MAPE (9.90 % before defect 51) against a pre-registered
+V2 scores the evaporation model at **10.80 % MAPE (9.90 % before defect 51) [SUPERSEDED 21 Oct 2026 -> 10.02 %, defect 79] against a pre-registered
 8 % threshold — a FAIL, reported as one**. Makeup water is computed from
 evaporation. So the quantity this gate is made of carries a validated error
 an order of magnitude larger than the margin by which the gate was cleared.

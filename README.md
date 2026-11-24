@@ -23,9 +23,9 @@ matching them.
 
 | Gate | Threshold | Result | |
 |---|---|---|---|
-| V1 outlet water temperature MAE | <= 1.00 K | 0.600 K | PASS |
-| V1 heat rejection MAPE | <= 6.00 % | 6.27 % | **FAIL, reported** |
-| V2 evaporation vs *measured* water loss | <= 8.00 % | 10.80 % | **FAIL, reported** |
+| V1 outlet water temperature MAE | <= 1.00 K | 0.542 K | PASS |
+| V1 heat rejection MAPE | <= 6.00 % | 6.09 % | **FAIL, reported** |
+| V2 evaporation vs *measured* water loss | <= 8.00 % | 10.02 % | **FAIL, reported** |
 | V5 total operating cost reduction | >= 3 % | 3.91 % | PASS |
 | V5 makeup water reduction | >= 15 % | 4.38 % | **FAIL, reported** |
 | V5 saturation violations at skin | 0 | 0 | PASS |
@@ -33,9 +33,13 @@ matching them.
 Three pass and three fail. V1 and V2 are scored on 32 held-out points: the
 published dataset loads as 165 rows but only 147 are distinct (its Exp3 file
 repeats 17 Exp1 rows, and one of those is also a training row). Scored on the
-duplicated 50-row holdout, heat rejection had passed at 5.94 % (now 6.27 %) and
-V2 failed at 9.90 % (now 10.80 %). The de-duplicated re-score was pre-registered
-(`docs/staged/almeria_dedup_preregistration.md`) with thresholds unchanged.
+duplicated 50-row holdout, heat rejection had passed at 5.94 % and V2 failed at
+9.90 %; de-duplicated they read 6.27 % and 10.80 %. The tower stands at 497 m,
+and the calibration had been run at sea-level pressure (defect 79): at the site
+pressure, 95.5 kPa, they read 6.09 % and 10.02 % and outlet MAE moves 0.600 →
+0.542 K, so no verdict changed. Both re-scores were pre-registered
+(`docs/staged/almeria_dedup_preregistration.md`,
+`docs/staged/almeria_site_pressure_preregistration.md`) with thresholds unchanged.
 
 V3: evaluating calcite saturation in the bulk instead of at the condenser skin
 overstates the safe cycles limit by **6.9–7.0 %** at a typical +3.8 K skin rise

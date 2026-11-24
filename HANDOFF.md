@@ -1,6 +1,59 @@
 # Session handoff — Furqan / Mizan
 
-> **CURRENT AS OF 24 SEPTEMBER 2026.** Branch `water-modes-and-cdu`. This pass
+> **CURRENT AS OF 21 OCTOBER 2026.** Branch `main`, uncommitted: nothing here is
+> committed, pushed or released until Furqan says so. This pass closed defect 79.
+>
+> **State:** `python -m pytest -p no:cacheprovider -o addopts="" -q tests review_tests`
+> gives **673 passed, 4 xfailed** · `python src/audit.py` gives **AUDIT PASSED**, 71 assertions ·
+> register **77 found / 65 fixed / 12 open**. This laptop had no `netCDF4`, although
+> `requirements.txt` lists it. Without it `tests/test_dataset_dedup.py` skips and one
+> regression test fails on import, so install it before trusting a count.
+>
+> ---
+>
+> **1. Defect 79 is fixed: the Almería tower is now calibrated at its own pressure.**
+> The pilot tower stands at 497 m (Solargis site report SG-01-2016), and every row
+> had been solved at 101,325 Pa. The plan was written first
+> (`docs/staged/almeria_site_pressure_preregistration.md`, SHA-256 stored in
+> `results/calibration.json`): standard-atmosphere **95,495 Pa** for all 147 rows,
+> re-fit on the 115 Exp2 rows, one score on the 32-row holdout, thresholds
+> unchanged. Before the run, the new code reproduced the sea-level result to 6e-11.
+> **The fill law moves, c 1.2401 → 1.1729 and n −0.5014 → −0.5951. No verdict
+> moves:** V1 outlet MAE **0.600 → 0.542 K, PASS**; V1 heat rejection **6.27 % →
+> 6.09 %, FAIL**, 0.09 points over; V2 evaporation **10.80 % → 10.02 %, FAIL**.
+> MAE/u_c 2.82 → 2.56. The campaign-to-campaign spread in c falls 21 % → 16 %, so
+> about a quarter of what read as fill drift was the pressure error. Both
+> per-campaign re-fits still sit inside 8 % (6.40 %, 7.42 %), so the V2 diagnosis
+> stands. 0.542 K equals the superseded 50-row figure of defect 51 to three
+> decimals. That is a coincidence, not a reversion.
+>
+> **2. What still carries the sea-level fill law.** V5 and every plant-scale study
+> (`controller_summary.json`, the annual, data-centre, diurnal and CDU runs,
+> incumbent gap, corrosion floor) were not re-run, and neither was
+> `results/v2_diagnosis.json`, which has no generator. Re-running them belongs with
+> defect 77's re-fit, which needs the same cascade. The register lists each one
+> under "What the defect-79 rescore did NOT re-derive". The 21.9 °C annual bin edge
+> is unchanged and now sits inside the site-pressure training range (22.3 °C).
+> **One plant-scale finding is now unverified:** defect 42's cold-air miss, that fan
+> turndown alone cannot hold the silica floor and Frankfurt needs a tower bypass.
+> On the new law the 16 °C test point reaches the floor at 25.6 % fan, and so do
+> 12, 10 and 8 °C. At sea level the low-fan solves fail, so part of the miss may have
+> been the solver. The two defect-42 tests are pinned to the sea-level law so they
+> still test the reporting path. Do not repeat the bypass claim until the
+> four-region run is repeated.
+>
+> **3. Two generators found stale on the way.** `src/make_report.py` carried typed
+> literals ("a 21 % spread", "roughly 14 %") and now reads them from the artefacts.
+> `src/make_deck.py` would revert the 24 September OLI and brucite corrections if
+> re-run, so `docs/deck_content.md` was edited by hand. **Do not regenerate the deck
+> until the generator is brought up to the document.**
+>
+> **4. The JWPE paper** (`E:\Startup\paper-jwpe`) is updated to these numbers and
+> rebuilt. See its README.
+>
+> ---
+
+> **AS OF 24 SEPTEMBER 2026** — superseded by the block above and kept as the record of that pass. Branch `water-modes-and-cdu`. This pass
 > took an independent review workspace's newest engineering work into the
 > repository and registered what came with it. The repository is **public**
 > (github.com/furqan5/mizan), under PolyForm Noncommercial.
@@ -422,8 +475,8 @@ argument -- **periodic recalibration is a functional requirement, and this
 gate measures how fast a fixed characteristic goes stale.**
 
 **Do not restore the old drift value to recover the pass.** See
-`docs/defect_register.md`, which separates defects (seventy-six found,
-sixty-four fixed, twelve open) from gate outcomes (three passed, three failed, all
+`docs/defect_register.md`, which separates defects (seventy-seven found,
+sixty-five fixed, twelve open) from gate outcomes (three passed, three failed, all
 diagnosed).
 
 **The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.
@@ -447,8 +500,8 @@ The two-ceilings *result* was never in doubt and is unchanged: two distinct limi
 9. **The optimiser will exploit a correlation outside its fitted box.** With the new curves it drove the fan to the grid floor in 4 of 5 conditions, putting entering condenser water at 36.5-40.5 °C — outside the fit — and booked a false **20.41 %** water saving that would have flipped a failed gate to passed. The entering-condenser-water window is now a hard constraint; it is also the machine's permitted range, since below it head pressure collapses and oil return fails, and above it the machine trips on high head. 1,840 of 6,307 candidate points are now rejected rather than extrapolated.
 10. **New result: in Gulf summer the binding limit on fan speed is the CHILLER**, not tower physics and not chemistry. All four summer optima sit at 33.9-34.7 °C, hard against the 35 °C ceiling.
 11. **A numerical defect sitting directly on the reported number.** The condenser duty fixed point was solved by 6 steps of successive substitution at 5 mK. The map contracts at ~0.5 per step, so ~26 steps are needed — and every grid point was seeded from ONE nearby solve, so the baseline came out accurate and the optimum did not. **Evaporation moved 5.199 → 5.396 kg/s (3.8 %) on the choice of seed alone**, an order of magnitude larger than the margin the water gate was failing by. Now Aitken delta-squared with a bracketed Brent fallback; 360/360 converge to 1e-5 K, and the two solvers agree to the second decimal place.
-7. **Fill drift.** The identified fill coefficient moves **21 % across campaigns spanning 2019–2023**. Periodic recalibration is a functional requirement, not an upsell. Kloppers (2003) explicitly did not study fill ageing.
-8. **Uncertainty.** Model error is **2.82× the propagated measurement uncertainty** — a negative result, reported. It was 2.48× on the 50-row holdout, before defect 51 de-duplicated it. ~30 % is fill drift, ~70 % residual.
+7. **Fill drift.** The identified fill coefficient moves **16 % across campaigns spanning 2019–2023** (21 % before the calibration was re-run at the site pressure, defect 79). Periodic recalibration is a functional requirement, not an upsell. Kloppers (2003) explicitly did not study fill ageing.
+8. **Uncertainty.** Model error is **2.56× the propagated measurement uncertainty** — a negative result, reported. It was 2.82× at sea-level pressure (defect 79) and 2.48× on the 50-row holdout, before defect 51 de-duplicated it. ~30 % is fill drift, ~70 % residual.
 
 ---
 
@@ -712,7 +765,7 @@ Figures are generated in two variants by `src/make_figures.py`: `figs/*.png` for
 | Almeria wet-bulb 21.9 C vs Gulf 30.3 C | **AGAINST US, and now quantified** | OPEN on the data, **QUANTIFIED 12 Sep 2026 (defect 48), re-measured 17 Sep (defect 60).** Splitting the Dhahran year at the edge of the test data: the WATER saving is **−3.22 % inside** the validated envelope and **+5.41 % outside** it, so the entire positive annual water figure is carried by the **3,551** hours we have never measured. ENERGY does not reverse so much as fall away: **+8.82 % inside, +0.95 % outside.** The two halves are validated to opposite degrees. The figures as first published were −3.31 / +8.23 / +8.84 / −0.39 % over 3,285 hours; that split classified whole bins by centroid. Lead with energy; treat water as the thesis the pilot tests. Still closed only by KFUPM's humidifying wind tunnel |
 | Corrosion, aggressive-anion side | Was absent entirely | **CLOSED 12 Sep 2026 (defect 46).** `src/corrosion.py` — Larson–Skold with its calibration envelope attached, Ryznar, Puckorius, UFC 3-230-13 Table 5-9 coupon bands, chloride pitting. The two levers partition the risk: **acid owns Larson–Skold (cycles move it by exactly zero), cycles own chloride pitting (acid does not touch it)**. On the measured Riyadh water a **316 stainless condenser pits at 1.85 cycles** against a 4.52-cycle scaling ceiling — it binds first, and hardest on the CDU |
 | No chemistry ever measured | Was the largest single gap | **CLOSED AS FAR AS ECONOMICS ALLOW, 12 Sep 2026 (defect 47).** Measuring the ions online is **$120–185k/tower against an $89k/yr saving** — the instruments cost more than the thing they optimise, which is why nobody sells this. Instead `src/conductivity.py` checks the assumed composition against the conductivity sensor already on the skid (USGS specific-conductance imbalance). It does not measure ions; it says **when the assumption has stopped being true**, and the sign is diagnostic. Full spec, BOM and cost reality in `docs/instrumentation_spec.md` |
-| Model error 2.82x measurement uncertainty (2.48x before defect 51) | Against us | OPEN, reported |
+| Model error 2.56x measurement uncertainty (2.82x at sea level, defect 79; 2.48x before defect 51) | Against us | OPEN, reported |
 | Water gate missed (10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %] vs 15 %) | Against us | **DIAGNOSED** — the threshold required 8.5 cycles and gypsum saturates at 7. Mis-specified, not missed. Stays failed, and it now misses by 4.17 points against 0.17 as originally reported |
 | Bi-quadratic chiller coefficients | Unknown | **CLOSED** — York YT 1758 kW / 6.28 COP, EnergyPlus `datasets/Chillers.idf` (CoolTools). Reference point IS the AHRI point; fitted to 35 C |
 | Discharge TDS cap | Unknown | **CLOSED** — RCER-2015 Vol. I. Table 3B (sewer) 2,000 mg/L Jubail / 2,500 Yanbu; **Table 3C (coastal outfall, incl. seawater cooling return) has NO TDS limit**; Table 3D (irrigation) 2,000. It is a property of the discharge ROUTE, not the loop |
@@ -750,12 +803,14 @@ it** with both plant instruments
 flat. Matches `mizan_demo.m`, which gets there with no Simulink at all.
 
 **Five toolboxes, five real jobs** (`mizan_control_design.m`):
-Curve Fitting gives the fill law a 95 % CI of [1.2312, 1.3170] on c, so the 21 %
+Curve Fitting gives the fill law a 95 % CI of [1.1642, 1.2457] on c, so the 16 %
 campaign drift is wider than one campaign's interval and therefore physical.
-System Identification measures tau = 513 s at 99.9 % fit against 314 s from
-inventory alone -- the 1.6x gap is the condenser feedback. Control System
+System Identification measures tau = 529 s at 99.9 % fit against 314 s from
+inventory alone -- the 1.7x gap is the condenser feedback. (Re-run 21 Oct 2026
+on the site-pressure fill law, defect 79; at sea level it was [1.2312, 1.3170],
+21 % and 513 s.) Control System
 gives a PI at 60 deg phase margin. MPC carries the chiller's 35 C ceiling
-as a HARD constraint. Optimization finds a better point but is **8x SLOWER**
+as a HARD constraint. Optimization finds a better point but is **about 9x SLOWER**
 against the exact physics -- reported as it came out, and it is the argument
 for the surrogate rather than against it.
 

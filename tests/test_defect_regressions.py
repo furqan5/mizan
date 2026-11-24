@@ -520,8 +520,13 @@ def test_defect_42_the_fan_inversion_returns_the_safe_side_of_the_floor():
     import hybrid_supervisor as hs
     import run_controller as rc
 
+    # DEFECT 79 moved the published fill law to the site pressure, and on that
+    # law the 16 C / 0.62 point below becomes reachable (25.6 % fan), so it no
+    # longer exercises the branch this test exists for. The fixture is pinned to
+    # the sea-level law the case was found under. Whether the cold-air finding
+    # survives the new law is NOT settled here; the register records it.
     cal = json.loads((pathlib.Path(__file__).resolve().parent.parent
-                      / "results" / "calibration.json").read_text())
+                      / "results" / "calibration_sea_level_reference.json").read_text())
     fc, fn = cal["fill_c"], cal["fill_n"]
     q = 20000.0
     args = (q / 20.0, q * 1.03, q / 22.5, fc, fn)
@@ -559,8 +564,9 @@ def test_defect_42_evaluate_reports_an_unreachable_floor():
     from models import cdu_model as cdu
     import run_controller as rc
 
+    # Pinned to the sea-level law for the reason given in the test above.
     cal = json.loads((pathlib.Path(__file__).resolve().parent.parent
-                      / "results" / "calibration.json").read_text())
+                      / "results" / "calibration_sea_level_reference.json").read_text())
     q = 20000.0
     unit = cdu.sized_for(q, delta_t_k=10.0)
     kw = dict(q_it_kw=q, makeup=rc.TSE, cycles=5.0, tariffs=rc.TARIFFS,
