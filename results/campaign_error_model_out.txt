@@ -1,0 +1,10 @@
+sea-level law at 101,325 Pa, reproduction of the stored constants:
+   Exp1  n  33  a   -0.52 %  k -0.2002 %/fan%  sd   6.27 pp
+   Exp2  n 115  a   +9.06 %  k -0.3660 %/fan%  sd  11.63 pp
+   REPRODUCED
+
+current law c 1.1729, n -0.5951, at 95,495 Pa:
+   Exp1  n  33  a   +0.35 %  k -0.1923 %/fan%  sd   6.41 pp
+   Exp2  n 115  a   +7.67 %  k -0.3221 %/fan%  sd  11.23 pp
+
+written -> results/campaign_error_model.json

@@ -1,0 +1,38 @@
+{
+ "method": "rel = 100 (pred - meas)/meas on each campaign's distinct rows by membership; OLS on w_fan; residual sd ddof 0",
+ "fill_c": 1.1728994129484793,
+ "fill_n": -0.595079013563148,
+ "p_Pa": 95495.15849551387,
+ "campaigns": {
+  "Exp1": {
+   "n": 33,
+   "offset_pct": 0.3467843421548083,
+   "slope_pct_per_fanpct": -0.19227597026639362,
+   "residual_sd_pp": 6.412812488146933
+  },
+  "Exp2": {
+   "n": 115,
+   "offset_pct": 7.669079229089894,
+   "slope_pct_per_fanpct": -0.32213328794412693,
+   "residual_sd_pp": 11.227025647053102
+  }
+ },
+ "sea_level_reproduction_NOT_LIVE": {
+  "p_Pa": 101325.0,
+  "reproduced": true,
+  "campaigns": {
+   "Exp1": {
+    "n": 33,
+    "offset_pct": -0.5155605736211661,
+    "slope_pct_per_fanpct": -0.2001937881603195,
+    "residual_sd_pp": 6.2652290907648736
+   },
+   "Exp2": {
+    "n": 115,
+    "offset_pct": 9.060095414090116,
+    "slope_pct_per_fanpct": -0.3660288660118184,
+    "residual_sd_pp": 11.634644357801287
+   }
+  }
+ }
+}
