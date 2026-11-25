@@ -1,0 +1,57 @@
+variant nomargin, part gates, fill law c 1.1729 n -0.5951, cycles grid 2.0-6.0 step 0.1, silica margin OFF
+
+==============================================================================
+GATE msens-nomargin-v5 -- optimised vs incumbent fixed-setpoint operation at 4 cycles
+==============================================================================
+pre-registered criteria: {"makeup_water_reduction_pct_min": 15.0, "total_cost_reduction_pct_min": 3.0, "skin_SI_violations_allowed": 0}  (no revisions)
+plant: 10 MW condenser module; tariffs elec $0.074/kWh, water $3.11/m3 avoided  [published schedules]
+
+           condition     T_wb  base_cycles  opt_cycles  base_fan_pct  opt_fan_pct  base_makeup_m3_h  opt_makeup_m3_h  base_kW   opt_kW  energy_saving_pct  water_saving_pct  cost_saving_pct  base_feasible_at_skin
+ Dhahran summer peak    25.21         4.00        5.00         80.00        70.00             28.00            25.50  1698.20  1716.50              -1.08              8.91             3.10                   True
+Dhahran summer humid    29.74         4.00        5.20        100.00        80.00             24.14            21.88  1852.13  1848.16               0.21              9.37             3.61                   True
+    Dhahran shoulder    22.38         4.00        4.70         60.00        80.00             22.37            21.92  1674.49  1620.89               3.20              2.03             3.30                   True
+   Doha summer humid    30.31         4.00        5.30        100.00        80.00             25.11            22.55  1872.10  1868.12               0.21             10.20             3.96                   True
+         Gulf winter    14.67         4.00        4.30         40.00        80.00             19.62            19.20  1655.41  1434.89              13.32              2.14            10.37                   True
+
+mean makeup-water reduction :   6.53 %   (criterion >= 15.0 %)  FAIL
+mean total-cost reduction   :   4.87 %   (criterion >= 3.0 %)  PASS
+mean total-power reduction  :   3.17 %   (REPORTED, not a pre-registered gate -- see note below)
+skin-SI violations by optimiser: 0   (criterion 0)  PASS
+
+numerics: 1640 duty fixed points solved, 0 did not converge to 1e-05 K
+          chiller curve evaluated over 18.0-41.4 degC entering condenser water; 9614 of 28790 calls outside the fitted range (15.56, 35.0) (rejected, not extrapolated)
+
+NOTE: the incumbent 4-cycle baseline is safe at skin temperature in all 5 conditions. It is conservative, not unsafe: it leaves margin on the table rather than crossing the limit.
+      Optimiser raises cycles 4 -> 4.9 in every condition (the chemistry constraint boundary), and moves the fan DOWN in 3 of 5 conditions and UP in 2.
+      Fan speed is not a free lever: lowering it saves fan power and evaporation but raises entering condenser water. Across the 5 surviving conditions
+      the optimum tops out at 34.9 degC. The binding limit is the chiller's CAPACITY, not its 35 degC temperature ceiling: above about 32.5 degC
+      the machine cannot make the duty at all. Not tower physics and not chemistry -- that is the coupling this product exists to price.
+
+==============================================================================
+GATE msens-nomargin-v7 -- optimised vs incumbent fixed-setpoint operation at 3 cycles
+==============================================================================
+pre-registered criteria: {"makeup_water_reduction_pct_min": 15.0, "total_cost_reduction_pct_min": 3.0, "skin_SI_violations_allowed": 0}  (no revisions)
+plant: 10 MW condenser module; tariffs elec $0.074/kWh, water $3.11/m3 avoided  [published schedules]
+
+           condition     T_wb  base_cycles  opt_cycles  base_fan_pct  opt_fan_pct  base_makeup_m3_h  opt_makeup_m3_h  base_kW   opt_kW  energy_saving_pct  water_saving_pct  cost_saving_pct  base_feasible_at_skin
+ Dhahran summer peak    25.21         3.00        5.00         80.00        70.00             31.50            25.50  1697.88  1716.50              -1.10             19.04             8.34                   True
+Dhahran summer humid    29.74         3.00        5.20        100.00        80.00             27.17            21.88  1851.77  1848.16               0.20             19.45             8.09                   True
+    Dhahran shoulder    22.38         3.00        4.70         60.00        80.00             25.17            21.92  1674.16  1620.89               3.18             12.93             7.87                   True
+   Doha summer humid    30.31         3.00        5.30        100.00        80.00             28.25            22.55  1871.73  1868.12               0.19             20.19             8.51                   True
+         Gulf winter    14.67         3.00        4.30         40.00        80.00             22.08            19.20  1655.11  1434.89              13.31             13.02            14.28                   True
+
+mean makeup-water reduction :  16.93 %   (criterion >= 15.0 %)  PASS
+mean total-cost reduction   :   9.42 %   (criterion >= 3.0 %)  PASS
+mean total-power reduction  :   3.16 %   (REPORTED, not a pre-registered gate -- see note below)
+skin-SI violations by optimiser: 0   (criterion 0)  PASS
+
+numerics: 0 duty fixed points solved, 0 did not converge to 1e-05 K
+          chiller curve evaluated over 22.8-41.4 degC entering condenser water; 4963 of 14788 calls outside the fitted range (15.56, 35.0) (rejected, not extrapolated)
+
+NOTE: the incumbent 4-cycle baseline is safe at skin temperature in all 5 conditions. It is conservative, not unsafe: it leaves margin on the table rather than crossing the limit.
+      Optimiser raises cycles 4 -> 4.9 in every condition (the chemistry constraint boundary), and moves the fan DOWN in 3 of 5 conditions and UP in 2.
+      Fan speed is not a free lever: lowering it saves fan power and evaporation but raises entering condenser water. Across the 5 surviving conditions
+      the optimum tops out at 34.9 degC. The binding limit is the chiller's CAPACITY, not its 35 degC temperature ceiling: above about 32.5 degC
+      the machine cannot make the duty at all. Not tower physics and not chemistry -- that is the coupling this product exists to price.
+
+written -> results\margin_sensitivity\nomargin_gates.json

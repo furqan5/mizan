@@ -1,0 +1,151 @@
+{
+ "variant": "nomargin",
+ "part": "gates",
+ "preregistration": "docs/staged/margin_sensitivity_preregistration.md",
+ "preregistration_sha256": "52200f7bae4a88abb2cec9660c16ff2e0f487806b5f663eacdfeab652020995a",
+ "fill_c": 1.1728994129484793,
+ "fill_n": -0.595079013563148,
+ "amplitude_k": 5.0,
+ "cycles_grid": [
+  2.0,
+  6.0,
+  0.1
+ ],
+ "status": "SENSITIVITY, registered after the registered results were known. V5 and V7 keep their registered verdicts.",
+ "results": {
+  "V5": {
+   "baseline_cycles": 4.0,
+   "water_pct": 6.530454927033991,
+   "cost_pct": 4.867208847590584,
+   "energy_pct": 3.174350201244805,
+   "violations": 0,
+   "interval": {
+    "mc_median_pct": 4.837612502870398,
+    "sd_pct": 5.837761371093398,
+    "ci95_low_pct": -7.977038050223891,
+    "ci95_high_pct": 15.107978222815225,
+    "p_exceeds_15": 0.0261
+   },
+   "conditions": [
+    {
+     "condition": "Dhahran summer peak",
+     "opt_cycles": 5.0,
+     "opt_fan_pct": 70.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 32.05821875588815,
+     "water_saving_pct": 8.909195451769984,
+     "energy_saving_pct": -1.077507925668382,
+     "cost_saving_pct": 3.098325422172715
+    },
+    {
+     "condition": "Dhahran summer humid",
+     "opt_cycles": 5.2,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 34.47412433788314,
+     "water_saving_pct": 9.368408041176801,
+     "energy_saving_pct": 0.21439604615216437,
+     "cost_saving_pct": 3.6081734756296937
+    },
+    {
+     "condition": "Dhahran shoulder",
+     "opt_cycles": 4.7,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 29.377285791209,
+     "water_saving_pct": 2.0348668394979086,
+     "energy_saving_pct": 3.2009091032107246,
+     "cost_saving_pct": 3.2980671574394136
+    },
+    {
+     "condition": "Doha summer humid",
+     "opt_cycles": 5.3,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.0,
+     "opt_T_basin_C": 34.874204920310504,
+     "water_saving_pct": 10.201585028450973,
+     "energy_saving_pct": 0.2127900429889586,
+     "cost_saving_pct": 3.958579741340914
+    },
+    {
+     "condition": "Gulf winter",
+     "opt_cycles": 4.3,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 24.53633443024133,
+     "water_saving_pct": 2.138219274274284,
+     "energy_saving_pct": 13.321163739540559,
+     "cost_saving_pct": 10.372898441370182
+    }
+   ],
+   "grid_top_hit": false
+  },
+  "V7": {
+   "baseline_cycles": 3.0,
+   "water_pct": 16.925339491925367,
+   "cost_pct": 9.419025249700635,
+   "energy_pct": 3.1556626655035487,
+   "violations": 0,
+   "interval": {
+    "mc_median_pct": 15.471515417732917,
+    "sd_pct": 5.233121229705821,
+    "ci95_low_pct": 3.8573392174117007,
+    "ci95_high_pct": 24.681148780444587,
+    "p_exceeds_15": 0.53635
+   },
+   "conditions": [
+    {
+     "condition": "Dhahran summer peak",
+     "opt_cycles": 5.0,
+     "opt_fan_pct": 70.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 32.05821875588815,
+     "water_saving_pct": 19.038394538601914,
+     "energy_saving_pct": -1.096824967390666,
+     "cost_saving_pct": 8.338476284082983
+    },
+    {
+     "condition": "Dhahran summer humid",
+     "opt_cycles": 5.2,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 34.47412433788314,
+     "water_saving_pct": 19.450576312827387,
+     "energy_saving_pct": 0.19502001338284033,
+     "cost_saving_pct": 8.093280088917025
+    },
+    {
+     "condition": "Dhahran shoulder",
+     "opt_cycles": 4.7,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 29.377285791209,
+     "water_saving_pct": 12.927965610344847,
+     "energy_saving_pct": 3.181743065077447,
+     "cost_saving_pct": 7.869525591493207
+    },
+    {
+     "condition": "Doha summer humid",
+     "opt_cycles": 5.3,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.0,
+     "opt_T_basin_C": 34.874204920310504,
+     "water_saving_pct": 20.190636911404905,
+     "energy_saving_pct": 0.19314019169410215,
+     "cost_saving_pct": 8.512355501088447
+    },
+    {
+     "condition": "Gulf winter",
+     "opt_cycles": 4.3,
+     "opt_fan_pct": 80.0,
+     "opt_pH": 8.25,
+     "opt_T_basin_C": 24.53633443024133,
+     "water_saving_pct": 13.019124086447786,
+     "energy_saving_pct": 13.30523502475402,
+     "cost_saving_pct": 14.281488782921517
+    }
+   ],
+   "grid_top_hit": false
+  }
+ }
+}

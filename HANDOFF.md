@@ -1,12 +1,13 @@
 # Session handoff — Furqan / Mizan
 
 > **CURRENT AS OF 25 NOVEMBER 2026.** Branch `main`, committed, pushed and
-> released as **v1.2.0** at Furqan's request (JWPE submission). This pass re-ran
-> the plant-scale studies the JWPE paper quotes on the site-pressure fill law.
+> released as **v1.2.0** and then **v1.2.1** at Furqan's request (JWPE submission).
+> This pass re-ran the plant-scale studies the JWPE paper quotes on the site-pressure
+> fill law, then again with the daily silica margin enforced (defect 80).
 >
 > **State:** `python -m pytest -p no:cacheprovider -o addopts="" -q tests review_tests`
 > gives **673 passed, 4 xfailed** · `python src/audit.py` gives **AUDIT PASSED** · register
-> **77 found / 65 fixed / 12 open** (no new defect).
+> **78 found / 65 fixed / 13 open** (defect 80 added).
 >
 > ---
 >
@@ -40,6 +41,20 @@
 > `results/campaign_error_model.json`. `CITATION.cff` is corrected (brucite and
 > calcium phosphates at the skin, not magnesium silicate; sole author) and set to
 > v1.2.0.
+>
+> **5. Defect 80 (OPEN): the registered plant-scale optimiser omits the daily silica
+> margin.** An external review found V5/V7 and the annual study hold the optimiser to
+> the steady-state silica limit on a 1-cycle grid, so it chose 5.0 cycles above the
+> paper's 4.48–4.72 ceiling. A sensitivity registered before it ran (137d0e7) re-ran
+> them with the margin at each candidate's basin temperature on a 0.1-cycle grid.
+> Results: V5 water **3.95 %**, V7 **14.64 %** (below 15 %; equal by coincidence to a
+> superseded early figure), annual TMYx inside the
+> envelope energy **9.10 %** saved and water **+3.43 %**, whole year water **+1.08 %**
+> (TMYx) and **−1.56 %** (W1). In cool hours the fan-cooled basin lowers the silica
+> ceiling, so cycles fall to 3.4–3.9. The registered verdicts are unchanged; the paper
+> now leads with the margin-enforced figures. `controller.optimise` has an opt-in
+> `saturation_limits_fn`, and `gate_v5` and `run_annual` have opt-in `optimise_kwargs`.
+> Supersession table in the register.
 >
 > ---
 
@@ -518,8 +533,8 @@ argument -- **periodic recalibration is a functional requirement, and this
 gate measures how fast a fixed characteristic goes stale.**
 
 **Do not restore the old drift value to recover the pass.** See
-`docs/defect_register.md`, which separates defects (seventy-seven found,
-sixty-five fixed, twelve open) from gate outcomes (three passed, three failed, all
+`docs/defect_register.md`, which separates defects (seventy-eight found,
+sixty-five fixed, thirteen open) from gate outcomes (three passed, three failed, all
 diagnosed).
 
 **The water gate is now DIAGNOSED, and that is worth more than passing it.** Makeup = evaporation x C/(C-1), so the saving available from cycles alone is arithmetic: 7 cycles gives 12.50 %, 8 gives 14.29 %, and **15 % requires 8.5 cycles**. Gypsum saturates at **7** -- defect 15 moved the wall in by one cycle, so the criterion is further out of reach than when it was written, not closer. The criterion was written on the far side of a wall that had not been found yet, and gypsum saturation is not pH-sensitive, so the acid lever that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water. The controller gets to 10.83 % [SUPERSEDED 10 Sep 2026 -> 6.65 %], and it lands on **6 cycles** in every condition -- so cycles alone (10.00 %) accounts for almost all of it, with the air-side lever adding the remainder and moving individual conditions from 7.27 % to 12.71 %.

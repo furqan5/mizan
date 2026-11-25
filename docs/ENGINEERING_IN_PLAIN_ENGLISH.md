@@ -341,7 +341,7 @@ you where the physics stops.
 
 ## Part 8 — The mistakes we found in our own work
 
-Seventy-seven defects found, **sixty-five fixed, twelve still open**. Every open
+Seventy-eight defects found, **sixty-five fixed, thirteen still open**. Every open
 one says in the register what would close it, and none of them is a physics
 error nobody understands. The four worth knowing about:
 

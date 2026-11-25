@@ -1,0 +1,51 @@
+variant margin, part annual, fill law c 1.1729 n -0.5951, cycles grid 2.0-6.0 step 0.1, silica margin ON (+-5 K at the candidate basin)
+============================================================================
+HOURS-WEIGHTED ANNUAL PERFORMANCE  --  Dhahran TMYx, margin sensitivity (margin)
+============================================================================
+This is NOT the pre-registered V5 gate and does not change its
+verdict. V5 is an unweighted mean over five conditions; it scored
+4.52 % against 15 % and failed. This is the annual figure.
+
+ bin  hours   T_wb C   T_db C     RH   load  energy %   water %   cost %  in envlp
+----------------------------------------------------------------------------
+   0   1042      9.6     14.5   0.54   0.49     12.21     -7.59     5.98       yes
+   1   1042     14.0     19.3   0.58   0.57     12.31     -3.69     7.55       yes
+   2   1042     16.6     22.9   0.56   0.63     12.39     -2.33     8.20       yes
+   3   1042     18.9     26.5   0.52   0.69      7.39     -3.72     4.15       yes
+   4   1041     20.9     29.8   0.48   0.74      3.70     -1.61     2.24       yes
+   5   1184     23.2     33.0   0.47   0.79      1.34      0.57     1.33        NO
+   6   1184     25.6     36.6   0.45   0.85     -0.57      5.35     1.67        NO
+   7   1183     28.4     37.3   0.55   0.86      0.50      8.84     3.50        NO
+----------------------------------------------------------------------------
+ANNUAL   8760                                      5.88     -0.26     4.22
+
+WHAT THIS IS, AND WHAT IT RESTS ON
+   hours-weighted annual total-power reduction  : 5.88 %
+   hours-weighted annual makeup water reduction : -0.26 %
+   hours-weighted annual cost reduction         : 4.22 %
+
+   Those three are means of ratios. As RATIOS OF ANNUAL TOTALS,
+   which is what a plant actually banks over a year:
+   annual electrical energy reduction           : 4.74 %   (-1.14 pts)
+   annual makeup water reduction                : 1.08 %   (+1.33 pts)
+   annual operating cost reduction              : 3.77 %   (-0.45 pts)
+   The energy and water corrections have OPPOSITE signs.
+   for comparison, the five-condition unweighted mean the V5 gate
+   scores                                        : 4.52 % water
+
+   fraction of the year INSIDE the validated wet-bulb envelope
+   (<= 21.9 C), counted hour by hour           : 59.5 %
+   fraction resting on EXTRAPOLATION            : 40.5 %   (3551 h)
+
+   AND WHAT THE EXTRAPOLATION IS ACTUALLY WORTH -- defects 48 and 60.
+
+                                   hours   water %  energy %   cost %
+   whole year                       8760      1.08      4.74     3.77
+   inside the validated envelope    5209     -3.43      9.10     5.37
+   EXTRAPOLATED (wb > 21.9 C)       3551      5.15      0.40     2.22
+
+   The water saving is NEGATIVE inside the validated wet-bulb envelope and positive only outside it, so the annual water figure is carried entirely by extrapolated hours.
+   The energy saving is the reverse: larger inside the envelope than outside it.
+   Quote neither without this split.
+
+written -> results\margin_sensitivity\margin_annual.json

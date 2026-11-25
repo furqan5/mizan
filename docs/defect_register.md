@@ -13,7 +13,7 @@ This document lists both, separately, so neither can be mistaken for the other.
 
 ---
 
-## Part 1 — Defects. Seventy-seven found, sixty-five fixed, twelve open.
+## Part 1 — Defects. Seventy-eight found, sixty-five fixed, thirteen open.
 
 | # | Defect | How it showed up | State |
 |---|---|---|---|
@@ -132,6 +132,7 @@ a silent gap.
 | 78 | **Every caller evaluates the hot skin at the bulk pH, which silently adds alkalinity to the water** | `chemistry.MINERAL_EVAL_POINT` sends calcite, gypsum and tricalcium phosphate to the hot skin, and `saturation_state_split` takes a separate `pH_hot` and `pH_cold` for exactly that reason. Every production caller passes the same number to both: `controller.py:296` and `:565`, `scripts/ceiling_report.py:163`, `sidestream.ceiling_with` whenever a pH is supplied, `incumbent_gap.py:239`, `cdu_hybrid.py:248`, `cdu_hybrid_rescore.py:42` and `models/cdu_model.py:179`. It is not an oversight in one call site — **the engine carries no CO₂(aq) species and no proton balance, so pH cannot respond to heating at all.** `max_cycles_split` does re-close pH, by **atmospheric CO₂ equilibrium at each point**, which is the open-system assumption and is the wrong one inside a condenser tube: a single pass exchanges no CO₂ with air. What a heated pass conserves is DIC and alkalinity, and neither convention preserves them. Measured with the engine's own carbonate constants, a conserved pass moves pH DOWN as the water heats, so holding it at the bulk value **implies added alkalinity**: at the published ceiling-report point (45 °C skin, 32 °C basin, pH 8.25) the makeup implies **+8.9192e-06 eq/kgw** on `ARAMCO_FIELD_VALIDATED` and **+1.1774e-05** on `ARAMCO_RIYADH_REFINERY_TSE`, rising to **+2.7274e-05** and **+3.7861e-05 eq/kgw** at the respective fixed-pH ceilings. At the review's registered probe pair (25 → 55 °C, pH 7.4) this engine gives ΔpH **−0.0717** and **−0.0701** and adds **+2.2880e-05** and **+3.6120e-05 eq/kgw**; the review's PHREEQC closed-pass probe, on its own synthetic point, gives ΔpH −0.1102 and **+4.0192e-05 eq/kgw** — so this engine understates the shift by about a third, in the same direction as defect 53 | **OPEN**, and **the direction is the conservative one, so the thesis does not move.** Holding pH fixed OVERSTATES calcite supersaturation at the skin: SI_calcite is high by **0.0849** (field-validated makeup at 45 °C), **0.0723** (Riyadh makeup at 45 °C) and **0.0576** / **0.0539** at the respective ceilings. The current convention therefore understates the ceiling and can never inflate it. The repository's headline field-validated ceiling does not move at all — **5.0233 against 5.0233 cycles** — because amorphous silica binds there and silica is evaluated at the COLD basin, which this defect cannot reach. Where calcite binds it does move: the measured Riyadh refinery water's ceiling goes from **4.5171 to 4.9148 cycles**, **+0.3977**, calcite binding both ways, and at 55 °C / pH 7.4 from **13.8859 to 14.6442** with the binding mineral flipping from calcite to silica. Nothing is changed here. Closing this means giving the engine a real carbonate closure — DIC and alkalinity conserved through the heated pass, an explicit CO₂(aq) species, and a stated boundary for what the tower's air contact does to the recirculating bulk — which is a physics decision rather than an edit. It is registered before that decision, not after, because the quantity it moves is a ceiling |
 
 | 79 | **The calibration runs the Almería tower at sea-level pressure, about 500 m below where it stands** | Found 19 Oct 2026 while reviewing an outside plan to revive the package. `calibrate.predict` calls `tower.solve_outlet_temperature` without `p`, so every one of the 147 rows is solved at `psychro.P_ATM` = 101,325 Pa. The Plataforma Solar de Almería (Tabernas) stands at about 500 m, where the standard atmosphere gives about 95.5 kPa, 5.8 % lower; the dataset README states no barometric pressure, so the site value has to come from the altitude. At the same dry bulb and relative humidity the humidity ratio, and with it the air enthalpy that drives the Merkel integral, is understated: saturation at 25 °C is 20.08 g/kg at 101.3 kPa against 21.35 g/kg at 95.5 kPa, by `psychro.ws_scalar` (this cell first said 20.03 and 21.31, figures from outside this code). The fitted fill law (`c`, `n`) and every thermal gate scored from it (V1 outlet MAE 0.600 K, V1 heat rejection 6.27 %, V2 evaporation 10.80 %, all superseded below) carried this. Its effect on those figures was not measured when it was found | **Fixed** — 21 Oct 2026, re-scored once, exactly as pre-registered in `docs/staged/almeria_site_pressure_preregistration.md`, which was written before the run; its SHA-256 is stored in `results/calibration.json` beside the result and checked by `tests/test_site_pressure.py`. Site pressure **95,495 Pa**: 497 m (Solargis site report SG-01-2016) through the ASHRAE 2017 Ch. 1 Eq. (3) standard atmosphere, one value for all 147 rows. `calibrate.demanded_merkel` and `calibrate.predict` take `p` and default to it; `fill_law.py` and `uncertainty.py` pass it; sea level stays the default everywhere else. The execution check came first: at 101,325 Pa the new code reproduces the stored fill law to 2e-16 and the holdout figures to 6e-11. Thresholds unchanged, split unchanged (115 / 32), fill-law form unchanged. **The fill law moves: c 1.2401 → 1.1729, n −0.5014 → −0.5951**, log-space R² 0.372 → 0.585, and 115 of 115 training rows now integrate (114 at sea level). **No verdict changes:** V1 outlet MAE **0.600 → 0.542 K, PASS either way**; V1 heat rejection **6.27 % → 6.09 %, FAIL either way**, 0.09 points above the bar; V2 evaporation **10.80 % → 10.02 %, FAIL either way**. The supersession table and what was not re-derived are under the 17 September tables. 0.542 K equals, to three decimals, the superseded 50-row figure of defect 51 (0.5418 here); it is a coincidence, not a reversion |
+| 80 | **The plant-scale optimiser is not held to the daily silica margin that the ceiling includes** | Found 25 Nov 2026 by an independent adversarial review of the JWPE manuscript. `incumbent_gap.mizan_ceiling` (the ceiling the paper defines) lowers the silica limit by `chem.limits_with_diurnal_margin` for a +-5 K basin, but `run_controller.gate_v5` and `annual.run_annual` call `controller.optimise` with the default `OPERATING_LIMITS` (SI_silica <= 0, no margin) on a 1-cycle grid. In three of the five V5/V7 design conditions the optimiser chose **5.0 cycles**, above the **4.48-4.72-cycle** ceiling of the same paper, so the V7 pass and the hot-bin annual water savings rested on a limit the paper says is unsafe for about half of every day. Defect 37's own text warned of this shape (computed, documented, enforced by nothing) | **OPEN** for the registered gates, which are left as registered. Reported as a sensitivity registered before it ran (`docs/staged/margin_sensitivity_preregistration.md`, commit 137d0e7): the margin applied at each candidate's own basin temperature on a 0.1-cycle grid, with a margin-free control on the same grid (`scripts/margin_sensitivity.py`, `results/margin_sensitivity/`). `controller.optimise` gained an opt-in `saturation_limits_fn`; defaults unchanged. The manuscript's headline plant-scale figures are the margin-enforced ones. Results are in the supersession table of the 25 November re-run |
 
 **59 was never issued.** The branches reserved their number blocks in advance and
 one block was short by a row, so 59 was allocated and never used. It is recorded
@@ -357,6 +358,45 @@ and inside the envelope. `results/annual_weather_sensitivity.json` is the
 registered 17 September artefact and is left as it was; the site-pressure W1 is
 `results/annual_weather_w1_rescore.json`.
 
+### Plant-scale results with the daily silica margin enforced (defect 80), 25 November 2026
+
+Registered in `docs/staged/margin_sensitivity_preregistration.md` and committed
+(137d0e7) before `scripts/margin_sensitivity.py` first ran. The margin is applied
+at each candidate's own basin temperature (`chem.limits_with_diurnal_margin`,
++-5 K), on a 0.1-cycle grid from 2.0 to 6.0. The registered V5 and V7 verdicts
+are unchanged. **Declared deviation:** the margin-free control was run in full
+for the five design conditions. Its annual and W1 parts were stopped after
+their first bin, because six parallel runs on four cores would have taken about
+three hours. Their partial transcripts are kept in `results/margin_sensitivity/`.
+No chosen point reached the 6.0-cycle top of the grid.
+
+| Quantity | Registered (no margin, 1-cycle grid) | Control (no margin, 0.1 grid) | **Margin enforced (0.1 grid)** |
+|---|---|---|---|
+| V5 water / cost / energy (4.0-cycle baseline) | 4.52 / 4.19 / 3.29 % | 6.53 / 4.87 / 3.17 % | **3.95 / 3.85 / 3.18 %** |
+| V5 water, 95 % interval | -11.6 to +12.7 % | -8.0 to +15.1 % | **-11.0 to +12.8 %** |
+| V7 water (3.0-cycle baseline) | 15.14 % | 16.93 % | **14.64 %** (below 15 %; equal by coincidence to the superseded unconverged-solver figure of the early register) |
+| V7 water, 95 % interval; P(>= 15 %) | +0.8 to +22.5 %; 0.35 | +3.9 to +24.7 %; 0.54 | **+1.2 to +22.6 %; 0.35** |
+| Chosen cycles, five design conditions | 5, 5, 4, 5, 4 | 5.0, 5.2, 4.7, 5.3, 4.3 | **4.5, 4.7, 4.3, 4.8, 3.9** |
+| Annual TMYx, whole year: energy / water / cost | 3.91 / 3.39 / 4.06 % | first bin only | **4.74 / 1.08 / 3.77 %** |
+| Annual TMYx, inside (5,209 h): energy / water | 8.64 / -2.52 % | bin 0: 12.21 / -3.06 % | **9.10 / -3.43 %** |
+| Annual TMYx, extrapolated (3,551 h): energy / water | -0.80 / 8.73 % | not run | **0.40 / 5.15 %** |
+| W1, whole year: energy / water / cost | 5.80 / -0.34 / 4.12 % | first bin only | **6.14 / -1.56 / 3.86 %** |
+| W1, inside (6,630 h): energy / water | 9.18 / -4.41 % | not run | **8.43 / -3.04 %** |
+
+What the margin does: in cool hours the optimiser runs the fan harder to give
+the chiller colder water (basin 18.5-25.1 C in the three coolest TMYx bins). That
+lowers amorphous-silica solubility, and with the margin the silica ceiling at
+that basin is below 4 cycles, so it runs 3.4-3.9 cycles against the 4.0-cycle
+baseline. The baseline's fan sits at its 30 % minimum in those bins, with the basin at
+24.8-31.1 C. In the coolest bin the fixed 4.0-cycle baseline itself exceeds the
+margin-adjusted silica limit (SI -0.037 against -0.045), so part of that bin's water
+penalty comes from the optimiser respecting a limit the baseline does not.
+Inside the calibration range
+the energy saving holds (9.10 %), and the water penalty grows (3.43 % more
+makeup). The whole-year water saving is still weather-source dependent: +1.08 %
+on TMYx humidity and -1.56 % on station humidity. V7 falls below its threshold
+under the margin.
+
 ### What the defect-79 rescore did NOT re-derive, and why
 
 These still carry the **sea-level fill law (c 1.2401, n −0.5014)**. Each is the
@@ -415,7 +455,7 @@ single piece of staleness left in the repository.
 
 Three further things were caught during development and are recorded in the code where they happened, but were never in a released result: a contradictory collocation sampler in the surrogate (42 % of points demanded two mutually exclusive constraints), an untrained evaporation head from a loss-scaling error, and an evaporation output whose range could not represent 60 % of its own training data.
 
-**Open defects: twelve.** Seventy-seven found, sixty-five fixed. The twelve open are
+**Open defects: thirteen.** Seventy-eight found, sixty-five fixed. The thirteen open are
 53 (the registered PHREEQC calcite benchmark fails at 89.1 % against a 90 %
 bar), 56 (the registered fail-safe empties the basin sooner during a makeup
 loss), 58 (two incompatible magnesium–silica rules, one basis chosen by fit),
@@ -425,9 +465,11 @@ fifth gate is written and unscored), 72 (its P3 sampler does not enforce its own
 band), 73 (the fan-flow unit the repository cannot settle), 74 (nothing
 re-derives a stored artefact from the code that now exists), 77 (the canonical
 Poppe integration stops closing energy once the exit air fogs, and 70 of 147
-calibration rows are in that region), and 78 (the hot skin is evaluated at the
-bulk pH, which implies added alkalinity — in the conservative direction).
-Nine of the twelve are open because closing them is a physics, specification or
+calibration rows are in that region), 78 (the hot skin is evaluated at the
+bulk pH, which implies added alkalinity — in the conservative direction), and
+80 (the registered plant-scale optimiser omits the daily silica margin; reported
+as a registered sensitivity, the registered gates left as they were).
+Ten of the thirteen are open because closing them is a physics, specification or
 sourcing decision rather than an edit, and each row says which. Defect 79, found
 on 19 October, was closed on 21 October by the single re-fit and rescore it called
 for. **Twelve open is the most this register has carried apart from those two
@@ -830,7 +872,7 @@ These are things not yet known. Each is stated with the direction it cuts.
 
 A reviewer should be able to ask two questions and get a clean answer to each.
 
-**"Is the work sound?"** Seventy-seven defects were found, sixty-five are fixed, twelve are open and every open one says what would close it, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan. The twelve open rows are the honest state after six branches examined the package simultaneously on 17 September 2026 and an independent review examined it again on 21 September; three of them (53, 63, 73) are open because the repository does not hold the source that would decide them, four (56, 58, 64, 65) because the decision belongs to a person rather than to an edit, and two (77, 78) because the corrected physics now exists but adopting it means re-fitting and re-running every artefact beneath it. A review of a revival plan found one more on 19 October, the calibration run at sea-level pressure (79); it was fixed on 21 October by re-fitting the fill law at the site pressure and re-scoring once, and no gate verdict changed.
+**"Is the work sound?"** Seventy-eight defects were found, sixty-five are fixed, thirteen are open and every open one says what would close it, and a passing audit gates every release. Six of them were found because a first-principles model, or a check written against it, refused a bad input rather than absorbing it — which is the argument for building it that way, and the reason the parent company is called Furqan. The twelve open rows are the honest state after six branches examined the package simultaneously on 17 September 2026 and an independent review examined it again on 21 September; three of them (53, 63, 73) are open because the repository does not hold the source that would decide them, four (56, 58, 64, 65) because the decision belongs to a person rather than to an edit, and two (77, 78) because the corrected physics now exists but adopting it means re-fitting and re-running every artefact beneath it. A review of a revival plan found one more on 19 October, the calibration run at sea-level pressure (79); it was fixed on 21 October by re-fitting the fill law at the site pressure and re-scoring once, and no gate verdict changed.
 
 Defects 11 and 12 were found the same way as the rest: a threshold fixed before the run, and a result on the wrong side of it. The gate asked only that chiller power rise when a condenser fouls. It did not. Following that back found a validity limit that had been logged for months and read by nothing — and then a constant hardcoded into an audit, which had begun requiring documents to quote a figure the artefacts had already superseded.
 

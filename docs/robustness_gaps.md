@@ -5,7 +5,7 @@ here is either measured in this repository or is an internal inconsistency
 between the code and its own comments. Nothing is imported from outside without
 saying so.
 
-The audit passes, the register stands at seventy-seven found / sixty-five fixed / twelve open
+The audit passes, the register stands at seventy-eight found / sixty-five fixed / thirteen open
 open, and the numbers in every document match the artefacts. That is
 *consistency*. It is not the same thing as *robustness*, and the gap between the
 two is what this file is about.
