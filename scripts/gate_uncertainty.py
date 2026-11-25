@@ -22,11 +22,13 @@ inherits that error.
 Decomposing the residual per campaign as  rel_error[%] = a + k * fan[%]:
 
     campaign   n     a         k (%/fan%)   residual sd
-    Exp1      33   -0.52      -0.2002        6.27 pp
-    Exp2     115   +9.06      -0.3660       11.63 pp
+    Exp1      33   +0.35      -0.1923        6.41 pp
+    Exp2     115   +7.67      -0.3221       11.23 pp
+    (site pressure, defect 79; sea level was -0.52/-0.2002/6.27 and
+     +9.06/-0.3660/11.63, see results/campaign_error_model.json)
     (Exp3, 17 rows, was a duplicate of Exp1 rows 0-16 -- defect 70)
 
-The OFFSET a varies between the campaigns (-0.5 to +9.1) and CANCELS in
+The OFFSET a varies between the campaigns (+0.3 to +7.7) and CANCELS in
 a ratio: a water saving is (M_base - M_opt)/M_base, and a common
 multiplicative error on both terms divides out. One tower is one campaign, so
 within a deployment the offset is common.
@@ -67,10 +69,10 @@ RESULTS = ROOT / "results"
 # DEFECT 70: the Exp3 entry (+0.1873) was dropped. Its file repeats Exp1
 # rows 0-16 (defect 51), so it was one campaign counted twice, with the
 # subset's own fit. Both real campaigns have a NEGATIVE slope.
-CAMPAIGN_SLOPES = {"Exp1": -0.2002, "Exp2": -0.3660}
+CAMPAIGN_SLOPES = {"Exp1": -0.1923, "Exp2": -0.3221}
 
 # Residual scatter about each campaign's own fit, in percentage points.
-CAMPAIGN_RESID_SD = {"Exp1": 6.27, "Exp2": 11.63}
+CAMPAIGN_RESID_SD = {"Exp1": 6.41, "Exp2": 11.23}
 
 N_SAMPLES = 20_000
 SEED = 20260911

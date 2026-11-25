@@ -3,45 +3,45 @@
   "rows": [
     {
       "baseline_cycles": 2.0,
-      "water_pct": 36.26824176757027,
-      "cost_pct": 20.081204486724534,
-      "energy_pct": 2.926663220586905,
+      "water_pct": 36.36193016782481,
+      "cost_pct": 20.227835051168746,
+      "energy_pct": 3.2519040770298737,
       "violations": 0,
       "arithmetic_headroom_to_5cy_pct": 37.5,
       "verdict": "PASS"
     },
     {
       "baseline_cycles": 2.5,
-      "water_pct": 23.517364272009008,
-      "cost_pct": 12.737738862578004,
-      "energy_pct": 2.936002637877153,
+      "water_pct": 23.629928173763382,
+      "cost_pct": 12.940536686418927,
+      "energy_pct": 3.2616986875650165,
       "violations": 0,
       "arithmetic_headroom_to_5cy_pct": 25.0,
       "verdict": "PASS"
     },
     {
       "baseline_cycles": 3.0,
-      "water_pct": 15.014272613356377,
-      "cost_pct": 8.535842531791236,
-      "energy_pct": 2.9453945297547968,
+      "water_pct": 15.139742020866374,
+      "cost_pct": 8.773608338554755,
+      "energy_pct": 3.271393885317669,
       "violations": 0,
       "arithmetic_headroom_to_5cy_pct": 16.666666666666664,
       "verdict": "PASS"
     },
     {
       "baseline_cycles": 3.5,
-      "water_pct": 8.938512768348811,
-      "cost_pct": 5.8161193706826015,
-      "energy_pct": 2.955163926552082,
+      "water_pct": 9.0731832813761,
+      "cost_pct": 6.077153116385128,
+      "energy_pct": 3.2808239880477705,
       "violations": 0,
       "arithmetic_headroom_to_5cy_pct": 10.71428571428571,
       "verdict": "FAIL"
     },
     {
       "baseline_cycles": 4.0,
-      "water_pct": 4.3797846233251,
-      "cost_pct": 3.9122144397707475,
-      "energy_pct": 2.9642750641758613,
+      "water_pct": 4.521453465764972,
+      "cost_pct": 4.19028483572486,
+      "energy_pct": 3.290060096575341,
       "violations": 0,
       "arithmetic_headroom_to_5cy_pct": 6.25,
       "verdict": "FAIL"

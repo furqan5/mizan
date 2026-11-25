@@ -145,15 +145,15 @@ Gate V5 scores an unweighted mean over five hand-picked ambient conditions. That
 
 | Metric | Makeup water saving |
 |---|---|
-| Five-condition unweighted mean (gate V5) | 4.38 % |
-| **Hours-weighted annual, Dhahran TMYx** | **0.31 %** |
-| Difference | **-4.07 points** |
+| Five-condition unweighted mean (gate V5) | 4.52 % |
+| **Hours-weighted annual, Dhahran TMYx** | **2.18 %** |
+| Difference | **-2.35 points** |
 
 **The gate metric was flattering the product.** The saving is large when it is hot and small when it is not, and the five chosen conditions were weighted toward summer. A real Dhahran year is not weighted that way.
 
-The figure that belongs in a commercial conversation is therefore **0.3 % annually**, not 4.38 %. The higher number should not be used outside the specific five-condition comparison it was computed for. This is reported here rather than quietly dropped because it was found while looking for a way to make a failed gate pass, and it did the opposite.
+The figure that belongs in a commercial conversation is therefore **2.2 % annually**, not 4.52 %. The higher number should not be used outside the specific five-condition comparison it was computed for. This is reported here rather than quietly dropped because it was found while looking for a way to make a failed gate pass, and it did the opposite.
 
-Quoted OUTSIDE this repository the figure is **1.3 %** -- the ratio of hours-weighted totals, cubic metres saved over cubic metres consumed. The 0.3 % above is an hours-weighted mean of ratios, which is the right object for comparing against the gate and the wrong one for a customer.
+Quoted OUTSIDE this repository the figure is **3.4 %** -- the ratio of hours-weighted totals, cubic metres saved over cubic metres consumed. The 2.2 % above is an hours-weighted mean of ratios, which is the right object for comparing against the gate and the wrong one for a customer.
 
 The same calculation carries its own caveat: only **59.5 %** of the year, counted hour by hour, lies inside the wet-bulb envelope the model was validated in. The rest rests on extrapolation, and no weighting scheme fixes that.
 
@@ -274,23 +274,23 @@ Plant archetype: 10 MW condenser-water module. Tariffs are the one class of inpu
 
 | Criterion | Threshold | Result | Verdict |
 |---|---|---|---|
-| Makeup water reduction | ≥ 15.0 % | 4.38 % | **FAIL** |
-| Total operating cost reduction | ≥ 3.0 % | 3.91 % | **PASS** |
+| Makeup water reduction | ≥ 15.0 % | 4.52 % | **FAIL** |
+| Total operating cost reduction | ≥ 3.0 % | 4.19 % | **PASS** |
 | Skin-temperature saturation violations | 0 | 0 | **PASS** |
 
 Per condition:
 
 | Condition | Wet bulb | Fan | Cycles | Makeup m³/h | Water | Cost |
 |---|---|---|---|---|---|---|
-| Dhahran summer peak | 25.2 °C | 70 → 60 % | 4 → 5 | 27.5 → 25.0 | +9.1 % | +2.7 % |
-| Dhahran summer humid | 29.7 °C | 100 → 80 % | 4 → 5 | 24.3 → 22.2 | +8.6 % | +3.5 % |
-| Dhahran shoulder | 22.4 °C | 60 → 80 % | 4 → 4 | 22.5 → 23.1 | -3.1 % | +1.0 % |
-| Doha summer humid | 30.3 °C | 100 → 80 % | 4 → 5 | 25.3 → 23.0 | +9.0 % | +3.7 % |
-| Gulf winter | 14.7 °C | 40 → 90 % | 4 → 4 | 19.5 → 19.9 | -1.7 % | +8.7 % |
+| Dhahran summer peak | 25.2 °C | 80 → 70 % | 4 → 5 | 28.0 → 25.5 | +8.9 % | +3.1 % |
+| Dhahran summer humid | 29.7 °C | 100 → 80 % | 4 → 5 | 24.1 → 22.1 | +8.5 % | +3.3 % |
+| Dhahran shoulder | 22.4 °C | 60 → 80 % | 4 → 4 | 22.4 → 23.0 | -2.8 % | +1.4 % |
+| Doha summer humid | 30.3 °C | 100 → 80 % | 4 → 5 | 25.1 → 22.9 | +8.9 % | +3.5 % |
+| Gulf winter | 14.7 °C | 40 → 90 % | 4 → 4 | 19.6 → 19.8 | -0.9 % | +9.7 % |
 
 ### Reading the failure honestly
 
-The water criterion was set at 15 % and was **missed**, at 4.38 %. It is reported as a failure and the threshold has not been moved. What has changed since it was set is that the reason for the miss is now known exactly, and it is not a deficiency of the controller.
+The water criterion was set at 15 % and was **missed**, at 4.52 %. It is reported as a failure and the threshold has not been moved. What has changed since it was set is that the reason for the miss is now known exactly, and it is not a deficiency of the controller.
 
 Makeup water is evaporation plus blowdown, and blowdown is evaporation divided by (C - 1). At constant evaporation the makeup rate is therefore
 
@@ -309,12 +309,12 @@ so the makeup saving available by raising cycles from the incumbent 4 is fixed a
 
 A criterion of 15 % therefore requires **8.5 cycles**. Gypsum saturates at **6 cycles** on this water (section 7, gate V5b). The criterion was written on the far side of a wall that had not yet been located, and gypsum saturation is not pH-sensitive, so the acid dose that buys cycles against calcite cannot move it. No control strategy of any kind reaches 15 % on this makeup water by raising cycles.
 
-The controller nevertheless reaches 4.38 %, which is more than cycles alone can deliver at its operating point, because it also lowers evaporation by slowing the fan wherever the chiller can absorb the warmer condenser water. That second term is precisely the coupling this product exists to price, and it is invisible to both incumbent disciplines: a water treater optimising cycles alone cannot access it, and an energy optimiser lowering condenser temperature moves it the wrong way and never books it.
+The controller nevertheless reaches 4.52 %, which is more than cycles alone can deliver at its operating point, because it also lowers evaporation by slowing the fan wherever the chiller can absorb the warmer condenser water. That second term is precisely the coupling this product exists to price, and it is invisible to both incumbent disciplines: a water treater optimising cycles alone cannot access it, and an energy optimiser lowering condenser temperature moves it the wrong way and never books it.
 
 Two conclusions follow, and they are different from the ones drawn when this gate was first scored.
 
 1. **The pre-registration was mis-specified, not merely missed.** A threshold should be checked against the physical ceiling of the system before it is fixed. This one was not, and the correct record of that is to leave the gate failed and say why.
-2. **The water saving is not the product.** At current tariffs the value is the energy trade plus the certainty of not crossing a saturation limit that bulk instrumentation cannot see. Total operating cost falls 3.91 % against a criterion of 3.0 %.
+2. **The water saving is not the product.** At current tariffs the value is the energy trade plus the certainty of not crossing a saturation limit that bulk instrumentation cannot see. Total operating cost falls 4.19 % against a criterion of 3.0 %.
 
 The incumbent 4-cycle baseline was found safe at skin temperature in all 5 conditions tested. It is conservative rather than unsafe -- it leaves margin unused. No claim is made here that typical plants are actively scaling; establishing that requires field data and is a TRL 4 objective.
 
@@ -324,9 +324,9 @@ Sweeping cycles at fixed fan speed, with pH free to take its least-cost feasible
 
 | Cycles | Best pH | Makeup m³/h | Acid kg/h | Water $/h | Acid $/h | Total $/h | Blocked by |
 |---|---|---|---|---|---|---|---|
-| 3 | 8.50 | 26.97 | 1.7 | 83.89 | 0.33 | **203.60** | |
-| 4 | 8.25 | 23.97 | 1.8 | 74.55 | 0.34 | **194.15** | |
-| 5 | 8.25 | 22.47 | 1.7 | 69.89 | 0.33 | **189.42** | |
+| 3 | 8.50 | 26.84 | 1.7 | 83.47 | 0.33 | **204.32** | |
+| 4 | 8.25 | 23.85 | 1.8 | 74.18 | 0.34 | **194.92** | |
+| 5 | 8.25 | 22.36 | 1.7 | 69.54 | 0.33 | **190.21** | |
 | 6 | — | nan | — | — | — | — | **SI_silica_am** |
 | 7 | — | nan | — | — | — | — | **SI_silica_am** |
 | 8 | — | nan | — | — | — | — | **SI_silica_am** |
@@ -431,7 +431,7 @@ Every remaining open item is listed with the direction it biases the result. Tha
 | Model error is 2.5x the propagated measurement uncertainty | **Against us** — we report the real error, not a floor | Decomposed already: ~30 % fill drift, ~70 % residual. Second rig at KFUPM separates them |
 | Silica is not reported in the Aramco analysis, so its constraint is inactive | **Against us** — present silica could only lower the wall, never raise it. Our 8 cycles is an upper bound | ICP-OES and ion chromatography, Bldg 75-230 |
 | Saturation indices are computed, not measured | **Neutral** — constants are from the USGS PHREEQC database, not fitted by us | Heated-coupon side-stream rig |
-| Makeup water reduction missed its pre-registered 15 % threshold (4.38 %) | **Against us** — reported as a failure rather than rescored. Now diagnosed: 15 % requires roughly 8.5 cycles and **amorphous silica** saturates at 6, so the threshold was written beyond the physical ceiling. (The binding mineral was believed to be gypsum when this row was first written; correcting the speciation moved it without moving the ceiling.) | Nothing: the threshold stands as written |
+| Makeup water reduction missed its pre-registered 15 % threshold (4.52 %) | **Against us** — reported as a failure rather than rescored. Now diagnosed: 15 % requires roughly 8.5 cycles and **amorphous silica** saturates at 6, so the threshold was written beyond the physical ceiling. (The binding mineral was believed to be gypsum when this row was first written; correcting the speciation moved it without moving the ceiling.) | Nothing: the threshold stands as written |
 | Fill characteristic identified on one tower | **Neutral** — the characteristic form transfers, the coefficients do not, and per-site calibration is part of the product | Second rig, and the drift result already quantifies the recalibration interval |
 | No AI contributes to any result here | **Neutral** — stated so the evidence cannot be mistaken for a learned fit | Scaling-kinetics residual, once coupon data exists |
 

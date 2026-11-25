@@ -1,0 +1,27 @@
+==============================================================================
+WATER GATES WITH AN INTERVAL
+==============================================================================
+error model: measured per-campaign fan-slope of the evaporation
+residual. The common offset cancels in a ratio; the fan-dependent
+part does not, and its sign is not consistent across campaigns.
+
+gate                         point     sd      95% interval  P(>=15%)  P(>=20%)
+-------------------------------------------------------------------------------
+V5 (4.0 cycle baseline)      4.52%   6.13    -11.6 to 12.7        0.01      0.00
+V7 (3.0 cycle baseline)     15.14%   5.50      0.8 to 22.5        0.35      0.08
+
+  V5 (4.0 cycle baseline): mean |fan change| 24 pp
+  V7 (3.0 cycle baseline): mean |fan change| 24 pp
+
+  READ THIS BEFORE QUOTING EITHER NUMBER.
+  The interval is wide because the instrument is wide: gate V2
+  fails on evaporation MAPE against its 8 % threshold (the
+  figure is in results/calibration.json and moved when defect
+  51 de-duplicated the dataset), and
+  the best achievable IN-SAMPLE on this dataset is 7.57 %, so V2
+  is not passable under an honest train/test protocol. Until a
+  better evaporation dataset exists this interval cannot narrow,
+  and no water result from this package can be quoted to better
+  than a few percentage points.
+
+written -> E:\Startup\mizan\results\gate_uncertainty.json

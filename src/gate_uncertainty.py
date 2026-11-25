@@ -19,8 +19,14 @@ dataset and regressing the relative error on fan speed, campaign by
 campaign:
 
     campaign   n     offset a      slope k        residual sd
-    Exp1      33     -0.52 %      -0.2002 %/fan%     6.27 pp
-    Exp2     115     +9.06 %      -0.3660 %/fan%    11.63 pp
+    Exp1      33     +0.35 %      -0.1923 %/fan%     6.41 pp
+    Exp2     115     +7.67 %      -0.3221 %/fan%    11.23 pp
+
+Those are the site-pressure figures (defect 79, 95,495 Pa, fill law c 1.1729,
+n -0.5951), written by scripts/campaign_error_model.py to
+results/campaign_error_model.json. At sea level they were Exp1 -0.52 %,
+-0.2002 %/fan%, 6.27 pp and Exp2 +9.06 %, -0.3660 %/fan%, 11.63 pp, which that
+script reproduces before it writes anything.
 
 DEFECT 70. There used to be a third row -- Exp3, n 17, offset -14.59 %,
 slope +0.1873 %/fan%, residual sd 3.18 pp -- and it was not a campaign.
@@ -95,10 +101,10 @@ RESULTS = ROOT / "results"
 # rather than recomputed at import so the gate does not depend on the dataset
 # being present, and so the numbers are auditable against the docstring.
 CAMPAIGN_FITS = {
-    "Exp1": {"n": 33, "offset_pct": -0.52, "slope_pct_per_fanpct": -0.2002,
-             "residual_sd_pp": 6.27},
-    "Exp2": {"n": 115, "offset_pct": 9.06, "slope_pct_per_fanpct": -0.3660,
-             "residual_sd_pp": 11.63},
+    "Exp1": {"n": 33, "offset_pct": 0.35, "slope_pct_per_fanpct": -0.1923,
+             "residual_sd_pp": 6.41},
+    "Exp2": {"n": 115, "offset_pct": 7.67, "slope_pct_per_fanpct": -0.3221,
+             "residual_sd_pp": 11.23},
     # DEFECT 70: no Exp3 row. The file duplicates Exp1 rows 0-16.
 }
 

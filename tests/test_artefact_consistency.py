@@ -79,7 +79,9 @@ def test_the_water_gate_verdict_on_the_validated_analysis(controller_summary):
     # water genuinely worth less, so the optimiser correctly trades water
     # saving away for energy saving. The gate fails either way, and now
     # fails by a factor of 3.4 rather than 2.3.
-    assert s["water_pct"] == pytest.approx(4.38, abs=0.05)
+    # DEFECT 79, plant-scale re-run on the site-pressure fill law, 25 Nov
+    # 2026: 4.38 -> 4.52. Pre-registered; the verdict does not move.
+    assert s["water_pct"] == pytest.approx(4.52, abs=0.05)
     assert s["water_pct"] < 15.0, "V5 water fails on the validated analysis"
 
 
@@ -91,7 +93,8 @@ def test_the_cost_gate_passes_and_violations_are_zero(controller_summary):
     # DEFECT 30, 10 Sep 2026: 3.69 -> 3.91. Cost is the gate that passes,
     # and pricing makeup and discharge on their own streams widened its
     # margin over the 3.0 threshold rather than narrowing it.
-    assert s["cost_pct"] == pytest.approx(3.91, abs=0.05)
+    # DEFECT 79 plant-scale re-run, 25 Nov 2026: 3.91 -> 4.19.
+    assert s["cost_pct"] == pytest.approx(4.19, abs=0.05)
     assert s["violations"] == 0, (
         "zero skin saturation violations is a PASSED gate; a non-zero count "
         "means the controller is operating past the wall it exists to respect")

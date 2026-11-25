@@ -1,7 +1,50 @@
 # Session handoff — Furqan / Mizan
 
-> **CURRENT AS OF 21 OCTOBER 2026.** Branch `main`, uncommitted: nothing here is
-> committed, pushed or released until Furqan says so. This pass closed defect 79.
+> **CURRENT AS OF 25 NOVEMBER 2026.** Branch `main`, committed, pushed and
+> released as **v1.2.0** at Furqan's request (JWPE submission). This pass re-ran
+> the plant-scale studies the JWPE paper quotes on the site-pressure fill law.
+>
+> **State:** `python -m pytest -p no:cacheprovider -o addopts="" -q tests review_tests`
+> gives **673 passed, 4 xfailed** · `python src/audit.py` gives **AUDIT PASSED** · register
+> **77 found / 65 fixed / 12 open** (no new defect).
+>
+> ---
+>
+> **1. The defect-79 calibration is committed** (b66a814). It was the
+> uncommitted state of the 21 October block below.
+>
+> **2. The plant-scale re-run is done for the artefacts the paper quotes.** It was
+> pre-registered (21 October plan plus the 24 November addendum, committed in
+> b42039c before any new-law output existed). The 21 October attempt had stopped
+> part-way. Its partial outputs were moved out of the repository, and none is used.
+> A sea-level copy reproduced every stored artefact first, so the changes are the
+> fill law's alone. **No verdict moved.** V5 water 4.38 → **4.52 %** (FAIL), cost
+> 3.91 → **4.19 %** (PASS), V7 15.01 → **15.14 %** (PASS, interval now +0.8 to
+> +22.5 %). Annual TMYx, inside the envelope: energy 8.82 → **8.64 %** saved, water
+> −3.22 → **−2.52 %**. Outside it, **energy changes sign**: +0.95 → **−0.80 %**.
+> Ceilings move by under 0.1 cycle: Dhahran median 4.50 (silica, basin), Riyadh
+> 8.93 (calcite, skin). W1 (station humidity) was rebuilt from the committed
+> climatology because the raw ISD-Lite files are not here. It reproduced the stored
+> sea-level W1 to 0.004 points against a 0.01 bar, and on the new law the
+> whole-year water saving is −0.34 % (was −2.64 %), still negative. Full supersession table in the register.
+>
+> **3. Still on the sea-level law** (left out by the addendum before the run):
+> `annual_datacentre.json`, the diurnal, CDU-hybrid, joint-policy, corrosion-floor
+> and ceiling-condition studies, `chiller_feasibility.json`, `fouling_energy.json`,
+> `pitch_artifacts.json`. Do not quote a site-pressure figure for any of them.
+> Defect 42's Frankfurt bypass finding stays unverified.
+>
+> **4. Pins updated, tolerances not.** Five test pins moved with the artefacts
+> (V5 water and cost, the V7 margin, and the gate-uncertainty spreads and bar), each
+> with a dated comment. The gate-uncertainty campaign constants come from
+> `results/campaign_error_model.json`. `CITATION.cff` is corrected (brucite and
+> calcium phosphates at the skin, not magnesium silicate; sole author) and set to
+> v1.2.0.
+>
+> ---
+
+> **AS OF 21 OCTOBER 2026** — superseded by the block above and kept as the record of that pass. This pass closed defect 79
+> (committed on 24 November 2026 as b66a814).
 >
 > **State:** `python -m pytest -p no:cacheprovider -o addopts="" -q tests review_tests`
 > gives **673 passed, 4 xfailed** · `python src/audit.py` gives **AUDIT PASSED**, 71 assertions ·

@@ -298,20 +298,77 @@ The pre-registration held the form fixed whatever this showed. The script had
 also been printing a literal "MAE gain (0.025 K)" from an earlier holdout; it
 prints the computed 0.006 K now.
 
+### Plant-scale re-run on the site-pressure law, 24-25 November 2026
+
+Run once, as registered in `docs/staged/plant_scale_site_pressure_preregistration.md`
+(SHA-256 `5a1dce18...`) and its addendum
+`docs/staged/plant_scale_site_pressure_addendum_20261124.md`, both committed in
+b42039c before any new-law output existed. The 21 October attempt had stopped
+part-way. Its partial outputs were moved out of the repository and none of them
+is used. The addendum fixed the subset (the artefacts the JWPE manuscript quotes)
+before the run.
+
+**Before column.** A scratch copy with the committed sea-level `calibration.json`
+re-ran the same scripts first. `controller_out.txt`, `controller_summary.json`,
+`v5_controller.csv`, `v7_controller.csv`, `annual_dhahran.json`, `annual_rerun.log`
+and `incumbent_gap.log` reproduced the stored artefacts exactly (except the output
+path the logs print). `v7_baseline_sensitivity.json` reproduced to 1e-4 in two
+cost cells. So every change below is the fill law's alone.
+
+**W1 rebuilt.** The raw ISD-Lite files are not on this laptop.
+`scripts/weather_w1_rescore.py` rebuilds W1 from the committed four-decimal
+climatology. On the sea-level copy it reproduced the stored W1 figures to
+0.0043 points against the addendum's 0.01 bar, so its site-pressure figures are
+used (`results/annual_weather_w1_rescore.json`).
+
+**Gate-uncertainty constants** now come from `results/campaign_error_model.json`
+at the printed precision: Exp1 +0.35 %, -0.1923 %/fan%, 6.41 pp and Exp2 +7.67 %,
+-0.3221 %/fan%, 11.23 pp (sea level: -0.52, -0.2002, 6.27 and +9.06, -0.3660, 11.63).
+
+| Quantity | Sea-level law | Site-pressure law | Verdict |
+|---|---|---|---|
+| V5 water, five conditions | 4.38 % | **4.52 %** | FAIL either way |
+| V5 cost | 3.91 % | **4.19 %** | PASS either way |
+| V5 skin violations | 0 | 0 | PASS |
+| V5 water, 95 % interval | -13.1 to +12.5 % | **-11.6 to +12.7 %** | not decidable from zero |
+| V7 water (3.0-cycle baseline) | 15.01 % | **15.14 %** | PASS either way |
+| V7 water, 95 % interval | -0.5 to +22.4 % | **+0.8 to +22.5 %** | now excludes zero; P(>=15 %) 0.32 -> 0.35 |
+| Annual, whole year (TMYx, ratio of totals): energy / water / cost | 4.86 / 1.31 / 4.01 % | **3.91 / 3.39 / 4.06 %** | |
+| Annual, inside envelope (5,209 h): energy / water | 8.82 / -3.22 % | **8.64 / -2.52 %** | water negative inside either way |
+| Annual, extrapolated (3,551 h): energy / water | **+0.95** / 5.41 % | **-0.80** / 8.73 % | **energy changes sign outside the envelope** |
+| Hours-weighted annual water (mean of ratios) | 0.31 % | **2.18 %** | |
+| Dhahran ceiling, pH 7.8 (median; range) | 4.51; 4.41-4.70 | **4.50; 4.48-4.72** | silica at the basin either way |
+| Riyadh ceiling, pH 7.8 (median; range) | 8.91; 8.60-9.09 | **8.93; 8.56-8.97** | calcite at the skin either way |
+| Riyadh, Dhahran summer peak, pH 7.5 / 8.0 / 8.25 | 14.07 / 6.58 / 4.53 | **14.16 / 6.62 / 4.56** | |
+| No-acid ceilings, Dhahran / Riyadh | 2.03 / 1.56 | **2.04 / 1.57** | calcite either way |
+| LSI 2.5 policy, Dhahran / Riyadh (median) | 12.95 / 11.41 | **12.99 / 11.45** | |
+| Skin-rise sensitivity, Riyadh at summer peak | 9.61 -> 8.91 | **9.67 -> 8.97** | 0.15-0.16 cycles/K either way |
+| Incumbent operating point: return / skin / basin | 36.2-39.5 / 43.7-46.9 / 30.4-33.6 C | **37.0-39.7 / 44.5-47.2 / 31.2-33.9 C** | |
+| incumbent_gap H1-H4b verdicts | as registered | **unchanged** (H2 min gap 7.66 -> 7.57) | |
+
+| W1 (station humidity), whole year: energy / water / cost | 6.54 / -2.64 / 3.85 % | **5.80 / -0.34 / 4.12 %** | water negative under W1 either way |
+| W1, inside envelope (6,630 h): energy / water | 9.10 / -4.77 % | **9.18 / -4.41 %** | |
+| W1, extrapolated (2,130 h): energy / water | 0.59 / 1.91 % | **-2.16 / 8.24 %** | energy changes sign outside under W1 too |
+
+The weather-source verdict stands: the whole-year water saving is positive on
+TMYx humidity (3.39 %) and negative on station humidity (-0.34 %), so it is
+WEATHER-SOURCE-DEPENDENT; the energy saving is positive under both, whole-year
+and inside the envelope. `results/annual_weather_sensitivity.json` is the
+registered 17 September artefact and is left as it was; the site-pressure W1 is
+`results/annual_weather_w1_rescore.json`.
+
 ### What the defect-79 rescore did NOT re-derive, and why
 
 These still carry the **sea-level fill law (c 1.2401, n −0.5014)**. Each is the
 defect-74 shape and is listed so that none of them reads as current physics.
 
-* **Every plant-scale artefact that reads `fill_c` and `fill_n`**:
-  `controller_summary.json` (V5: 3.91 % cost, 4.38 % water), `annual_dhahran.json`,
-  `annual_datacentre.json`, and the diurnal, CDU-hybrid, joint-policy,
-  incumbent-gap, corrosion-floor, ceiling-condition and skin-sensitivity studies.
-  So do `scripts/v7_baseline_sensitivity.py`'s outputs and the per-campaign
-  constants typed into `gate_uncertainty`. Re-running them is the "re-run every
-  artefact beneath it" job that defect 77 also needs, and doing it once for both
-  is cheaper than doing it twice. A future run of any of these scripts reads the
-  new law from `calibration.json`.
+* **Still on the sea-level law after the November re-run** (the addendum left
+  them out before the run, by what the manuscript quotes, not by outcome):
+  `annual_datacentre.json`, the diurnal, CDU-hybrid, joint-policy,
+  corrosion-floor and ceiling-condition studies, `chiller_feasibility.json`,
+  `fouling_energy.json` and `pitch_artifacts.json`. Re-running them is the
+  "re-run every artefact beneath it" job that defect 77 also needs. A future run
+  of any of these scripts reads the new law from `calibration.json`.
 * **`results/v2_diagnosis.json`**, which no script writes (defect 74). Its two
   entries stay the sea-level per-campaign fits. `drift.py`'s site-pressure figures
   are in the V2 section of Part 2.

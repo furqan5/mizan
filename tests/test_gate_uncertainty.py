@@ -22,8 +22,11 @@ def test_the_offset_is_large_and_the_slope_is_small_and_that_is_the_point():
     # campaign. On the two real ones the spreads are 4.79 pp and 0.083
     # %/fan%, where three gave 9.71 and 0.232.
     assert len(gu.CAMPAIGN_FITS) == 2 and "Exp3" not in gu.CAMPAIGN_FITS
-    assert a_sd == pytest.approx(4.79, abs=0.05)
-    assert k_sd == pytest.approx(0.083, abs=0.005)
+    # DEFECT 79 (site-pressure fill law, 25 Nov 2026): the campaign
+    # constants moved, and the spreads with them, 4.79 -> 3.66 pp and
+    # 0.083 -> 0.065 %/fan%. The cancelling term is still the larger one.
+    assert a_sd == pytest.approx(3.66, abs=0.05)
+    assert k_sd == pytest.approx(0.065, abs=0.005)
     assert a_sd > 30 * k_sd, "the cancelling term must be the larger one"
     # and the slope keeps its sign on both real campaigns: the claim that
     # it did not was a property of the repeated file
@@ -31,11 +34,12 @@ def test_the_offset_is_large_and_the_slope_is_small_and_that_is_the_point():
 
 
 def test_v5_fails_decidably():
-    """4.38 % against 15 % is a real failure: the interval does not reach the
-    threshold, so the verdict survives its own error bar."""
+    """4.52 % against 15 % is a real failure (4.38 % on the sea-level fill
+    law): the interval does not reach the threshold, so the verdict survives
+    its own error bar."""
     d = gu.fan_movement_from_gate()
     assert d is not None and d == pytest.approx(24.0, abs=1.0)
-    v = gu.verdict_is_decidable(4.38, 15.0, d)
+    v = gu.verdict_is_decidable(4.52, 15.0, d)
     assert v["point_verdict"] == "FAIL"
     assert v["decidable"], "a failure by 10 points should be decidable"
     assert v["high"] < 15.0
@@ -49,12 +53,14 @@ def test_v7_passes_but_is_not_decidable_and_must_say_so():
     information, and anything reporting the verdict must report that too.
     """
     d = gu.fan_movement_from_gate()
-    v = gu.verdict_is_decidable(15.01, 15.0, d)
+    # DEFECT 79 re-run, 25 Nov 2026: V7 moved 15.01 -> 15.14 %, a margin of
+    # 0.09 sigma instead of 0.005. Still a coin toss on the physics.
+    v = gu.verdict_is_decidable(15.14, 15.0, d)
     assert v["point_verdict"] == "PASS"
     assert not v["decidable"], (
         "if this ever becomes decidable the instrument improved and the "
         "claim can be strengthened -- check why before deleting this")
-    assert abs(v["margin_in_sigma"]) < 0.01, v["margin_in_sigma"]
+    assert v["margin_in_sigma"] == pytest.approx(0.09, abs=0.01), v["margin_in_sigma"]
 
 
 def test_twenty_percent_against_the_error_bar_of_what_is_already_computed():
@@ -64,9 +70,11 @@ def test_twenty_percent_against_the_error_bar_of_what_is_already_computed():
     campaigns the bar is 13.0 to 17.0 % and 20 % is outside it -- a smaller
     interval on a weaker basis, not new information."""
     d = gu.fan_movement_from_gate()
-    iv = gu.water_saving_interval(15.01, d)
-    assert iv["low"] == pytest.approx(13.0, abs=0.2)
-    assert iv["high"] == pytest.approx(17.0, abs=0.2)
+    # DEFECT 79 re-run, 25 Nov 2026: at V7 = 15.14 % on the site-pressure
+    # constants the bar is 13.6 to 16.7 % (it was 13.0 to 17.0 at 15.01 %).
+    iv = gu.water_saving_interval(15.14, d)
+    assert iv["low"] == pytest.approx(13.6, abs=0.2)
+    assert iv["high"] == pytest.approx(16.7, abs=0.2)
     assert not (iv["low"] < 20.0 < iv["high"])
     assert len(gu.CAMPAIGN_FITS) == 2, (
         "the narrower bar comes from REMOVING a duplicate campaign, not "

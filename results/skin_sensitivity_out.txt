@@ -1,0 +1,69 @@
+==============================================================================
+SKIN-TEMPERATURE SENSITIVITY  --  how much of the wall is the assumption?
+==============================================================================
+
+Computed wall-to-bulk rise, q''/h_i, Dittus-Boelter at 2.0 m/s:
+   q'' =   20 kW/m2   h_i =   8186 W/m2K   dT = 2.44 K
+   q'' =   25 kW/m2   h_i =   8186 W/m2K   dT = 3.05 K
+   q'' =   30 kW/m2   h_i =   8186 W/m2K   dT = 3.66 K
+
+Every chemistry gate in this package used dT = 8.00 K, hardcoded.
+
+ skin dT  case                                          last OK   wall      binding  water % at last OK
+----------------------------------------------------------------------------------------------------------
+    2.40  clean, 20 kW/m2 at 2 m/s                            5      6 SI_silica_am               6.25 %
+    3.00  clean, mid-range                                    5      6 SI_silica_am               6.25 %
+    3.70  clean, 30 kW/m2 at 2 m/s                            5      6 SI_silica_am               6.25 %
+    5.00  lightly fouled                                      5      6 SI_silica_am               6.25 %
+    8.00  FOULED -- the value every gate in this package used        5      6 SI_silica_am               6.25 %
+
+WHAT THIS MEANS, STATED PLAINLY
+
+   At the fouled 8.0 K the package reports, the wall is at 6 cycles and the
+   best feasible point is 5 cycles, worth 6.25 % on cycles alone.
+
+   At a clean-surface 3.0 K, the wall moves to 6 cycles and the best feasible
+   point is 5 cycles, worth 6.25 % on cycles alone.
+
+   The pre-registered 15 % water criterion needs 8.5 cycles.
+      dT = 2.4 K -> last feasible 5 cycles -> 15 % is unreachable
+      dT = 3.0 K -> last feasible 5 cycles -> 15 % is unreachable
+      dT = 3.7 K -> last feasible 5 cycles -> 15 % is unreachable
+      dT = 5.0 K -> last feasible 5 cycles -> 15 % is unreachable
+      dT = 8.0 K -> last feasible 5 cycles -> 15 % is unreachable
+
+   MECHANISM, measured rather than remembered.
+
+        T_C  SI_gypsum    D-H A   (limit 0.3)
+         36    -0.1684   0.5225   ok
+         40    -0.1758   0.5267   ok
+         44    -0.1816   0.5310   ok
+         48    -0.1861   0.5355   ok
+         50    -0.1878   0.5378   ok
+
+   SI_gypsum has an interior MINIMUM at 59.5 C (SI -0.1914), so it is retrograde below that point and
+   prograde above it. The condenser skin in these runs sits near
+   40 C -- on the flat bottom of that curve, which is why the
+   sweep below moves so little.
+
+   RESULT: across the whole band dT = 2.4 to 8.0 K, clean to fouled,
+   the gypsum wall does NOT move. It is 6 cycles at every skin
+   temperature tested, and the last feasible count is 5 at every one.
+
+   That is a change of status for this open item, and it cuts FOR
+   the package rather than against it. The hardcoded 8 K was the
+   least-defended input in the chemistry chain precisely because
+   the ceilings were believed to be proportional to it. Under the
+   corrected gypsum solubility they are not sensitive to it at all
+   over the range the film calculation admits.
+
+   The 8 K literal should still be replaced by a call to
+   wall_bulk_delta_t -- an assumption that happens not to bind is
+   still an assumption -- but it is no longer load-bearing for
+   either ceiling, and the reported saturation violations are no
+   longer conditional on a fouled condenser.
+
+   The 15 % water criterion needs 8.5 cycles and the wall is at 6, so it stays
+   unreachable at every skin temperature in the band. V5 is not rescored.
+
+written -> results/skin_sensitivity.json

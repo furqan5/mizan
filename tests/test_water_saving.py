@@ -181,9 +181,10 @@ def test_the_default_mode_is_the_one_the_gate_was_scored_on(setup):
 
 def test_the_v5_water_gate_still_reads_its_failure(setup):
     """Guards the separation directly: whatever the new modes achieve, the
-    artefact the gate is scored from still says 4.38 % and still fails."""
+    artefact the gate is scored from still says 4.52 % (4.38 % on the sea-level
+    fill law, defect 79) and still fails."""
     s = json.loads((RESULTS / "controller_summary.json").read_text())["summary"]
-    assert s["water_pct"] == pytest.approx(4.38, abs=0.05)
+    assert s["water_pct"] == pytest.approx(4.52, abs=0.05)
     assert s["water_pct"] < s["pre_registered"]["makeup_water_reduction_pct_min"]
 
 

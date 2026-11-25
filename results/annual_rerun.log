@@ -3,34 +3,34 @@ HOURS-WEIGHTED ANNUAL PERFORMANCE  --  Dhahran TMYx 2011-2025
 ============================================================================
 This is NOT the pre-registered V5 gate and does not change its
 verdict. V5 is an unweighted mean over five conditions; it scored
-4.38 % against 15 % and failed. This is the annual figure.
+4.52 % against 15 % and failed. This is the annual figure.
 
  bin  hours   T_wb C   T_db C     RH   load  energy %   water %   cost %  in envlp
 ----------------------------------------------------------------------------
-   0   1042      9.6     14.5   0.54   0.49      6.55      0.26     4.73       yes
-   1   1042     14.0     19.3   0.58   0.57     11.65     -1.59     7.87       yes
-   2   1042     16.6     22.9   0.56   0.63     12.42     -3.62     7.87       yes
-   3   1042     18.9     26.5   0.52   0.69      6.75     -4.26     3.50       yes
-   4   1041     20.9     29.8   0.48   0.74      6.97     -4.99     3.45       yes
-   5   1184     23.2     33.0   0.47   0.79      3.38     -3.67     1.25        NO
-   6   1184     25.6     36.6   0.45   0.85     -1.26      8.05     2.30        NO
-   7   1183     28.4     37.3   0.55   0.86      0.94     10.42     4.45        NO
+   0   1042      9.6     14.5   0.54   0.49      6.79      0.57     5.01       yes
+   1   1042     14.0     19.3   0.58   0.57     12.99     -2.11     8.72       yes
+   2   1042     16.6     22.9   0.56   0.63     13.26     -2.78     8.77       yes
+   3   1042     18.9     26.5   0.52   0.69      7.39     -3.72     4.15       yes
+   4   1041     20.9     29.8   0.48   0.74      3.70     -3.23     1.62       yes
+   5   1184     23.2     33.0   0.47   0.79     -2.58      7.74     1.21        NO
+   6   1184     25.6     36.6   0.45   0.85     -0.58      7.98     2.76        NO
+   7   1183     28.4     37.3   0.55   0.86      0.49     10.30     4.08        NO
 ----------------------------------------------------------------------------
-ANNUAL   8760                                      5.69      0.31     4.34
+ANNUAL   8760                                      4.89      2.18     4.45
 
 WHAT THIS IS, AND WHAT IT RESTS ON
-   hours-weighted annual total-power reduction  : 5.69 %
-   hours-weighted annual makeup water reduction : 0.31 %
-   hours-weighted annual cost reduction         : 4.34 %
+   hours-weighted annual total-power reduction  : 4.89 %
+   hours-weighted annual makeup water reduction : 2.18 %
+   hours-weighted annual cost reduction         : 4.45 %
 
    Those three are means of ratios. As RATIOS OF ANNUAL TOTALS,
    which is what a plant actually banks over a year:
-   annual electrical energy reduction           : 4.86 %   (-0.82 pts)
-   annual makeup water reduction                : 1.31 %   (+1.00 pts)
-   annual operating cost reduction              : 4.01 %   (-0.33 pts)
+   annual electrical energy reduction           : 3.91 %   (-0.98 pts)
+   annual makeup water reduction                : 3.39 %   (+1.21 pts)
+   annual operating cost reduction              : 4.06 %   (-0.39 pts)
    The energy and water corrections have OPPOSITE signs.
    for comparison, the five-condition unweighted mean the V5 gate
-   scores                                        : 4.38 % water
+   scores                                        : 4.52 % water
 
    fraction of the year INSIDE the validated wet-bulb envelope
    (<= 21.9 C), counted hour by hour           : 59.5 %
@@ -39,9 +39,9 @@ WHAT THIS IS, AND WHAT IT RESTS ON
    AND WHAT THE EXTRAPOLATION IS ACTUALLY WORTH -- defects 48 and 60.
 
                                    hours   water %  energy %   cost %
-   whole year                       8760      1.31      4.86     4.01
-   inside the validated envelope    5209     -3.22      8.82     5.32
-   EXTRAPOLATED (wb > 21.9 C)       3551      5.41      0.95     2.75
+   whole year                       8760      3.39      3.91     4.06
+   inside the validated envelope    5209     -2.52      8.64     5.41
+   EXTRAPOLATED (wb > 21.9 C)       3551      8.73     -0.80     2.76
 
    The water saving is NEGATIVE inside the validated wet-bulb envelope and positive only outside it, so the annual water figure is carried entirely by extrapolated hours.
    The energy saving is the reverse: larger inside the envelope than outside it.

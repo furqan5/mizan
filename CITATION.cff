@@ -22,17 +22,20 @@ abstract: >-
   A first-principles model of a counterflow wet cooling tower,
   coupled to an ion-association water-chemistry engine, that
   evaluates each scale-forming mineral at the temperature where
-  it is least soluble: calcite, gypsum and magnesium silicate at
-  the hot condenser tube skin, amorphous silica at the cold tower
-  basin. Six acceptance criteria were fixed and printed before
-  fitting and scored on a campaign-wise holdout of published
-  experimental data, re-scored once with thresholds unchanged after
-  duplicated rows were found in the published data. Three pass and
-  three fail; the failures are reported as failures and no threshold
-  was moved. Includes
-  an independent MATLAB and Simulink re-implementation agreeing
-  with the Python core to 1.4e-5 K, and a register of the defects
-  found in the authors' own work, each with the result it moved.
+  it is least soluble: calcite, calcium phosphates, brucite and
+  gypsum at the hot condenser tube skin, amorphous silica at the
+  cold tower basin. Acceptance criteria were fixed before each
+  calculation. The tower criteria were scored on a campaign-wise
+  holdout of published pilot-tower data and re-scored, with
+  thresholds unchanged, after
+  duplicated rows were found in the published data and again after
+  the pilot tower was solved at its site pressure. The failures are
+  reported as failures and no threshold was moved. Includes a
+  PHREEQC 3.9.0 benchmark grid, an independent MATLAB and Simulink
+  re-implementation (verified against the Python core to 1.4e-5 K
+  at the sea-level calibration), the pre-registration records, and
+  a register of the defects found in the author's own work, each
+  with the result it moved.
 keywords:
   - cooling tower
   - district cooling
@@ -46,5 +49,5 @@ license-url: 'https://github.com/furqan5/mizan/blob/main/LICENSE'
 # The release NUMBER is the authors' decision, not this branch's; the date
 # is the last day source or results changed. Authors are kept identical to
 # LICENSE.
-version: 1.1.0
-date-released: '2026-09-26'
+version: 1.2.0
+date-released: '2026-11-25'

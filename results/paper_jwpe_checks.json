@@ -14,25 +14,25 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 4.5124,
+       "cycles": 4.4797,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 4.5124,
+       "cycles": 4.4797,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 4.5124,
+       "cycles": 4.4797,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 4.5124,
+       "cycles": 4.4797,
        "binding": "SI_silica_am"
       }
      ],
@@ -44,25 +44,25 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 4.6602,
+       "cycles": 4.6837,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 4.6602,
+       "cycles": 4.6837,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 4.6602,
+       "cycles": 4.6837,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 4.6602,
+       "cycles": 4.6837,
        "binding": "SI_silica_am"
       }
      ],
@@ -74,25 +74,25 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 4.4445,
+       "cycles": 4.4981,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 4.4445,
+       "cycles": 4.4981,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 4.4445,
+       "cycles": 4.4981,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 4.4445,
+       "cycles": 4.4981,
        "binding": "SI_silica_am"
       }
      ],
@@ -104,25 +104,25 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 4.6997,
+       "cycles": 4.7229,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 4.6997,
+       "cycles": 4.7229,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 4.6997,
+       "cycles": 4.7229,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 4.6997,
+       "cycles": 4.7229,
        "binding": "SI_silica_am"
       }
      ],
@@ -134,25 +134,25 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 4.4103,
+       "cycles": 4.4933,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 4.4103,
+       "cycles": 4.4933,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 4.4103,
+       "cycles": 4.4933,
        "binding": "SI_silica_am"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 4.4103,
+       "cycles": 4.4933,
        "binding": "SI_silica_am"
       }
      ],
@@ -166,29 +166,29 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 9.6062,
+       "cycles": 9.6674,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 9.4263,
+       "cycles": 9.4861,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 9.2503,
+       "cycles": 9.3088,
        "binding": "SI_calcite"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 8.9099,
+       "cycles": 8.9659,
        "binding": "SI_calcite"
       }
      ],
-     "cycles_per_K": -0.1582
+     "cycles_per_K": -0.1594
     },
     {
      "condition": "Dhahran summer humid",
@@ -196,29 +196,29 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 9.3381,
+       "cycles": 9.2968,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 9.1641,
+       "cycles": 9.1238,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 8.994,
+       "cycles": 8.9545,
        "binding": "SI_calcite"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 8.6645,
+       "cycles": 8.6267,
        "binding": "SI_calcite"
       }
      ],
-     "cycles_per_K": -0.1531
+     "cycles_per_K": -0.1523
     },
     {
      "condition": "Dhahran shoulder",
@@ -226,29 +226,29 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 9.7342,
+       "cycles": 9.6328,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 9.5514,
+       "cycles": 9.4522,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 9.3726,
+       "cycles": 9.2757,
        "binding": "SI_calcite"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 9.027,
+       "cycles": 8.9342,
        "binding": "SI_calcite"
       }
      ],
-     "cycles_per_K": -0.1607
+     "cycles_per_K": -0.1588
     },
     {
      "condition": "Doha summer humid",
@@ -256,29 +256,29 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 9.2688,
+       "cycles": 9.2287,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 9.0964,
+       "cycles": 9.0571,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 8.9276,
+       "cycles": 8.8892,
        "binding": "SI_calcite"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 8.601,
+       "cycles": 8.5642,
        "binding": "SI_calcite"
       }
      ],
-     "cycles_per_K": -0.1518
+     "cycles_per_K": -0.151
     },
     {
      "condition": "Gulf winter",
@@ -286,29 +286,29 @@
       {
        "allowance": "clean",
        "skin_rise_K": 3.0539,
-       "cycles": 9.8001,
+       "cycles": 9.6418,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ahri_rating",
        "skin_rise_K": 4.1539,
-       "cycles": 9.6157,
+       "cycles": 9.4611,
        "binding": "SI_calcite"
       },
       {
        "allowance": "ac_industry_legacy",
        "skin_rise_K": 5.2539,
-       "cycles": 9.4356,
+       "cycles": 9.2844,
        "binding": "SI_calcite"
       },
       {
        "allowance": "tema_cooling_tower",
        "skin_rise_K": 7.4539,
-       "cycles": 9.0871,
+       "cycles": 8.9425,
        "binding": "SI_calcite"
       }
      ],
-     "cycles_per_K": -0.162
+     "cycles_per_K": -0.1589
     }
    ]
   }

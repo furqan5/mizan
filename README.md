@@ -26,8 +26,8 @@ matching them.
 | V1 outlet water temperature MAE | <= 1.00 K | 0.542 K | PASS |
 | V1 heat rejection MAPE | <= 6.00 % | 6.09 % | **FAIL, reported** |
 | V2 evaporation vs *measured* water loss | <= 8.00 % | 10.02 % | **FAIL, reported** |
-| V5 total operating cost reduction | >= 3 % | 3.91 % | PASS |
-| V5 makeup water reduction | >= 15 % | 4.38 % | **FAIL, reported** |
+| V5 total operating cost reduction | >= 3 % | 4.19 % | PASS |
+| V5 makeup water reduction | >= 15 % | 4.52 % | **FAIL, reported** |
 | V5 saturation violations at skin | 0 | 0 | PASS |
 
 Three pass and three fail. V1 and V2 are scored on 32 held-out points: the

@@ -3,47 +3,47 @@
   {
    "skin_delta_k": 2.4,
    "case": "clean, 20 kW/m2 at 2 m/s",
-   "last_feasible": 6,
-   "wall_cycles": 7,
-   "binding_mineral": "SI_gypsum",
-   "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 204.84739438204983
+   "last_feasible": 5,
+   "wall_cycles": 6,
+   "binding_mineral": "SI_silica_am",
+   "water_pct_from_cycles_at_last_feasible": 6.25,
+   "cost_per_h_at_last_feasible": 190.20412075085937
   },
   {
    "skin_delta_k": 3.0,
    "case": "clean, mid-range",
-   "last_feasible": 6,
-   "wall_cycles": 7,
-   "binding_mineral": "SI_gypsum",
-   "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 204.84933560194622
+   "last_feasible": 5,
+   "wall_cycles": 6,
+   "binding_mineral": "SI_silica_am",
+   "water_pct_from_cycles_at_last_feasible": 6.25,
+   "cost_per_h_at_last_feasible": 190.2045223349513
   },
   {
    "skin_delta_k": 3.7,
    "case": "clean, 30 kW/m2 at 2 m/s",
-   "last_feasible": 6,
-   "wall_cycles": 7,
-   "binding_mineral": "SI_gypsum",
-   "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 204.8515895314744
+   "last_feasible": 5,
+   "wall_cycles": 6,
+   "binding_mineral": "SI_silica_am",
+   "water_pct_from_cycles_at_last_feasible": 6.25,
+   "cost_per_h_at_last_feasible": 190.20498854417283
   },
   {
    "skin_delta_k": 5.0,
    "case": "lightly fouled",
-   "last_feasible": 6,
-   "wall_cycles": 7,
-   "binding_mineral": "SI_gypsum",
-   "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 204.85574209126682
+   "last_feasible": 5,
+   "wall_cycles": 6,
+   "binding_mineral": "SI_silica_am",
+   "water_pct_from_cycles_at_last_feasible": 6.25,
+   "cost_per_h_at_last_feasible": 190.20584729150102
   },
   {
    "skin_delta_k": 8.0,
    "case": "FOULED -- the value every gate in this package used",
-   "last_feasible": 6,
-   "wall_cycles": 7,
-   "binding_mineral": "SI_gypsum",
-   "water_pct_from_cycles_at_last_feasible": 9.999999999999998,
-   "cost_per_h_at_last_feasible": 204.92731482974924
+   "last_feasible": 5,
+   "wall_cycles": 6,
+   "binding_mineral": "SI_silica_am",
+   "water_pct_from_cycles_at_last_feasible": 6.25,
+   "cost_per_h_at_last_feasible": 190.20778976307938
   }
  ],
  "hardcoded_value_used_by_all_gates": 8.0,
@@ -51,15 +51,15 @@
   2.4,
   3.7
  ],
- "si_gypsum_minimum_C": 44.5,
+ "si_gypsum_minimum_C": 59.5,
  "wall_cycles_across_band": [
-  7
- ],
- "last_feasible_across_band": [
   6
  ],
+ "last_feasible_across_band": [
+  5
+ ],
  "ceiling_sensitive_to_skin_delta": false,
- "direction": "SI_gypsum has an interior minimum at 44.5 C under the phreeqc.dat analytic solubility adopted in defect 15, and the condenser skin sits near 40 C, on the flat bottom of that curve. Across dT = 2.4-8.0 K the gypsum wall does not move at all.",
- "consequence": "The ceilings are insensitive to the hardcoded 8.0 K over the whole clean-to-fouled band: wall 7 cycles, last feasible 6 cycles at every value tested. The reported zero saturation violations is NOT conditional on a fouled condenser. This supersedes the pre-defect-15 finding, which had the wall moving by one cycle across the same band.",
+ "direction": "SI_gypsum has an interior minimum at 59.5 C under the phreeqc.dat analytic solubility adopted in defect 15, and the condenser skin sits near 40 C, on the flat bottom of that curve. Across dT = 2.4-8.0 K the gypsum wall does not move at all.",
+ "consequence": "The ceilings are insensitive to the hardcoded 8.0 K over the whole clean-to-fouled band: wall 6 cycles, last feasible 5 cycles at every value tested. The reported zero saturation violations is NOT conditional on a fouled condenser. This supersedes the pre-defect-15 finding, which had the wall moving by one cycle across the same band.",
  "note": "Sensitivity only. No gate is rescored. Every conclusion in this artefact is computed from skin_cases above rather than asserted -- defect 19, which is what this file used to do wrong."
 }
