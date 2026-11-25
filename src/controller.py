@@ -537,8 +537,15 @@ def _thermal_solve(fan_pct, cycles, cond, makeup_water, fill_c, fill_n,
 def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
                 skin_delta_k, corrosion_floor_si=None,
                 mg_silicate_margin_k="default", tube_alloy=None,
-                saturation_limits=None):
-    """Complete an operating point given a cached thermal solution."""
+                saturation_limits=None, saturation_limits_fn=None):
+    """Complete an operating point given a cached thermal solution.
+
+    `saturation_limits_fn`, when given, is called with this candidate's own
+    basin temperature and returns the limit set, so a limit that depends on
+    the basin (the daily silica margin of chem.limits_with_diurnal_margin)
+    is applied at the temperature the candidate actually produces. Opt-in:
+    with it unset every registered result is unchanged.
+    """
     m_a, aw, T_wo, info, conc, T_wi, Q_cond = th
     p_fan = float(fan_power(m_a, cond["m_a_rated"], cond["p_fan_rated_kw"]))
     p_chill, cop = chiller_power_biquad(
@@ -571,6 +578,8 @@ def _cost_at_ph(th, fan_pct, cycles, target_ph, cond, makeup_water, tariffs,
     # programme means phosphate binds nothing, which is the honest state for
     # a site nobody has surveyed. See chem.limits_for_programme().
     limits = chem.OPERATING_LIMITS if saturation_limits is None else saturation_limits
+    if saturation_limits_fn is not None:
+        limits = saturation_limits_fn(T_basin)
     violations = {k: sat[k] - limits[k] for k in limits if sat[k] > limits[k]}
 
     # DEFECT 26. `Water.pitzer_required()` has been computed and REPORTED
@@ -865,7 +874,8 @@ def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
              optimization_mode="COST_MINIMIZING",
              lambda_water=LAMBDA_WATER_DEFAULT,
              max_energy_penalty_pct=None, p_baseline_kw=None,
-             t_chiller_max_c=None, saturation_limits=None):
+             t_chiller_max_c=None, saturation_limits=None,
+             saturation_limits_fn=None):
     """Least-cost supervisory setpoint subject to the skin-temperature
     saturation constraints.
 
@@ -901,7 +911,8 @@ def optimise(cond, makeup_water, tariffs, fill_c, fill_n,
             for ph in ph_grid:
                 r = _cost_at_ph(th, f, cy, ph, cond, makeup_water, tariffs,
                                 skin_delta_k,
-                                saturation_limits=saturation_limits)
+                                saturation_limits=saturation_limits,
+                                saturation_limits_fn=saturation_limits_fn)
                 n_eval += 1
                 if not r["feasible"]:
                     continue

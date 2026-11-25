@@ -217,11 +217,15 @@ V7_BASELINE_CYCLES = 3.0
 V7_PRE_REGISTERED = dict(V5_PRE_REGISTERED)     # identical bar, on purpose
 
 
-def gate_v5(fill_c, fill_n, baseline_cycles=4.0, label="V5"):
+def gate_v5(fill_c, fill_n, baseline_cycles=4.0, label="V5",
+            optimise_kwargs=None):
     """V5: optimised operation vs incumbent fixed-setpoint operation.
 
     `baseline_cycles` exists so gate V7 can run THIS function with a
     different incumbent setpoint. The default reproduces V5 exactly.
+    `optimise_kwargs` overrides the optimiser's grids or limits for a
+    declared sensitivity run (scripts/margin_sensitivity.py); left as None
+    it is the registered search, unchanged.
     """
     print()
     print("=" * 78)
@@ -264,11 +268,11 @@ def gate_v5(fill_c, fill_n, baseline_cycles=4.0, label="V5"):
                             fixed_cycles=baseline_cycles,
                             fixed_ph=7.8, cw_setpoint_c=32.0,
                             fan_grid=np.arange(30, 101, 10.0))
-        best, n_eval = ctl.optimise(
-            cond, TSE, TARIFFS, fill_c, fill_n,
-            fan_grid=np.arange(30, 101, 10.0),
-            cycles_grid=np.arange(2.0, 10.01, 1.0),
-            ph_grid=np.arange(7.0, 9.01, 0.25))
+        okw = dict(fan_grid=np.arange(30, 101, 10.0),
+                   cycles_grid=np.arange(2.0, 10.01, 1.0),
+                   ph_grid=np.arange(7.0, 9.01, 0.25))
+        okw.update(optimise_kwargs or {})
+        best, n_eval = ctl.optimise(cond, TSE, TARIFFS, fill_c, fill_n, **okw)
         if base is None or best is None:
             print(f"  {name:22s}  no feasible solution")
             continue
@@ -276,6 +280,7 @@ def gate_v5(fill_c, fill_n, baseline_cycles=4.0, label="V5"):
         rows.append({
             "condition": name, "T_db": T_db, "RH_pct": rh_pct, "T_wb": T_wb,
             "base_cycles": base["cycles"], "opt_cycles": best["cycles"],
+            "opt_T_basin_C": best["T_wo"],
             "base_fan_pct": base["fan_pct"], "opt_fan_pct": best["fan_pct"],
             "base_pH": base["target_ph"], "opt_pH": best["target_ph"],
             "base_makeup_m3_h": base["makeup_m3_h"],

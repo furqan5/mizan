@@ -106,7 +106,8 @@ def hourly_sha256(h: np.ndarray) -> str:
 
 
 def run_annual(h: np.ndarray, verbose: bool = True,
-               title: str = "Dhahran TMYx 2011-2025") -> dict:
+               title: str = "Dhahran TMYx 2011-2025",
+               optimise_kwargs: dict | None = None) -> dict:
     """The hours-weighted annual study on any 8,760-row hourly array in the
     `tmy_hourly.npy` layout (month, day, hour, T_db, rh fraction, T_wb, p).
 
@@ -172,10 +173,13 @@ def run_annual(h: np.ndarray, verbose: bool = True,
         base = ctl.baseline(cond, rc.TSE, rc.TARIFFS, fc, fn,
                             fixed_cycles=4.0, fixed_ph=7.8, cw_setpoint_c=32.0,
                             fan_grid=np.arange(30, 101, 10.0))
-        best, _ = ctl.optimise(cond, rc.TSE, rc.TARIFFS, fc, fn,
-                               fan_grid=np.arange(30, 101, 10.0),
-                               cycles_grid=np.arange(2.0, 10.01, 1.0),
-                               ph_grid=np.arange(7.0, 9.01, 0.25))
+        # `optimise_kwargs` is for a declared sensitivity run only
+        # (scripts/margin_sensitivity.py); None is the registered search.
+        okw = dict(fan_grid=np.arange(30, 101, 10.0),
+                   cycles_grid=np.arange(2.0, 10.01, 1.0),
+                   ph_grid=np.arange(7.0, 9.01, 0.25))
+        okw.update(optimise_kwargs or {})
+        best, _ = ctl.optimise(cond, rc.TSE, rc.TARIFFS, fc, fn, **okw)
         if base is None or best is None:
             unsolved_hours += hrs
             say(f"{i:4d} {hrs:6d} {wb_c:8.1f} {db_c:8.1f} {rh_c:6.2f} "
@@ -199,6 +203,10 @@ def run_annual(h: np.ndarray, verbose: bool = True,
                      "opt_makeup_m3_h": best["makeup_m3_h"],
                      "base_cost_h": base["cost_per_h"],
                      "opt_cost_h": best["cost_per_h"],
+                     "opt_cycles": best["cycles"],
+                     "opt_fan_pct": best["fan_pct"],
+                     "opt_pH": best["target_ph"],
+                     "opt_T_basin_C": best["T_wo"],
                      "inside_validated_envelope": bool(inside),
                      "pct_hours_above_almeria": float(100.0 * n_above / hrs)})
         say(f"{i:4d} {hrs:6d} {wb_c:8.1f} {db_c:8.1f} {rh_c:6.2f} "
