@@ -45,6 +45,7 @@ keywords:
   - thermodynamics
   - process control
   - reproducible research
+license: PolyForm-Noncommercial-1.0.0
 license-url: 'https://github.com/furqan5/mizan/blob/main/LICENSE'
 # The release NUMBER is the authors' decision, not this branch's; the date
 # is the last day source or results changed. Authors are kept identical to
